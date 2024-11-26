@@ -13,7 +13,7 @@ final public class WelcomeViewModel: ObservableObject {
     @Published var users: [User] = []
     @Published var isEditingModeEnabled: Bool = false
     @Published var showLogoutAlert: Bool = false
-
+    
     private let getAllUsersUseCase: GetAllUsersUseCaseProtocol
     private let logoutUserUseCase: LogoutUserUseCaseProtocol
     

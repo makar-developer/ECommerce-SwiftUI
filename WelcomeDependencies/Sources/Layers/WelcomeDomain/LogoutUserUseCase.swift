@@ -20,6 +20,6 @@ public final class LogoutUserUseCase: LogoutUserUseCaseProtocol {
     }
     
     public func execute(user: User) async throws {
-        // Logout logic
+        try await welcomeRepository.logout(user: user)
     }
 }

@@ -19,20 +19,35 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
     
     private let service = "com.yourapp.welcome"
     private let account = "users"
+    private let usersFetchedKey = "hasFetchedUsersBefore"
     
     public init() {}
     
     public func getUsers() async throws -> [User] {
-        guard let data = try loadFromKeychain() else {
-            // Return default users if none are stored
-            return [
+        let isFirstFetch = !UserDefaults.standard.bool(forKey: usersFetchedKey)
+        
+        if isFirstFetch {
+            // First-time fetch: initialize with default users
+            let defaultUsers = [
                 User(name: "DefaultUser1", image: "image1", login: "user1", password: "password1"),
                 User(name: "DefaultUser2", image: "image2", login: "user2", password: "password2"),
                 User(name: "DefaultUser3", image: "image3", login: "user3", password: "password3")
             ]
+            try await saveUsers(defaultUsers)
+            
+            // Update UserDefaults to indicate that the initial fetch has occurred
+            UserDefaults.standard.set(true, forKey: usersFetchedKey)
+            
+            return defaultUsers
+        } else {
+            // Subsequent fetches: retrieve users from Keychain
+            guard let data = try loadFromKeychain() else {
+                // Handle the case where no users are found in Keychain
+                return []
+            }
+            let users = try JSONDecoder().decode([User].self, from: data)
+            return users
         }
-        let users = try JSONDecoder().decode([User].self, from: data)
-        return users
     }
     
     public func logout(user: User) async throws {
@@ -44,7 +59,7 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
         try saveToKeychain(data: data)
     }
     
-    private func deleteUser(_ user: User) async throws {
+    public func deleteUser(_ user: User) async throws {
         var users = try await getUsers()
         users.removeAll { $0.id == user.id }
         try await saveUsers(users)

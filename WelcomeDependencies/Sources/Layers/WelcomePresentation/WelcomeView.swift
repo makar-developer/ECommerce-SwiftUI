@@ -2,22 +2,30 @@ import SwiftUI
 import Core
 import WelcomeEntities
 
+// MARK: - WelcomeView
+
 public struct WelcomeView: View {
     @StateObject private var viewModel: WelcomeViewModel
-    
+    @State private var currentIndex: Int = 0 // Track the current index
+
     public init(viewModel: WelcomeViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     public var body: some View {
         NavigationStack {
-            SnapCarousel(data: viewModel.users) { user in
-                GreetingCardView(user: user, isEditingModeEnabled: $viewModel.isEditingModeEnabled, showLogoutAlert: $viewModel.showLogoutAlert, logoutAction: {
-                    viewModel.logoutUser(user: user)
-                })
+            SnapCarousel(data: viewModel.users, currentIndex: $currentIndex) { user in
+                GreetingCardView(
+                    user: user,
+                    isEditingModeEnabled: $viewModel.isEditingModeEnabled,
+                    showLogoutAlert: $viewModel.showLogoutAlert,
+                    logoutAction: {
+                        viewModel.logoutUser(user: user)
+                            adjustCurrentIndexAfterDeletion()
+                    }
+                )
             }
             .toolbar {
-                
                 if !viewModel.users.isEmpty {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
@@ -29,6 +37,7 @@ public struct WelcomeView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .imageScale(.large)
+                                .frame(width: 24, height: 24)
                         }
                     }
                 }
@@ -37,19 +46,33 @@ public struct WelcomeView: View {
         .task {
             await viewModel.loadUsers()
         }
+        .onChange(of: viewModel.users) { _ in
+            adjustCurrentIndexAfterDeletion()
+        }
+    }
+
+    /// Adjusts the currentIndex to ensure it's within the bounds of the users array.
+    private func adjustCurrentIndexAfterDeletion() {
+        DispatchQueue.main.async {
+            if currentIndex >= viewModel.users.count {
+                currentIndex = max(viewModel.users.count - 1, 0)
+            }
+        }
     }
 }
+
+// MARK: - GreetingCardView
 
 public struct GreetingCardView: View {
     let user: User
     @Binding var isEditingModeEnabled: Bool
     @Binding var showLogoutAlert: Bool
     let logoutAction: () -> Void
-    
+
     public var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Spacer()
-            
+
             Text("Good afternoon, \(user.name)!")
                 .font(.largeTitle)
                 .fontWeight(.bold)
@@ -59,7 +82,7 @@ public struct GreetingCardView: View {
                 .padding(.vertical, 8)
                 .background(Color.black.opacity(0.5))
                 .cornerRadius(10)
-            
+
             HStack(spacing: 10) {
                 Image(systemName: "person")
                     .foregroundColor(.white)
@@ -71,7 +94,7 @@ public struct GreetingCardView: View {
             .padding(.vertical, 8)
             .background(Color.black.opacity(0.5))
             .cornerRadius(10)
-            
+
             Button(action: {
                 if isEditingModeEnabled {
                     showLogoutAlert = true
@@ -100,7 +123,7 @@ public struct GreetingCardView: View {
         }
         .padding(16)
         .background(
-            Image("image1", bundle: Bundle.main)
+            Image(user.image, bundle: Bundle.main)
                 .resizable()
                 .scaledToFill()
         )
@@ -109,33 +132,34 @@ public struct GreetingCardView: View {
     }
 }
 
+// MARK: - SnapCarousel
+
 public struct SnapCarousel<Content: View>: View {
     let data: [User]
+    @Binding var currentIndex: Int // Bind the current index
     let content: (User) -> Content
+
     @Environment(\.screenWidth) var screenWidth
     @Environment(\.screenHeight) var screenHeight
-    
+
     // State variables
-    @State private var currentIndex: Int = 0
     @GestureState private var dragOffset: CGFloat = 0
-    @State private var firstViewOffset: CGFloat = 0 // State variable for animation
-    @State private var currentProgress: Double = 0.0 // For tracking progress
-    
+    @State private var firstViewOffset: CGFloat = 0
+    @State private var currentProgress: Double = 0.0
+
     // Constants
     private let spacing: CGFloat = 16
     private var cardWidth: CGFloat {
-        get {
-            screenWidth * 0.8
-        }
+        screenWidth * 0.8
     }
-    
+
     private let swipeThreshold: CGFloat = 50 // Adjust based on testing
-    
+
     public var body: some View {
         GeometryReader { geometry in
             let totalWidth = cardWidth + spacing
             let offsetX = (-CGFloat(currentIndex) * totalWidth) + dragOffset
-            
+
             VStack(spacing: 20) {
                 if data.isEmpty {
                     // Display the empty list view when there are no users
@@ -174,8 +198,9 @@ public struct SnapCarousel<Content: View>: View {
                             .onEnded { value in
                                 let dragDistance = value.translation.width
                                 let predictedEndOffset = dragDistance + (value.predictedEndLocation.x - value.location.x)
-                                
-                                if dragDistance < -swipeThreshold || predictedEndOffset < -swipeThreshold {
+
+                                if dragDistance < -swipeThreshold ||
+                                    predictedEndOffset < -swipeThreshold {
                                     // Swipe Left - Move to next item
                                     if currentIndex < data.count - 1 {
                                         currentIndex += 1
@@ -204,16 +229,17 @@ public struct SnapCarousel<Content: View>: View {
                     
                     // Animated Page Indicator only shown when there are users
                     if !data.isEmpty {
-                        AnimatedPageIndicatorView(numberOfDots: data.count,
-                                                  dotRadius: 6.0,
-                                                  dotSpacing: 19.0,
-                                                  currentProgress: currentProgress)
-                            .padding(16)
-                            .background(Color.black.opacity(0.4))
-                            .cornerRadius(30)
+                        AnimatedPageIndicatorView(
+                            numberOfDots: data.count,
+                            dotRadius: 6.0,
+                            dotSpacing: 19.0,
+                            currentProgress: currentProgress
+                        )
+                        .padding(16)
+                        .background(Color.black.opacity(0.4))
+                        .cornerRadius(30)
                     }
                 }
-                
                 // Button to add an account
                 Button(action: {
                     print("Add account action here")
@@ -235,6 +261,8 @@ public struct SnapCarousel<Content: View>: View {
         .background(Color(hue: 0.1, saturation: 0.3, brightness: 0.95))
     }
 }
+
+// MARK: - AnimatedPageIndicatorView
 
 public struct AnimatedPageIndicatorView: View {
     var numberOfDots: Int
@@ -258,18 +286,18 @@ public struct AnimatedPageIndicatorView: View {
                     Circle()
                         .fill(Color.white)
                         .frame(width: dotRadius * 2, height: dotRadius * 2)
-                        .position(x: dotCenterX,
-                                  y: geometry.size.height / 2)
+                        .position(x: dotCenterX, y: geometry.size.height / 2)
                         .opacity(opacity)
                 }
-
                 // Active dot (blue) and adjacent dot animation
-                ActiveDotView(numberOfDots: numberOfDots,
-                              dotRadius: dotRadius,
-                              dotSpacing: dotSpacing,
-                              currentProgress: currentProgress,
-                              startX: startX,
-                              centerY: geometry.size.height / 2)
+                ActiveDotView(
+                    numberOfDots: numberOfDots,
+                    dotRadius: dotRadius,
+                    dotSpacing: dotSpacing,
+                    currentProgress: currentProgress,
+                    startX: startX,
+                    centerY: geometry.size.height / 2
+                )
             }
         }
         .frame(height: dotRadius * 2)
@@ -288,6 +316,8 @@ public struct AnimatedPageIndicatorView: View {
     }
 }
 
+// MARK: - ActiveDotView
+
 public struct ActiveDotView: View {
     var numberOfDots: Int
     var dotRadius: CGFloat
@@ -300,12 +330,10 @@ public struct ActiveDotView: View {
         let progress = max(0.0, min(Double(numberOfDots - 1), currentProgress))
         let index = Int(progress)
         let fraction = progress - Double(index)
-
         // Active dot (blue) position
         let startCenterX = startX + CGFloat(index) * dotSpacing + dotRadius
         let endCenterX = startX + CGFloat(min(index + 1, numberOfDots - 1)) * dotSpacing + dotRadius
         let activeCenterX = startCenterX + CGFloat(fraction) * (endCenterX - startCenterX)
-
         // Adjacent dot (red) position moving towards previous position
         var adjacentDotView: some View {
             if index < numberOfDots - 1 {
@@ -337,11 +365,12 @@ public struct ActiveDotView: View {
     }
 }
 
+// MARK: - OffsetObservingModifier
+
 public struct OffsetObservingModifier: AnimatableModifier {
     // The offset to observe
     var offset: CGFloat
     var update: (CGFloat) -> Void
-    
     // AnimatableData
     public var animatableData: CGFloat {
         get { offset }
@@ -350,19 +379,20 @@ public struct OffsetObservingModifier: AnimatableModifier {
             notify()
         }
     }
-    
-    func notify() {
+
+    private func notify() {
         DispatchQueue.main.async {
             self.update(self.offset)
         }
     }
-    
+
     public func body(content: Content) -> some View {
         content
     }
 }
+//  view to display when there are no users
+// MARK: - EmptyListView
 
-// Custom view to display when there are no users
 struct EmptyListView: View {
     var body: some View {
         VStack {
@@ -387,7 +417,6 @@ struct EmptyListView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 10)
                 .shadow(radius: 5)
-
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
@@ -396,4 +425,3 @@ struct EmptyListView: View {
         )
     }
 }
-
