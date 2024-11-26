@@ -13,4 +13,5 @@ public protocol WelcomeRepositoryProtocol {
     func getUsers() async throws -> [User]
     func logout(user: User) async throws
     func saveUsers(_ users: [User]) async throws
+    func saveUser(_ user: User) async throws
 }

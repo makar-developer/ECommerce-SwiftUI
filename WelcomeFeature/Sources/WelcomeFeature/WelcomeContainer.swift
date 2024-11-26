@@ -10,8 +10,11 @@ import WelcomeRepositoryProtocol
 import WelcomeData
 import WelcomeDomain
 public protocol WelcomeDIContainerProtocol {
+    // MARK: - Use Cases
     var getAllUsersUseCase: GetAllUsersUseCaseProtocol { get }
     var logoutUserUseCase: LogoutUserUseCaseProtocol { get }
+    var createUserUseCase: CreateUserUseCaseProtocol { get }
+    // MARK: - Repositories
     var welcomeRepository: WelcomeRepositoryProtocol { get }
 }
 
@@ -22,6 +25,7 @@ public class WelcomeDIContainerImpl: WelcomeDIContainerProtocol {
     }()
     
     // MARK: - Use Cases
+    // WelcomeView
     public lazy var getAllUsersUseCase: GetAllUsersUseCaseProtocol = {
         return GetAllUsersUseCase(welcomeRepository: welcomeRepository)
     }()
@@ -29,6 +33,9 @@ public class WelcomeDIContainerImpl: WelcomeDIContainerProtocol {
     public lazy var logoutUserUseCase: LogoutUserUseCaseProtocol = {
         return LogoutUserUseCase(welcomeRepository: welcomeRepository)
     }()
-    
+    // AuthenticationView
+    public lazy var createUserUseCase: CreateUserUseCaseProtocol = {
+        return CreateUserUseCase(welcomeRepository: welcomeRepository)
+    }()
     public init() {}
 }

@@ -1,7 +1,11 @@
 import SwiftUI
 import WelcomeFeature
 final class AppCoordinator: ObservableObject {
-    @Published var path = NavigationPath()
+    @Published var path = NavigationPath() {
+        didSet {
+            print("Path changed: \(path)")
+        }
+    }
     private let container: AppDIContainerProtocol
     
     init(container: AppDIContainerProtocol) {
@@ -13,6 +17,7 @@ final class AppCoordinator: ObservableObject {
     }
     
     private func pop() {
+        print("pop in AC")
         path.removeLast()
     }
     

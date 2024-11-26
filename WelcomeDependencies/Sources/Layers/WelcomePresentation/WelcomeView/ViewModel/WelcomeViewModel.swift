@@ -17,9 +17,12 @@ final public class WelcomeViewModel: ObservableObject {
     private let getAllUsersUseCase: GetAllUsersUseCaseProtocol
     private let logoutUserUseCase: LogoutUserUseCaseProtocol
     
-    public init(getAllUsersUseCase: GetAllUsersUseCaseProtocol, logoutUserUseCase: LogoutUserUseCaseProtocol) {
+    private var onNavigation: () -> Void
+    
+    public init(getAllUsersUseCase: GetAllUsersUseCaseProtocol, logoutUserUseCase: LogoutUserUseCaseProtocol, onNavigation: @escaping () -> Void) {
         self.getAllUsersUseCase = getAllUsersUseCase
         self.logoutUserUseCase = logoutUserUseCase
+        self.onNavigation = onNavigation
     }
     
     @MainActor
@@ -52,5 +55,9 @@ final public class WelcomeViewModel: ObservableObject {
     
     func toggleEditingMode() {
         isEditingModeEnabled.toggle()
+    }
+    
+    func showAuthentication() {
+        onNavigation()
     }
 }

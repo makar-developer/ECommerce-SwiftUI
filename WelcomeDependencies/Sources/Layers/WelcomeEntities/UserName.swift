@@ -10,8 +10,10 @@ public struct UserName: Hashable, Codable {
     public let rawValue: String
 
     public init?(_ rawValue: String) {
-        // Validate that the name is not empty
-        guard !rawValue.isEmpty else {
+        // Validate that the name is not empty and has a reasonable length
+        guard !rawValue.trimmingCharacters(in: .whitespaces).isEmpty,
+              rawValue.count >= 2,
+              rawValue.count <= 50 else {
             return nil
         }
         self.rawValue = rawValue

@@ -9,11 +9,14 @@ import Foundation
 
 enum WelcomeScreen: Identifiable, Hashable {
     case welcome
+    case createAccount
     
     var id: String {
         switch self {
         case .welcome:
             return "welcome"
+        case .createAccount:
+            return "createAccount"
         }
     }
 }

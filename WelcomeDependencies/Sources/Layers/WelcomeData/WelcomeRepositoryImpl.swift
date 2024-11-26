@@ -29,9 +29,9 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
         if isFirstFetch {
             // Initialize default users using compactMap
             let userData = [
-                ("DefaultUser1", "image1", "user1", "password1"),
-                ("DefaultUser2", "image2", "user2", "password2"),
-                ("DefaultUser3", "image3", "user3", "password3")
+                ("DefaultUser1", "image1", "user1", "Password1@"),
+                ("DefaultUser2", "image2", "user2", "Password2@"),
+                ("DefaultUser3", "image3", "user3", "Password3@")
             ]
             
             let defaultUsers: [User] = userData.compactMap { (nameString, image, loginString, passwordString) in
@@ -74,6 +74,12 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
     public func saveUsers(_ users: [User]) async throws {
         let data = try JSONEncoder().encode(users)
         try saveToKeychain(data: data)
+    }
+    
+    public func saveUser(_ user: User) async throws {
+        var users = try await getUsers()
+        users.append(user)
+        try await saveUsers(users)
     }
     
     public func deleteUser(_ user: User) async throws {
@@ -148,130 +154,3 @@ enum KeychainError: Error {
 
 
 
-
-//public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
-//
-//    public init() {}
-//
-//    public func getUsers() async throws -> [WelcomeEntities.User] {
-//        return [
-//            User(name: "DefaultUser1", image: "image1", login: "login1", password: "password1"),
-//                User(name: "DefaultUser2", image: "image2", login: "login2", password: "password2"),
-//            User(name: "DefaultUser3", image: "image3", login: "login3", password: "password3")
-//
-//        ]
-//    }
-//
-//    public func logout(user: WelcomeEntities.User) async throws {
-//        // . . .
-//    }
-//
-//
-//}
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//import KeychainSwift
-//
-//// Assuming you have a User model like this; adjust as needed.
-//public struct User: Codable, Equatable, Identifiable {
-//    public let id: UUID
-//    public let name: String
-//    public let image: String? // Assuming image might be a URL or identifier
-//
-//    public init(id: UUID = UUID(), name: String, image: String? = nil) {
-//        self.id = id
-//        self.name = name
-//        self.image = image
-//    }
-//    
-//    public static func == (lhs: User, rhs: User) -> Bool {
-//            return lhs.id == rhs.id
-//        }
-//}
-//
-//// Define possible errors for the repository
-//public enum WelcomeRepositoryError: Error {
-//    case userNotFound
-//    case keychainError(status: OSStatus)
-//    case encodingError
-//    case decodingError
-//}
-//
-//// Protocol Definition
-//public protocol WelcomeRepositoryProtocol {
-//    func getUsers() async throws -> [User]
-//    func logout(user: User) async throws
-//    func saveUser(_ user: User) async throws
-//}
-//
-//// Concrete Implementation using KeychainSwift
-//public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
-//    private let keychain = KeychainSwift()
-//    private let usersKey = "com.yourappname.users" // Unique key for storing users in Keychain
-//    private let jsonEncoder = JSONEncoder()
-//    private let jsonDecoder = JSONDecoder()
-//
-//    public init() {}
-//
-//    public func getUsers() async throws -> [User] {
-//        guard let savedData = keychain.getData(usersKey) else { return [] }
-//
-//        do {
-//            return try jsonDecoder.decode([User].self, from: savedData)
-//        } catch {
-//            throw WelcomeRepositoryError.decodingError
-//        }
-//    }
-//
-//
-//    public func saveUser(_ user: User) async throws {
-//        var users = try await getUsers()
-//        if !users.contains(where: { $0.id == user.id }) {
-//            users.append(user)
-//            await updateUsersInKeychain(users)
-//        }
-//    }
-//
-//
-//    public func logout(user: User) async throws {
-//        var users = try await getUsers()
-//        guard let index = users.firstIndex(where: { $0.id == user.id }) else {
-//            throw WelcomeRepositoryError.userNotFound
-//        }
-//        users.remove(at: index)
-//        await updateUsersInKeychain(users)
-//    }
-//
-//    private func updateUsersInKeychain(_ users: [User]) async {
-//        do {
-//            let data = try jsonEncoder.encode(users)
-//            let success = keychain.set(data, forKey: usersKey)
-//            if !success {
-//                throw WelcomeRepositoryError.keychainError(status: keychain.lastResultCode)
-//            }
-//        } catch {
-//            print("Error updating users in keychain: \(error)")
-//        }
-//    }
-//}

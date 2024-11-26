@@ -10,7 +10,11 @@ import WelcomePresentation
 import WelcomeDomain
 import WelcomeData
 final class WelcomeCoordinator: ObservableObject {
-    @Published var path = NavigationPath()
+    @Published var path = NavigationPath() {
+        didSet {
+            print("Path changed: \(path)")
+        }
+    }
     private let container: WelcomeDIContainerProtocol
     
     init(container: WelcomeDIContainerProtocol) {
@@ -22,14 +26,31 @@ final class WelcomeCoordinator: ObservableObject {
     }
     
     private func pop() {
+        print("pop in WC")
         path.removeLast()
+    }
+    
+    private func showAuthentication() {
+        print("showAuth")
+        push(screen: .createAccount)
+    }
+    
+    private func showWelcome() {
+        pop()
     }
     
     @ViewBuilder
     func build(screen: WelcomeScreen) -> some View {
         switch screen {
         case .welcome:
-            WelcomeView(viewModel: WelcomeViewModel(getAllUsersUseCase: GetAllUsersUseCase(welcomeRepository: WelcomeRepositoryImpl()), logoutUserUseCase: LogoutUserUseCase(welcomeRepository: WelcomeRepositoryImpl())))
+            WelcomeView(viewModel: WelcomeViewModel(getAllUsersUseCase: container.getAllUsersUseCase, logoutUserUseCase: container.logoutUserUseCase, onNavigation: { [unowned self] in
+                showAuthentication()
+            }))
+        case .createAccount:
+            CreateAccountView(viewModel: CreateAccountViewModel(createUserUseCase: container.createUserUseCase, onNavigation: { [unowned self] in
+                showWelcome()
+            }))
         }
     }
 }
+
