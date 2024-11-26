@@ -21,9 +21,10 @@ public struct WelcomeView: View {
                     showLogoutAlert: $viewModel.showLogoutAlert,
                     logoutAction: {
                         viewModel.logoutUser(user: user)
-                            adjustCurrentIndexAfterDeletion()
+                        adjustCurrentIndexAfterDeletion()
                     }
                 )
+                .environmentObject(viewModel)
             }
             .toolbar {
                 if !viewModel.users.isEmpty {
@@ -68,12 +69,11 @@ public struct GreetingCardView: View {
     @Binding var isEditingModeEnabled: Bool
     @Binding var showLogoutAlert: Bool
     let logoutAction: () -> Void
-
     public var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Spacer()
 
-            Text("Good afternoon, \(user.name)!")
+            Text("Good afternoon, \(user.name.rawValue)!")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.leading)

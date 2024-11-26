@@ -27,12 +27,29 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
         let isFirstFetch = !UserDefaults.standard.bool(forKey: usersFetchedKey)
         
         if isFirstFetch {
-            // First-time fetch: initialize with default users
-            let defaultUsers = [
-                User(name: "DefaultUser1", image: "image1", login: "user1", password: "password1"),
-                User(name: "DefaultUser2", image: "image2", login: "user2", password: "password2"),
-                User(name: "DefaultUser3", image: "image3", login: "user3", password: "password3")
+            // Initialize default users using compactMap
+            let userData = [
+                ("DefaultUser1", "image1", "user1", "password1"),
+                ("DefaultUser2", "image2", "user2", "password2"),
+                ("DefaultUser3", "image3", "user3", "password3")
             ]
+            
+            let defaultUsers: [User] = userData.compactMap { (nameString, image, loginString, passwordString) in
+                guard let name = UserName(nameString),
+                      let login = Login(loginString),
+                      let password = Password(passwordString) else {
+                    // Optionally handle invalid data
+                    print("Invalid user data for \(nameString)")
+                    return nil
+                }
+                return User(
+                    name: name,
+                    image: image,
+                    login: login,
+                    password: password
+                )
+            }
+
             try await saveUsers(defaultUsers)
             
             // Update UserDefaults to indicate that the initial fetch has occurred
