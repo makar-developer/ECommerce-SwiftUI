@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import App
 
 @main
 struct ECommerceApp: App {
+    var container = AppDIContainerImpl()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppCoordinatorView(container: container)
         }
     }
 }

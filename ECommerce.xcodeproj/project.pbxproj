@@ -11,6 +11,14 @@
 		847E43492CE8F718008EBF43 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E43482CE8F718008EBF43 /* ContentView.swift */; };
 		847E434B2CE8F71A008EBF43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847E434A2CE8F71A008EBF43 /* Assets.xcassets */; };
 		847E434E2CE8F71A008EBF43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847E434D2CE8F71A008EBF43 /* Preview Assets.xcassets */; };
+		847E43572CE904D5008EBF43 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 847E43562CE904D5008EBF43 /* App */; };
+		847EDFD52CEA330200F3FB81 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFD42CEA330200F3FB81 /* Core */; };
+		847EDFD92CEA330300F3FB81 /* WelcomeFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFD82CEA330300F3FB81 /* WelcomeFeature */; };
+		847EDFDB2CEA645F00F3FB81 /* WelcomeData in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFDA2CEA645F00F3FB81 /* WelcomeData */; };
+		847EDFDD2CEA646400F3FB81 /* WelcomeDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFDC2CEA646400F3FB81 /* WelcomeDomain */; };
+		847EDFDF2CEA646400F3FB81 /* WelcomePresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFDE2CEA646400F3FB81 /* WelcomePresentation */; };
+		847EDFE12CEA646400F3FB81 /* WelcomeRepositoryProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFE02CEA646400F3FB81 /* WelcomeRepositoryProtocol */; };
+		84B916462CF3ED2900D712F6 /* WelcomeEntities in Frameworks */ = {isa = PBXBuildFile; productRef = 84B916452CF3ED2900D712F6 /* WelcomeEntities */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +27,10 @@
 		847E43482CE8F718008EBF43 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		847E434A2CE8F71A008EBF43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		847E434D2CE8F71A008EBF43 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		847E43542CE90487008EBF43 /* App */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = App; sourceTree = "<group>"; };
+		847E43582CE93F0F008EBF43 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
+		847EDFD22CEA32D900F3FB81 /* WelcomeFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WelcomeFeature; sourceTree = "<group>"; };
+		847EDFD32CEA32DF00F3FB81 /* WelcomeDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WelcomeDependencies; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +38,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84B916462CF3ED2900D712F6 /* WelcomeEntities in Frameworks */,
+				847E43572CE904D5008EBF43 /* App in Frameworks */,
+				847EDFDB2CEA645F00F3FB81 /* WelcomeData in Frameworks */,
+				847EDFE12CEA646400F3FB81 /* WelcomeRepositoryProtocol in Frameworks */,
+				847EDFD52CEA330200F3FB81 /* Core in Frameworks */,
+				847EDFDF2CEA646400F3FB81 /* WelcomePresentation in Frameworks */,
+				847EDFDD2CEA646400F3FB81 /* WelcomeDomain in Frameworks */,
+				847EDFD92CEA330300F3FB81 /* WelcomeFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -35,8 +55,13 @@
 		847E433A2CE8F718008EBF43 = {
 			isa = PBXGroup;
 			children = (
+				847EDFD32CEA32DF00F3FB81 /* WelcomeDependencies */,
+				847EDFD22CEA32D900F3FB81 /* WelcomeFeature */,
+				847E43542CE90487008EBF43 /* App */,
+				847E43582CE93F0F008EBF43 /* Core */,
 				847E43452CE8F718008EBF43 /* ECommerce */,
 				847E43442CE8F718008EBF43 /* Products */,
+				847E43552CE904D5008EBF43 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +92,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		847E43552CE904D5008EBF43 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -83,6 +115,16 @@
 			dependencies = (
 			);
 			name = ECommerce;
+			packageProductDependencies = (
+				847E43562CE904D5008EBF43 /* App */,
+				847EDFD42CEA330200F3FB81 /* Core */,
+				847EDFD82CEA330300F3FB81 /* WelcomeFeature */,
+				847EDFDA2CEA645F00F3FB81 /* WelcomeData */,
+				847EDFDC2CEA646400F3FB81 /* WelcomeDomain */,
+				847EDFDE2CEA646400F3FB81 /* WelcomePresentation */,
+				847EDFE02CEA646400F3FB81 /* WelcomeRepositoryProtocol */,
+				84B916452CF3ED2900D712F6 /* WelcomeEntities */,
+			);
 			productName = ECommerce;
 			productReference = 847E43432CE8F718008EBF43 /* ECommerce.app */;
 			productType = "com.apple.product-type.application";
@@ -337,6 +379,41 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		847E43562CE904D5008EBF43 /* App */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = App;
+		};
+		847EDFD42CEA330200F3FB81 /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
+		};
+		847EDFD82CEA330300F3FB81 /* WelcomeFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WelcomeFeature;
+		};
+		847EDFDA2CEA645F00F3FB81 /* WelcomeData */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WelcomeData;
+		};
+		847EDFDC2CEA646400F3FB81 /* WelcomeDomain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WelcomeDomain;
+		};
+		847EDFDE2CEA646400F3FB81 /* WelcomePresentation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WelcomePresentation;
+		};
+		847EDFE02CEA646400F3FB81 /* WelcomeRepositoryProtocol */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WelcomeRepositoryProtocol;
+		};
+		84B916452CF3ED2900D712F6 /* WelcomeEntities */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WelcomeEntities;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 847E433B2CE8F718008EBF43 /* Project object */;
 }

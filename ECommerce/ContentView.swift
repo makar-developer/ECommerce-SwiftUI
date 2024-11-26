@@ -6,21 +6,16 @@
 //
 
 import SwiftUI
-
+import App
 struct ContentView: View {
+    var container: AppDIContainerProtocol = AppDIContainerImpl()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
+        AppCoordinatorView(container: container)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}
