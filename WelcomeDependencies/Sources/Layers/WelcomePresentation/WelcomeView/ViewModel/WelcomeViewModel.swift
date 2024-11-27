@@ -12,7 +12,6 @@ import WelcomeDomain
 final public class WelcomeViewModel: ObservableObject {
     @Published var users: [User] = []
     @Published var isEditingModeEnabled: Bool = false
-    @Published var showLogoutAlert: Bool = false
     
     private let getAllUsersUseCase: GetAllUsersUseCaseProtocol
     private let logoutUserUseCase: LogoutUserUseCaseProtocol
@@ -40,11 +39,10 @@ final public class WelcomeViewModel: ObservableObject {
         Task {
             do {
                 try await logoutUserUseCase.execute(user: user)
-                // Handle logout success, e.g., remove user from list
+                // Handle logout success
                 await MainActor.run {
                     users.removeAll { $0.id == user.id }
                     isEditingModeEnabled = false
-                    showLogoutAlert = false
                 }
             } catch {
                 // Handle logout error

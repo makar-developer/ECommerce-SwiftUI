@@ -12,8 +12,8 @@ import WelcomeEntities
 public struct GreetingCardView: View {
     let user: User
     @Binding var isEditingModeEnabled: Bool
-    @Binding var showLogoutAlert: Bool
-    let logoutAction: () -> Void
+    @State private var showLogoutAlert = false
+    let logoutAction: (User) -> Void
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -54,7 +54,9 @@ public struct GreetingCardView: View {
                     .padding(.horizontal, 36)
                     .padding(.vertical, 14)
                     .frame(maxWidth: .infinity)
-                    .background(isEditingModeEnabled ? Color.red : Color(hue: 0.1, saturation: 0.3, brightness: 0.7))
+                    .background(
+                        isEditingModeEnabled ? Color.red : Color(hue: 0.1, saturation: 0.3, brightness: 0.7)
+                    )
                     .cornerRadius(20)
             }
             .padding(.top, 10)
@@ -62,14 +64,14 @@ public struct GreetingCardView: View {
                 Alert(
                     title: Text("Log Out"),
                     message: Text("Are you sure you want to log out this account?"),
-                    primaryButton: .destructive(Text("Log Out"), action: logoutAction),
+                    primaryButton: .destructive(Text("Log Out"), action: { logoutAction(user) }),
                     secondaryButton: .cancel(Text("Cancel"))
                 )
             }
         }
         .padding(16)
         .background(
-            Image(user.image, bundle: Bundle.main)
+            Image(user.image)
                 .resizable()
                 .scaledToFill()
         )
@@ -77,4 +79,3 @@ public struct GreetingCardView: View {
         .shadow(radius: 5)
     }
 }
-

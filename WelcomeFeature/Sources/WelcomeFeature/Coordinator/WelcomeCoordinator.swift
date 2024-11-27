@@ -10,46 +10,57 @@ import WelcomePresentation
 import WelcomeDomain
 import WelcomeData
 final class WelcomeCoordinator: ObservableObject {
-    @Published var path = NavigationPath() {
-        didSet {
-            print("Path changed: \(path)")
+    @Published var path = NavigationPath()
+    private let container: WelcomeDIContainerProtocol
+    private let onDismiss: () -> Void
+
+    init(container: WelcomeDIContainerProtocol, onDismiss: @escaping () -> Void) {
+        self.container = container
+        self.onDismiss = onDismiss
+    }
+
+    func dismiss() {
+        onDismiss()
+    }
+
+    private func push(screen: WelcomeScreen) {
+        DispatchQueue.main.async {
+            self.path.append(screen)
         }
     }
-    private let container: WelcomeDIContainerProtocol
-    
-    init(container: WelcomeDIContainerProtocol) {
-        self.container = container
-    }
-    
-    private func push(screen: WelcomeScreen) {
-        path.append(screen)
-    }
-    
+
     private func pop() {
-        print("pop in WC")
-        path.removeLast()
+        DispatchQueue.main.async {
+            self.path.removeLast()
+        }
     }
-    
+
     private func showAuthentication() {
-        print("showAuth")
         push(screen: .createAccount)
     }
-    
+
     private func showWelcome() {
         pop()
     }
-    
+
     @ViewBuilder
     func build(screen: WelcomeScreen) -> some View {
         switch screen {
         case .welcome:
-            WelcomeView(viewModel: WelcomeViewModel(getAllUsersUseCase: container.getAllUsersUseCase, logoutUserUseCase: container.logoutUserUseCase, onNavigation: { [unowned self] in
-                showAuthentication()
-            }))
+            WelcomeView(viewModel: WelcomeViewModel(
+                getAllUsersUseCase: container.getAllUsersUseCase,
+                logoutUserUseCase: container.logoutUserUseCase,
+                onNavigation: { [weak self] in
+                    self?.showAuthentication()
+                }
+            ))
         case .createAccount:
-            CreateAccountView(viewModel: CreateAccountViewModel(createUserUseCase: container.createUserUseCase, onNavigation: { [unowned self] in
-                showWelcome()
-            }))
+            AuthenticationView(viewModel: AuthenticationViewModel(
+                createUserUseCase: container.createUserUseCase,
+                onNavigation: { [weak self] in
+                    self?.showWelcome()
+                }
+            ))
         }
     }
 }

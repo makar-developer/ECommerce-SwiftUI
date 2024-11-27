@@ -1,10 +1,10 @@
-// CreateAccountView.swift
+// AuthenticationView.swift
 import SwiftUI
 
-public struct CreateAccountView: View {
-    @StateObject private var viewModel: CreateAccountViewModel
+public struct AuthenticationView: View {
+    @StateObject private var viewModel: AuthenticationViewModel
 
-    public init(viewModel: CreateAccountViewModel) {
+    public init(viewModel: AuthenticationViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 

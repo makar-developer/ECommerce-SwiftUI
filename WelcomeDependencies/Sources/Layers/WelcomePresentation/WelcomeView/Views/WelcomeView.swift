@@ -13,23 +13,20 @@ public struct WelcomeView: View {
     }
 
     public var body: some View {
-//        NavigationView {
-            SnapCarousel(data: viewModel.users, currentIndex: $currentIndex) { user in
-                GreetingCardView(
-                    user: user,
-                    isEditingModeEnabled: $viewModel.isEditingModeEnabled,
-                    showLogoutAlert: $viewModel.showLogoutAlert,
-                    logoutAction: {
-                        viewModel.logoutUser(user: user)
-                        adjustCurrentIndexAfterDeletion()
-                    }
-                )
-            } createAccount: {
-                print("CreateAccountTriggered")
-                viewModel.showAuthentication()
-            }
-            .toolbar {
-                if !viewModel.users.isEmpty {
+        SnapCarousel(data: viewModel.users, currentIndex: $currentIndex) { user in
+            GreetingCardView(
+                user: user,
+                isEditingModeEnabled: $viewModel.isEditingModeEnabled,
+                logoutAction: { selectedUser in
+                    viewModel.logoutUser(user: selectedUser)
+                    adjustCurrentIndexAfterDeletion()
+                }
+            )
+        } createAccount: {
+            viewModel.showAuthentication()
+        }
+        .toolbar {
+            if !viewModel.users.isEmpty {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
                             withAnimation {
@@ -45,7 +42,6 @@ public struct WelcomeView: View {
                     }
                 }
             }
-//        }
         .task {
             await viewModel.loadUsers()
         }
@@ -54,7 +50,7 @@ public struct WelcomeView: View {
         }
     }
 
-    /// Adjusts the currentIndex to ensure it's within the bounds of the users array.
+//    Adjusts the currentIndex to ensure it's within the bounds of the users array.
     private func adjustCurrentIndexAfterDeletion() {
         DispatchQueue.main.async {
             if currentIndex >= viewModel.users.count {

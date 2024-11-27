@@ -1,31 +1,42 @@
 import SwiftUI
 import WelcomeFeature
 final class AppCoordinator: ObservableObject {
-    @Published var path = NavigationPath() {
-        didSet {
-            print("Path changed: \(path)")
-        }
-    }
+    @Published var path = NavigationPath()
+    @Published var fullScreenCoverFeature: Feature?
+
     private let container: AppDIContainerProtocol
-    
+
     init(container: AppDIContainerProtocol) {
         self.container = container
     }
-    
-    private func push(feature: Feature) {
-        path.append(feature)
+
+    func presentFeature(_ feature: Feature) {
+        fullScreenCoverFeature = feature
     }
     
-    private func pop() {
-        print("pop in AC")
-        path.removeLast()
+    func dismissFeature() {
+        fullScreenCoverFeature = nil
     }
-    
+
+    @ViewBuilder
+    func buildRootView() -> some View {
+        EmptyView()
+            .onAppear { [weak self] in
+                // Present the feature on app launch
+                self?.presentFeature(.welcome)
+            }
+    }
+
     @ViewBuilder
     func build(feature: Feature) -> some View {
         switch feature {
         case .welcome:
-            WelcomeCoordinatorView(container: container.welcomeDIContainer)
+            WelcomeCoordinatorView(
+                container: container.welcomeDIContainer,
+                onDismiss: { [weak self] in
+                    self?.dismissFeature()
+                }
+            )
         }
     }
 }

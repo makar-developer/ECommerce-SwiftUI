@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+
+
 public struct AppCoordinatorView: View {
     @StateObject private var coordinator: AppCoordinator
 
@@ -14,11 +16,9 @@ public struct AppCoordinatorView: View {
     }
 
     public var body: some View {
-        NavigationStack(path: $coordinator.path) {
-            coordinator.build(feature: .welcome)
-                .navigationDestination(for: Feature.self) { feature in
-                    coordinator.build(feature: feature)
-                }
-        }
+        coordinator.buildRootView()
+            .fullScreenCover(item: $coordinator.fullScreenCoverFeature) { feature in
+                coordinator.build(feature: feature)
+            }
     }
 }

@@ -1,10 +1,10 @@
-// CreateAccountViewModel.swift
+// AuthenticationViewModel.swift
 import SwiftUI
 import Combine
 import WelcomeEntities
 import WelcomeDomain
 
-final public class CreateAccountViewModel: ObservableObject {
+final public class AuthenticationViewModel: ObservableObject {
     // Input Fields
     @Published var name: String = ""
     @Published var login: String = ""
@@ -141,6 +141,5 @@ final public class CreateAccountViewModel: ObservableObject {
 
         try await createUserUseCase.execute(user: newUser)
         onNavigation()
-        print("createAccount")
     }
 }

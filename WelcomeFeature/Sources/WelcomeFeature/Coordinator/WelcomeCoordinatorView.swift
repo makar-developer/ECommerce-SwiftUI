@@ -7,11 +7,28 @@
 
 import SwiftUI
 
+//public struct WelcomeCoordinatorView: View {
+//    @StateObject private var coordinator: WelcomeCoordinator
+//
+//    public init(container: WelcomeDIContainerProtocol) {
+//        _coordinator = StateObject(wrappedValue: WelcomeCoordinator(container: container))
+//    }
+//
+//    public var body: some View {
+////        NavigationStack(path: $coordinator.path) {
+//            coordinator.build(screen: .welcome)
+//                .navigationDestination(for: WelcomeScreen.self) { screen in
+//                    coordinator.build(screen: screen)
+//                }
+////        }
+//    }
+//}
+
 public struct WelcomeCoordinatorView: View {
     @StateObject private var coordinator: WelcomeCoordinator
 
-    public init(container: WelcomeDIContainerProtocol) {
-        _coordinator = StateObject(wrappedValue: WelcomeCoordinator(container: container))
+    public init(container: WelcomeDIContainerProtocol, onDismiss: @escaping () -> Void) {
+        _coordinator = StateObject(wrappedValue: WelcomeCoordinator(container: container, onDismiss: onDismiss))
     }
 
     public var body: some View {
@@ -20,6 +37,14 @@ public struct WelcomeCoordinatorView: View {
                 .navigationDestination(for: WelcomeScreen.self) { screen in
                     coordinator.build(screen: screen)
                 }
+//                .toolbar {
+                    // Add a dismiss button if needed
+//                    ToolbarItem(placement: .navigationBarLeading) {
+//                        Button("Close") {
+//                            coordinator.dismiss()
+//                        }
+//                    }
+//                }
         }
     }
 }
