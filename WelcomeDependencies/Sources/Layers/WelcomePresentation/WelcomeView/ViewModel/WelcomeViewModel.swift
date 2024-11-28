@@ -16,9 +16,9 @@ final public class WelcomeViewModel: ObservableObject {
     private let getAllUsersUseCase: GetAllUsersUseCaseProtocol
     private let logoutUserUseCase: LogoutUserUseCaseProtocol
     
-    private var onNavigation: () -> Void
+    private var onNavigation: (WelcomeView.NavigationTarget) -> Void
     
-    public init(getAllUsersUseCase: GetAllUsersUseCaseProtocol, logoutUserUseCase: LogoutUserUseCaseProtocol, onNavigation: @escaping () -> Void) {
+    public init(getAllUsersUseCase: GetAllUsersUseCaseProtocol, logoutUserUseCase: LogoutUserUseCaseProtocol, onNavigation: @escaping (WelcomeView.NavigationTarget) -> Void) {
         self.getAllUsersUseCase = getAllUsersUseCase
         self.logoutUserUseCase = logoutUserUseCase
         self.onNavigation = onNavigation
@@ -56,6 +56,10 @@ final public class WelcomeViewModel: ObservableObject {
     }
     
     func showAuthentication() {
-        onNavigation()
+        onNavigation(.authentication)
+    }
+    
+    func showMain(user: User) {
+        onNavigation(.main(user))
     }
 }

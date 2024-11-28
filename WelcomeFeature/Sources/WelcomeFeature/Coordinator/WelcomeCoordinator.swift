@@ -9,18 +9,19 @@ import SwiftUI
 import WelcomePresentation
 import WelcomeDomain
 import WelcomeData
+import WelcomeEntities
 final class WelcomeCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     private let container: WelcomeDIContainerProtocol
-    private let onDismiss: () -> Void
+    private let onNavigation: (User) -> Void
 
-    init(container: WelcomeDIContainerProtocol, onDismiss: @escaping () -> Void) {
+    init(container: WelcomeDIContainerProtocol, onNavigation: @escaping (User) -> Void) {
         self.container = container
-        self.onDismiss = onDismiss
+        self.onNavigation = onNavigation
     }
 
-    func dismiss() {
-        onDismiss()
+    func showMain(user: User) {
+        onNavigation(user)
     }
 
     private func push(screen: WelcomeScreen) {
@@ -50,8 +51,14 @@ final class WelcomeCoordinator: ObservableObject {
             WelcomeView(viewModel: WelcomeViewModel(
                 getAllUsersUseCase: container.getAllUsersUseCase,
                 logoutUserUseCase: container.logoutUserUseCase,
-                onNavigation: { [weak self] in
-                    self?.showAuthentication()
+                onNavigation: { [weak self] target in
+                    
+                    switch target {
+                    case .authentication:
+                        self?.showAuthentication()
+                    case .main(let user):
+                        self?.showMain(user: user)
+                    }
                 }
             ))
         case .createAccount:

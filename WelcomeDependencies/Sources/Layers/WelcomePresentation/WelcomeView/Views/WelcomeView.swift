@@ -5,6 +5,12 @@ import WelcomeEntities
 // MARK: - WelcomeView
 
 public struct WelcomeView: View {
+    
+    public enum NavigationTarget {
+        case authentication
+        case main(User)
+    }
+    
     @StateObject private var viewModel: WelcomeViewModel
     @State private var currentIndex: Int = 0 // Track the current index
 
@@ -20,6 +26,8 @@ public struct WelcomeView: View {
                 logoutAction: { selectedUser in
                     viewModel.logoutUser(user: selectedUser)
                     adjustCurrentIndexAfterDeletion()
+                }, signInAction: { selectedUser in
+                    viewModel.showMain(user: user)
                 }
             )
         } createAccount: {

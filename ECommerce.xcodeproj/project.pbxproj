@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		847E43472CE8F718008EBF43 /* ECommerceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E43462CE8F718008EBF43 /* ECommerceApp.swift */; };
-		847E43492CE8F718008EBF43 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E43482CE8F718008EBF43 /* ContentView.swift */; };
 		847E434B2CE8F71A008EBF43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847E434A2CE8F71A008EBF43 /* Assets.xcassets */; };
 		847E434E2CE8F71A008EBF43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847E434D2CE8F71A008EBF43 /* Preview Assets.xcassets */; };
 		847E43572CE904D5008EBF43 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 847E43562CE904D5008EBF43 /* App */; };
@@ -24,7 +23,6 @@
 /* Begin PBXFileReference section */
 		847E43432CE8F718008EBF43 /* ECommerce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECommerce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847E43462CE8F718008EBF43 /* ECommerceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECommerceApp.swift; sourceTree = "<group>"; };
-		847E43482CE8F718008EBF43 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		847E434A2CE8F71A008EBF43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		847E434D2CE8F71A008EBF43 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		847E43542CE90487008EBF43 /* App */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = App; sourceTree = "<group>"; };
@@ -77,7 +75,6 @@
 			isa = PBXGroup;
 			children = (
 				847E43462CE8F718008EBF43 /* ECommerceApp.swift */,
-				847E43482CE8F718008EBF43 /* ContentView.swift */,
 				847E434A2CE8F71A008EBF43 /* Assets.xcassets */,
 				847E434C2CE8F71A008EBF43 /* Preview Content */,
 			);
@@ -179,7 +176,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				847E43492CE8F718008EBF43 /* ContentView.swift in Sources */,
 				847E43472CE8F718008EBF43 /* ECommerceApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

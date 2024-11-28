@@ -14,7 +14,8 @@ public struct GreetingCardView: View {
     @Binding var isEditingModeEnabled: Bool
     @State private var showLogoutAlert = false
     let logoutAction: (User) -> Void
-
+    let signInAction: (User) -> Void
+    
     public var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Spacer()
@@ -45,6 +46,7 @@ public struct GreetingCardView: View {
                 if isEditingModeEnabled {
                     showLogoutAlert = true
                 } else {
+                    signInAction(user)
                     print("Go shopping!")
                 }
             }) {

@@ -23,12 +23,12 @@ import SwiftUI
 ////        }
 //    }
 //}
-
+import WelcomeEntities
 public struct WelcomeCoordinatorView: View {
     @StateObject private var coordinator: WelcomeCoordinator
 
-    public init(container: WelcomeDIContainerProtocol, onDismiss: @escaping () -> Void) {
-        _coordinator = StateObject(wrappedValue: WelcomeCoordinator(container: container, onDismiss: onDismiss))
+    public init(container: WelcomeDIContainerProtocol, onNavigation: @escaping (User) -> Void) {
+        _coordinator = StateObject(wrappedValue: WelcomeCoordinator(container: container, onNavigation: onNavigation))
     }
 
     public var body: some View {
@@ -37,14 +37,6 @@ public struct WelcomeCoordinatorView: View {
                 .navigationDestination(for: WelcomeScreen.self) { screen in
                     coordinator.build(screen: screen)
                 }
-//                .toolbar {
-                    // Add a dismiss button if needed
-//                    ToolbarItem(placement: .navigationBarLeading) {
-//                        Button("Close") {
-//                            coordinator.dismiss()
-//                        }
-//                    }
-//                }
         }
     }
 }

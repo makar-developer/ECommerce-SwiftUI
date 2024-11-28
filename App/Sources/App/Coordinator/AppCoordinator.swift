@@ -1,5 +1,6 @@
 import SwiftUI
 import WelcomeFeature
+import WelcomeEntities
 final class AppCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     @Published var fullScreenCoverFeature: Feature?
@@ -14,6 +15,14 @@ final class AppCoordinator: ObservableObject {
         fullScreenCoverFeature = feature
     }
     
+    func presentMain(_ user: User) {
+        presentFeature(.main(user))
+    }
+    
+    func presentWelcome() {
+        presentFeature(.welcome)
+    }
+    
     func dismissFeature() {
         fullScreenCoverFeature = nil
     }
@@ -22,8 +31,8 @@ final class AppCoordinator: ObservableObject {
     func buildRootView() -> some View {
         EmptyView()
             .onAppear { [weak self] in
-                // Present the feature on app launch
-                self?.presentFeature(.welcome)
+                // Present the welcome feature on app launch
+                self?.presentWelcome()
             }
     }
 
@@ -33,10 +42,22 @@ final class AppCoordinator: ObservableObject {
         case .welcome:
             WelcomeCoordinatorView(
                 container: container.welcomeDIContainer,
-                onDismiss: { [weak self] in
-                    self?.dismissFeature()
+                onNavigation: { [weak self] user in
+                    self?.presentMain(user)
                 }
             )
+        case .main(let user):
+            Text("Hello Main !")
+                .onAppear {
+                    print(user.name.rawValue)
+                }
+//            MainCoordinatorTabView(
+//                user: user,
+//                container: container.mainCoordinatorTabViewContainer,
+//                onNavigation: { [weak self] in
+//                    self?.presentWelcome()
+//                }
+//            )
         }
     }
 }
