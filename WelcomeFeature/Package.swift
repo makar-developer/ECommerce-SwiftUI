@@ -24,7 +24,7 @@ let package = Package(
             .product(name: "WelcomePresentation", package: "WelcomeDependencies"),
             .product(name: "WelcomeDomain", package: "WelcomeDependencies"),
             .product(name: "WelcomeRepositoryProtocol", package: "WelcomeDependencies"),
-            .product(name: "WelcomeData", package: "WelcomeDependencies"),
+            .product(name: "WelcomeData", package: "WelcomeDependencies")
             ]),
         .testTarget(
             name: "WelcomeFeatureTests",

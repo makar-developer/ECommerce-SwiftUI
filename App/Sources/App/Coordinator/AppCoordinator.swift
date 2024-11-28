@@ -1,6 +1,8 @@
 import SwiftUI
 import WelcomeFeature
 import WelcomeEntities
+import Home
+
 final class AppCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     @Published var fullScreenCoverFeature: Feature?
@@ -47,17 +49,14 @@ final class AppCoordinator: ObservableObject {
                 }
             )
         case .main(let user):
-            Text("Hello Main !")
-                .onAppear {
-                    print(user.name.rawValue)
-                }
 //            MainCoordinatorTabView(
 //                user: user,
-//                container: container.mainCoordinatorTabViewContainer,
-//                onNavigation: { [weak self] in
+//                container: container.mainDIContainer,
+//                onLogout: { [weak self] in
 //                    self?.presentWelcome()
 //                }
 //            )
+            EmptyView()
         }
     }
 }
