@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import WelcomeEntities
+import CoreEntities
 import WelcomeDomain
 
 final public class WelcomeViewModel: ObservableObject {

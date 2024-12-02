@@ -5,7 +5,7 @@
 //  Created by Admin on 17/11/2024.
 //
 
-import WelcomeEntities
+import CoreEntities
 
 // MARK: - WelcomeRepositoryProtocol
 

@@ -6,8 +6,7 @@
 //
 
 import WelcomeRepositoryProtocol
-import WelcomeEntities
-
+import CoreEntities
 
 public protocol GetAllUsersUseCaseProtocol {
     func execute() async throws -> [User]

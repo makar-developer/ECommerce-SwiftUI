@@ -33,7 +33,8 @@ let package = Package(
             name: "WelcomePresentation",
             dependencies: [
                 "WelcomeDomain",
-                .product(name: "Core", package: "Core")
+                .product(name: "Core", package: "Core"),
+                .product(name: "CoreEntities", package: "Core")
             ],
             path: "Sources/Layers/WelcomePresentation"
         ),
@@ -51,7 +52,8 @@ let package = Package(
             dependencies: [
                 "WelcomeRepositoryProtocol",
                 "WelcomeEntities",
-                .product(name: "Core", package: "Core")
+                .product(name: "Core", package: "Core"),
+                .product(name: "CoreEntities", package: "Core")
             ],
             path: "Sources/Layers/WelcomeDomain"
         ),
@@ -61,7 +63,8 @@ let package = Package(
             name: "WelcomeRepositoryProtocol",
             dependencies: [
                 "WelcomeEntities",
-                .product(name: "Core", package: "Core")
+                .product(name: "Core", package: "Core"),
+                .product(name: "CoreEntities", package: "Core")
             ],
             path: "Sources/Layers/WelcomeRepositoryProtocol"
         ),
@@ -71,7 +74,8 @@ let package = Package(
             dependencies: [
                 "WelcomeRepositoryProtocol",
                 "WelcomeEntities",
-                .product(name: "Core", package: "Core")
+                .product(name: "Core", package: "Core"),
+                .product(name: "CoreEntities", package: "Core")
             ],
             path: "Sources/Layers/WelcomeData"
         )

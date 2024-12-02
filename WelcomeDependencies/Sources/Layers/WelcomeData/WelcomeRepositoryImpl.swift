@@ -7,8 +7,7 @@
 
 import Foundation
 import WelcomeRepositoryProtocol
-import WelcomeEntities
-
+import CoreEntities
 import Security
 
 

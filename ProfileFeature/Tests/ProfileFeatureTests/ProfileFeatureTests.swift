@@ -1,11 +1,11 @@
 import XCTest
-@testable import ProfileFeatrue
+@testable import ProfileFeature
 
-final class ProfileFeatrueTests: XCTestCase {
+final class ProfileFeatureTests: XCTestCase {
     func testExample() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(ProfileFeatrue().text, "Hello, World!")
+        XCTAssertEqual(ProfileFeature().text, "Hello, World!")
     }
 }

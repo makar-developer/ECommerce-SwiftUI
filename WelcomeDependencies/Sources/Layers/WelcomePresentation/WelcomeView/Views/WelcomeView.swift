@@ -1,6 +1,6 @@
 import SwiftUI
 import Core
-import WelcomeEntities
+import CoreEntities
 
 // MARK: - WelcomeView
 

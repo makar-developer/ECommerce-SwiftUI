@@ -6,10 +6,10 @@
 //
 
 import WelcomeFeature
-
+import Home
 public protocol AppDIContainerProtocol {
-    //MARK: - Welcome
     var welcomeDIContainer: WelcomeDIContainerProtocol { get }
+    var homeDIContainer: HomeDIContainerProtocol { get }
 }
 
 public class AppDIContainerImpl: AppDIContainerProtocol {
@@ -17,5 +17,9 @@ public class AppDIContainerImpl: AppDIContainerProtocol {
     //MARK: - Welcome
     public lazy var welcomeDIContainer: WelcomeDIContainerProtocol = {
         return WelcomeDIContainerImpl()
+    }()
+    //MARK: - Home
+    public lazy var homeDIContainer: HomeDIContainerProtocol = {
+        return HomeDIContainerImpl()
     }()
 }

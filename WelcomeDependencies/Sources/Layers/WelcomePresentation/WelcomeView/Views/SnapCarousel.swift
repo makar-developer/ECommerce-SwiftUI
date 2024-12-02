@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import WelcomeEntities
+import CoreEntities
 // MARK: - SnapCarousel
 
 public struct SnapCarousel<Content: View>: View {

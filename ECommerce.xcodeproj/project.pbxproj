@@ -11,21 +11,29 @@
 		847D18AE2CF8984700A2018E /* ProdcutSearchDependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18AD2CF8984700A2018E /* ProdcutSearchDependencies */; };
 		847D18B02CF8984700A2018E /* ProductCartDependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18AF2CF8984700A2018E /* ProductCartDependencies */; };
 		847D18B22CF8984700A2018E /* ProductCartFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B12CF8984700A2018E /* ProductCartFeature */; };
-		847D18B42CF8984700A2018E /* ProductDiscoverDependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B32CF8984700A2018E /* ProductDiscoverDependencies */; };
 		847D18B62CF8984700A2018E /* ProductDiscoverFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B52CF8984700A2018E /* ProductDiscoverFeature */; };
 		847D18B82CF8984700A2018E /* ProductSearchFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B72CF8984700A2018E /* ProductSearchFeature */; };
 		847D18BA2CF8986900A2018E /* ProfileDependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B92CF8986900A2018E /* ProfileDependencies */; };
-		847D18BC2CF8986900A2018E /* ProfileFeatrue in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18BB2CF8986900A2018E /* ProfileFeatrue */; };
 		847E43472CE8F718008EBF43 /* ECommerceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E43462CE8F718008EBF43 /* ECommerceApp.swift */; };
 		847E434B2CE8F71A008EBF43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847E434A2CE8F71A008EBF43 /* Assets.xcassets */; };
 		847E434E2CE8F71A008EBF43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847E434D2CE8F71A008EBF43 /* Preview Assets.xcassets */; };
 		847E43572CE904D5008EBF43 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 847E43562CE904D5008EBF43 /* App */; };
+		847EB20B2CF9E1DD00213DDE /* CoreEntities in Frameworks */ = {isa = PBXBuildFile; productRef = 847EB20A2CF9E1DD00213DDE /* CoreEntities */; };
+		847EB20D2CF9E1E800213DDE /* CoreHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 847EB20C2CF9E1E800213DDE /* CoreHelpers */; };
+		847EB20F2CF9E1E800213DDE /* CoreRepositories in Frameworks */ = {isa = PBXBuildFile; productRef = 847EB20E2CF9E1E800213DDE /* CoreRepositories */; };
+		847EB2112CF9E1E800213DDE /* CoreStyleguide in Frameworks */ = {isa = PBXBuildFile; productRef = 847EB2102CF9E1E800213DDE /* CoreStyleguide */; };
+		847EB2132CF9E1E800213DDE /* CoreUseCases in Frameworks */ = {isa = PBXBuildFile; productRef = 847EB2122CF9E1E800213DDE /* CoreUseCases */; };
+		847EB2192CFA371B00213DDE /* ProfileFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847EB2182CFA371B00213DDE /* ProfileFeature */; };
 		847EDFD52CEA330200F3FB81 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFD42CEA330200F3FB81 /* Core */; };
 		847EDFD92CEA330300F3FB81 /* WelcomeFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFD82CEA330300F3FB81 /* WelcomeFeature */; };
 		847EDFDB2CEA645F00F3FB81 /* WelcomeData in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFDA2CEA645F00F3FB81 /* WelcomeData */; };
 		847EDFDD2CEA646400F3FB81 /* WelcomeDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFDC2CEA646400F3FB81 /* WelcomeDomain */; };
 		847EDFDF2CEA646400F3FB81 /* WelcomePresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFDE2CEA646400F3FB81 /* WelcomePresentation */; };
 		847EDFE12CEA646400F3FB81 /* WelcomeRepositoryProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFE02CEA646400F3FB81 /* WelcomeRepositoryProtocol */; };
+		848B3CA42CFD0B0E00188A68 /* ProductDiscoverDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 848B3CA32CFD0B0E00188A68 /* ProductDiscoverDomain */; };
+		848B3CA62CFD0B0E00188A68 /* ProductDiscoverPresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 848B3CA52CFD0B0E00188A68 /* ProductDiscoverPresentation */; };
+		848B3CA82CFD0B0E00188A68 /* ProductDiscoverRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 848B3CA72CFD0B0E00188A68 /* ProductDiscoverRepository */; };
+		848B3CAA2CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 848B3CA92CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol */; };
 		84B916462CF3ED2900D712F6 /* WelcomeEntities in Frameworks */ = {isa = PBXBuildFile; productRef = 84B916452CF3ED2900D712F6 /* WelcomeEntities */; };
 /* End PBXBuildFile section */
 
@@ -37,7 +45,6 @@
 		847D18A62CF8960300A2018E /* ProdcutSearchDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProdcutSearchDependencies; sourceTree = "<group>"; };
 		847D18A72CF8960A00A2018E /* ProductCartFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductCartFeature; sourceTree = "<group>"; };
 		847D18A82CF8960D00A2018E /* ProductCartDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductCartDependencies; sourceTree = "<group>"; };
-		847D18A92CF8962300A2018E /* ProfileFeatrue */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProfileFeatrue; sourceTree = "<group>"; };
 		847D18AA2CF8962900A2018E /* ProfileDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProfileDependencies; sourceTree = "<group>"; };
 		847E43432CE8F718008EBF43 /* ECommerce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECommerce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847E43462CE8F718008EBF43 /* ECommerceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECommerceApp.swift; sourceTree = "<group>"; };
@@ -45,6 +52,7 @@
 		847E434D2CE8F71A008EBF43 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		847E43542CE90487008EBF43 /* App */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = App; sourceTree = "<group>"; };
 		847E43582CE93F0F008EBF43 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
+		847EB2172CFA36FF00213DDE /* ProfileFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProfileFeature; sourceTree = "<group>"; };
 		847EDFD22CEA32D900F3FB81 /* WelcomeFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WelcomeFeature; sourceTree = "<group>"; };
 		847EDFD32CEA32DF00F3FB81 /* WelcomeDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WelcomeDependencies; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,22 +63,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				84B916462CF3ED2900D712F6 /* WelcomeEntities in Frameworks */,
+				847EB20D2CF9E1E800213DDE /* CoreHelpers in Frameworks */,
 				847D18B02CF8984700A2018E /* ProductCartDependencies in Frameworks */,
+				848B3CAA2CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol in Frameworks */,
 				847E43572CE904D5008EBF43 /* App in Frameworks */,
 				847EDFDB2CEA645F00F3FB81 /* WelcomeData in Frameworks */,
-				847D18BC2CF8986900A2018E /* ProfileFeatrue in Frameworks */,
+				847EB20B2CF9E1DD00213DDE /* CoreEntities in Frameworks */,
 				847EDFE12CEA646400F3FB81 /* WelcomeRepositoryProtocol in Frameworks */,
 				847EDFD52CEA330200F3FB81 /* Core in Frameworks */,
+				847EB20F2CF9E1E800213DDE /* CoreRepositories in Frameworks */,
 				847D18B82CF8984700A2018E /* ProductSearchFeature in Frameworks */,
+				847EB2132CF9E1E800213DDE /* CoreUseCases in Frameworks */,
+				847EB2192CFA371B00213DDE /* ProfileFeature in Frameworks */,
 				847D18AE2CF8984700A2018E /* ProdcutSearchDependencies in Frameworks */,
 				847EDFDF2CEA646400F3FB81 /* WelcomePresentation in Frameworks */,
+				848B3CA82CFD0B0E00188A68 /* ProductDiscoverRepository in Frameworks */,
 				847EDFDD2CEA646400F3FB81 /* WelcomeDomain in Frameworks */,
 				847D18B22CF8984700A2018E /* ProductCartFeature in Frameworks */,
 				847D18BA2CF8986900A2018E /* ProfileDependencies in Frameworks */,
 				847D18B62CF8984700A2018E /* ProductDiscoverFeature in Frameworks */,
 				847EDFD92CEA330300F3FB81 /* WelcomeFeature in Frameworks */,
 				847D18AC2CF8984700A2018E /* Home in Frameworks */,
-				847D18B42CF8984700A2018E /* ProductDiscoverDependencies in Frameworks */,
+				848B3CA42CFD0B0E00188A68 /* ProductDiscoverDomain in Frameworks */,
+				847EB2112CF9E1E800213DDE /* CoreStyleguide in Frameworks */,
+				848B3CA62CFD0B0E00188A68 /* ProductDiscoverPresentation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,8 +96,8 @@
 		847E433A2CE8F718008EBF43 = {
 			isa = PBXGroup;
 			children = (
+				847EB2172CFA36FF00213DDE /* ProfileFeature */,
 				847D18AA2CF8962900A2018E /* ProfileDependencies */,
-				847D18A92CF8962300A2018E /* ProfileFeatrue */,
 				847D18A82CF8960D00A2018E /* ProductCartDependencies */,
 				847D18A72CF8960A00A2018E /* ProductCartFeature */,
 				847D18A62CF8960300A2018E /* ProdcutSearchDependencies */,
@@ -161,11 +177,19 @@
 				847D18AD2CF8984700A2018E /* ProdcutSearchDependencies */,
 				847D18AF2CF8984700A2018E /* ProductCartDependencies */,
 				847D18B12CF8984700A2018E /* ProductCartFeature */,
-				847D18B32CF8984700A2018E /* ProductDiscoverDependencies */,
 				847D18B52CF8984700A2018E /* ProductDiscoverFeature */,
 				847D18B72CF8984700A2018E /* ProductSearchFeature */,
 				847D18B92CF8986900A2018E /* ProfileDependencies */,
-				847D18BB2CF8986900A2018E /* ProfileFeatrue */,
+				847EB20A2CF9E1DD00213DDE /* CoreEntities */,
+				847EB20C2CF9E1E800213DDE /* CoreHelpers */,
+				847EB20E2CF9E1E800213DDE /* CoreRepositories */,
+				847EB2102CF9E1E800213DDE /* CoreStyleguide */,
+				847EB2122CF9E1E800213DDE /* CoreUseCases */,
+				847EB2182CFA371B00213DDE /* ProfileFeature */,
+				848B3CA32CFD0B0E00188A68 /* ProductDiscoverDomain */,
+				848B3CA52CFD0B0E00188A68 /* ProductDiscoverPresentation */,
+				848B3CA72CFD0B0E00188A68 /* ProductDiscoverRepository */,
+				848B3CA92CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol */,
 			);
 			productName = ECommerce;
 			productReference = 847E43432CE8F718008EBF43 /* ECommerce.app */;
@@ -438,10 +462,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = ProductCartFeature;
 		};
-		847D18B32CF8984700A2018E /* ProductDiscoverDependencies */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ProductDiscoverDependencies;
-		};
 		847D18B52CF8984700A2018E /* ProductDiscoverFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ProductDiscoverFeature;
@@ -454,13 +474,33 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = ProfileDependencies;
 		};
-		847D18BB2CF8986900A2018E /* ProfileFeatrue */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ProfileFeatrue;
-		};
 		847E43562CE904D5008EBF43 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = App;
+		};
+		847EB20A2CF9E1DD00213DDE /* CoreEntities */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreEntities;
+		};
+		847EB20C2CF9E1E800213DDE /* CoreHelpers */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreHelpers;
+		};
+		847EB20E2CF9E1E800213DDE /* CoreRepositories */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreRepositories;
+		};
+		847EB2102CF9E1E800213DDE /* CoreStyleguide */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreStyleguide;
+		};
+		847EB2122CF9E1E800213DDE /* CoreUseCases */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreUseCases;
+		};
+		847EB2182CFA371B00213DDE /* ProfileFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfileFeature;
 		};
 		847EDFD42CEA330200F3FB81 /* Core */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -485,6 +525,22 @@
 		847EDFE02CEA646400F3FB81 /* WelcomeRepositoryProtocol */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WelcomeRepositoryProtocol;
+		};
+		848B3CA32CFD0B0E00188A68 /* ProductDiscoverDomain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductDiscoverDomain;
+		};
+		848B3CA52CFD0B0E00188A68 /* ProductDiscoverPresentation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductDiscoverPresentation;
+		};
+		848B3CA72CFD0B0E00188A68 /* ProductDiscoverRepository */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductDiscoverRepository;
+		};
+		848B3CA92CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductDiscoverRepositoryProtocol;
 		};
 		84B916452CF3ED2900D712F6 /* WelcomeEntities */ = {
 			isa = XCSwiftPackageProductDependency;

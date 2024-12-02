@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import WelcomeEntities
+import CoreEntities
 // MARK: - GreetingCardView
 
 public struct GreetingCardView: View {

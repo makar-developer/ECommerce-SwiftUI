@@ -7,7 +7,7 @@
 
 import WelcomeEntities
 import WelcomeRepositoryProtocol
-
+import CoreEntities
 public protocol CreateUserUseCaseProtocol {
     func execute(user: User) async throws
 }

@@ -1,6 +1,6 @@
 import SwiftUI
 import WelcomeFeature
-import WelcomeEntities
+import CoreEntities
 import Home
 
 final class AppCoordinator: ObservableObject {
@@ -49,13 +49,13 @@ final class AppCoordinator: ObservableObject {
                 }
             )
         case .main(let user):
-//            MainCoordinatorTabView(
-//                user: user,
-//                container: container.mainDIContainer,
-//                onLogout: { [weak self] in
-//                    self?.presentWelcome()
-//                }
-//            )
+            HomeCoordinatorTabView(
+                user: user,
+                container: container.homeDIContainer,
+                onLogout: { [weak self] in
+                    self?.presentWelcome()
+                }
+            )
             EmptyView()
         }
     }

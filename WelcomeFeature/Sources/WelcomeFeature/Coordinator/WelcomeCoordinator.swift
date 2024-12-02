@@ -9,7 +9,7 @@ import SwiftUI
 import WelcomePresentation
 import WelcomeDomain
 import WelcomeData
-import WelcomeEntities
+import CoreEntities
 final class WelcomeCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     private let container: WelcomeDIContainerProtocol

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import WelcomeEntities
+import CoreEntities
 enum Feature: Identifiable, Hashable {
     case welcome
     case main(User)

@@ -6,7 +6,7 @@
 //
 
 import WelcomeRepositoryProtocol
-import WelcomeEntities
+import CoreEntities
 public protocol LogoutUserUseCaseProtocol {
     func execute(user: User) async throws
 }

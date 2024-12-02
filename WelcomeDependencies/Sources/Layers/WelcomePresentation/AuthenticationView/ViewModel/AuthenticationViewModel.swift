@@ -1,7 +1,7 @@
 // AuthenticationViewModel.swift
 import SwiftUI
 import Combine
-import WelcomeEntities
+import CoreEntities
 import WelcomeDomain
 
 final public class AuthenticationViewModel: ObservableObject {
