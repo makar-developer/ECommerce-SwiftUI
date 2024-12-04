@@ -23,10 +23,13 @@ public final class ProductDiscoverViewModel: ObservableObject {
     private var currentPage = 0
     private var isLastPage = false
     
+    let onNavigation: (Product) -> Void
+    
     public init(getHotSalesUseCase: GetHotSalesUseCaseProtocol,
-                getRecommendedForYouUseCase: GetRecommendedForYouUseCaseProtocol) {
+                getRecommendedForYouUseCase: GetRecommendedForYouUseCaseProtocol, onNavigation: @escaping (Product) -> Void) {
         self.getHotSalesUseCase = getHotSalesUseCase
         self.getRecommendedForYouUseCase = getRecommendedForYouUseCase
+        self.onNavigation = onNavigation
     }
     
     @MainActor
@@ -63,5 +66,9 @@ public final class ProductDiscoverViewModel: ObservableObject {
         currentPage = 0
         isLastPage = false
         recommendedProducts.removeAll()
+    }
+    
+    func showProductDetails(product: Product) {
+        onNavigation(product)
     }
 }

@@ -19,7 +19,7 @@ public struct HomeCoordinatorTabView: View {
 //                user: user,
 //                container: container.recommendedProductsDIContainer
 //            )
-            ProductDiscoverCoordinatorView(container: container.productDiscoverDIContainer)
+            ProductDiscoverCoordinatorView(container: container.productDiscoverDIContainer, user: user)
             .tabItem {
                 Label("Home", systemImage: "house")
             }
@@ -28,7 +28,7 @@ public struct HomeCoordinatorTabView: View {
 //                user: user,
 //                container: container.productSearchDIContainer
 //            )
-            EmptyView()
+            Text("SearchView")
             .tabItem {
                 Label("Search", systemImage: "magnifyingglass")
             }
@@ -37,7 +37,7 @@ public struct HomeCoordinatorTabView: View {
 //                user: user,
 //                container: container.productCartDIContainer
 //            )
-            EmptyView()
+            Text("CartView")
             .tabItem {
                 Label("Cart", systemImage: "cart")
             }
@@ -47,7 +47,7 @@ public struct HomeCoordinatorTabView: View {
 //                container: container.userAccountDIContainer,
 //                onLogout: onLogout
 //            )
-            EmptyView()
+            Text("AccountView")
             .tabItem {
                 Label("Account", systemImage: "person")
             }

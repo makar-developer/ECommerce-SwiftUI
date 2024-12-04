@@ -16,11 +16,12 @@ import Security
 
 public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
     
-    private let service = "com.yourapp.welcome"
-    private let account = "users"
+    private let keychainWrapper: KeychainWrapper
     private let usersFetchedKey = "hasFetchedUsersBefore"
     
-    public init() {}
+    public init() {
+        self.keychainWrapper = KeychainWrapper(service: "com.yourapp.welcome", account: "users")
+    }
     
     public func getUsers() async throws -> [User] {
         let isFirstFetch = !UserDefaults.standard.bool(forKey: usersFetchedKey)
@@ -50,7 +51,7 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
                     password: password
                 )
             }
-
+            
             try await saveUsers(defaultUsers)
             
             // Update UserDefaults to indicate that the initial fetch has occurred
@@ -59,7 +60,7 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
             return defaultUsers
         } else {
             // Subsequent fetches: retrieve users from Keychain
-            guard let data = try loadFromKeychain() else {
+            guard let data = try keychainWrapper.load() else {
                 // Handle the case where no users are found in Keychain
                 return []
             }
@@ -74,7 +75,7 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
     
     public func saveUsers(_ users: [User]) async throws {
         let data = try JSONEncoder().encode(users)
-        try saveToKeychain(data: data)
+        try keychainWrapper.save(data: data)
     }
     
     public func saveUser(_ user: User) async throws {
@@ -88,12 +89,29 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
         users.removeAll { $0.id == user.id }
         try await saveUsers(users)
     }
+}
+
+// MARK: - KeychainError
+
+import Security
+
+public enum KeychainError: Error {
+    case unhandledError(status: OSStatus)
+}
+
+public class KeychainWrapper {
     
-    // MARK: - Keychain Helpers
+    private let service: String
+    private let account: String
     
-    private func saveToKeychain(data: Data) throws {
-        // Delete existing item if it exists
-        try? deleteFromKeychain()
+    public init(service: String, account: String) {
+        self.service = service
+        self.account = account
+    }
+    
+    public func save(data: Data) throws {
+        // Delete any existing item
+        try? delete()
         
         let query: [String: Any] = [
             kSecClass as String       : kSecClassGenericPassword,
@@ -109,7 +127,7 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
         }
     }
     
-    private func loadFromKeychain() throws -> Data? {
+    public func load() throws -> Data? {
         let query: [String: Any] = [
             kSecClass as String         : kSecClassGenericPassword,
             kSecAttrService as String   : service,
@@ -132,7 +150,7 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
         return item as? Data
     }
     
-    private func deleteFromKeychain() throws {
+    public func delete() throws {
         let query: [String: Any] = [
             kSecClass as String       : kSecClassGenericPassword,
             kSecAttrService as String : service,
@@ -146,12 +164,4 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
         }
     }
 }
-
-// MARK: - KeychainError
-
-enum KeychainError: Error {
-    case unhandledError(status: OSStatus)
-}
-
-
 

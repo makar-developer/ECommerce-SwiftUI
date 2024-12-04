@@ -26,7 +26,7 @@ public final class ProductDiscoverRepositoryImpl: ProductDiscoverRepositoryProto
     }
 
     public func getRecommendedForYou(page: Int) async throws -> [Product] {
-        let limit = 5
+        let limit = 8
         let skip = (page - 1) * limit
         let urlString = "\(baseURL)?limit=\(limit)&skip=\(skip)"
         guard let url = URL(string: urlString) else {

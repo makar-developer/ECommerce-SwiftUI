@@ -8,12 +8,15 @@
 import SwiftUI
 import ProductDiscoverPresentation
 import CoreEntities
+import CoreStyleguide
 final class ProductDiscoverCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     private let container: ProductDiscoverDIContainerProtocol
-
-    init(container: ProductDiscoverDIContainerProtocol) {
+    private let user: User
+    
+    init(container: ProductDiscoverDIContainerProtocol, user: User) {
         self.container = container
+        self.user = user
     }
 
     private func push(screen: ProductDiscoverScreen) {
@@ -28,17 +31,20 @@ final class ProductDiscoverCoordinator: ObservableObject {
         }
     }
     
-    private func showProductDetails(product: Product) {
-        
+    private func showProductDetails(product: Product, user: User) {
+        self.push(screen: .productDetails(product, user))
     }
 
     @ViewBuilder
     func build(screen: ProductDiscoverScreen) -> some View {
         switch screen {
         case .productDiscover:
-            ProductDiscoverView(viewModel: ProductDiscoverViewModel(getHotSalesUseCase: container.getHotSalesUseCase, getRecommendedForYouUseCase: container.getRecommendedForYouUseCase), onNavigation: { [weak self] product in
-                print(product.title)
-            })
+            ProductDiscoverView(viewModel: ProductDiscoverViewModel(getHotSalesUseCase: container.getHotSalesUseCase, getRecommendedForYouUseCase: container.getRecommendedForYouUseCase, onNavigation: { [weak self] product in
+                guard let self else { return }
+                self.showProductDetails(product: product, user: self.user)
+            }))
+        case .productDetails(let product, let user):
+            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product))
         }
     }
 }

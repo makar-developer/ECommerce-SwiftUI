@@ -25,11 +25,9 @@ public struct ProductDiscoverView: View {
     @State private var contentHeight: CGFloat = 0.0
     @State private var scrollViewHeight: CGFloat = 0.0
     
-    let onNavigation: (Product) -> Void
     
-    public init(viewModel: ProductDiscoverViewModel, onNavigation: @escaping (Product) -> Void) {
+    public init(viewModel: ProductDiscoverViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
-        self.onNavigation = onNavigation
     }
     
     public var body: some View {
@@ -51,7 +49,7 @@ public struct ProductDiscoverView: View {
                         HStack(spacing: 16) {
                             ForEach(viewModel.hotSalesProducts) { product in
                                 ProductCardView(product: product, onNavigation: { product in
-                                    onNavigation(product)
+                                    viewModel.showProductDetails(product: product)
                                 })
                                     .frame(width: screenWidth * 0.5)
                             }
@@ -69,7 +67,7 @@ public struct ProductDiscoverView: View {
                 LazyVGrid(columns: [GridItem(), GridItem()], spacing: 16) {
                     ForEach(viewModel.recommendedProducts) { product in
                         ProductCardView(product: product, onNavigation: { product in
-                            onNavigation(product)
+                            viewModel.showProductDetails(product: product)
                         })
                     }
                     
@@ -117,7 +115,7 @@ public struct ProductDiscoverView: View {
     
     private func checkIfNeedToLoadMore() {
         // Calculate the threshold to trigger loading more content
-        let threshold: CGFloat = 100.0
+        let threshold: CGFloat = 100
         let scrollViewBottomOffset = contentHeight + scrollOffset - scrollViewHeight
         
         if scrollViewBottomOffset < threshold {

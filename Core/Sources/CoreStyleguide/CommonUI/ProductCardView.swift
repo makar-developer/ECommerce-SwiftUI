@@ -20,24 +20,24 @@ public struct ProductCardView: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .center) {
             // Image
             AsyncImage(url: URL(string: product.thumbnail)) { phase in
                 switch phase {
                 case .empty:
-                    ProgressView()
-//                        .frame(height: screenWidth * 0.25)
+                        ProgressView()
+                            .frame(height: screenWidth * 0.33)
                 case .success(let image):
                     image
                         .resizable()
                         .scaledToFill()
-//                        .frame(height: screenWidth * 0.25)
+                        .frame(height: screenWidth * 0.33)
                         .clipped()
                 case .failure:
                     Image(systemName: "photo")
                         .resizable()
                         .scaledToFit()
-//                        .frame(height: screenWidth * 0.25)
+                        .frame(height: screenWidth * 0.33)
                 @unknown default:
                     EmptyView()
                 }
@@ -48,15 +48,11 @@ public struct ProductCardView: View {
             Text(product.title)
                 .font(.headline)
                 .lineLimit(1)
-                .padding(.top, 5)
-            
             // Description
             Text(product.description)
                 .font(.subheadline)
                 .lineLimit(2)
                 .foregroundColor(.secondary)
-                .padding(.top, 1)
-            
             // Rating and Price
             HStack {
                 Label("\(product.rating, specifier: "%.1f")", systemImage: "star.fill")
@@ -67,7 +63,6 @@ public struct ProductCardView: View {
                     .font(.headline)
                     .foregroundColor(.green)
             }
-            .padding(.top, 5)
         }
         .padding()
         .background(Color(.systemBackground))
