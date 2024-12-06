@@ -8,32 +8,25 @@
 import Foundation
 import CoreEntities
 import ProductDiscoverRepositoryProtocol
+import CoreRepositories
 public final class ProductDiscoverRepositoryImpl: ProductDiscoverRepositoryProtocol {
-    private let baseURL = "https://dummyjson.com/products"
+    private let networkService: NetworkServiceProtocol
 
-    public init() {}
+    public init(networkService: NetworkServiceProtocol) {
+        self.networkService = networkService
+    }
 
     public func getHotSales() async throws -> [Product] {
-        let urlString = "\(baseURL)?limit=10"
-        guard let url = URL(string: urlString) else {
-            throw URLError(.badURL)
-        }
-
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let productResponse = try JSONDecoder().decode(ProductResponse.self, from: data)
+        let endpoint = "?limit=10"
+        let productResponse: ProductResponse = try await networkService.request(endpoint: endpoint)
         return productResponse.products
     }
 
     public func getRecommendedForYou(page: Int) async throws -> [Product] {
         let limit = 8
         let skip = (page - 1) * limit
-        let urlString = "\(baseURL)?limit=\(limit)&skip=\(skip)"
-        guard let url = URL(string: urlString) else {
-            throw URLError(.badURL)
-        }
-
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let productResponse = try JSONDecoder().decode(ProductResponse.self, from: data)
+        let endpoint = "?limit=\(limit)&skip=\(skip)"
+        let productResponse: ProductResponse = try await networkService.request(endpoint: endpoint)
         return productResponse.products
     }
 }

@@ -3,6 +3,7 @@ import SwiftUI
 import ProductDiscoverRepositoryProtocol
 import ProductDiscoverDomain
 import ProductDiscoverRepository
+import CoreRepositories
 public protocol ProductDiscoverDIContainerProtocol {
     // MARK: - Use Cases
     var getHotSalesUseCase: GetHotSalesUseCaseProtocol { get }
@@ -13,9 +14,14 @@ public protocol ProductDiscoverDIContainerProtocol {
 }
 
 public class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol {
+    //MARK: - Data Sources
+    public lazy var networkService: NetworkServiceProtocol = {
+        return NetworkService(baseURL: URL(string: "https://dummyjson.com/products")!)
+    }()
+    
     // MARK: - Repositories
     public lazy var productDiscoverRepository: ProductDiscoverRepositoryProtocol = {
-        return ProductDiscoverRepositoryImpl()
+        return ProductDiscoverRepositoryImpl(networkService: networkService)
     }()
 
     // MARK: - Use Cases
