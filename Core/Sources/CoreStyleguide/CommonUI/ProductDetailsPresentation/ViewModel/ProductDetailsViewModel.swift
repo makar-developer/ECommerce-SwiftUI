@@ -7,15 +7,29 @@
 
 import Foundation
 import CoreEntities
-
+import CoreUseCases
 public class ProductDetailsViewModel: ObservableObject {
     @Published var user: User
     @Published var product: Product
     @Published var currentImageIndex: Int = 0  // For the carousel
-
-    public init(user: User, product: Product) {
+    
+    private let addProductToCartUseCase: AddProductToCartUseCaseProtocol
+    
+    public init(user: User, product: Product, addProductToCartUseCase: AddProductToCartUseCaseProtocol) {
         self.user = user
         self.product = product
+        self.addProductToCartUseCase = addProductToCartUseCase
+    }
+    
+    public func addToCart() {
+        Task {
+            do {
+                try await addProductToCartUseCase.execute(product: product, user: user)
+                print("\(product.title) added to cart for \(user.id.description.prefix(6))")
+            } catch {
+                print("Failed to add product to cart: \(error)")
+            }
+        }
     }
 }
 	

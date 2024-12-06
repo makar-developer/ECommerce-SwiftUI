@@ -8,7 +8,6 @@
 import Foundation
 import CoreEntities
 import ProductDiscoverRepositoryProtocol
-
 public final class ProductDiscoverRepositoryImpl: ProductDiscoverRepositoryProtocol {
     private let baseURL = "https://dummyjson.com/products"
 

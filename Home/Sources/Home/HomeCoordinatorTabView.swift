@@ -2,6 +2,7 @@
 import SwiftUI
 import CoreEntities
 import ProductDiscoverFeature
+import ProductCartFeature
 public struct HomeCoordinatorTabView: View {
     let user: User
     let container: HomeDIContainerProtocol
@@ -19,7 +20,7 @@ public struct HomeCoordinatorTabView: View {
 //                user: user,
 //                container: container.recommendedProductsDIContainer
 //            )
-            ProductDiscoverCoordinatorView(container: container.productDiscoverDIContainer, user: user)
+            ProductDiscoverCoordinatorView(container: container.productDiscoverDIContainer, cartContainer: container.cartDIContainer, user: user)
             .tabItem {
                 Label("Home", systemImage: "house")
             }
@@ -33,11 +34,11 @@ public struct HomeCoordinatorTabView: View {
                 Label("Search", systemImage: "magnifyingglass")
             }
 
-//            ProductCartCoordinatorView(
-//                user: user,
-//                container: container.productCartDIContainer
-//            )
-            Text("CartView")
+            ProductCartCoordinatorView(
+                container: container.cartDIContainer,
+                user: user
+                
+            )
             .tabItem {
                 Label("Cart", systemImage: "cart")
             }

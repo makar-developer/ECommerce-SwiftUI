@@ -9,13 +9,14 @@ import Foundation
 
 public struct Cart: Identifiable, Hashable, Codable {
     
-    
+    public var userId: UUID
     public let id: UUID
     public var products: [CartItem]
 
-    public init(products: [CartItem] = []) {
-        self.id = UUID()
+    public init(products: [CartItem] = [], id: UUID = UUID(), userId: UUID) {
+        self.id = id
         self.products = products
+        self.userId = userId
     }
     
     // Equitable conformance

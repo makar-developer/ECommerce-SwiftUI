@@ -4,13 +4,10 @@
 //
 //  Created by Admin on 17/11/2024.
 //
-
 import Foundation
-
-// User.swift
 public struct User: Identifiable, Hashable, Codable {
-    public init(name: UserName, image: String, login: Login, password: Password) {
-        self.id = UUID()
+    public init(name: UserName, image: String, login: Login, password: Password, id: UUID = UUID()) {
+        self.id = id
         self.name = name
         self.image = image
         self.login = login
@@ -23,7 +20,5 @@ public struct User: Identifiable, Hashable, Codable {
     public let login: Login
     public let password: Password
 }
-
-
 
 

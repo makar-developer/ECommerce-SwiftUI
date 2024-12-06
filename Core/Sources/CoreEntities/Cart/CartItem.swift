@@ -12,8 +12,8 @@ public struct CartItem: Identifiable, Hashable, Codable {
     public let product: Product
     public var quantity: Int
     
-    public init(product: Product, quantity: Int) {
-        self.id = UUID()
+    public init(product: Product, quantity: Int, id: UUID = UUID()) {
+        self.id = id
         self.product = product
         self.quantity = quantity
     }

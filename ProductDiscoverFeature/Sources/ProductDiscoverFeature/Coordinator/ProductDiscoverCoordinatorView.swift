@@ -7,11 +7,12 @@
 
 import SwiftUI
 import CoreEntities
+import CoreUseCases
 public struct ProductDiscoverCoordinatorView: View {
     @StateObject private var coordinator: ProductDiscoverCoordinator
     
-    public init(container: ProductDiscoverDIContainerProtocol, user: User) {
-        _coordinator = StateObject(wrappedValue: ProductDiscoverCoordinator(container: container, user: user))
+    public init(container: ProductDiscoverDIContainerProtocol, cartContainer: CartDIContainerProtocol, user: User) {
+        _coordinator = StateObject(wrappedValue: ProductDiscoverCoordinator(container: container, cartContainer: cartContainer, user: user))
     }
 
     public var body: some View {

@@ -8,19 +8,19 @@ public struct ProductDetailsView: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 0) {
             // ProductSnapCarousel for product images
             ProductSnapCarousel(
                 images: viewModel.product.images,
                 currentIndex: $viewModel.currentImageIndex
             )
-            .frame(height: screenHeight * 0.175)  // Adjust the height as needed
+            .frame(height: screenHeight * 0.5)  // Adjust the height as needed
 
             // Title and brand
             Text(viewModel.product.title)
                 .font(.title)
                 .fontWeight(.bold)
-
+                .padding(.top)
             if let brand = viewModel.product.brand {
                 Text(brand)
                     .font(.subheadline)
@@ -68,7 +68,7 @@ public struct ProductDetailsView: View {
 
                 // Add to Cart button at the bottom right
                 Button(action: {
-                    print("\(viewModel.product.title) added to cart")
+                    viewModel.addToCart()
                 }) {
                     Text("Add to Cart")
                         .fontWeight(.semibold)

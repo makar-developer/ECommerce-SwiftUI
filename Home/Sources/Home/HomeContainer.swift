@@ -7,12 +7,14 @@
 
 import SwiftUI
 import ProductDiscoverFeature
+import CoreUseCases
 //import ProductSearchFeature
 //import ProductCartFeature
 //import ProfileFeature
 // MARK: - HomeDIContainerProtocol
 public protocol HomeDIContainerProtocol {
     var productDiscoverDIContainer: ProductDiscoverDIContainerProtocol { get }
+    var cartDIContainer: CartDIContainerProtocol { get }
 //    var productSearchDIContainer: ProductSearchDIContainerProtocol { get }
 //    var productCartDIContainer: ProductCartDIContainerProtocol { get }
 //    var profileDIContainer: ProfileDIContainerProtocol { get }
@@ -27,7 +29,10 @@ public class HomeDIContainerImpl: HomeDIContainerProtocol {
     public lazy var productDiscoverDIContainer: ProductDiscoverDIContainerProtocol = {
         return ProductDiscoverDIContainerImpl()
     }()
-
+    
+    public lazy var cartDIContainer: CartDIContainerProtocol = {
+        return CartDIContainerImpl()
+    }()
     // Product Search DI Container
 //    public lazy var productSearchDIContainer: ProductSearchDIContainerProtocol = {
 //        return ProductSearchDIContainerImpl()

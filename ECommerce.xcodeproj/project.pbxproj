@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		847CBA122D01362400B8553F /* ProductCartPresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 847CBA112D01362400B8553F /* ProductCartPresentation */; };
 		847D18AC2CF8984700A2018E /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18AB2CF8984700A2018E /* Home */; };
 		847D18AE2CF8984700A2018E /* ProdcutSearchDependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18AD2CF8984700A2018E /* ProdcutSearchDependencies */; };
-		847D18B02CF8984700A2018E /* ProductCartDependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18AF2CF8984700A2018E /* ProductCartDependencies */; };
 		847D18B22CF8984700A2018E /* ProductCartFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B12CF8984700A2018E /* ProductCartFeature */; };
 		847D18B62CF8984700A2018E /* ProductDiscoverFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B52CF8984700A2018E /* ProductDiscoverFeature */; };
 		847D18B82CF8984700A2018E /* ProductSearchFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B72CF8984700A2018E /* ProductSearchFeature */; };
@@ -64,8 +64,8 @@
 			files = (
 				84B916462CF3ED2900D712F6 /* WelcomeEntities in Frameworks */,
 				847EB20D2CF9E1E800213DDE /* CoreHelpers in Frameworks */,
-				847D18B02CF8984700A2018E /* ProductCartDependencies in Frameworks */,
 				848B3CAA2CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol in Frameworks */,
+				847CBA122D01362400B8553F /* ProductCartPresentation in Frameworks */,
 				847E43572CE904D5008EBF43 /* App in Frameworks */,
 				847EDFDB2CEA645F00F3FB81 /* WelcomeData in Frameworks */,
 				847EB20B2CF9E1DD00213DDE /* CoreEntities in Frameworks */,
@@ -175,7 +175,6 @@
 				84B916452CF3ED2900D712F6 /* WelcomeEntities */,
 				847D18AB2CF8984700A2018E /* Home */,
 				847D18AD2CF8984700A2018E /* ProdcutSearchDependencies */,
-				847D18AF2CF8984700A2018E /* ProductCartDependencies */,
 				847D18B12CF8984700A2018E /* ProductCartFeature */,
 				847D18B52CF8984700A2018E /* ProductDiscoverFeature */,
 				847D18B72CF8984700A2018E /* ProductSearchFeature */,
@@ -190,6 +189,7 @@
 				848B3CA52CFD0B0E00188A68 /* ProductDiscoverPresentation */,
 				848B3CA72CFD0B0E00188A68 /* ProductDiscoverRepository */,
 				848B3CA92CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol */,
+				847CBA112D01362400B8553F /* ProductCartPresentation */,
 			);
 			productName = ECommerce;
 			productReference = 847E43432CE8F718008EBF43 /* ECommerce.app */;
@@ -446,6 +446,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		847CBA112D01362400B8553F /* ProductCartPresentation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductCartPresentation;
+		};
 		847D18AB2CF8984700A2018E /* Home */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Home;
@@ -453,10 +457,6 @@
 		847D18AD2CF8984700A2018E /* ProdcutSearchDependencies */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ProdcutSearchDependencies;
-		};
-		847D18AF2CF8984700A2018E /* ProductCartDependencies */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ProductCartDependencies;
 		};
 		847D18B12CF8984700A2018E /* ProductCartFeature */ = {
 			isa = XCSwiftPackageProductDependency;

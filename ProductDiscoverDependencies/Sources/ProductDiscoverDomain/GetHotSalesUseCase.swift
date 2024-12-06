@@ -7,7 +7,6 @@
 
 import CoreEntities
 import ProductDiscoverRepositoryProtocol
-
 public protocol GetHotSalesUseCaseProtocol {
     func execute() async throws -> [Product]
 }

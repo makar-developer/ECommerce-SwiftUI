@@ -9,13 +9,16 @@ import SwiftUI
 import ProductDiscoverPresentation
 import CoreEntities
 import CoreStyleguide
+import CoreUseCases
 final class ProductDiscoverCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     private let container: ProductDiscoverDIContainerProtocol
+    private let cartContainer: CartDIContainerProtocol
     private let user: User
     
-    init(container: ProductDiscoverDIContainerProtocol, user: User) {
+    init(container: ProductDiscoverDIContainerProtocol, cartContainer: CartDIContainerProtocol, user: User) {
         self.container = container
+        self.cartContainer = cartContainer
         self.user = user
     }
 
@@ -44,7 +47,7 @@ final class ProductDiscoverCoordinator: ObservableObject {
                 self.showProductDetails(product: product, user: self.user)
             }))
         case .productDetails(let product, let user):
-            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product))
+            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase))
         }
     }
 }

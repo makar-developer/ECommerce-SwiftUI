@@ -39,6 +39,7 @@ let package = Package(
         .target(
             name: "ProductDiscoverDomain",
             dependencies: [
+                "ProductDiscoverRepositoryProtocol",
                 .product(name: "CoreEntities", package: "Core")
             ]),
         .target(
@@ -49,6 +50,7 @@ let package = Package(
         .target(
             name: "ProductDiscoverRepository",
             dependencies: [
+                "ProductDiscoverRepositoryProtocol",
                 .product(name: "CoreEntities", package: "Core")
             ]),
     ]

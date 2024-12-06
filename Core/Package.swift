@@ -48,18 +48,27 @@ let package = Package(
         ),
         .target(
             name: "CoreRepositories",
-            dependencies: []
+            dependencies: [],
+            path: "Sources/CoreRepositories",
+            resources: [
+                .process("Models/Cart.xcdatamodeld")
+            ]
         ),
         .target(
             name: "CoreStyleguide",
-            dependencies: [],
+            dependencies: [
+            "CoreUseCases"
+            ],
             resources: [
                 .process("Resources")
             ]
         ),
         .target(
             name: "CoreUseCases",
-            dependencies: []
+            dependencies: [
+            "CoreEntities",
+            "CoreRepositories"
+            ]
         )
     ]
 )
