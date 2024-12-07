@@ -50,7 +50,7 @@ public struct ProductDiscoverView: View {
                             ForEach(viewModel.hotSalesProducts) { product in
                                 ProductCardView(product: product, onNavigation: { product in
                                     viewModel.showProductDetails(product: product)
-                                })
+                                }, imageCache: viewModel.imageCache)
                                     .frame(width: screenWidth * 0.5)
                             }
                         }
@@ -68,7 +68,7 @@ public struct ProductDiscoverView: View {
                     ForEach(viewModel.recommendedProducts) { product in
                         ProductCardView(product: product, onNavigation: { product in
                             viewModel.showProductDetails(product: product)
-                        })
+                        }, imageCache: viewModel.imageCache)
                     }
                     
                     // Loading Next Page Indicator

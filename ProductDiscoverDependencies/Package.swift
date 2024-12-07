@@ -34,7 +34,8 @@ let package = Package(
             name: "ProductDiscoverPresentation",
             dependencies: [
                 .product(name: "CoreEntities", package: "Core"),
-                .product(name: "CoreStyleguide", package: "Core")
+                .product(name: "CoreStyleguide", package: "Core"),
+                .product(name: "CoreRepositories", package: "Core")
             ]),
         .target(
             name: "ProductDiscoverDomain",
@@ -51,7 +52,8 @@ let package = Package(
             name: "ProductDiscoverRepository",
             dependencies: [
                 "ProductDiscoverRepositoryProtocol",
-                .product(name: "CoreEntities", package: "Core")
+                .product(name: "CoreEntities", package: "Core"),
+                .product(name: "CoreRepositories", package: "Core")
             ]),
     ]
 )

@@ -8,7 +8,7 @@
 import CoreEntities
 import ProductDiscoverDomain
 import Foundation
-
+import CoreRepositories
 public final class ProductDiscoverViewModel: ObservableObject {
     // Published properties for the view to observe
     @Published var hotSalesProducts: [Product] = []
@@ -17,6 +17,7 @@ public final class ProductDiscoverViewModel: ObservableObject {
     @Published var isLoadingNextPage: Bool = false
     @Published var errorMessage: String?
     
+    let imageCache = DiskImageCache()
     private let getHotSalesUseCase: GetHotSalesUseCaseProtocol
     private let getRecommendedForYouUseCase: GetRecommendedForYouUseCaseProtocol
     

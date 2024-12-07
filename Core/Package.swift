@@ -51,7 +51,7 @@ let package = Package(
             dependencies: [],
             path: "Sources/CoreRepositories",
             resources: [
-                .process("Models/Cart.xcdatamodeld")
+                .process("CoreData/Models/Cart.xcdatamodeld")
             ]
         ),
         .target(
