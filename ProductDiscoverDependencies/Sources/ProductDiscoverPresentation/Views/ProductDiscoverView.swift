@@ -24,12 +24,11 @@ public struct ProductDiscoverView: View {
     @State private var scrollOffset: CGFloat = 0.0
     @State private var contentHeight: CGFloat = 0.0
     @State private var scrollViewHeight: CGFloat = 0.0
-    
-    
+
     public init(viewModel: ProductDiscoverViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     public var body: some View {
         ScrollView {
             GeometryReader { scrollViewProxy in
@@ -37,21 +36,27 @@ public struct ProductDiscoverView: View {
                     .preference(key: ScrollOffsetPreferenceKey.self, value: scrollViewProxy.frame(in: .global).minY)
             }
             .frame(height: 0)
-            
+
             VStack(alignment: .leading) {
                 // Hot Sales Carousel
                 if !viewModel.hotSalesProducts.isEmpty {
                     Text("Hot Sales")
                         .font(.title)
                         .padding(.leading)
-                    
+
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 16) {
                             ForEach(viewModel.hotSalesProducts) { product in
-                                ProductCardView(product: product, onNavigation: { product in
-                                    viewModel.showProductDetails(product: product)
-                                }, imageCache: viewModel.imageCache)
-                                    .frame(width: screenWidth * 0.5)
+                                ProductCardView(
+                                    viewModel: ProductCardViewModel(
+                                        product: product,
+                                        getImageUseCase: viewModel.getImageUseCase
+                                    ),
+                                    onNavigation: { product in
+                                        viewModel.showProductDetails(product: product)
+                                    }
+                                )
+                                .frame(width: screenWidth * 0.5)
                             }
                         }
                         .padding(.horizontal)
@@ -63,14 +68,20 @@ public struct ProductDiscoverView: View {
                     .font(.title)
                     .padding(.leading)
                     .padding(.top)
-                
+
                 LazyVGrid(columns: [GridItem(), GridItem()], spacing: 16) {
                     ForEach(viewModel.recommendedProducts) { product in
-                        ProductCardView(product: product, onNavigation: { product in
-                            viewModel.showProductDetails(product: product)
-                        }, imageCache: viewModel.imageCache)
+                        ProductCardView(
+                            viewModel: ProductCardViewModel(
+                                product: product,
+                                getImageUseCase: viewModel.getImageUseCase
+                            ),
+                            onNavigation: { product in
+                                viewModel.showProductDetails(product: product)
+                            }
+                        )
                     }
-                    
+
                     // Loading Next Page Indicator
                     if viewModel.isLoadingNextPage {
                         ProgressView()
@@ -112,12 +123,12 @@ public struct ProductDiscoverView: View {
         }
         .navigationTitle("Discover")
     }
-    
+
     private func checkIfNeedToLoadMore() {
         // Calculate the threshold to trigger loading more content
         let threshold: CGFloat = 100
         let scrollViewBottomOffset = contentHeight + scrollOffset - scrollViewHeight
-        
+
         if scrollViewBottomOffset < threshold {
             Task {
                 await viewModel.loadRecommendedProducts()

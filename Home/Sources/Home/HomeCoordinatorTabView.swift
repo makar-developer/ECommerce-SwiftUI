@@ -20,7 +20,7 @@ public struct HomeCoordinatorTabView: View {
 //                user: user,
 //                container: container.recommendedProductsDIContainer
 //            )
-            ProductDiscoverCoordinatorView(container: container.productDiscoverDIContainer, cartContainer: container.cartDIContainer, user: user)
+            ProductDiscoverCoordinatorView(container: container.productDiscoverDIContainer, cartContainer: container.cartDIContainer, imageCacheContainer: container.imageCacheContainer, user: user)
             .tabItem {
                 Label("Home", systemImage: "house")
             }

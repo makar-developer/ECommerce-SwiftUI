@@ -15,6 +15,7 @@ import CoreUseCases
 public protocol HomeDIContainerProtocol {
     var productDiscoverDIContainer: ProductDiscoverDIContainerProtocol { get }
     var cartDIContainer: CartDIContainerProtocol { get }
+    var imageCacheContainer: ImageDIContainerProtocol { get }
 //    var productSearchDIContainer: ProductSearchDIContainerProtocol { get }
 //    var productCartDIContainer: ProductCartDIContainerProtocol { get }
 //    var profileDIContainer: ProfileDIContainerProtocol { get }
@@ -32,6 +33,10 @@ public class HomeDIContainerImpl: HomeDIContainerProtocol {
     
     public lazy var cartDIContainer: CartDIContainerProtocol = {
         return CartDIContainerImpl()
+    }()
+    
+    public lazy var imageCacheContainer: ImageDIContainerProtocol = {
+       return ImageDIContainer()
     }()
     // Product Search DI Container
 //    public lazy var productSearchDIContainer: ProductSearchDIContainerProtocol = {

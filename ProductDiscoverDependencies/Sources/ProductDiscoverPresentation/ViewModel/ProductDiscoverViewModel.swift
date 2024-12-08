@@ -8,7 +8,7 @@
 import CoreEntities
 import ProductDiscoverDomain
 import Foundation
-import CoreRepositories
+import CoreUseCases
 public final class ProductDiscoverViewModel: ObservableObject {
     // Published properties for the view to observe
     @Published var hotSalesProducts: [Product] = []
@@ -16,23 +16,28 @@ public final class ProductDiscoverViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isLoadingNextPage: Bool = false
     @Published var errorMessage: String?
-    
-    let imageCache = DiskImageCache()
+
     private let getHotSalesUseCase: GetHotSalesUseCaseProtocol
     private let getRecommendedForYouUseCase: GetRecommendedForYouUseCaseProtocol
-    
+    let getImageUseCase: GetImageUseCaseProtocol  // Exposed for child ViewModels
+
     private var currentPage = 0
     private var isLastPage = false
-    
+
     let onNavigation: (Product) -> Void
-    
-    public init(getHotSalesUseCase: GetHotSalesUseCaseProtocol,
-                getRecommendedForYouUseCase: GetRecommendedForYouUseCaseProtocol, onNavigation: @escaping (Product) -> Void) {
+
+    public init(
+        getHotSalesUseCase: GetHotSalesUseCaseProtocol,
+        getRecommendedForYouUseCase: GetRecommendedForYouUseCaseProtocol,
+        getImageUseCase: GetImageUseCaseProtocol,
+        onNavigation: @escaping (Product) -> Void
+    ) {
         self.getHotSalesUseCase = getHotSalesUseCase
         self.getRecommendedForYouUseCase = getRecommendedForYouUseCase
+        self.getImageUseCase = getImageUseCase
         self.onNavigation = onNavigation
     }
-    
+
     @MainActor
     func loadHotSalesProducts() async {
         isLoading = true
@@ -44,7 +49,7 @@ public final class ProductDiscoverViewModel: ObservableObject {
             errorMessage = error.localizedDescription
         }
     }
-    
+
     @MainActor
     func loadRecommendedProducts() async {
         guard !isLastPage else { return }
@@ -62,13 +67,13 @@ public final class ProductDiscoverViewModel: ObservableObject {
             errorMessage = error.localizedDescription
         }
     }
-    
+
     func resetRecommendedProducts() {
         currentPage = 0
         isLastPage = false
         recommendedProducts.removeAll()
     }
-    
+
     func showProductDetails(product: Product) {
         onNavigation(product)
     }
