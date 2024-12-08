@@ -10,7 +10,6 @@ import CoreData
 import Foundation
 
 public protocol CoreDataWrapperProtocol {
-//    associatedtype ManagedObject: NSManagedObject
     func fetch<T: NSManagedObject>(entityName: String, predicate: NSPredicate?) async throws -> [T]
     func save<T: NSManagedObject>(_ object: T) async throws
     func update<T: NSManagedObject>(_ object: T) async throws
@@ -19,9 +18,6 @@ public protocol CoreDataWrapperProtocol {
 }
 
 public class CoreDataWrapper: CoreDataWrapperProtocol {
-//    public typealias ManagedObject = NSManagedObject
-    
-    
     private let persistentContainer: NSPersistentContainer
     
     public init(modelName: String) {

@@ -19,7 +19,6 @@
 		847E434E2CE8F71A008EBF43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847E434D2CE8F71A008EBF43 /* Preview Assets.xcassets */; };
 		847E43572CE904D5008EBF43 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 847E43562CE904D5008EBF43 /* App */; };
 		847EB20B2CF9E1DD00213DDE /* CoreEntities in Frameworks */ = {isa = PBXBuildFile; productRef = 847EB20A2CF9E1DD00213DDE /* CoreEntities */; };
-		847EB20D2CF9E1E800213DDE /* CoreHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 847EB20C2CF9E1E800213DDE /* CoreHelpers */; };
 		847EB20F2CF9E1E800213DDE /* CoreRepositories in Frameworks */ = {isa = PBXBuildFile; productRef = 847EB20E2CF9E1E800213DDE /* CoreRepositories */; };
 		847EB2112CF9E1E800213DDE /* CoreStyleguide in Frameworks */ = {isa = PBXBuildFile; productRef = 847EB2102CF9E1E800213DDE /* CoreStyleguide */; };
 		847EB2132CF9E1E800213DDE /* CoreUseCases in Frameworks */ = {isa = PBXBuildFile; productRef = 847EB2122CF9E1E800213DDE /* CoreUseCases */; };
@@ -63,7 +62,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				84B916462CF3ED2900D712F6 /* WelcomeEntities in Frameworks */,
-				847EB20D2CF9E1E800213DDE /* CoreHelpers in Frameworks */,
 				848B3CAA2CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol in Frameworks */,
 				847CBA122D01362400B8553F /* ProductCartPresentation in Frameworks */,
 				847E43572CE904D5008EBF43 /* App in Frameworks */,
@@ -180,7 +178,6 @@
 				847D18B72CF8984700A2018E /* ProductSearchFeature */,
 				847D18B92CF8986900A2018E /* ProfileDependencies */,
 				847EB20A2CF9E1DD00213DDE /* CoreEntities */,
-				847EB20C2CF9E1E800213DDE /* CoreHelpers */,
 				847EB20E2CF9E1E800213DDE /* CoreRepositories */,
 				847EB2102CF9E1E800213DDE /* CoreStyleguide */,
 				847EB2122CF9E1E800213DDE /* CoreUseCases */,
@@ -481,10 +478,6 @@
 		847EB20A2CF9E1DD00213DDE /* CoreEntities */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CoreEntities;
-		};
-		847EB20C2CF9E1E800213DDE /* CoreHelpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CoreHelpers;
 		};
 		847EB20E2CF9E1E800213DDE /* CoreRepositories */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -15,9 +15,6 @@ let package = Package(
             name: "CoreEntities",
             targets: ["CoreEntities"]),
         .library(
-            name: "CoreHelpers",
-            targets: ["CoreHelpers"]),
-        .library(
             name: "CoreRepositories",
             targets: ["CoreRepositories"]),
         .library(
@@ -26,7 +23,13 @@ let package = Package(
         .library(
             name: "CoreUseCases",
             targets: ["CoreUseCases"]),
-   
+        .library(
+            name: "CoreDataSources",
+            targets: ["CoreDataSources"]),
+        .library(
+            name: "CoreDependencies",
+            targets: ["CoreDependencies"])
+        
     ],
     dependencies: [
     ],
@@ -43,16 +46,8 @@ let package = Package(
             dependencies: []
         ),
         .target(
-            name: "CoreHelpers",
-            dependencies: []
-        ),
-        .target(
             name: "CoreRepositories",
-            dependencies: [],
-            path: "Sources/CoreRepositories",
-            resources: [
-                .process("CoreData/Models/Cart.xcdatamodeld")
-            ]
+            dependencies: []
         ),
         .target(
             name: "CoreStyleguide",
@@ -68,6 +63,26 @@ let package = Package(
             dependencies: [
             "CoreEntities",
             "CoreRepositories"
+            ]
+        ),
+        .target(
+            name: "CoreDependencies",
+            dependencies: [
+            "CoreEntities",
+            "CoreRepositories",
+            "CoreUseCases",
+            "CoreDataSources"
+            ]
+        ),
+        .target(
+            name: "CoreDataSources",
+            dependencies: [
+            "CoreEntities"
+            ],
+            path: "Sources/CoreDataSources",
+
+            resources: [
+                .process("CoreData/Models/Cart.xcdatamodeld")
             ]
         )
     ]
