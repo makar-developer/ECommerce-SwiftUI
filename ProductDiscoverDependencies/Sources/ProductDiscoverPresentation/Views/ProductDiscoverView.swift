@@ -47,15 +47,10 @@ public struct ProductDiscoverView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 16) {
                             ForEach(viewModel.hotSalesProducts) { product in
-                                ProductCardView(
-                                    viewModel: ProductCardViewModel(
-                                        product: product,
-                                        getImageUseCase: viewModel.getImageUseCase
-                                    ),
-                                    onNavigation: { product in
-                                        viewModel.showProductDetails(product: product)
-                                    }
-                                )
+                                ProductCardView(product: product, onNavigation: { product in
+                                    viewModel.showProductDetails(product: product)
+                                }, getImageUseCase: viewModel.getImageUseCase)
+                                
                                 .frame(width: screenWidth * 0.5)
                             }
                         }
@@ -71,15 +66,9 @@ public struct ProductDiscoverView: View {
 
                 LazyVGrid(columns: [GridItem(), GridItem()], spacing: 16) {
                     ForEach(viewModel.recommendedProducts) { product in
-                        ProductCardView(
-                            viewModel: ProductCardViewModel(
-                                product: product,
-                                getImageUseCase: viewModel.getImageUseCase
-                            ),
-                            onNavigation: { product in
-                                viewModel.showProductDetails(product: product)
-                            }
-                        )
+                        ProductCardView(product: product, onNavigation: { product in
+                            viewModel.showProductDetails(product: product)
+                        }, getImageUseCase: viewModel.getImageUseCase)
                     }
 
                     // Loading Next Page Indicator
