@@ -6,7 +6,8 @@
 //
 
 import CoreRepositories
-
+import CoreDataSources
+import CoreUseCases
 public protocol CartDIContainerProtocol {
     // MARK: - Use Cases
     var addProductToCartUseCase: AddProductToCartUseCaseProtocol { get }

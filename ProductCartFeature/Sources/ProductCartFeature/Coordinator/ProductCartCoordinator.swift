@@ -17,7 +17,7 @@ import Foundation
 import SwiftUI
 import ProductCartPresentation
 import CoreEntities
-import CoreUseCases
+import CoreDependencies
 final class ProductCartCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     private let container: CartDIContainerProtocol

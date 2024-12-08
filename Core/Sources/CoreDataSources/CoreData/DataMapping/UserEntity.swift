@@ -9,7 +9,7 @@ import CoreEntities
 import CoreData
 // MARK: - UserEntity Extension
 
-extension UserEntity {
+public extension UserEntity {
     func toUser() -> User? {
         guard let id = self.id,
               let nameString = self.name,
@@ -48,7 +48,7 @@ extension UserEntity {
 
 // MARK: - User Extension
 
-extension User {
+public extension User {
     func toUserEntity(context: NSManagedObjectContext) -> UserEntity {
         let userEntity = UserEntity(context: context)
         userEntity.populate(from: self)

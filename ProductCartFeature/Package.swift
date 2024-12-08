@@ -16,7 +16,8 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(path: "../ProductCartDependencies")
+        .package(path: "../ProductCartDependencies"),
+        .package(path: "../Core")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -25,41 +26,10 @@ let package = Package(
             name: "ProductCartFeature",
             dependencies: [
                 .product(name: "ProductCartPresentation", package: "ProductCartDependencies"),
+                .product(name: "CoreDependencies", package: "Core")
             ]),
         .testTarget(
             name: "ProductCartFeatureTests",
             dependencies: ["ProductCartFeature"]),
     ]
 )
-
-//let package = Package(
-//    name: "ProductDiscoverFeature",
-//    defaultLocalization: "en",
-//    platforms: [.iOS(.v16)],
-//    products: [
-//        // Products define the executables and libraries a package produces, and make them visible to other packages.
-//        .library(
-//            name: "ProductDiscoverFeature",
-//            targets: ["ProductDiscoverFeature"]),
-//    ],
-//    dependencies: [
-//        // Dependencies declare other packages that this package depends on.
-//        // .package(url: /* package url */, from: "1.0.0"),
-//        .package(path: "../ProductDiscoverDependencies")
-//    ],
-//    targets: [
-//        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-//        // Targets can depend on other targets in this package, and on products in packages this package depends on.
-//        .target(
-//            name: "ProductDiscoverFeature",
-//            dependencies: [
-//                .product(name: "ProductDiscoverPresentation", package: "ProductDiscoverDependencies"),
-//                .product(name: "ProductDiscoverDomain", package: "ProductDiscoverDependencies"),
-//                .product(name: "ProductDiscoverRepositoryProtocol", package: "ProductDiscoverDependencies"),
-//                .product(name: "ProductDiscoverRepository", package: "ProductDiscoverDependencies")
-//            ]),
-//        .testTarget(
-//            name: "ProductDiscoverFeatureTests",
-//            dependencies: ["ProductDiscoverFeature"]),
-//    ]
-//)

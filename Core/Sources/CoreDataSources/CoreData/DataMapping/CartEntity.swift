@@ -9,7 +9,7 @@ import Foundation
 import CoreEntities
 // MARK: - CartEntity Extension
 
-extension CartEntity {
+public extension CartEntity {
     func toCart() -> Cart {
         let products = (self.products?.allObjects as? [CartItemEntity])?.compactMap { $0.toCartItem() } ?? []
 

@@ -16,7 +16,8 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(path: "../ProductDiscoverDependencies")
+        .package(path: "../ProductDiscoverDependencies"),
+        .package(path: "../Core")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -27,7 +28,8 @@ let package = Package(
                 .product(name: "ProductDiscoverPresentation", package: "ProductDiscoverDependencies"),
                 .product(name: "ProductDiscoverDomain", package: "ProductDiscoverDependencies"),
                 .product(name: "ProductDiscoverRepositoryProtocol", package: "ProductDiscoverDependencies"),
-                .product(name: "ProductDiscoverRepository", package: "ProductDiscoverDependencies")
+                .product(name: "ProductDiscoverRepository", package: "ProductDiscoverDependencies"),
+                .product(name: "CoreDependencies", package: "Core")
             ]),
         .testTarget(
             name: "ProductDiscoverFeatureTests",

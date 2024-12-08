@@ -33,7 +33,6 @@
 		848B3CA62CFD0B0E00188A68 /* ProductDiscoverPresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 848B3CA52CFD0B0E00188A68 /* ProductDiscoverPresentation */; };
 		848B3CA82CFD0B0E00188A68 /* ProductDiscoverRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 848B3CA72CFD0B0E00188A68 /* ProductDiscoverRepository */; };
 		848B3CAA2CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 848B3CA92CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol */; };
-		84B916462CF3ED2900D712F6 /* WelcomeEntities in Frameworks */ = {isa = PBXBuildFile; productRef = 84B916452CF3ED2900D712F6 /* WelcomeEntities */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,7 +60,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84B916462CF3ED2900D712F6 /* WelcomeEntities in Frameworks */,
 				848B3CAA2CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol in Frameworks */,
 				847CBA122D01362400B8553F /* ProductCartPresentation in Frameworks */,
 				847E43572CE904D5008EBF43 /* App in Frameworks */,
@@ -170,7 +168,6 @@
 				847EDFDC2CEA646400F3FB81 /* WelcomeDomain */,
 				847EDFDE2CEA646400F3FB81 /* WelcomePresentation */,
 				847EDFE02CEA646400F3FB81 /* WelcomeRepositoryProtocol */,
-				84B916452CF3ED2900D712F6 /* WelcomeEntities */,
 				847D18AB2CF8984700A2018E /* Home */,
 				847D18AD2CF8984700A2018E /* ProdcutSearchDependencies */,
 				847D18B12CF8984700A2018E /* ProductCartFeature */,
@@ -534,10 +531,6 @@
 		848B3CA92CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ProductDiscoverRepositoryProtocol;
-		};
-		84B916452CF3ED2900D712F6 /* WelcomeEntities */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = WelcomeEntities;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

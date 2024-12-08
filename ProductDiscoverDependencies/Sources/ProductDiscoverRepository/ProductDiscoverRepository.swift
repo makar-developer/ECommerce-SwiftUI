@@ -8,11 +8,11 @@
 import Foundation
 import CoreEntities
 import ProductDiscoverRepositoryProtocol
-import CoreRepositories
+import CoreDataSources
 public final class ProductDiscoverRepositoryImpl: ProductDiscoverRepositoryProtocol {
-    private let networkService: NetworkServiceProtocol
+    private let networkService: NetworkServiceWrapperProtocol
 
-    public init(networkService: NetworkServiceProtocol) {
+    public init(networkService: NetworkServiceWrapperProtocol) {
         self.networkService = networkService
     }
 

@@ -30,6 +30,7 @@ let package = Package(
             name: "Home",
             dependencies: [
                 .product(name: "CoreEntities", package: "Core"),
+                .product(name: "CoreDependencies", package: "Core"),
                 "ProductDiscoverFeature",
                 "ProductSearchFeature",
                 "ProductCartFeature",

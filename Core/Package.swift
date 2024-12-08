@@ -47,7 +47,10 @@ let package = Package(
         ),
         .target(
             name: "CoreRepositories",
-            dependencies: []
+            dependencies: [
+            "CoreEntities",
+            "CoreDataSources"
+            ]
         ),
         .target(
             name: "CoreStyleguide",

@@ -7,7 +7,7 @@
 
 import CoreEntities
 import Foundation
-extension CartItemEntity {
+public extension CartItemEntity {
     func toCartItem() -> CartItem? {
         guard let productEntity = self.product else { return nil }
         guard let product = productEntity.toProduct() else { return nil }

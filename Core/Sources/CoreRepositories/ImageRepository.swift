@@ -6,17 +6,17 @@
 //
 
 import UIKit
-
+import CoreDataSources
 public protocol ImageRepositoryProtocol {
     func getImage(url: URL) async throws -> UIImage
 }
 
 public final class ImageRepository: ImageRepositoryProtocol {
-    private let cache: DiskImageCacheProtocol
+    private let cache: DiskImageCacheWrapperProtocol
     private let session: URLSession
     private let maxRetries = 3
 
-    public init(cache: DiskImageCacheProtocol, session: URLSession = .shared) {
+    public init(cache: DiskImageCacheWrapperProtocol, session: URLSession = .shared) {
         self.cache = cache
         self.session = session
     }

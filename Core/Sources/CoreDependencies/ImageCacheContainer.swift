@@ -6,7 +6,8 @@
 //
 
 import CoreRepositories
-
+import CoreDataSources
+import CoreUseCases
 public protocol ImageDIContainerProtocol {
     // MARK: - Use Cases
     var getImageUseCase: GetImageUseCaseProtocol { get }
@@ -15,7 +16,7 @@ public protocol ImageDIContainerProtocol {
     var imageRepository: ImageRepositoryProtocol { get }
     
     // MARK: - Cache
-    var diskImageCache: DiskImageCacheProtocol { get }
+    var diskImageCache: DiskImageCacheWrapperProtocol { get }
 }
 
 public final class ImageDIContainer: ImageDIContainerProtocol {
@@ -23,8 +24,8 @@ public final class ImageDIContainer: ImageDIContainerProtocol {
     public init() {}
     
     // MARK: - Cache
-    public lazy var diskImageCache: DiskImageCacheProtocol = {
-        return DiskImageCache()
+    public lazy var diskImageCache: DiskImageCacheWrapperProtocol = {
+        return DiskImageCacheWrapperImpl()
     }()
     
     // MARK: - Repositories

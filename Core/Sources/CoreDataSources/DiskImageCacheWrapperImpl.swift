@@ -6,12 +6,12 @@
 //
 
 import UIKit
-public protocol DiskImageCacheProtocol {
+public protocol DiskImageCacheWrapperProtocol {
     func image(for url: URL) -> UIImage?
     func save(_ image: UIImage, for url: URL)
 }
 
-public class DiskImageCache: DiskImageCacheProtocol {
+public class DiskImageCacheWrapperImpl: DiskImageCacheWrapperProtocol {
     private let cacheDirectory: URL
 
     public init() {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 import CoreEntities
-import CoreUseCases
+import CoreDependencies
 public struct ProductDiscoverCoordinatorView: View {
     @StateObject private var coordinator: ProductDiscoverCoordinator
     

@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ProductDiscoverFeature
-import CoreUseCases
+import CoreDependencies
 //import ProductSearchFeature
 //import ProductCartFeature
 //import ProfileFeature

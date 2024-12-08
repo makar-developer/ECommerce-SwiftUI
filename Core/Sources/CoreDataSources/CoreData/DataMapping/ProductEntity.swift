@@ -7,7 +7,7 @@
 
 import CoreEntities
 
-extension ProductEntity {
+public extension ProductEntity {
     func toProduct() -> Product? {
         guard let title = self.title,
               let description = self.productDescription,

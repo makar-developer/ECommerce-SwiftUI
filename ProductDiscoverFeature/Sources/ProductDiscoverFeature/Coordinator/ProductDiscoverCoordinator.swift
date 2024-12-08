@@ -9,8 +9,7 @@ import SwiftUI
 import ProductDiscoverPresentation
 import CoreEntities
 import CoreStyleguide
-import CoreUseCases
-import CoreRepositories
+import CoreDependencies
 final class ProductDiscoverCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     private let container: ProductDiscoverDIContainerProtocol

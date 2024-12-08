@@ -9,7 +9,7 @@ import Foundation
 
 import SwiftUI
 import CoreEntities
-import CoreUseCases
+import CoreDependencies
 public struct ProductCartCoordinatorView: View {
     @StateObject private var coordinator: ProductCartCoordinator
     

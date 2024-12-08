@@ -8,11 +8,11 @@
 
 import Foundation
 
-public protocol NetworkServiceProtocol {
+public protocol NetworkServiceWrapperProtocol {
     func request<T: Decodable>(endpoint: String) async throws -> T
 }
 
-public final class NetworkService: NetworkServiceProtocol {
+public final class NetworkServiceWrapperImpl: NetworkServiceWrapperProtocol {
     private let baseURL: URL
     private let urlSession: URLSession
 

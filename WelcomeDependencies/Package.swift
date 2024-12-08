@@ -12,9 +12,6 @@ let package = Package(
             name: "WelcomePresentation",
             targets: ["WelcomePresentation"]),
         .library(
-            name: "WelcomeEntities",
-            targets: ["WelcomeEntities"]),
-        .library(
             name: "WelcomeDomain",
             targets: ["WelcomeDomain"]),
         .library(
@@ -28,7 +25,6 @@ let package = Package(
         .package(path: "../Core")
     ],
     targets: [
-        // Presentation Layer
         .target(
             name: "WelcomePresentation",
             dependencies: [
@@ -38,44 +34,30 @@ let package = Package(
             ],
             path: "Sources/Layers/WelcomePresentation"
         ),
-        // Entities Layer
-        .target(
-            name: "WelcomeEntities",
-            dependencies: [
-
-            ],
-            path: "Sources/Layers/WelcomeEntities"
-        ),
-        // Domain Layer
         .target(
             name: "WelcomeDomain",
             dependencies: [
                 "WelcomeRepositoryProtocol",
-                "WelcomeEntities",
                 .product(name: "Core", package: "Core"),
                 .product(name: "CoreEntities", package: "Core")
             ],
             path: "Sources/Layers/WelcomeDomain"
         ),
-        
-        // Repository Protocol Layer
         .target(
             name: "WelcomeRepositoryProtocol",
             dependencies: [
-                "WelcomeEntities",
                 .product(name: "Core", package: "Core"),
                 .product(name: "CoreEntities", package: "Core")
             ],
             path: "Sources/Layers/WelcomeRepositoryProtocol"
         ),
-        // Data Layer
         .target(
             name: "WelcomeData",
             dependencies: [
                 "WelcomeRepositoryProtocol",
-                "WelcomeEntities",
                 .product(name: "Core", package: "Core"),
-                .product(name: "CoreEntities", package: "Core")
+                .product(name: "CoreEntities", package: "Core"),
+                .product(name: "CoreDataSources", package: "Core")
             ],
             path: "Sources/Layers/WelcomeData"
         )
