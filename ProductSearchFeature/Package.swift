@@ -16,7 +16,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(path: "../ProductSearchDependencies"),
+//        .package(path: "../ProductSearchDependencies"),
         .package(path: "../Core")
     ],
     targets: [
@@ -25,12 +25,12 @@ let package = Package(
         .target(
             name: "ProductSearchFeature",
             dependencies: [
-                .product(name: "ProductSearchPresentation", package: "ProductSearchDependencies"),
-                .product(name: "ProductSearchDomain", package: "ProductSearchDependencies"),
-                .product(name: "ProductSearchEntities", package: "ProductSearchDependencies"),
-                .product(name: "ProductSearchRepositoryProtocol", package: "ProductSearchDependencies"),
-                .product(name: "ProductSearchRepository", package: "ProductSearchDependencies"),
-                .product(name: "CoreDependencies", package: "Core")
+//                .product(name: "ProductSearchPresentation", package: "ProductSearchDependencies"),
+//                .product(name: "ProductSearchDomain", package: "ProductSearchDependencies"),
+//                .product(name: "ProductSearchEntities", package: "ProductSearchDependencies"),
+//                .product(name: "ProductSearchRepositoryProtocol", package: "ProductSearchDependencies"),
+//                .product(name: "ProductSearchRepository", package: "ProductSearchDependencies"),
+//                .product(name: "CoreDependencies", package: "Core")
             ]),
         .testTarget(
             name: "ProductSearchFeatureTests",

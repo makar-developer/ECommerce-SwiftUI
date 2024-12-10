@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		847CBA122D01362400B8553F /* ProductCartPresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 847CBA112D01362400B8553F /* ProductCartPresentation */; };
 		847D18AC2CF8984700A2018E /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18AB2CF8984700A2018E /* Home */; };
-		847D18AE2CF8984700A2018E /* ProdcutSearchDependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18AD2CF8984700A2018E /* ProdcutSearchDependencies */; };
 		847D18B22CF8984700A2018E /* ProductCartFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B12CF8984700A2018E /* ProductCartFeature */; };
 		847D18B62CF8984700A2018E /* ProductDiscoverFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B52CF8984700A2018E /* ProductDiscoverFeature */; };
 		847D18B82CF8984700A2018E /* ProductSearchFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B72CF8984700A2018E /* ProductSearchFeature */; };
@@ -40,7 +39,6 @@
 		847D18A32CF895F300A2018E /* ProductDiscoverFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductDiscoverFeature; sourceTree = "<group>"; };
 		847D18A42CF895F900A2018E /* ProductDiscoverDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductDiscoverDependencies; sourceTree = "<group>"; };
 		847D18A52CF8960000A2018E /* ProductSearchFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductSearchFeature; sourceTree = "<group>"; };
-		847D18A62CF8960300A2018E /* ProdcutSearchDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProdcutSearchDependencies; sourceTree = "<group>"; };
 		847D18A72CF8960A00A2018E /* ProductCartFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductCartFeature; sourceTree = "<group>"; };
 		847D18A82CF8960D00A2018E /* ProductCartDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductCartDependencies; sourceTree = "<group>"; };
 		847D18AA2CF8962900A2018E /* ProfileDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProfileDependencies; sourceTree = "<group>"; };
@@ -71,7 +69,6 @@
 				847D18B82CF8984700A2018E /* ProductSearchFeature in Frameworks */,
 				847EB2132CF9E1E800213DDE /* CoreUseCases in Frameworks */,
 				847EB2192CFA371B00213DDE /* ProfileFeature in Frameworks */,
-				847D18AE2CF8984700A2018E /* ProdcutSearchDependencies in Frameworks */,
 				847EDFDF2CEA646400F3FB81 /* WelcomePresentation in Frameworks */,
 				848B3CA82CFD0B0E00188A68 /* ProductDiscoverRepository in Frameworks */,
 				847EDFDD2CEA646400F3FB81 /* WelcomeDomain in Frameworks */,
@@ -96,7 +93,6 @@
 				847D18AA2CF8962900A2018E /* ProfileDependencies */,
 				847D18A82CF8960D00A2018E /* ProductCartDependencies */,
 				847D18A72CF8960A00A2018E /* ProductCartFeature */,
-				847D18A62CF8960300A2018E /* ProdcutSearchDependencies */,
 				847D18A52CF8960000A2018E /* ProductSearchFeature */,
 				847D18A42CF895F900A2018E /* ProductDiscoverDependencies */,
 				847D18A32CF895F300A2018E /* ProductDiscoverFeature */,
@@ -169,7 +165,6 @@
 				847EDFDE2CEA646400F3FB81 /* WelcomePresentation */,
 				847EDFE02CEA646400F3FB81 /* WelcomeRepositoryProtocol */,
 				847D18AB2CF8984700A2018E /* Home */,
-				847D18AD2CF8984700A2018E /* ProdcutSearchDependencies */,
 				847D18B12CF8984700A2018E /* ProductCartFeature */,
 				847D18B52CF8984700A2018E /* ProductDiscoverFeature */,
 				847D18B72CF8984700A2018E /* ProductSearchFeature */,
@@ -447,10 +442,6 @@
 		847D18AB2CF8984700A2018E /* Home */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Home;
-		};
-		847D18AD2CF8984700A2018E /* ProdcutSearchDependencies */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ProdcutSearchDependencies;
 		};
 		847D18B12CF8984700A2018E /* ProductCartFeature */ = {
 			isa = XCSwiftPackageProductDependency;
