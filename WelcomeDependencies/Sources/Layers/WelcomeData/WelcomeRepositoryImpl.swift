@@ -20,7 +20,7 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
     private let usersFetchedKey = "hasFetchedUsersBefore"
     
     public init() {
-        self.keychainWrapper = KeychainWrapper(service: "com.yourapp.welcome", account: "users")
+        self.keychainWrapper = KeychainWrapperImpl(service: "com.yourapp.welcome", account: "users")
     }
     
     public func getUsers() async throws -> [User] {

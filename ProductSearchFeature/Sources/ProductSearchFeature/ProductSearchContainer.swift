@@ -1,6 +1,98 @@
-public struct ProductSearchFeature {
-    public private(set) var text = "Hello, World!"
 
-    public init() {
-    }
+import CoreUseCases
+import CoreRepositories
+import CoreDataSources
+import ProductSearchDomain
+import ProductSearchRepositoryProtocol
+import ProductSearchRepository
+import Foundation
+// MARK: - DI Container Protocol
+
+public protocol ProductSearchDIContainerProtocol {
+    // MARK: - Use Cases
+    var searchProductsByKeywordUseCase: SearchProductsByKeywordUseCaseProtocol { get }
+    var saveSearchQueryToRecentsUseCase: SaveSearchQueryToRecentsUseCaseProtocol { get }
+    var removeSearchQueryUseCase: RemoveSearchQueryUseCaseProtocol { get }
+    var removeAllSearchQueriesUseCase: RemoveAllSearchQueriesUseCaseProtocol { get }
+    var getCategoryThumbnailUseCase: GetCategoryThumbnailUseCaseProtocol { get }
+    var getAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUseCaseProtocol { get }
+    var getAllExistingCategoriesUseCase: GetAllExistingCategoriesUseCaseProtocol { get }
+    
+    // MARK: - Repositories
+    var productSearchRepository: ProductSearchRepositoryProtocol { get }
+    var recentSearchesRepository: RecentSearchesRepositoryProtocol { get }
+    
+    // MARK: - Utilities
+    var networkService: NetworkServiceWrapperProtocol { get }
+    var userDefaultsWrapper: UserDefaultsWrapperProtocol { get }
+}
+
+// MARK: - DI Container Implementation
+
+public class ProductSearchDIContainerImpl: ProductSearchDIContainerProtocol {
+    // MARK: - Utilities
+    
+    /// Network Service for API calls
+    public lazy var networkService: NetworkServiceWrapperProtocol = {
+        return NetworkServiceWrapperImpl(baseURL: URL(string: "https://dummyjson.com")!)
+    }()
+
+    /// UserDefaults Wrapper for storing recent search queries
+    public lazy var userDefaultsWrapper: UserDefaultsWrapperProtocol = {
+        return UserDefaultsWrapper()
+    }()
+    
+    // MARK: - Repositories
+    
+    /// Repository handling product and category-related data operations
+    public lazy var productSearchRepository: ProductSearchRepositoryProtocol = {
+        return ProductSearchRepository(networkService: networkService)
+    }()
+    
+    /// Repository handling recent search queries
+    public lazy var recentSearchesRepository: RecentSearchesRepositoryProtocol = {
+        return RecentSearchesRepository(userDefaultsWrapper: userDefaultsWrapper)
+    }()
+
+    
+    // MARK: - Use Cases
+    
+    /// Use case to search products by keyword
+    public lazy var searchProductsByKeywordUseCase: SearchProductsByKeywordUseCaseProtocol = {
+        return SearchProductsByKeywordUseCase(repository: productSearchRepository)
+    }()
+    
+    /// Use case to save a search query to recent searches
+    public lazy var saveSearchQueryToRecentsUseCase: SaveSearchQueryToRecentsUseCaseProtocol = {
+        return SaveSearchQueryToRecentsUseCase(repository: recentSearchesRepository)
+    }()
+    
+    /// Use case to remove a specific search query from recent searches
+    public lazy var removeSearchQueryUseCase: RemoveSearchQueryUseCaseProtocol = {
+        return RemoveSearchQueryUseCase(repository: recentSearchesRepository)
+    }()
+    
+    /// Use case to remove all search queries from recent searches
+    public lazy var removeAllSearchQueriesUseCase: RemoveAllSearchQueriesUseCaseProtocol = {
+        return RemoveAllSearchQueriesUseCase(repository: recentSearchesRepository)
+    }()
+    
+    /// Use case to get category thumbnail by slug
+    public lazy var getCategoryThumbnailUseCase: GetCategoryThumbnailUseCaseProtocol = {
+        return GetCategoryThumbnailUseCase(repository: productSearchRepository)
+    }()
+    
+    /// Use case to retrieve all recent search queries
+    public lazy var getAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUseCaseProtocol = {
+        return GetAllRecentSearchQueriesUseCase(repository: recentSearchesRepository)
+    }()
+    
+    /// Use case to retrieve all existing categories
+    public lazy var getAllExistingCategoriesUseCase: GetAllExistingCategoriesUseCaseProtocol = {
+        return GetAllExistingCategoriesUseCase(repository: productSearchRepository)
+    }()
+    
+    // MARK: - Initialization
+    
+    public init() {}
 }

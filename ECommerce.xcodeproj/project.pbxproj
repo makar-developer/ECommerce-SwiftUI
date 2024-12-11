@@ -51,6 +51,7 @@
 		847EB2172CFA36FF00213DDE /* ProfileFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProfileFeature; sourceTree = "<group>"; };
 		847EDFD22CEA32D900F3FB81 /* WelcomeFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WelcomeFeature; sourceTree = "<group>"; };
 		847EDFD32CEA32DF00F3FB81 /* WelcomeDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WelcomeDependencies; sourceTree = "<group>"; };
+		8494DA3E2D0905980063E569 /* ProductSearchDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductSearchDependencies; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +94,7 @@
 				847D18AA2CF8962900A2018E /* ProfileDependencies */,
 				847D18A82CF8960D00A2018E /* ProductCartDependencies */,
 				847D18A72CF8960A00A2018E /* ProductCartFeature */,
+				8494DA3E2D0905980063E569 /* ProductSearchDependencies */,
 				847D18A52CF8960000A2018E /* ProductSearchFeature */,
 				847D18A42CF895F900A2018E /* ProductDiscoverDependencies */,
 				847D18A32CF895F300A2018E /* ProductDiscoverFeature */,

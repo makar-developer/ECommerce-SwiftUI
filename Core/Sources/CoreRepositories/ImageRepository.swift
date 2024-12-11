@@ -11,7 +11,7 @@ public protocol ImageRepositoryProtocol {
     func getImage(url: URL) async throws -> UIImage
 }
 
-public final class ImageRepository: ImageRepositoryProtocol {
+public class ImageRepository: ImageRepositoryProtocol {
     private let cache: DiskImageCacheWrapperProtocol
     private let session: URLSession
     private let maxRetries = 3

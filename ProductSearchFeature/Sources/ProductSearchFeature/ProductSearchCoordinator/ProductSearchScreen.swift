@@ -6,3 +6,22 @@
 //
 
 import Foundation
+import CoreEntities
+import ProductSearchEntities
+
+
+enum ProductSearchScreen: Identifiable, Hashable {
+    case productSearch
+    case categoryDetails(CategoryResponse, User)
+    case productDetails(Product, User)
+    var id: String {
+        switch self {
+        case .productSearch:
+            return "productSearch"
+        case .categoryDetails(let category, let _):
+            return category.id.description
+        case .productDetails(let product, let _):
+            return product.id.description
+        }
+    }
+}

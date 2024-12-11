@@ -3,6 +3,7 @@ import SwiftUI
 import CoreEntities
 import ProductDiscoverFeature
 import ProductCartFeature
+import ProductSearchFeature
 public struct HomeCoordinatorTabView: View {
     let user: User
     let container: HomeDIContainerProtocol
@@ -25,11 +26,7 @@ public struct HomeCoordinatorTabView: View {
                 Label("Home", systemImage: "house")
             }
 
-//            ProductSearchCoordinatorView(
-//                user: user,
-//                container: container.productSearchDIContainer
-//            )
-            Text("SearchView")
+            ProductSearchCoordinatorView(container: container.productSearchDIContainer, cartContainer: container.cartDIContainer, imageCacheContainer: container.imageCacheContainer, user: user)
             .tabItem {
                 Label("Search", systemImage: "magnifyingglass")
             }

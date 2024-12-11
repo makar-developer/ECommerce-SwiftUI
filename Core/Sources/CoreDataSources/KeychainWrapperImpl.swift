@@ -28,7 +28,7 @@ public protocol KeychainWrapperProtocol {
     func delete() throws
 }
 
-public class KeychainWrapper: KeychainWrapperProtocol {
+public class KeychainWrapperImpl: KeychainWrapperProtocol {
     
     private let service: String
     private let account: String

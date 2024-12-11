@@ -8,31 +8,31 @@
 import SwiftUI
 import CoreUseCases
 
-struct CustomAsyncImage<Placeholder: View>: View {
-    @StateObject private var loader: CustomAsyncImageViewModel
+public struct CustomAsyncImage<Placeholder: View>: View {
+    @StateObject private var viewModel: CustomAsyncImageViewModel
     private let placeholder: Placeholder
     private let image: (Image) -> Image
 
-    init(
+    public init(
         url: URL,
         getImageUseCase: GetImageUseCaseProtocol,
         @ViewBuilder placeholder: () -> Placeholder,
         @ViewBuilder image: @escaping (Image) -> Image = { $0 }
     ) {
-        _loader = StateObject(wrappedValue: CustomAsyncImageViewModel(url: url, getImageUseCase: getImageUseCase))
+        _viewModel = StateObject(wrappedValue: CustomAsyncImageViewModel(url: url, getImageUseCase: getImageUseCase))
         self.placeholder = placeholder()
         self.image = image
     }
 
-    var body: some View {
-        content.onAppear(perform: loader.load)
+    public var body: some View {
+        content.onAppear(perform: viewModel.load)
     }
 
     @ViewBuilder
     private var content: some View {
-        if let uiImage = loader.uiImage {
+        if let uiImage = viewModel.uiImage {
             image(Image(uiImage: uiImage).resizable())
-        } else if loader.isLoading {
+        } else if viewModel.isLoading {
             placeholder
         } else {
             Image(systemName: "photo")
