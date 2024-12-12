@@ -14,6 +14,7 @@ public final class ProductSearchViewModel: ObservableObject {
     @Published var isSearchFocused: Bool = false
     
     @Published var categories: [CategoryResponse] = []
+    @Published var categoryThumbnails: [String: String] = [:]
     @Published var products: [Product] = []
     @Published var recentSearchQueries: [SearchQuery] = []
     @Published var showDeleteAllConfirmation: Bool = false
@@ -26,7 +27,7 @@ public final class ProductSearchViewModel: ObservableObject {
     private let saveSearchQueryUseCase: SaveSearchQueryToRecentsUseCaseProtocol
     private let removeSearchQueryUseCase: RemoveSearchQueryUseCaseProtocol
     private let removeAllSearchQueriesUseCase: RemoveAllSearchQueriesUseCaseProtocol
-    private let getCategoryThumbnailUseCase: GetCategoryThumbnailUseCaseProtocol
+    private let getCategoryThumbnailUseCase: GetCategoryThumbnailsUseCaseProtocol
     private let getAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUseCaseProtocol
     private let getAllExistingCategoriesUseCase: GetAllExistingCategoriesUseCaseProtocol
     let getImageUseCase: GetImageUseCaseProtocol
@@ -37,7 +38,7 @@ public final class ProductSearchViewModel: ObservableObject {
         saveSearchQueryUseCase: SaveSearchQueryToRecentsUseCaseProtocol,
         removeSearchQueryUseCase: RemoveSearchQueryUseCaseProtocol,
         removeAllSearchQueriesUseCase: RemoveAllSearchQueriesUseCaseProtocol,
-        getCategoryThumbnailUseCase: GetCategoryThumbnailUseCaseProtocol,
+        getCategoryThumbnailUseCase: GetCategoryThumbnailsUseCaseProtocol,
         getAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUseCaseProtocol,
         getAllExistingCategoriesUseCase: GetAllExistingCategoriesUseCaseProtocol,
         getImageUseCase: GetImageUseCaseProtocol
@@ -78,18 +79,37 @@ public final class ProductSearchViewModel: ObservableObject {
     
     // MARK: - Load Categories
     public func loadCategories() {
-        Task {
-            do {
-                let fetchedCategories = try await getAllExistingCategoriesUseCase.execute()
-                await MainActor.run {
-                    categories = fetchedCategories
+            Task {
+                do {
+                    let fetchedCategories = try await getAllExistingCategoriesUseCase.execute()
+                    await MainActor.run {
+                        categories = fetchedCategories
+                        // Immediately load thumbnails after categories are fetched
+                        loadCategoryThumbnails()
+                    }
+                } catch {
+                    print("Failed to load categories: \(error)")
                 }
-            } catch {
-                print("Failed to load categories: \(error)")
             }
         }
-    }
     
+    public func loadCategoryThumbnails() {
+            Task {
+                do {
+                    // Extract slugs from existing categories
+                    let slugs = categories.map { $0.slug }
+                    
+                    // Fetch thumbnails for all categories
+                    let thumbnails = try await getCategoryThumbnailUseCase.execute(categorySlugs: slugs)
+                    
+                    await MainActor.run {
+                        categoryThumbnails = thumbnails
+                    }
+                } catch {
+                    print("Failed to load category thumbnails: \(error)")
+                }
+            }
+        }
     // MARK: - Perform Search
     private func performSearch(with keyword: String) {
         if keyword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -104,12 +124,20 @@ public final class ProductSearchViewModel: ObservableObject {
                 let results = try await searchProductsUseCase.execute(keyword: keyword)
                 await MainActor.run {
                     products = results
-                    saveSearch(query: SearchQuery(query: keyword))
                 }
             } catch {
                 print("Search error: \(error)")
             }
         }
+    }
+    
+    public func saveCurrentSearch() {
+        let trimmedKeyword = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedKeyword.isEmpty else { return }
+        
+        let query = SearchQuery(query: trimmedKeyword)
+        saveSearchQueryUseCase.execute(searchQuery: query)
+        loadRecentSearchQueries()
     }
     
     // MARK: - Save Search Query

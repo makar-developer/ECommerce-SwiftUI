@@ -14,7 +14,7 @@ public protocol ProductSearchDIContainerProtocol {
     var saveSearchQueryToRecentsUseCase: SaveSearchQueryToRecentsUseCaseProtocol { get }
     var removeSearchQueryUseCase: RemoveSearchQueryUseCaseProtocol { get }
     var removeAllSearchQueriesUseCase: RemoveAllSearchQueriesUseCaseProtocol { get }
-    var getCategoryThumbnailUseCase: GetCategoryThumbnailUseCaseProtocol { get }
+    var getCategoryThumbnailUseCase: GetCategoryThumbnailsUseCaseProtocol { get }
     var getAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUseCaseProtocol { get }
     var getAllExistingCategoriesUseCase: GetAllExistingCategoriesUseCaseProtocol { get }
     
@@ -78,8 +78,8 @@ public class ProductSearchDIContainerImpl: ProductSearchDIContainerProtocol {
     }()
     
     /// Use case to get category thumbnail by slug
-    public lazy var getCategoryThumbnailUseCase: GetCategoryThumbnailUseCaseProtocol = {
-        return GetCategoryThumbnailUseCase(repository: productSearchRepository)
+    public lazy var getCategoryThumbnailUseCase: GetCategoryThumbnailsUseCaseProtocol = {
+        return GetCategoryThumbnailsUseCase(repository: productSearchRepository)
     }()
     
     /// Use case to retrieve all recent search queries

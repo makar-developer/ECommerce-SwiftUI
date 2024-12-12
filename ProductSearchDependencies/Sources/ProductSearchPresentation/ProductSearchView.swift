@@ -28,10 +28,13 @@ public struct ProductSearchView: View {
         NavigationView {
             VStack {
                 // Search Bar
-                SearchBarView(text: $viewModel.searchText, isFocused: $viewModel.isSearchFocused)
-                    .padding(.horizontal)
-                    .padding(.top)
-                
+                SearchBarView(
+                    text: $viewModel.searchText,
+                    isFocused: $viewModel.isSearchFocused,
+                    onCommit: { // Add onCommit handler
+                        viewModel.saveCurrentSearch()
+                    }
+                )
                 // Recent Searches
                 if viewModel.isSearchFocused && viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     RecentSearchesView(
@@ -48,15 +51,19 @@ public struct ProductSearchView: View {
                     )
                     .padding(.horizontal)
                 }
-                
-                // Categories or Products Grid
-                if viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    CategoriesGridView(categories: viewModel.categories, getImageUseCase: viewModel.getImageUseCase)
-                } else {
-                    ProductsGridView(products: viewModel.products, getImageUseCase: viewModel.getImageUseCase)
+                Group {
+                    // Categories or Products Grid
+                    if viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        CategoriesGridView(
+                            categories: viewModel.categories,
+                            getImageUseCase: viewModel.getImageUseCase,
+                            thumbnails: viewModel.categoryThumbnails
+                        )
+                        
+                    } else {
+                        ProductsGridView(products: viewModel.products, getImageUseCase: viewModel.getImageUseCase)
+                    }
                 }
-                
-                Spacer()
             }
             .alert(isPresented: $viewModel.showDeleteAllConfirmation) {
                 Alert(
@@ -78,6 +85,7 @@ public struct ProductSearchView: View {
 struct SearchBarView: View {
     @Binding var text: String
     @Binding var isFocused: Bool
+    var onCommit: () -> Void
     
     var body: some View {
         HStack {
@@ -85,7 +93,7 @@ struct SearchBarView: View {
                 withAnimation {
                     isFocused = editing
                 }
-            })
+            }, onCommit: onCommit)
             .padding(7)
             .padding(.horizontal, 25)
             .background(Color(.systemGray6))
@@ -166,6 +174,7 @@ struct RecentSearchesView: View {
 struct CategoriesGridView: View {
     let categories: [CategoryResponse]
     let getImageUseCase: GetImageUseCaseProtocol
+    let thumbnails: [String: String]
     
     private let columns = [
         GridItem(.flexible()),
@@ -181,10 +190,14 @@ struct CategoriesGridView: View {
             } else {
                 LazyVGrid(columns: columns, spacing: 16) {
                     ForEach(categories, id: \.slug) { category in
-                        CategoryCardView(category: category, getImageUseCase: getImageUseCase)
-                            .onTapGesture {
-                                print("Category tapped: \(category.name)")
-                            }
+                        CategoryCardView(
+                            category: category,
+                            getImageUseCase: getImageUseCase,
+                            thumbnailUrl: thumbnails[category.slug]
+                        )
+                        .onTapGesture {
+                            print("Category tapped: \(category.name)")
+                        }
                     }
                 }
                 .padding(.horizontal)
@@ -196,12 +209,14 @@ struct CategoriesGridView: View {
 struct CategoryCardView: View {
     let category: CategoryResponse
     let getImageUseCase: GetImageUseCaseProtocol
+    let thumbnailUrl: String?
     
     @Environment(\.screenWidth) private var screenWidth
     
     var body: some View {
         VStack {
-            if let url = URL(string: category.url) {
+            if let thumbnailUrlString = thumbnailUrl,
+               let url = URL(string: thumbnailUrlString) {
                 CustomAsyncImage(
                     url: url,
                     getImageUseCase: getImageUseCase,
@@ -218,10 +233,13 @@ struct CategoryCardView: View {
                 .clipped()
                 .cornerRadius(8)
             } else {
-                Image(systemName: "photo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: screenWidth * 0.33)
+                ZStack {
+                    Color(.gray)
+                        .opacity(0.1)
+                        .scaledToFit()
+                        .frame(height: screenWidth * 0.33)
+                    ProgressView()
+                }
             }
             
             Text(category.name)
@@ -235,7 +253,6 @@ struct CategoryCardView: View {
         .shadow(radius: 4)
     }
 }
-
 // MARK: - ProductsGridView
 
 struct ProductsGridView: View {

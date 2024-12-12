@@ -10,9 +10,10 @@ import CoreUseCases
 
 public struct CustomAsyncImage<Placeholder: View>: View {
     @StateObject private var viewModel: CustomAsyncImageViewModel
+    @Environment(\.screenWidth) var screenWidth
     private let placeholder: Placeholder
     private let image: (Image) -> Image
-
+    
     public init(
         url: URL,
         getImageUseCase: GetImageUseCaseProtocol,
@@ -35,9 +36,11 @@ public struct CustomAsyncImage<Placeholder: View>: View {
         } else if viewModel.isLoading {
             placeholder
         } else {
-            Image(systemName: "photo")
-                .resizable()
+            Color(.gray)
+                .opacity(0.1)
                 .scaledToFit()
+                .frame(height: screenWidth * 0.33)
+            ProgressView()
         }
     }
 }
