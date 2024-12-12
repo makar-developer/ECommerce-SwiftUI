@@ -19,11 +19,12 @@ import CoreStyleguide
 public struct ProductSearchView: View {
     @StateObject private var viewModel: ProductSearchViewModel
     @Environment(\.screenWidth) private var screenWidth
-    
+    @FocusState private var isKeyboardFocused: Bool // Keep the focus state if you need it for keyboard management
+
     public init(viewModel: ProductSearchViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     public var body: some View {
         NavigationView {
             VStack {
@@ -31,10 +32,11 @@ public struct ProductSearchView: View {
                 SearchBarView(
                     text: $viewModel.searchText,
                     isFocused: $viewModel.isSearchFocused,
-                    onCommit: { // Add onCommit handler
+                    onCommit: {
                         viewModel.saveCurrentSearch()
                     }
                 )
+
                 // Recent Searches
                 if viewModel.isSearchFocused && viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     RecentSearchesView(
@@ -51,18 +53,16 @@ public struct ProductSearchView: View {
                     )
                     .padding(.horizontal)
                 }
-                Group {
-                    // Categories or Products Grid
-                    if viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        CategoriesGridView(
-                            categories: viewModel.categories,
-                            getImageUseCase: viewModel.getImageUseCase,
-                            thumbnails: viewModel.categoryThumbnails
-                        )
-                        
-                    } else {
-                        ProductsGridView(products: viewModel.products, getImageUseCase: viewModel.getImageUseCase)
-                    }
+
+                // Categories or Products Grid
+                if viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    CategoriesGridView(
+                        categories: viewModel.categories,
+                        getImageUseCase: viewModel.getImageUseCase,
+                        thumbnails: viewModel.categoryThumbnails
+                    )
+                } else {
+                    ProductsGridView(products: viewModel.products, getImageUseCase: viewModel.getImageUseCase)
                 }
             }
             .alert(isPresented: $viewModel.showDeleteAllConfirmation) {
@@ -86,7 +86,7 @@ struct SearchBarView: View {
     @Binding var text: String
     @Binding var isFocused: Bool
     var onCommit: () -> Void
-    
+
     var body: some View {
         HStack {
             TextField("Search products...", text: $text, onEditingChanged: { editing in
@@ -104,7 +104,7 @@ struct SearchBarView: View {
                         .foregroundColor(.gray)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 8)
-                    
+
                     if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         Button(action: {
                             self.text = ""
@@ -201,6 +201,7 @@ struct CategoriesGridView: View {
                     }
                 }
                 .padding(.horizontal)
+                .padding(.top)
             }
         }
     }
@@ -279,6 +280,7 @@ struct ProductsGridView: View {
                     }
                 }
                 .padding(.horizontal)
+                .padding(.top)
             }
         }
     }
