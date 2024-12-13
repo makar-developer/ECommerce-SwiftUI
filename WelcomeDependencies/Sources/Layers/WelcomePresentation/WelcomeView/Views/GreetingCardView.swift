@@ -11,6 +11,7 @@ import CoreEntities
 
 public struct GreetingCardView: View {
     let user: User
+    let imageName: String
     @Binding var isEditingModeEnabled: Bool
     @State private var showLogoutAlert = false
     let logoutAction: (User) -> Void
@@ -73,7 +74,7 @@ public struct GreetingCardView: View {
         }
         .padding(16)
         .background(
-            Image(user.image)
+            Image(imageName)
                 .resizable()
                 .scaledToFill()
         )

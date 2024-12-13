@@ -29,14 +29,14 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
         if isFirstFetch {
             // Initialize default users using compactMap
             let userData = [
-                ("DefaultUser1", "image1", "user1", "Password1@"),
-                ("DefaultUser2", "image2", "user2", "Password2@"),
-                ("DefaultUser3", "image1", "user1", "Password1@"),
-                ("DefaultUser4", "image2", "user2", "Password2@"),
-                ("DefaultUser5", "image3", "user3", "Password3@")
+                ("DefaultUser1", "user1", "Password1@"),
+                ("DefaultUser2", "user2", "Password2@"),
+                ("DefaultUser3", "user1", "Password1@"),
+                ("DefaultUser4", "user2", "Password2@"),
+                ("DefaultUser5", "user3", "Password3@")
             ]
             
-            let defaultUsers: [User] = userData.compactMap { (nameString, image, loginString, passwordString) in
+            let defaultUsers: [User] = userData.compactMap { (nameString, loginString, passwordString) in
                 guard let name = UserName(nameString),
                       let login = Login(loginString),
                       let password = Password(passwordString) else {
@@ -46,7 +46,6 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
                 }
                 return User(
                     name: name,
-                    image: image,
                     login: login,
                     password: password
                 )
@@ -69,7 +68,7 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
         }
     }
     
-    public func logout(user: User) async throws {
+    public func delete(user: User) async throws {
         try await deleteUser(user)
     }
     

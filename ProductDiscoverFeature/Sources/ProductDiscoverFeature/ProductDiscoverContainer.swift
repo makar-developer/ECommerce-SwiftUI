@@ -39,7 +39,7 @@ public class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol 
 //public protocol ProductDiscoverDIContainerProtocol {
 //    // MARK: - Use Cases
 ////    var getAllUsersUseCase: GetAllUsersUseCaseProtocol { get }
-////    var logoutUserUseCase: LogoutUserUseCaseProtocol { get }
+////    var deleteUserUseCase: LogoutUserUseCaseProtocol { get }
 ////    var createUserUseCase: CreateUserUseCaseProtocol { get }
 //    // MARK: - Repositories
 ////    var ProductDiscoverReposiqory: ProductDiscoverRepositoryProtocol { get }
@@ -58,7 +58,7 @@ public class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol 
 ////        return GetAllUsersUseCase(ProductDiscoverRepository: ProductDiscoverRepository)
 ////    }()
 ////
-////    public lazy var logoutUserUseCase: LogoutUserUseCaseProtocol = {
+////    public lazy var deleteUserUseCase: LogoutUserUseCaseProtocol = {
 ////        return LogoutUserUseCase(ProductDiscoverRepository: ProductDiscoverRepository)
 ////    }()
 ////    // AuthenticationView

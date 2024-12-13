@@ -39,7 +39,11 @@ final class ProductDiscoverCoordinator: ObservableObject {
     private func showProductDetails(product: Product, user: User) {
         self.push(screen: .productDetails(product, user))
     }
-
+    
+    private func showProductDiscover() {
+        self.pop()
+    }
+    
     @ViewBuilder
     func build(screen: ProductDiscoverScreen) -> some View {
         switch screen {
@@ -49,7 +53,10 @@ final class ProductDiscoverCoordinator: ObservableObject {
                 self.showProductDetails(product: product, user: self.user)
             }))
         case .productDetails(let product, let user):
-            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase))
+            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase, onNavigation: { [weak self] in
+                guard let self else { return }
+                self.showProductDiscover()
+            }))
         }
     }
 }

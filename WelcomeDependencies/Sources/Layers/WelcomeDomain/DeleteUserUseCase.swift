@@ -7,11 +7,11 @@
 
 import WelcomeRepositoryProtocol
 import CoreEntities
-public protocol LogoutUserUseCaseProtocol {
+public protocol DeleteUserUseCaseProtocol {
     func execute(user: User) async throws
 }
 
-public final class LogoutUserUseCase: LogoutUserUseCaseProtocol {
+public final class DeleteUserUseCase: DeleteUserUseCaseProtocol {
     
     let welcomeRepository: WelcomeRepositoryProtocol
     
@@ -20,6 +20,6 @@ public final class LogoutUserUseCase: LogoutUserUseCaseProtocol {
     }
     
     public func execute(user: User) async throws {
-        try await welcomeRepository.logout(user: user)
+        try await welcomeRepository.delete(user: user)
     }
 }
