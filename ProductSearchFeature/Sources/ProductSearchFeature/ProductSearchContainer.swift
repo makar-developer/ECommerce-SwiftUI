@@ -17,6 +17,7 @@ public protocol ProductSearchDIContainerProtocol {
     var getCategoryThumbnailUseCase: GetCategoryThumbnailsUseCaseProtocol { get }
     var getAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUseCaseProtocol { get }
     var getAllExistingCategoriesUseCase: GetAllExistingCategoriesUseCaseProtocol { get }
+    var getAllProductsFromCategoryUseCase: GetAllProductsFromCategoryUseCaseProtocol { get }
     
     // MARK: - Repositories
     var productSearchRepository: ProductSearchRepositoryProtocol { get }
@@ -92,6 +93,9 @@ public class ProductSearchDIContainerImpl: ProductSearchDIContainerProtocol {
         return GetAllExistingCategoriesUseCase(repository: productSearchRepository)
     }()
     
+    public lazy var getAllProductsFromCategoryUseCase: GetAllProductsFromCategoryUseCaseProtocol = {
+        return GetAllProductsFromCategoryUseCase(repository: productSearchRepository)
+    }()
     // MARK: - Initialization
     
     public init() {}

@@ -73,7 +73,7 @@ public struct GreetingCardView: View {
         }
         .padding(16)
         .background(
-            Image(user.image)
+            Image("")
                 .resizable()
                 .scaledToFill()
         )

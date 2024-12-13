@@ -18,9 +18,9 @@ enum ProductSearchScreen: Identifiable, Hashable {
         switch self {
         case .productSearch:
             return "productSearch"
-        case .categoryDetails(let category, let _):
+        case .categoryDetails(let category, _):
             return category.id.description
-        case .productDetails(let product, let _):
+        case .productDetails(let product, _):
             return product.id.description
         }
     }

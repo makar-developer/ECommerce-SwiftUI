@@ -9,6 +9,13 @@ import Foundation
 // MARK: - ProductSearchViewModel
 
 public final class ProductSearchViewModel: ObservableObject {
+    
+    public enum NavigationTarget {
+        case categoryDetails(CategoryResponse)
+        case productDetails(Product)
+    }
+    
+    let onNavigation: (ProductSearchViewModel.NavigationTarget) -> Void
     // MARK: - Published Properties
     @Published var searchText: String = ""
     @Published var isSearchFocused: Bool = false
@@ -41,7 +48,8 @@ public final class ProductSearchViewModel: ObservableObject {
         getCategoryThumbnailUseCase: GetCategoryThumbnailsUseCaseProtocol,
         getAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUseCaseProtocol,
         getAllExistingCategoriesUseCase: GetAllExistingCategoriesUseCaseProtocol,
-        getImageUseCase: GetImageUseCaseProtocol
+        getImageUseCase: GetImageUseCaseProtocol,
+        onNavigation: @escaping (ProductSearchViewModel.NavigationTarget) -> Void
     ) {
         self.searchProductsUseCase = searchProductsUseCase
         self.saveSearchQueryUseCase = saveSearchQueryUseCase
@@ -51,7 +59,7 @@ public final class ProductSearchViewModel: ObservableObject {
         self.getAllRecentSearchQueriesUseCase = getAllRecentSearchQueriesUseCase
         self.getAllExistingCategoriesUseCase = getAllExistingCategoriesUseCase
         self.getImageUseCase = getImageUseCase
-        
+        self.onNavigation = onNavigation
         setupBindings()
         loadCategories()
         loadRecentSearchQueries()

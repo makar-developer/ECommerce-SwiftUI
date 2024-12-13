@@ -59,10 +59,14 @@ public struct ProductSearchView: View {
                     CategoriesGridView(
                         categories: viewModel.categories,
                         getImageUseCase: viewModel.getImageUseCase,
-                        thumbnails: viewModel.categoryThumbnails
+                        thumbnails: viewModel.categoryThumbnails, onTap: { category in
+                            viewModel.onNavigation(.categoryDetails(category))
+                        }
                     )
                 } else {
-                    ProductsGridView(products: viewModel.products, getImageUseCase: viewModel.getImageUseCase)
+                    ProductsGridView(products: viewModel.products, getImageUseCase: viewModel.getImageUseCase, onTap: { product in
+                        viewModel.onNavigation(.productDetails(product))
+                    })
                 }
             }
             .alert(isPresented: $viewModel.showDeleteAllConfirmation) {
@@ -175,7 +179,7 @@ struct CategoriesGridView: View {
     let categories: [CategoryResponse]
     let getImageUseCase: GetImageUseCaseProtocol
     let thumbnails: [String: String]
-    
+    let onTap: (CategoryResponse) -> Void
     private let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -196,7 +200,7 @@ struct CategoriesGridView: View {
                             thumbnailUrl: thumbnails[category.slug]
                         )
                         .onTapGesture {
-                            print("Category tapped: \(category.name)")
+                            onTap(category)
                         }
                     }
                 }
@@ -259,7 +263,7 @@ struct CategoryCardView: View {
 struct ProductsGridView: View {
     let products: [Product]
     let getImageUseCase: GetImageUseCaseProtocol
-    
+    let onTap: (Product) -> Void
     private let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -275,7 +279,7 @@ struct ProductsGridView: View {
                 LazyVGrid(columns: columns, spacing: 16) {
                     ForEach(products) { product in
                         ProductCardView(product: product, onNavigation: { product in
-                            print("Product tapped: \(product.title)")
+                            onTap(product)
                         }, getImageUseCase: getImageUseCase)
                     }
                 }

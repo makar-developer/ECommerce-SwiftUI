@@ -1,6 +1,7 @@
 import SwiftUI
 import Core
 public struct ProductDetailsView: View {
+    
     @StateObject var viewModel: ProductDetailsViewModel
     @Environment(\.screenHeight) var screenHeight
     public init(viewModel: ProductDetailsViewModel) {
@@ -82,6 +83,21 @@ public struct ProductDetailsView: View {
         }
         .padding()
         .navigationTitle("Product Details")
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    viewModel.onNavigation()
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.blue)
+                        Text("Back")
+                            .foregroundColor(.blue)
+                    }
+                }
+            }
+        }
     }
 }
 

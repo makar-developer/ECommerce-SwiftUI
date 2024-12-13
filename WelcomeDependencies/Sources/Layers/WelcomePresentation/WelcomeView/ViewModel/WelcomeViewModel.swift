@@ -14,13 +14,13 @@ final public class WelcomeViewModel: ObservableObject {
     @Published var isEditingModeEnabled: Bool = false
     
     private let getAllUsersUseCase: GetAllUsersUseCaseProtocol
-    private let logoutUserUseCase: LogoutUserUseCaseProtocol
+    private let deleteUserUseCase: DeleteUserUseCaseProtocol
     
     private var onNavigation: (WelcomeView.NavigationTarget) -> Void
     
-    public init(getAllUsersUseCase: GetAllUsersUseCaseProtocol, logoutUserUseCase: LogoutUserUseCaseProtocol, onNavigation: @escaping (WelcomeView.NavigationTarget) -> Void) {
+    public init(getAllUsersUseCase: GetAllUsersUseCaseProtocol, deleteUserUseCase: DeleteUserUseCaseProtocol, onNavigation: @escaping (WelcomeView.NavigationTarget) -> Void) {
         self.getAllUsersUseCase = getAllUsersUseCase
-        self.logoutUserUseCase = logoutUserUseCase
+        self.deleteUserUseCase = deleteUserUseCase
         self.onNavigation = onNavigation
     }
     
@@ -38,7 +38,7 @@ final public class WelcomeViewModel: ObservableObject {
     func logoutUser(user: User) {
         Task {
             do {
-                try await logoutUserUseCase.execute(user: user)
+                try await deleteUserUseCase.execute(user: user)
                 // Handle logout success
                 await MainActor.run {
                     users.removeAll { $0.id == user.id }

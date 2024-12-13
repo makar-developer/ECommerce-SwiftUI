@@ -50,7 +50,7 @@ final class WelcomeCoordinator: ObservableObject {
         case .welcome:
             WelcomeView(viewModel: WelcomeViewModel(
                 getAllUsersUseCase: container.getAllUsersUseCase,
-                logoutUserUseCase: container.logoutUserUseCase,
+                deleteUserUseCase: container.deleteUserUseCase,
                 onNavigation: { [weak self] target in
                     
                     switch target {

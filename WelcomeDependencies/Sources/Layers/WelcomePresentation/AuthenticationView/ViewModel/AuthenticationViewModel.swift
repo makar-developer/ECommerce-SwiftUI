@@ -134,7 +134,6 @@ final public class AuthenticationViewModel: ObservableObject {
 
         let newUser = User(
             name: userName,
-            image: "image1", // Replace with actual image selection logic
             login: userLogin,
             password: userPassword
         )

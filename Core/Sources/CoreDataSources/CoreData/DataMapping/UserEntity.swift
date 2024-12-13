@@ -23,20 +23,12 @@ public extension UserEntity {
               let password = Password(passwordString) else {
             return nil
         }
-        return User(name: name, image: self.image ?? "", login: login, password: password, id: id)
-//        User(
-//            id: id,
-//            name: name,
-//            image: self.image ?? "",
-//            login: login,
-//            password: password
-//        )
+        return User(name: name, login: login, password: password, id: id)
     }
     
     func update(from user: User) {
         self.id = user.id
         self.name = user.name.rawValue
-        self.image = user.image
         self.login = user.login.rawValue
         self.password = user.password.rawValue
     }

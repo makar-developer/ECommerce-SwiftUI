@@ -12,7 +12,7 @@ import WelcomeDomain
 public protocol WelcomeDIContainerProtocol {
     // MARK: - Use Cases
     var getAllUsersUseCase: GetAllUsersUseCaseProtocol { get }
-    var logoutUserUseCase: LogoutUserUseCaseProtocol { get }
+    var deleteUserUseCase: DeleteUserUseCaseProtocol { get }
     var createUserUseCase: CreateUserUseCaseProtocol { get }
     // MARK: - Repositories
     var welcomeRepository: WelcomeRepositoryProtocol { get }
@@ -30,8 +30,8 @@ public class WelcomeDIContainerImpl: WelcomeDIContainerProtocol {
         return GetAllUsersUseCase(welcomeRepository: welcomeRepository)
     }()
     
-    public lazy var logoutUserUseCase: LogoutUserUseCaseProtocol = {
-        return LogoutUserUseCase(welcomeRepository: welcomeRepository)
+    public lazy var deleteUserUseCase: DeleteUserUseCaseProtocol = {
+        return DeleteUserUseCase(welcomeRepository: welcomeRepository)
     }()
     // AuthenticationView
     public lazy var createUserUseCase: CreateUserUseCaseProtocol = {
