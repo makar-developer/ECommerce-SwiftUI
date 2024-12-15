@@ -16,13 +16,15 @@ final class AppCoordinator: ObservableObject {
     }
 
     func presentFeature(_ feature: Feature) {
-        fullScreenCoverFeature = feature
+        DispatchQueue.main.async {
+            self.fullScreenCoverFeature = feature
+        }
     }
     
     func presentMain(_ user: User) {
         presentFeature(.main(user))
     }
-    
+
     func presentWelcome() {
         presentFeature(.welcome)
     }
@@ -35,7 +37,7 @@ final class AppCoordinator: ObservableObject {
         do {
             return try await container.welcomeDIContainer.getSignedInUserUseCase.execute()
         } catch {
-            print("Error accessing User in Keychain: \(error)")
+            print("Error accessing User in Keychain")
             return nil
         }
     }
@@ -43,22 +45,14 @@ final class AppCoordinator: ObservableObject {
     @ViewBuilder
     func buildRootView() -> some View {
         EmptyView()
-            .onAppear {
-                Task.detached { [weak self] in
-                    guard let self = self else { return }
-                    if let signedInUser = await self.getSignedInUser() {
-                        await MainActor.run {
-                            self.presentMain(signedInUser)
-                        }
-                    } else {
-                        await MainActor.run {
-                            self.presentWelcome()
-                        }
-                    }
+            .task { [weak self] in
+                if let signedInUser = await self?.getSignedInUser() {
+                    self?.presentMain(signedInUser)
+                } else {
+                    self?.presentWelcome()
                 }
             }
     }
-
 
     @ViewBuilder
     func build(feature: Feature) -> some View {
@@ -81,4 +75,3 @@ final class AppCoordinator: ObservableObject {
         }
     }
 }
-
