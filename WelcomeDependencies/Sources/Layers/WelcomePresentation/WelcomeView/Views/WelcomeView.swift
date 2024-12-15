@@ -21,12 +21,13 @@ public struct WelcomeView: View {
     public var body: some View {
         SnapCarousel(data: viewModel.users, currentIndex: $currentIndex) { user in
             GreetingCardView(
-                user: user,
+                user: user, imageName: viewModel.getImage(for: user),
                 isEditingModeEnabled: $viewModel.isEditingModeEnabled,
                 logoutAction: { selectedUser in
-                    viewModel.logoutUser(user: selectedUser)
+                    viewModel.deleteUser(user: selectedUser)
                     adjustCurrentIndexAfterDeletion()
                 }, signInAction: { selectedUser in
+                    viewModel.signIn(user: user)
                     viewModel.showMain(user: user)
                 }
             )

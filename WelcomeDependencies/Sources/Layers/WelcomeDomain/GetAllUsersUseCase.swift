@@ -21,7 +21,6 @@ public final class GetAllUsersUseCase: GetAllUsersUseCaseProtocol {
     }
     
     public func execute() async throws -> [User] {
-        // Fetch users logic
         return try await welcomeRepository.getUsers()
     }
 }
