@@ -30,7 +30,8 @@ let package = Package(
             dependencies: [
                 "WelcomeDomain",
                 .product(name: "Core", package: "Core"),
-                .product(name: "CoreEntities", package: "Core")
+                .product(name: "CoreEntities", package: "Core"),
+                .product(name: "CoreUseCases", package: "Core")
             ],
             path: "Sources/Layers/WelcomePresentation"
         ),

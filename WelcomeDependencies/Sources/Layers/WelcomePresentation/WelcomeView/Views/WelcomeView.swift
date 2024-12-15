@@ -27,6 +27,7 @@ public struct WelcomeView: View {
                     viewModel.deleteUser(user: selectedUser)
                     adjustCurrentIndexAfterDeletion()
                 }, signInAction: { selectedUser in
+                    viewModel.signIn(user: user)
                     viewModel.showMain(user: user)
                 }
             )

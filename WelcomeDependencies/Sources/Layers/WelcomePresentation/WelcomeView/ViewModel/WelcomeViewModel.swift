@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreEntities
 import WelcomeDomain
+import CoreUseCases
 
 final public class WelcomeViewModel: ObservableObject {
     @Published var users: [User] = []
@@ -17,12 +18,13 @@ final public class WelcomeViewModel: ObservableObject {
     
     private let getAllUsersUseCase: GetAllUsersUseCaseProtocol
     private let deleteUserUseCase: DeleteUserUseCaseProtocol
-    
+    private let signInUseCase: SignInUseCaseProtocol
     private var onNavigation: (WelcomeView.NavigationTarget) -> Void
     
-    public init(getAllUsersUseCase: GetAllUsersUseCaseProtocol, deleteUserUseCase: DeleteUserUseCaseProtocol, onNavigation: @escaping (WelcomeView.NavigationTarget) -> Void) {
+    public init(getAllUsersUseCase: GetAllUsersUseCaseProtocol, deleteUserUseCase: DeleteUserUseCaseProtocol, signInUseCase: SignInUseCaseProtocol, onNavigation: @escaping (WelcomeView.NavigationTarget) -> Void) {
         self.getAllUsersUseCase = getAllUsersUseCase
         self.deleteUserUseCase = deleteUserUseCase
+        self.signInUseCase = signInUseCase
         self.onNavigation = onNavigation
     }
     
@@ -67,6 +69,16 @@ final public class WelcomeViewModel: ObservableObject {
             } catch {
                 // Handle logout error
                 print("Error logging out user: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func signIn(user: User) {
+        Task {
+            do {
+                try await signInUseCase.execute(user: user)
+            } catch {
+                print("Error signing in user: \(error.localizedDescription)")
             }
         }
     }

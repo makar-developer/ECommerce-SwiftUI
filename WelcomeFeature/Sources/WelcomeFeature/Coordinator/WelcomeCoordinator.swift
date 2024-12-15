@@ -51,6 +51,7 @@ final class WelcomeCoordinator: ObservableObject {
             WelcomeView(viewModel: WelcomeViewModel(
                 getAllUsersUseCase: container.getAllUsersUseCase,
                 deleteUserUseCase: container.deleteUserUseCase,
+                signInUseCase: container.signInUseCase,
                 onNavigation: { [weak self] target in
                     
                     switch target {
