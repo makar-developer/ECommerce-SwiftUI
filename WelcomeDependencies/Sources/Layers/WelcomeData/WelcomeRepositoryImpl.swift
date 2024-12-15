@@ -47,7 +47,8 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
                 return User(
                     name: name,
                     login: login,
-                    password: password
+                    password: password,
+                    profilePicture: nil
                 )
             }
             

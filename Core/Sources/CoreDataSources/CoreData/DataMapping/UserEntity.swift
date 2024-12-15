@@ -23,7 +23,7 @@ public extension UserEntity {
               let password = Password(passwordString) else {
             return nil
         }
-        return User(name: name, login: login, password: password, id: id)
+        return User(name: name, login: login, password: password, profilePicture: self.profilePicture, id: id)
     }
     
     func update(from user: User) {

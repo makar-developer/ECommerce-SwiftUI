@@ -29,6 +29,7 @@
         <attribute name="login" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="password" attributeType="String"/>
+        <attribute name="profilePicture" optional="YES" attributeType="String"/>
         <relationship name="cart" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CartEntity" inverseName="user" inverseEntity="CartEntity"/>
     </entity>
 </model>

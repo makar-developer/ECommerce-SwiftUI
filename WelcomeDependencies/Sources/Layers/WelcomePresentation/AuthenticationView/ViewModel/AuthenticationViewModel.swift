@@ -135,7 +135,8 @@ final public class AuthenticationViewModel: ObservableObject {
         let newUser = User(
             name: userName,
             login: userLogin,
-            password: userPassword
+            password: userPassword,
+            profilePicture: nil
         )
 
         try await createUserUseCase.execute(user: newUser)
