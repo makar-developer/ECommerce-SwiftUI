@@ -10,7 +10,7 @@ import ProductDiscoverFeature
 import CoreDependencies
 import ProductSearchFeature
 //import ProductCartFeature
-//import ProfileFeature
+import ProfileFeature
 // MARK: - HomeDIContainerProtocol
 public protocol HomeDIContainerProtocol {
     var productDiscoverDIContainer: ProductDiscoverDIContainerProtocol { get }
@@ -18,12 +18,11 @@ public protocol HomeDIContainerProtocol {
     var imageCacheContainer: ImageDIContainerProtocol { get }
     var productSearchDIContainer: ProductSearchDIContainerProtocol { get }
 //    var productCartDIContainer: ProductCartDIContainerProtocol { get }
-//    var profileDIContainer: ProfileDIContainerProtocol { get }
+    var profileDIContainer: ProfileDIContainerProtocol { get }
 }
 
 // MARK: - Dependency Injection Container Implementation
 public class HomeDIContainerImpl: HomeDIContainerProtocol {
-    
     public init() {}
 
     public lazy var productDiscoverDIContainer: ProductDiscoverDIContainerProtocol = {
@@ -37,20 +36,13 @@ public class HomeDIContainerImpl: HomeDIContainerProtocol {
     public lazy var imageCacheContainer: ImageDIContainerProtocol = {
        return ImageDIContainer()
     }()
-//     Product Search DI Container
+
     public lazy var productSearchDIContainer: ProductSearchDIContainerProtocol = {
         return ProductSearchDIContainerImpl()
     }()
-
-    // Product Cart DI Container
-//    public lazy var productCartDIContainer: ProductCartDIContainerProtocol = {
-//        return ProductCartDIContainerImpl()
-//    }()
-
-    // Profile DI Container
-//    public lazy var profileDIContainer: ProfileDIContainerProtocol = {
-//        return ProfileDIContainerImpl()
-//    }()
+    
+    public lazy var profileDIContainer: ProfileDIContainerProtocol = {
+        return ProfileDIContainerImpl()
+    }()
 }
 
-// MARK: - Dependency Injection Protocols

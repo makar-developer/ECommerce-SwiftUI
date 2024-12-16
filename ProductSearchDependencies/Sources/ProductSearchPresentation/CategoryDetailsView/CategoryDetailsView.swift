@@ -53,5 +53,8 @@ public struct CategoryDetailsView: View {
                 }
             }
         }
+        .onAppear {
+            viewModel.fetchProducts()
+        }
     }
 }

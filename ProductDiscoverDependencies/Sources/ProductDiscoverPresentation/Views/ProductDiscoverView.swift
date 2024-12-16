@@ -104,11 +104,9 @@ public struct ProductDiscoverView: View {
             scrollOffset = value
             checkIfNeedToLoadMore()
         }
-        .onAppear {
-            Task {
-                await viewModel.loadHotSalesProducts()
-                await viewModel.loadRecommendedProducts()
-            }
+        .task {
+            await viewModel.loadHotSalesProducts()
+            await viewModel.loadRecommendedProducts()
         }
         .navigationTitle("Discover")
     }

@@ -4,6 +4,7 @@ import CoreEntities
 import ProductDiscoverFeature
 import ProductCartFeature
 import ProductSearchFeature
+import ProfileFeature
 public struct HomeCoordinatorTabView: View {
     let user: User
     let container: HomeDIContainerProtocol
@@ -17,10 +18,6 @@ public struct HomeCoordinatorTabView: View {
     
     public var body: some View {
         TabView {
-//            RecommendedProductsCoordinatorView(
-//                user: user,
-//                container: container.recommendedProductsDIContainer
-//            )
             ProductDiscoverCoordinatorView(container: container.productDiscoverDIContainer, cartContainer: container.cartDIContainer, imageCacheContainer: container.imageCacheContainer, user: user)
             .tabItem {
                 Label("Home", systemImage: "house")
@@ -40,12 +37,11 @@ public struct HomeCoordinatorTabView: View {
                 Label("Cart", systemImage: "cart")
             }
 
-//            UserAccountCoordinatorView(
-//                user: user,
-//                container: container.userAccountDIContainer,
-//                onLogout: onLogout
-//            )
-            Text("AccountView")
+            ProfileCoordinatorView(
+                container: container.profileDIContainer,
+                user: user,
+                onLogout: onLogout
+            )
             .tabItem {
                 Label("Account", systemImage: "person")
             }

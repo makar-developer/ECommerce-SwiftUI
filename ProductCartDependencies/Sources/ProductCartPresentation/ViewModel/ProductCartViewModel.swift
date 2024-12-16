@@ -38,7 +38,10 @@ public class ProductCartViewModel: ObservableObject {
         self.addProductToCartUseCase = addProductToCartUseCase
         self.removeProductFromCartUseCase = removeProductFromCartUseCase
         self.removeAllProductsFromCartUseCase = removeAllProductsFromCartUseCase
-        
+        setupTotalPriceObservation()
+    }
+    
+    private func setupTotalPriceObservation() {
         // Observe changes and calculate total price
         $cartItems
             .map { items in

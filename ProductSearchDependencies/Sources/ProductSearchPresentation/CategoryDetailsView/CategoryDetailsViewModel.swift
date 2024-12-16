@@ -36,10 +36,9 @@ public class CategoryDetailsViewModel: ObservableObject {
         self.getAllProductsUseCase = getAllProductsUseCase
         self.getImageUseCase = getImageUseCase
         self.onNavigation = onNavigation
-        fetchProducts()
     }
     
-    private func fetchProducts() {
+    func fetchProducts() {
         Task {
             do {
                 let fetchedProducts = try await getAllProductsUseCase.execute(categorySlug: categoryResponse.slug)

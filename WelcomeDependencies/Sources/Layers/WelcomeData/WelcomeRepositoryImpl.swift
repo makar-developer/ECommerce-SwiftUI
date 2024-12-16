@@ -31,9 +31,9 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
             let userData = [
                 ("DefaultUser1", "user1", "Password1@"),
                 ("DefaultUser2", "user2", "Password2@"),
-                ("DefaultUser3", "user1", "Password1@"),
-                ("DefaultUser4", "user2", "Password2@"),
-                ("DefaultUser5", "user3", "Password3@")
+                ("DefaultUser3", "user3", "Password3@"),
+                ("DefaultUser4", "user4", "Password4@"),
+                ("DefaultUser5", "user5", "Password5@")
             ]
             
             let defaultUsers: [User] = userData.compactMap { (nameString, loginString, passwordString) in

@@ -48,7 +48,6 @@ public struct GreetingCardView: View {
                     showLogoutAlert = true
                 } else {
                     signInAction(user)
-                    print("Go shopping!")
                 }
             }) {
                 Text(isEditingModeEnabled ? "Log out this account?" : "Go shopping!")

@@ -51,7 +51,6 @@ public class CartRepositoryImpl: CartRepositoryProtocol {
         if let existingCartItem = cartEntity.products?.allObjects as? [CartItemEntity],
            let cartItem = existingCartItem.first(where: { $0.product!.id == item.product.id }) {
             // Update quantity
-            print(cartItem.quantity, cartItem.product?.title ?? "")
             cartItem.quantity += Int16(item.quantity)
             try await coreDataWrapper.update(cartItem)
         } else {

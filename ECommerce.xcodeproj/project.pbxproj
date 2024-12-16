@@ -12,7 +12,6 @@
 		847D18B22CF8984700A2018E /* ProductCartFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B12CF8984700A2018E /* ProductCartFeature */; };
 		847D18B62CF8984700A2018E /* ProductDiscoverFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B52CF8984700A2018E /* ProductDiscoverFeature */; };
 		847D18B82CF8984700A2018E /* ProductSearchFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B72CF8984700A2018E /* ProductSearchFeature */; };
-		847D18BA2CF8986900A2018E /* ProfileDependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 847D18B92CF8986900A2018E /* ProfileDependencies */; };
 		847E43472CE8F718008EBF43 /* ECommerceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E43462CE8F718008EBF43 /* ECommerceApp.swift */; };
 		847E434B2CE8F71A008EBF43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847E434A2CE8F71A008EBF43 /* Assets.xcassets */; };
 		847E434E2CE8F71A008EBF43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847E434D2CE8F71A008EBF43 /* Preview Assets.xcassets */; };
@@ -28,6 +27,15 @@
 		847EDFDD2CEA646400F3FB81 /* WelcomeDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFDC2CEA646400F3FB81 /* WelcomeDomain */; };
 		847EDFDF2CEA646400F3FB81 /* WelcomePresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFDE2CEA646400F3FB81 /* WelcomePresentation */; };
 		847EDFE12CEA646400F3FB81 /* WelcomeRepositoryProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 847EDFE02CEA646400F3FB81 /* WelcomeRepositoryProtocol */; };
+		847FA94E2D0F8B2A00AF7522 /* ProfileDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 847FA94D2D0F8B2A00AF7522 /* ProfileDomain */; };
+		847FA9502D0F8B2A00AF7522 /* ProfilePresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 847FA94F2D0F8B2A00AF7522 /* ProfilePresentation */; };
+		847FA9522D0F8B2A00AF7522 /* ProfileRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 847FA9512D0F8B2A00AF7522 /* ProfileRepository */; };
+		847FA9542D0F8B2A00AF7522 /* ProfileRepositoryProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 847FA9532D0F8B2A00AF7522 /* ProfileRepositoryProtocol */; };
+		847FA9562D0F8B6100AF7522 /* ProductSearchDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 847FA9552D0F8B6100AF7522 /* ProductSearchDomain */; };
+		847FA9582D0F8B6100AF7522 /* ProductSearchEntities in Frameworks */ = {isa = PBXBuildFile; productRef = 847FA9572D0F8B6100AF7522 /* ProductSearchEntities */; };
+		847FA95A2D0F8B6100AF7522 /* ProductSearchPresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 847FA9592D0F8B6100AF7522 /* ProductSearchPresentation */; };
+		847FA95C2D0F8B6100AF7522 /* ProductSearchRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 847FA95B2D0F8B6100AF7522 /* ProductSearchRepository */; };
+		847FA95E2D0F8B6100AF7522 /* ProductSearchRepositoryProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 847FA95D2D0F8B6100AF7522 /* ProductSearchRepositoryProtocol */; };
 		848B3CA42CFD0B0E00188A68 /* ProductDiscoverDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 848B3CA32CFD0B0E00188A68 /* ProductDiscoverDomain */; };
 		848B3CA62CFD0B0E00188A68 /* ProductDiscoverPresentation in Frameworks */ = {isa = PBXBuildFile; productRef = 848B3CA52CFD0B0E00188A68 /* ProductDiscoverPresentation */; };
 		848B3CA82CFD0B0E00188A68 /* ProductDiscoverRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 848B3CA72CFD0B0E00188A68 /* ProductDiscoverRepository */; };
@@ -59,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				847FA95E2D0F8B6100AF7522 /* ProductSearchRepositoryProtocol in Frameworks */,
 				848B3CAA2CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol in Frameworks */,
 				847CBA122D01362400B8553F /* ProductCartPresentation in Frameworks */,
 				847E43572CE904D5008EBF43 /* App in Frameworks */,
@@ -66,19 +75,26 @@
 				847EB20B2CF9E1DD00213DDE /* CoreEntities in Frameworks */,
 				847EDFE12CEA646400F3FB81 /* WelcomeRepositoryProtocol in Frameworks */,
 				847EDFD52CEA330200F3FB81 /* Core in Frameworks */,
+				847FA9582D0F8B6100AF7522 /* ProductSearchEntities in Frameworks */,
 				847EB20F2CF9E1E800213DDE /* CoreRepositories in Frameworks */,
+				847FA9502D0F8B2A00AF7522 /* ProfilePresentation in Frameworks */,
 				847D18B82CF8984700A2018E /* ProductSearchFeature in Frameworks */,
+				847FA9522D0F8B2A00AF7522 /* ProfileRepository in Frameworks */,
 				847EB2132CF9E1E800213DDE /* CoreUseCases in Frameworks */,
 				847EB2192CFA371B00213DDE /* ProfileFeature in Frameworks */,
 				847EDFDF2CEA646400F3FB81 /* WelcomePresentation in Frameworks */,
 				848B3CA82CFD0B0E00188A68 /* ProductDiscoverRepository in Frameworks */,
+				847FA95C2D0F8B6100AF7522 /* ProductSearchRepository in Frameworks */,
+				847FA95A2D0F8B6100AF7522 /* ProductSearchPresentation in Frameworks */,
 				847EDFDD2CEA646400F3FB81 /* WelcomeDomain in Frameworks */,
 				847D18B22CF8984700A2018E /* ProductCartFeature in Frameworks */,
-				847D18BA2CF8986900A2018E /* ProfileDependencies in Frameworks */,
 				847D18B62CF8984700A2018E /* ProductDiscoverFeature in Frameworks */,
+				847FA9562D0F8B6100AF7522 /* ProductSearchDomain in Frameworks */,
+				847FA94E2D0F8B2A00AF7522 /* ProfileDomain in Frameworks */,
 				847EDFD92CEA330300F3FB81 /* WelcomeFeature in Frameworks */,
 				847D18AC2CF8984700A2018E /* Home in Frameworks */,
 				848B3CA42CFD0B0E00188A68 /* ProductDiscoverDomain in Frameworks */,
+				847FA9542D0F8B2A00AF7522 /* ProfileRepositoryProtocol in Frameworks */,
 				847EB2112CF9E1E800213DDE /* CoreStyleguide in Frameworks */,
 				848B3CA62CFD0B0E00188A68 /* ProductDiscoverPresentation in Frameworks */,
 			);
@@ -90,8 +106,8 @@
 		847E433A2CE8F718008EBF43 = {
 			isa = PBXGroup;
 			children = (
-				847EB2172CFA36FF00213DDE /* ProfileFeature */,
 				847D18AA2CF8962900A2018E /* ProfileDependencies */,
+				847EB2172CFA36FF00213DDE /* ProfileFeature */,
 				847D18A82CF8960D00A2018E /* ProductCartDependencies */,
 				847D18A72CF8960A00A2018E /* ProductCartFeature */,
 				8494DA3E2D0905980063E569 /* ProductSearchDependencies */,
@@ -170,7 +186,6 @@
 				847D18B12CF8984700A2018E /* ProductCartFeature */,
 				847D18B52CF8984700A2018E /* ProductDiscoverFeature */,
 				847D18B72CF8984700A2018E /* ProductSearchFeature */,
-				847D18B92CF8986900A2018E /* ProfileDependencies */,
 				847EB20A2CF9E1DD00213DDE /* CoreEntities */,
 				847EB20E2CF9E1E800213DDE /* CoreRepositories */,
 				847EB2102CF9E1E800213DDE /* CoreStyleguide */,
@@ -181,6 +196,15 @@
 				848B3CA72CFD0B0E00188A68 /* ProductDiscoverRepository */,
 				848B3CA92CFD0B0E00188A68 /* ProductDiscoverRepositoryProtocol */,
 				847CBA112D01362400B8553F /* ProductCartPresentation */,
+				847FA94D2D0F8B2A00AF7522 /* ProfileDomain */,
+				847FA94F2D0F8B2A00AF7522 /* ProfilePresentation */,
+				847FA9512D0F8B2A00AF7522 /* ProfileRepository */,
+				847FA9532D0F8B2A00AF7522 /* ProfileRepositoryProtocol */,
+				847FA9552D0F8B6100AF7522 /* ProductSearchDomain */,
+				847FA9572D0F8B6100AF7522 /* ProductSearchEntities */,
+				847FA9592D0F8B6100AF7522 /* ProductSearchPresentation */,
+				847FA95B2D0F8B6100AF7522 /* ProductSearchRepository */,
+				847FA95D2D0F8B6100AF7522 /* ProductSearchRepositoryProtocol */,
 			);
 			productName = ECommerce;
 			productReference = 847E43432CE8F718008EBF43 /* ECommerce.app */;
@@ -457,10 +481,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = ProductSearchFeature;
 		};
-		847D18B92CF8986900A2018E /* ProfileDependencies */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ProfileDependencies;
-		};
 		847E43562CE904D5008EBF43 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = App;
@@ -508,6 +528,42 @@
 		847EDFE02CEA646400F3FB81 /* WelcomeRepositoryProtocol */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WelcomeRepositoryProtocol;
+		};
+		847FA94D2D0F8B2A00AF7522 /* ProfileDomain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfileDomain;
+		};
+		847FA94F2D0F8B2A00AF7522 /* ProfilePresentation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfilePresentation;
+		};
+		847FA9512D0F8B2A00AF7522 /* ProfileRepository */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfileRepository;
+		};
+		847FA9532D0F8B2A00AF7522 /* ProfileRepositoryProtocol */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfileRepositoryProtocol;
+		};
+		847FA9552D0F8B6100AF7522 /* ProductSearchDomain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductSearchDomain;
+		};
+		847FA9572D0F8B6100AF7522 /* ProductSearchEntities */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductSearchEntities;
+		};
+		847FA9592D0F8B6100AF7522 /* ProductSearchPresentation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductSearchPresentation;
+		};
+		847FA95B2D0F8B6100AF7522 /* ProductSearchRepository */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductSearchRepository;
+		};
+		847FA95D2D0F8B6100AF7522 /* ProductSearchRepositoryProtocol */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProductSearchRepositoryProtocol;
 		};
 		848B3CA32CFD0B0E00188A68 /* ProductDiscoverDomain */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -26,13 +26,9 @@ let package = Package(
             targets: ["ProductSearchRepository"]),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
         .package(name: "Core", path: "../Core")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "ProductSearchPresentation",
             dependencies: [
@@ -62,7 +58,7 @@ let package = Package(
             dependencies: [
                 "ProductSearchRepositoryProtocol",
                 .product(name: "CoreEntities", package: "Core"),
-                .product(name: "CoreRepositories", package: "Core")
+                .product(name: "CoreDataSources", package: "Core")
             ]),
     ]
 )

@@ -26,7 +26,6 @@ public class ProductDetailsViewModel: ObservableObject {
         Task {
             do {
                 try await addProductToCartUseCase.execute(product: product, user: user)
-                print("\(product.title) added to cart for \(user.id.description.prefix(6))")
             } catch {
                 print("Failed to add product to cart: \(error)")
             }
