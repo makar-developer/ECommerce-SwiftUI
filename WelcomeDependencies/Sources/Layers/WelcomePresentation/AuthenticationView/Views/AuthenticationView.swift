@@ -121,6 +121,20 @@ public struct AuthenticationView: View {
             .padding()
         }
         .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    viewModel.backToWelcome()
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.blue)
+                        Text("Back")
+                            .foregroundColor(.blue)
+                    }
+                }
+            }
+        }
         .background(Color(hue: 0.1, saturation: 0.3, brightness: 0.95))
         .onAppear {
             viewModel.setupValidation()

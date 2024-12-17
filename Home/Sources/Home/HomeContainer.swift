@@ -11,6 +11,7 @@ import CoreDependencies
 import ProductSearchFeature
 //import ProductCartFeature
 import ProfileFeature
+import CoreDataSources
 // MARK: - HomeDIContainerProtocol
 public protocol HomeDIContainerProtocol {
     var productDiscoverDIContainer: ProductDiscoverDIContainerProtocol { get }
@@ -24,18 +25,23 @@ public protocol HomeDIContainerProtocol {
 
 // MARK: - Dependency Injection Container Implementation
 public class HomeDIContainerImpl: HomeDIContainerProtocol {
-    public var productHistoryDIContainer: ProductHistoryDIContainerProtocol = {
-       return ProductHistoryDIContainerImpl()
+    public init(coreDataWrapper: CoreDataWrapperProtocol) {
+        self.coreDataWrapper = coreDataWrapper
+    }
+    
+    public var coreDataWrapper: CoreDataWrapperProtocol
+    
+    public lazy var productHistoryDIContainer: ProductHistoryDIContainerProtocol = {
+        return ProductHistoryDIContainerImpl(coreDataWrapper: coreDataWrapper)
     }()
     
-    public init() {}
 
     public lazy var productDiscoverDIContainer: ProductDiscoverDIContainerProtocol = {
         return ProductDiscoverDIContainerImpl()
     }()
     
     public lazy var cartDIContainer: CartDIContainerProtocol = {
-        return CartDIContainerImpl()
+        return CartDIContainerImpl(coreDataWrapper: coreDataWrapper)
     }()
     
     public lazy var imageCacheContainer: ImageDIContainerProtocol = {

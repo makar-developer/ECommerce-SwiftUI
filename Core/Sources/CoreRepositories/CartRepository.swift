@@ -28,14 +28,14 @@ public class CartRepositoryImpl: CartRepositoryProtocol {
     }
     
     public func getCart(for user: User) async throws -> Cart {
-        let predicate = NSPredicate(format: "user.id == %@", user.id as CVarArg)
+        let predicate = NSPredicate(format: "userData.id == %@", user.id as CVarArg)
         let fetchedCarts: [CartEntity] = try await coreDataWrapper.fetch(entityName: "CartEntity", predicate: predicate)
         
         guard let cartEntity = fetchedCarts.first else {
             // If no cart exists, create a new one
             let newCartEntity = CartEntity(context: coreDataWrapper.context)
             newCartEntity.id = UUID()
-            newCartEntity.user = user.toUserEntity(context: coreDataWrapper.context)
+            newCartEntity.userData = user.toUserDataEntity(context: coreDataWrapper.context)
             try await coreDataWrapper.save(newCartEntity)
             return newCartEntity.toCart()
         }
@@ -86,7 +86,7 @@ public class CartRepositoryImpl: CartRepositoryProtocol {
     // MARK: - Helper Methods
     
     private func fetchOrCreateCartEntity(for user: User) async throws -> CartEntity {
-        let predicate = NSPredicate(format: "user.id == %@", user.id as CVarArg)
+        let predicate = NSPredicate(format: "userData.id == %@", user.id as CVarArg)
         let fetchedCarts: [CartEntity] = try await coreDataWrapper.fetch(entityName: "CartEntity", predicate: predicate)
         
         if let cart = fetchedCarts.first {
@@ -94,7 +94,7 @@ public class CartRepositoryImpl: CartRepositoryProtocol {
         } else {
             let newCart = CartEntity(context: coreDataWrapper.context)
             newCart.id = UUID()
-            newCart.user = user.toUserEntity(context: coreDataWrapper.context)
+            newCart.userData = user.toUserDataEntity(context: coreDataWrapper.context)
             try await coreDataWrapper.save(newCart)
             return newCart
         }

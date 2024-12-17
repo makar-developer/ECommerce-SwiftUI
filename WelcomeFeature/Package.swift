@@ -21,6 +21,7 @@ let package = Package(
             name: "WelcomeFeature",
             dependencies: [
             "Core",
+            .product(name: "CoreDependencies", package: "Core"),
             .product(name: "WelcomePresentation", package: "WelcomeDependencies"),
             .product(name: "WelcomeDomain", package: "WelcomeDependencies"),
             .product(name: "WelcomeRepositoryProtocol", package: "WelcomeDependencies"),

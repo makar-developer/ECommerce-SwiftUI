@@ -5,12 +5,6 @@ import CoreEntities
 // MARK: - WelcomeView
 
 public struct WelcomeView: View {
-    
-    public enum NavigationTarget {
-        case authentication
-        case main(User)
-    }
-    
     @StateObject private var viewModel: WelcomeViewModel
     @State private var currentIndex: Int = 0 // Track the current index
 

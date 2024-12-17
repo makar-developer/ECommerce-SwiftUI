@@ -21,11 +21,15 @@ public protocol CartDIContainerProtocol {
 
 public class CartDIContainerImpl: CartDIContainerProtocol {
     
-    public init() {}
+    public var coreDataWrapper: CoreDataWrapperProtocol
     
-    public lazy var coreDataWrapper: CoreDataWrapperProtocol = {
-       return CoreDataWrapper(modelName: "Cart")
-    }()
+    public init(coreDataWrapper: CoreDataWrapperProtocol) {
+        self.coreDataWrapper = coreDataWrapper
+    }
+    
+//    public lazy var coreDataWrapper: CoreDataWrapperProtocol = {
+//       return CoreDataWrapper(modelName: "Cart")
+//    }()
     
     // MARK: - Repositories
     public lazy var cartRepository: CartRepositoryProtocol = {

@@ -85,7 +85,7 @@ let package = Package(
             path: "Sources/CoreDataSources",
 
             resources: [
-                .process("CoreData/Models/Cart.xcdatamodeld")
+                .process("CoreData/Models/UserData.xcdatamodeld")
             ]
         )
     ]

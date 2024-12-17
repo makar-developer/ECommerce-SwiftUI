@@ -91,7 +91,6 @@ final class ProfileCoordinator: ObservableObject {
                 case .productDetails(let product):
                     self.showProductDetails(product: product)
                 case .profile:
-                    print("PoP")
                     self.pop()
                 }
             }))

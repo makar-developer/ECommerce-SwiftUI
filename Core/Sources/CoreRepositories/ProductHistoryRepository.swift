@@ -28,7 +28,7 @@ public class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
         let context = coreDataWrapper.context
         return try await context.perform {
             let fetchRequest: NSFetchRequest<ProductHistoryEntity> = ProductHistoryEntity.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "user.id == %@", userId as CVarArg)
+            fetchRequest.predicate = NSPredicate(format: "userData.id == %@", userId as CVarArg)
             fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
             let historyEntities = try context.fetch(fetchRequest)
             return historyEntities.compactMap { $0.toDomainModel() }
@@ -40,9 +40,8 @@ public class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
         try await context.perform {
             // Fetch or create the product entity
             let productEntity = product.toCoreDataEntity(context: context)
-
             // Fetch the user entity
-            let userFetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
+            let userFetchRequest: NSFetchRequest<UserDataEntity> = UserDataEntity.fetchRequest()
             userFetchRequest.predicate = NSPredicate(format: "id == %@", userId as CVarArg)
             guard let userEntity = try context.fetch(userFetchRequest).first else {
                 throw NSError(domain: "User not found", code: 404, userInfo: nil)
@@ -51,7 +50,7 @@ public class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
             // Create new history entity
             let history = ProductHistory(product: product)
             let historyEntity = history.toCoreDataEntity(context: context)
-            historyEntity.user = userEntity
+            historyEntity.userData = userEntity
             historyEntity.product = productEntity
 
             // Save context
@@ -63,7 +62,7 @@ public class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
         let context = coreDataWrapper.context
         try await context.perform {
             let fetchRequest: NSFetchRequest<ProductHistoryEntity> = ProductHistoryEntity.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == %@ AND user.id == %@", productHistory.id as CVarArg, userId as CVarArg)
+            fetchRequest.predicate = NSPredicate(format: "id == %@ AND userData.id == %@", productHistory.id as CVarArg, userId as CVarArg)
             if let entityToDelete = try context.fetch(fetchRequest).first {
                 context.delete(entityToDelete)
                 try context.save()
@@ -75,7 +74,7 @@ public class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
         let context = coreDataWrapper.context
         try await context.perform {
             let fetchRequest: NSFetchRequest<ProductHistoryEntity> = ProductHistoryEntity.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "user.id == %@", userId as CVarArg)
+            fetchRequest.predicate = NSPredicate(format: "userData.id == %@", userId as CVarArg)
             let historyEntities = try context.fetch(fetchRequest)
             for entity in historyEntities {
                 context.delete(entity)
@@ -88,7 +87,7 @@ public class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
         let context = coreDataWrapper.context
         try await context.perform {
             let fetchRequest: NSFetchRequest<ProductHistoryEntity> = ProductHistoryEntity.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "timestamp < %@ AND user.id == %@", date as NSDate, userId as CVarArg)
+            fetchRequest.predicate = NSPredicate(format: "timestamp < %@ AND userData.id == %@", date as NSDate, userId as CVarArg)
             let historyEntities = try context.fetch(fetchRequest)
             for entity in historyEntities {
                 context.delete(entity)

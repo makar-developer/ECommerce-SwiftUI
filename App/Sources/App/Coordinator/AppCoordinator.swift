@@ -10,9 +10,6 @@ final class AppCoordinator: ObservableObject {
 
     init(container: AppDIContainerProtocol) {
         self.container = container
-//        Task {
-//            await getSignedInUser()
-//        }
     }
 
     func presentFeature(_ feature: Feature) {
@@ -60,6 +57,7 @@ final class AppCoordinator: ObservableObject {
         case .welcome:
             WelcomeCoordinatorView(
                 container: container.welcomeDIContainer,
+                userDataContainer: container.userDataDIContainer,
                 onNavigation: { [weak self] user in
                     self?.presentMain(user)
                 }

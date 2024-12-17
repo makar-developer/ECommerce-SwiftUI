@@ -3,13 +3,13 @@ import SwiftUI
 import Combine
 import CoreEntities
 import WelcomeDomain
-
+import CoreUseCases
 final public class AuthenticationViewModel: ObservableObject {
     // Input Fields
-    @Published var name: String = ""
-    @Published var login: String = ""
-    @Published var password: String = ""
-    @Published var confirmPassword: String = ""
+    @Published var name: String = "John Doe"
+    @Published var login: String = "johnDoe123"
+    @Published var password: String = "StrongP@ssw0rd"
+    @Published var confirmPassword: String = "StrongP@ssw0rd"
 
     // Validation States
     @Published var isNameValid: Bool = false
@@ -28,12 +28,14 @@ final public class AuthenticationViewModel: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
     private let createUserUseCase: CreateUserUseCaseProtocol
-
+    private let createUserDataUseCase: CreateUserDataUseCaseProtocol
     private let onNavigation: () -> Void
     
-    public init(createUserUseCase: CreateUserUseCaseProtocol, onNavigation: @escaping () -> Void) {
+    public init(createUserUseCase: CreateUserUseCaseProtocol, createUserDataUseCase: CreateUserDataUseCaseProtocol, onNavigation: @escaping () -> Void) {
         self.createUserUseCase = createUserUseCase
+        self.createUserDataUseCase = createUserDataUseCase
         self.onNavigation = onNavigation
+        setupValidation()
     }
 
     func setupValidation() {
@@ -140,6 +142,11 @@ final public class AuthenticationViewModel: ObservableObject {
         )
 
         try await createUserUseCase.execute(user: newUser)
+        try await createUserDataUseCase.execute(user: newUser)
+        onNavigation()
+    }
+    
+    func backToWelcome() {
         onNavigation()
     }
 }

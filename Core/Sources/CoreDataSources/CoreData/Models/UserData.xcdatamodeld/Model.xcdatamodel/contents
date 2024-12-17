@@ -2,14 +2,14 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="21G217" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CartEntity" representedClassName="CartEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="products" toMany="YES" deletionRule="Nullify" destinationEntity="CartItemEntity" inverseName="cart" inverseEntity="CartItemEntity"/>
-        <relationship name="user" maxCount="1" deletionRule="Nullify" destinationEntity="UserEntity" inverseName="cart" inverseEntity="UserEntity"/>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CartItemEntity" inverseName="cart" inverseEntity="CartItemEntity"/>
+        <relationship name="userData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserDataEntity" inverseName="cart" inverseEntity="UserDataEntity"/>
     </entity>
     <entity name="CartItemEntity" representedClassName="CartItemEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="quantity" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="cart" maxCount="1" deletionRule="Nullify" destinationEntity="CartEntity" inverseName="products" inverseEntity="CartEntity"/>
-        <relationship name="product" maxCount="1" deletionRule="Nullify" destinationEntity="ProductEntity" inverseName="cartItems" inverseEntity="ProductEntity"/>
+        <relationship name="cart" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CartEntity" inverseName="products" inverseEntity="CartEntity"/>
+        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProductEntity" inverseName="cartItems" inverseEntity="ProductEntity"/>
     </entity>
     <entity name="ProductEntity" representedClassName="ProductEntity" syncable="YES" codeGenerationType="class">
         <attribute name="brand" optional="YES" attributeType="String"/>
@@ -22,22 +22,18 @@
         <attribute name="stock" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="thumbnail" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
-        <relationship name="cartItems" toMany="YES" deletionRule="Nullify" destinationEntity="CartItemEntity" inverseName="product" inverseEntity="CartItemEntity"/>
-        <relationship name="productHistories" toMany="YES" deletionRule="Nullify" destinationEntity="ProductHistoryEntity" inverseName="product" inverseEntity="ProductHistoryEntity"/>
+        <relationship name="cartItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CartItemEntity" inverseName="product" inverseEntity="CartItemEntity"/>
+        <relationship name="productHistories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductHistoryEntity" inverseName="product" inverseEntity="ProductHistoryEntity"/>
     </entity>
     <entity name="ProductHistoryEntity" representedClassName="ProductHistoryEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="product" maxCount="1" deletionRule="Nullify" destinationEntity="ProductEntity" inverseName="productHistories" inverseEntity="ProductEntity"/>
-        <relationship name="user" maxCount="1" deletionRule="Nullify" destinationEntity="UserEntity" inverseName="productHistories" inverseEntity="UserEntity"/>
+        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProductEntity" inverseName="productHistories" inverseEntity="ProductEntity"/>
+        <relationship name="userData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserDataEntity" inverseName="productHistories" inverseEntity="UserDataEntity"/>
     </entity>
-    <entity name="UserEntity" representedClassName="UserEntity" syncable="YES" codeGenerationType="class">
+    <entity name="UserDataEntity" representedClassName="UserDataEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="login" attributeType="String"/>
-        <attribute name="name" attributeType="String"/>
-        <attribute name="password" attributeType="String"/>
-        <attribute name="profilePicture" optional="YES" attributeType="String"/>
-        <relationship name="cart" maxCount="1" deletionRule="Nullify" destinationEntity="CartEntity" inverseName="user" inverseEntity="CartEntity"/>
-        <relationship name="productHistories" toMany="YES" deletionRule="Nullify" destinationEntity="ProductHistoryEntity" inverseName="user" inverseEntity="ProductHistoryEntity"/>
+        <relationship name="cart" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CartEntity" inverseName="userData" inverseEntity="CartEntity"/>
+        <relationship name="productHistories" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ProductHistoryEntity" inverseName="userData" inverseEntity="ProductHistoryEntity"/>
     </entity>
 </model>

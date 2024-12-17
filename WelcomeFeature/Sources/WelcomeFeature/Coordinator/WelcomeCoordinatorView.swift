@@ -7,11 +7,12 @@
 
 import SwiftUI
 import CoreEntities
+import CoreDependencies
 public struct WelcomeCoordinatorView: View {
     @StateObject private var coordinator: WelcomeCoordinator
 
-    public init(container: WelcomeDIContainerProtocol, onNavigation: @escaping (User) -> Void) {
-        _coordinator = StateObject(wrappedValue: WelcomeCoordinator(container: container, onNavigation: onNavigation))
+    public init(container: WelcomeDIContainerProtocol, userDataContainer: UserDataDIContainerProtocol, onNavigation: @escaping (User) -> Void) {
+        _coordinator = StateObject(wrappedValue: WelcomeCoordinator(container: container, userDataContainer: userDataContainer, onNavigation: onNavigation))
     }
 
     public var body: some View {
