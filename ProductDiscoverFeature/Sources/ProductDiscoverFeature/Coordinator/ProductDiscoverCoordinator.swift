@@ -15,12 +15,14 @@ final class ProductDiscoverCoordinator: ObservableObject {
     private let container: ProductDiscoverDIContainerProtocol
     private let cartContainer: CartDIContainerProtocol
     private let imageCacheContainer: ImageDIContainerProtocol
+    private let productHistoryContainer: ProductHistoryDIContainerProtocol
     private let user: User
     
-    init(container: ProductDiscoverDIContainerProtocol, cartContainer: CartDIContainerProtocol, imageCacheContainer: ImageDIContainerProtocol, user: User) {
+    init(container: ProductDiscoverDIContainerProtocol, cartContainer: CartDIContainerProtocol, imageCacheContainer: ImageDIContainerProtocol, productHistoryContainer: ProductHistoryDIContainerProtocol, user: User) {
         self.container = container
         self.cartContainer = cartContainer
         self.imageCacheContainer = imageCacheContainer
+        self.productHistoryContainer = productHistoryContainer
         self.user = user
     }
 
@@ -53,7 +55,7 @@ final class ProductDiscoverCoordinator: ObservableObject {
                 self.showProductDetails(product: product, user: self.user)
             }))
         case .productDetails(let product, let user):
-            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase, onNavigation: { [weak self] in
+            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase, addProductToHistoryUseCase: productHistoryContainer.addProductToHistoryUseCase, onNavigation: { [weak self] in
                 guard let self else { return }
                 self.showProductDiscover()
             }))

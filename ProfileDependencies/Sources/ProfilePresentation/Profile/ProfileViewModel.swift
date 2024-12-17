@@ -15,6 +15,7 @@ public final class ProfileViewModel: ObservableObject {
     public enum NavigationTarget {
         case changePassword(User)
         case logout
+        case productHistory
     }
 
     @Published var user: User
@@ -140,5 +141,9 @@ public final class ProfileViewModel: ObservableObject {
             try await signOutUseCase.execute()
         }
         onNavigation(.logout)
+    }
+    
+    func showProductHistory() {
+        onNavigation(.productHistory)
     }
 }

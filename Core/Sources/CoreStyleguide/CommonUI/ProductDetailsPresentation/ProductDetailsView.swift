@@ -98,6 +98,9 @@ public struct ProductDetailsView: View {
                 }
             }
         }
+        .task {
+            await viewModel.addProductToHistory()
+        }
     }
 }
 

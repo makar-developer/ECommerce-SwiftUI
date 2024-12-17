@@ -8,13 +8,21 @@
 import SwiftUI
 import CoreEntities
 import ProfilePresentation
+import CoreDependencies
+import CoreStyleguide
 final class ProfileCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     private let container: ProfileDIContainerProtocol
+    private let imageContainer: ImageDIContainerProtocol
+    private let productHistoryContainer: ProductHistoryDIContainerProtocol
+    private let cartContainer: CartDIContainerProtocol
     private let user: User
     private let onLogout: () -> Void
-    init(container: ProfileDIContainerProtocol, user: User, onLogout: @escaping () -> Void) {
+    init(container: ProfileDIContainerProtocol, imageContainer: ImageDIContainerProtocol, productHistoryContainer: ProductHistoryDIContainerProtocol, cartContainer: CartDIContainerProtocol, user: User, onLogout: @escaping () -> Void) {
         self.container = container
+        self.imageContainer = imageContainer
+        self.productHistoryContainer = productHistoryContainer
+        self.cartContainer = cartContainer
         self.user = user
         self.onLogout = onLogout
     }
@@ -30,11 +38,19 @@ final class ProfileCoordinator: ObservableObject {
             self.path.removeLast()
         }
     }
-
+    
     private func showChangePassword(user: User) {
         self.push(screen: .changePassword(user))
     }
-
+    
+    private func showProductHistory() {
+        self.push(screen: .productHistory)
+    }
+    
+    private func showProductDetails(product: Product) {
+        self.push(screen: .productDetails(product))
+    }
+    
     // The logout logic will be handled externally
     private func logout() {
         onLogout()
@@ -58,6 +74,8 @@ final class ProfileCoordinator: ObservableObject {
                         self.showChangePassword(user: user)
                     case .logout:
                         self.logout()
+                    case .productHistory:
+                        self.showProductHistory()
                     }
                 }))
         case .changePassword(let user):
@@ -67,6 +85,20 @@ final class ProfileCoordinator: ObservableObject {
                 onNavigation: { [weak self] in
                     self?.pop()
                 }))
+        case .productHistory:
+            ProductHistoryView(viewModel: ProductHistoryViewModel(userId: user.id, getProductHistoryUseCase: productHistoryContainer.getProductHistoryUseCase, removeProductFromHistoryUseCase: productHistoryContainer.removeProductFromHistoryUseCase, removeAllHistoryUseCase: productHistoryContainer.removeAllHistoryUseCase, getImageUseCase: imageContainer.getImageUseCase, onNavigation: { target in
+                switch target {
+                case .productDetails(let product):
+                    self.showProductDetails(product: product)
+                case .profile:
+                    print("PoP")
+                    self.pop()
+                }
+            }))
+        case .productDetails(let product):
+            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase, addProductToHistoryUseCase: productHistoryContainer.addProductToHistoryUseCase, onNavigation: {
+                self.pop()
+            }))
         }
     }
 }

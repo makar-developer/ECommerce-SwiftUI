@@ -14,11 +14,13 @@ public class ProductDetailsViewModel: ObservableObject {
     @Published var currentImageIndex: Int = 0  // For the carousel
     let onNavigation: () -> Void
     private let addProductToCartUseCase: AddProductToCartUseCaseProtocol
+    private let addProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol
     
-    public init(user: User, product: Product, addProductToCartUseCase: AddProductToCartUseCaseProtocol, onNavigation: @escaping () -> Void) {
+    public init(user: User, product: Product, addProductToCartUseCase: AddProductToCartUseCaseProtocol, addProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol, onNavigation: @escaping () -> Void) {
         self.user = user
         self.product = product
         self.addProductToCartUseCase = addProductToCartUseCase
+        self.addProductToHistoryUseCase = addProductToHistoryUseCase
         self.onNavigation = onNavigation
     }
     
@@ -29,6 +31,14 @@ public class ProductDetailsViewModel: ObservableObject {
             } catch {
                 print("Failed to add product to cart: \(error)")
             }
+        }
+    }
+    
+    public func addProductToHistory() async {
+        do {
+            try await addProductToHistoryUseCase.execute(product: product, for: user.id)
+        } catch {
+            print("Failed to add product to history \(error)")
         }
     }
 }

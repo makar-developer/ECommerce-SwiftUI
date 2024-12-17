@@ -18,12 +18,12 @@ public struct HomeCoordinatorTabView: View {
     
     public var body: some View {
         TabView {
-            ProductDiscoverCoordinatorView(container: container.productDiscoverDIContainer, cartContainer: container.cartDIContainer, imageCacheContainer: container.imageCacheContainer, user: user)
+            ProductDiscoverCoordinatorView(container: container.productDiscoverDIContainer, cartContainer: container.cartDIContainer, imageCacheContainer: container.imageCacheContainer, productHistoryContainer: container.productHistoryDIContainer, user: user)
             .tabItem {
                 Label("Home", systemImage: "house")
             }
 
-            ProductSearchCoordinatorView(container: container.productSearchDIContainer, cartContainer: container.cartDIContainer, imageCacheContainer: container.imageCacheContainer, user: user)
+            ProductSearchCoordinatorView(container: container.productSearchDIContainer, cartContainer: container.cartDIContainer, imageCacheContainer: container.imageCacheContainer, productHistoryContainer: container.productHistoryDIContainer, user: user)
             .tabItem {
                 Label("Search", systemImage: "magnifyingglass")
             }
@@ -36,12 +36,8 @@ public struct HomeCoordinatorTabView: View {
             .tabItem {
                 Label("Cart", systemImage: "cart")
             }
-
-            ProfileCoordinatorView(
-                container: container.profileDIContainer,
-                user: user,
-                onLogout: onLogout
-            )
+            
+            ProfileCoordinatorView(container: container.profileDIContainer, imageContainer: container.imageCacheContainer, productHistoryContainer: container.productHistoryDIContainer, cartContainer: container.cartDIContainer, user: user, onLogout: onLogout)
             .tabItem {
                 Label("Account", systemImage: "person")
             }

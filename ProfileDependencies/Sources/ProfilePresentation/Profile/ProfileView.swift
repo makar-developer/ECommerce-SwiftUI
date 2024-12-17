@@ -70,6 +70,10 @@ public struct ProfileView: View {
                 viewModel.changePassword()
             }
             .padding()
+            Button("View Product History") {
+                viewModel.showProductHistory()
+            }
+            .padding()
 
             Spacer()
 

@@ -19,10 +19,15 @@ public protocol HomeDIContainerProtocol {
     var productSearchDIContainer: ProductSearchDIContainerProtocol { get }
 //    var productCartDIContainer: ProductCartDIContainerProtocol { get }
     var profileDIContainer: ProfileDIContainerProtocol { get }
+    var productHistoryDIContainer: ProductHistoryDIContainerProtocol { get }
 }
 
 // MARK: - Dependency Injection Container Implementation
 public class HomeDIContainerImpl: HomeDIContainerProtocol {
+    public var productHistoryDIContainer: ProductHistoryDIContainerProtocol = {
+       return ProductHistoryDIContainerImpl()
+    }()
+    
     public init() {}
 
     public lazy var productDiscoverDIContainer: ProductDiscoverDIContainerProtocol = {
