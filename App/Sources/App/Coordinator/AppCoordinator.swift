@@ -7,6 +7,7 @@ final class AppCoordinator: ObservableObject {
     @Published var fullScreenCoverFeature: Feature?
 
     private let container: AppDIContainerProtocol
+    private var welcomeFeatureIdentifier: UUID = UUID()
 
     init(container: AppDIContainerProtocol) {
         self.container = container
@@ -23,11 +24,14 @@ final class AppCoordinator: ObservableObject {
     }
 
     func presentWelcome() {
-        presentFeature(.welcome)
+        welcomeFeatureIdentifier = UUID()
+        presentFeature(.welcome(id: welcomeFeatureIdentifier))
     }
     
     func dismissFeature() {
-        fullScreenCoverFeature = nil
+        DispatchQueue.main.async {
+            self.fullScreenCoverFeature = nil
+        }
     }
     
     func getSignedInUser() async -> User? {
@@ -54,14 +58,14 @@ final class AppCoordinator: ObservableObject {
     @ViewBuilder
     func build(feature: Feature) -> some View {
         switch feature {
-        case .welcome:
+        case .welcome(let id):
             WelcomeCoordinatorView(
                 container: container.welcomeDIContainer,
                 userDataContainer: container.userDataDIContainer,
                 onNavigation: { [weak self] user in
                     self?.presentMain(user)
                 }
-            )
+            ).id(id)
         case .main(let user):
             HomeCoordinatorTabView(
                 user: user,

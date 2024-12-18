@@ -8,13 +8,13 @@
 import Foundation
 import CoreEntities
 enum Feature: Identifiable, Hashable {
-    case welcome
+    case welcome(id: UUID)
     case main(User)
     
     var id: String {
         switch self {
-        case .welcome:
-            return "welcome"
+        case .welcome(let id):
+            return id.uuidString
         case .main(let user):
             return user.id.uuidString
         }
