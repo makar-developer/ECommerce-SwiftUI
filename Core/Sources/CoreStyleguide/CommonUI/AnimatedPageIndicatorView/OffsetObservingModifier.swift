@@ -10,6 +10,10 @@ import SwiftUI
 // MARK: - OffsetObservingModifier
 
 public struct OffsetObservingModifier: AnimatableModifier {
+    public init(offset: CGFloat, update: @escaping (CGFloat) -> Void) {
+        self.offset = offset
+        self.update = update
+    }
     // The offset to observe
     var offset: CGFloat
     var update: (CGFloat) -> Void

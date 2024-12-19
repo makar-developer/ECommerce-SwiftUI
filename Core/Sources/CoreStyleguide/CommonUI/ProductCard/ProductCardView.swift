@@ -14,7 +14,7 @@ public struct ProductCardView: View {
     let onNavigation: (Product) -> Void
     let getImageUseCase: GetImageUseCaseProtocol
 
-    @Environment(\.screenWidth) private var screenWidth
+    @Environment(\.screenHeight) private var screenHeight
 
     public init(product: Product, onNavigation: @escaping (Product) -> Void, getImageUseCase: GetImageUseCaseProtocol) {
         self.product = product
@@ -30,22 +30,22 @@ public struct ProductCardView: View {
                     url: url,
                     getImageUseCase: getImageUseCase,
                     placeholder: {
-                        ProgressView()
-                            .frame(height: screenWidth * 0.33)
+                        ZStack {
+                            ProgressView()
+                            Color.gray
+                        }
                     },
                     image: { image in
                         image
                     }
                 )
                 .scaledToFit()
-                .frame(height: screenWidth * 0.33)
                 .clipped()
                 .cornerRadius(8)
             } else {
                 Image(systemName: "photo")
                     .resizable()
                     .scaledToFit()
-                    .frame(height: screenWidth * 0.33)
             }
 
             // Title
@@ -68,13 +68,16 @@ public struct ProductCardView: View {
                     .foregroundColor(.green)
             }
         }
-        .padding()
+        .frame(height: screenHeight * 0.6)
+        .padding(.horizontal)
+        .padding(.bottom)
         .background(Color(.systemBackground))
         .cornerRadius(12)
         .shadow(radius: 4)
         .onTapGesture {
             onNavigation(product)
         }
+
     }
 }
 

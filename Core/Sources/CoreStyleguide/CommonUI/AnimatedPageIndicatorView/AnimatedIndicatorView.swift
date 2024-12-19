@@ -9,7 +9,14 @@ import SwiftUI
 
 // MARK: - AnimatedPageIndicatorView
 
-struct AnimatedPageIndicatorView: View {
+public struct AnimatedPageIndicatorView: View {
+    public init(numberOfDots: Int, dotRadius: Double, dotSpacing: Double, currentProgress: Double) {
+        
+        self.numberOfDots = numberOfDots
+        self.dotRadius = dotRadius
+        self.dotSpacing = dotSpacing
+        self.currentProgress = currentProgress
+    }
     // Identical input parameters to the UIKit version:
     let numberOfDots: Int
     let dotRadius: Double
@@ -17,7 +24,7 @@ struct AnimatedPageIndicatorView: View {
     let currentProgress: Double
     
     
-    var body: some View {
+    public var body: some View {
             ZStack {
                 GeometryReader { proxy in
                     // 1) Safely clamp progress to [0, numberOfDots - 1]
