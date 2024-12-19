@@ -42,32 +42,31 @@ public final class ProductHistoryViewModel: ObservableObject {
         self.onNavigation = onNavigation
     }
     
-    func loadHistory() {
+    @MainActor
+    func loadHistory() async {
         isLoading = true
-        Task {
-            do {
-                let histories = try await getProductHistoryUseCase.execute(for: userId)
-                
-                // Filter duplicates: Keep only the latest history for each product
-                let filteredHistories = histories
-                    .sorted { $0.timestamp > $1.timestamp } // Sort by latest timestamp first
-                    .reduce(into: [Int: ProductHistory]()) { result, history in
-                        if result[history.product.id] == nil {
-                            result[history.product.id] = history
-                        }
-                    }
-                    .map { $0.value } // Extract the filtered histories
-                
-                DispatchQueue.main.async {
-                    self.productHistories = filteredHistories
-                    self.isLoading = false
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    self.errorMessage = AlertError(message: error.localizedDescription)
-                    self.isLoading = false
+        do {
+            let histories = try await getProductHistoryUseCase.execute(for: userId)
+            
+            // Sort histories by timestamp in descending order (newest first)
+            let sortedHistories = histories.sorted { $0.timestamp > $1.timestamp }
+            
+            // Use a Set to keep track of seen product IDs
+            var seenProductIDs = Set<Int>()
+            var uniqueHistories: [ProductHistory] = []
+            
+            for history in sortedHistories {
+                if !seenProductIDs.contains(history.product.id) {
+                    uniqueHistories.append(history)
+                    seenProductIDs.insert(history.product.id)
                 }
             }
+            
+                self.productHistories = uniqueHistories
+                self.isLoading = false
+        } catch {
+                self.errorMessage = AlertError(message: error.localizedDescription)
+                self.isLoading = false
         }
     }
 

@@ -64,8 +64,8 @@ public struct ProductHistoryView: View {
                 }
             }
         }
-        .onAppear {
-            viewModel.loadHistory()
+        .task {
+            await viewModel.loadHistory()
         }
         .alert(item: $viewModel.errorMessage) { error in
             Alert(
