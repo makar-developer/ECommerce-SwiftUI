@@ -9,103 +9,185 @@ import SwiftUI
 
 // MARK: - AnimatedPageIndicatorView
 
-public struct AnimatedPageIndicatorView: View {
-    var numberOfDots: Int
-    var dotRadius: CGFloat = 20.0
-    var dotSpacing: CGFloat = 40.0
-    var currentProgress: Double
-
-    public var body: some View {
-        GeometryReader { geometry in
-            let totalWidth = CGFloat(numberOfDots - 1) * dotSpacing + dotRadius * 2
-            let startX = (geometry.size.width - totalWidth) / 2
-
+struct AnimatedPageIndicatorView: View {
+    // Identical input parameters to the UIKit version:
+    let numberOfDots: Int
+    let dotRadius: Double
+    let dotSpacing: Double
+    let currentProgress: Double
+    
+    
+    var body: some View {
             ZStack {
-                // Inactive dots (red) with adjusted opacity
-                ForEach(0..<numberOfDots, id: \.self) { dotIndex in
-                    let dotCenterX = startX + CGFloat(dotIndex) * dotSpacing + dotRadius
-                    let activeDotCenterX = getActiveDotCenterX(startX: startX)
-                    let distance = abs(dotCenterX - activeDotCenterX)
-                    let opacity = min(1.0, distance / dotSpacing)
-
-                    Circle()
-                        .fill(Color.white)
-                        .frame(width: dotRadius * 2, height: dotRadius * 2)
-                        .position(x: dotCenterX, y: geometry.size.height / 2)
-                        .opacity(opacity)
+                GeometryReader { proxy in
+                    // 1) Safely clamp progress to [0, numberOfDots - 1]
+                    let clampedProgress: Double = max(0, min(Double(numberOfDots - 1), currentProgress))
+                    
+                    // 2) Decompose into integer index + fractional portion
+                    let index: Int = Int(clampedProgress)
+                    let fraction: Double = clampedProgress - Double(index)
+                    
+                    // 3) Total horizontal space: (N-1)*dotSpacing + diameter(=2*dotRadius)
+                    let totalWidth: CGFloat = CGFloat(numberOfDots - 1) * CGFloat(dotSpacing)
+                    + CGFloat(dotRadius) * 2
+                    
+                    // 4) The leftmost dot’s starting X so the row is centered
+                    let startX: CGFloat = (proxy.size.width - totalWidth) / 2
+                    
+                    // 5) Convert arguments to CGFloats for geometry
+                    let dotR: CGFloat = CGFloat(dotRadius)
+                    let dotS: CGFloat = CGFloat(dotSpacing)
+                    let containerHeight: CGFloat = proxy.size.height
+                    
+                    ZStack {
+                        // A) Draw all “stationary” red dots, skipping:
+                        //    • Dot 0 if the active dot is at or moving from index=0
+                        //    • Dot i where i == index (occupied by blue)
+                        //    • Dot i where i == index+1 (the neighbor, drawn separately)
+                        ForEach(0..<numberOfDots, id: \.self) { i in
+                            stationaryRedDotView(
+                                i: i,
+                                index: index,
+                                fraction: fraction,
+                                numberOfDots: numberOfDots,
+                                dotRadius: dotR,
+                                dotSpacing: dotS,
+                                startX: startX,
+                                containerHeight: containerHeight
+                            )
+                        }
+                        
+                        // B) The active (blue) dot
+                        activeBlueDotView(
+                            index: index,
+                            fraction: fraction,
+                            numberOfDots: numberOfDots,
+                            dotRadius: dotR,
+                            dotSpacing: dotS,
+                            startX: startX,
+                            containerHeight: containerHeight
+                        ).zIndex(1)
+                        
+                        // C) The “neighbor” red dot from index+1 → index
+                        neighborRedDotView(
+                            index: index,
+                            fraction: fraction,
+                            numberOfDots: numberOfDots,
+                            dotRadius: dotR,
+                            dotSpacing: dotS,
+                            startX: startX,
+                            containerHeight: containerHeight
+                        )
+                    }
                 }
-                // Active dot (blue) and adjacent dot animation
-                ActiveDotView(
-                    numberOfDots: numberOfDots,
-                    dotRadius: dotRadius,
-                    dotSpacing: dotSpacing,
-                    currentProgress: currentProgress,
-                    startX: startX,
-                    centerY: geometry.size.height / 2
-                )
+                .frame(height: CGFloat(dotRadius) * 2 + 20) // Enough height to avoid clipping
             }
+            .background(
+                Capsule()
+                    .fill(Color.black.opacity(0.3))
+                    .frame(width: (dotSpacing * Double(numberOfDots)) + (dotRadius * 2 * Double(numberOfDots)))
+            )
         }
-        .frame(height: dotRadius * 2)
-        .frame(width: dotSpacing * CGFloat(numberOfDots))
+    
+    // MARK: - Subviews
+    
+    // 1) Renders a single stationary red dot “i” unless it’s hidden.
+    private func stationaryRedDotView(
+        i: Int,
+        index: Int,
+        fraction: Double,
+        numberOfDots: Int,
+        dotRadius: CGFloat,
+        dotSpacing: CGFloat,
+        startX: CGFloat,
+        containerHeight: CGFloat
+    ) -> some View {
+        
+        // Conditions to skip:
+        // (a) i == index → that position is occupied by the blue dot
+        // (b) i == index+1 (and index < last) → that’s the “neighbor” dot drawn separately
+        // (c) i == 0 if the active dot is “still at or between” 0→1.
+        //     i.e., index=0 or fraction>0 means blue dot hasn’t left 0 yet.
+        
+        // Implement (c): hide i=0 only if index=0 AND fraction<1
+        let shouldHideDot0: Bool = (i == 0 && index == 0 && fraction < 1.0)
+        
+        // Combine skip conditions:
+        let skipBluePosition  = (i == index)
+        let skipNeighbor      = (i == index + 1 && index < numberOfDots - 1)
+        
+        if skipBluePosition || skipNeighbor || shouldHideDot0 {
+            return AnyView(EmptyView())
+        } else {
+            // Position for stationary dot i
+            let centerX: CGFloat = startX + CGFloat(i) * dotSpacing + dotRadius
+            return AnyView(
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: dotRadius * 2, height: dotRadius * 2)
+                    .position(x: centerX, y: containerHeight / 2)
+            )
+        }
     }
-
-    func getActiveDotCenterX(startX: CGFloat) -> CGFloat {
-        let progress = max(0.0, min(Double(numberOfDots - 1), currentProgress))
-        let index = Int(progress)
-        let fraction = progress - Double(index)
-
-        let startCenterX = startX + CGFloat(index) * dotSpacing + dotRadius
-        let endCenterX = startX + CGFloat(min(index + 1, numberOfDots - 1)) * dotSpacing + dotRadius
-        let centerX = startCenterX + CGFloat(fraction) * (endCenterX - startCenterX)
-        return centerX
+    
+    // 2) Active (blue) dot interpolation from “index” → “index+1.”
+    private func activeBlueDotView(
+        index: Int,
+        fraction: Double,
+        numberOfDots: Int,
+        dotRadius: CGFloat,
+        dotSpacing: CGFloat,
+        startX: CGFloat,
+        containerHeight: CGFloat
+    ) -> some View {
+        
+        // If index is the last dot, we don’t move anywhere
+        let safeIndex: Int = min(index, numberOfDots - 1)
+        let safeIndexPlusOne: Int = min(index + 1, numberOfDots - 1)
+        
+        let startCenterX: CGFloat = startX + CGFloat(safeIndex) * dotSpacing + dotRadius
+        let endCenterX: CGFloat   = startX + CGFloat(safeIndexPlusOne) * dotSpacing + dotRadius
+        
+        let fractionAdjustment: CGFloat = (index == numberOfDots - 1) ? 0 : CGFloat(fraction)
+        let blueCenterX: CGFloat = startCenterX + fractionAdjustment * (endCenterX - startCenterX)
+        
+        return Circle()
+            .fill(Color(hue: 0.08, saturation: 0.7, brightness: 0.9))
+            .frame(width: dotRadius * 2, height: dotRadius * 2)
+            .position(x: blueCenterX, y: containerHeight / 2)
+    }
+    
+    // 3) Red “neighbor” dot at index+1, which moves backward to index.
+    private func neighborRedDotView(
+        index: Int,
+        fraction: Double,
+        numberOfDots: Int,
+        dotRadius: CGFloat,
+        dotSpacing: CGFloat,
+        startX: CGFloat,
+        containerHeight: CGFloat
+    ) -> some View {
+        
+        // If index < last dot, there’s a neighbor to the right:
+        if index < numberOfDots - 1 {
+            let neighborStartX: CGFloat = startX + CGFloat(index + 1) * dotSpacing + dotRadius
+            let neighborEndX: CGFloat   = startX + CGFloat(index)     * dotSpacing + dotRadius
+            let dx: CGFloat = neighborStartX - neighborEndX
+            let neighborCenterX: CGFloat = neighborStartX - CGFloat(fraction) * dx
+            
+            return Circle()
+                .fill(Color.white)
+                .frame(width: dotRadius * 2, height: dotRadius * 2)
+                .position(x: neighborCenterX, y: containerHeight / 2)
+                .eraseToAnyView()
+        } else {
+            // If index==last, no neighbor
+            return EmptyView().eraseToAnyView()
+        }
     }
 }
 
-// MARK: - ActiveDotView
-
-public struct ActiveDotView: View {
-    var numberOfDots: Int
-    var dotRadius: CGFloat
-    var dotSpacing: CGFloat
-    var currentProgress: Double
-    var startX: CGFloat
-    var centerY: CGFloat
-
-    public var body: some View {
-        let progress = max(0.0, min(Double(numberOfDots - 1), currentProgress))
-        let index = Int(progress)
-        let fraction = progress - Double(index)
-        // Active dot (blue) position
-        let startCenterX = startX + CGFloat(index) * dotSpacing + dotRadius
-        let endCenterX = startX + CGFloat(min(index + 1, numberOfDots - 1)) * dotSpacing + dotRadius
-        let activeCenterX = startCenterX + CGFloat(fraction) * (endCenterX - startCenterX)
-        // Adjacent dot (red) position moving towards previous position
-        var adjacentDotView: some View {
-            if index < numberOfDots - 1 {
-                let adjacentStartX = startX + CGFloat(index + 1) * dotSpacing + dotRadius
-                let adjacentEndX = startX + CGFloat(index) * dotSpacing + dotRadius
-                let adjacentCenterX = adjacentStartX - CGFloat(fraction) * (adjacentStartX - adjacentEndX)
-
-                return AnyView(
-                    Circle()
-                        .fill(Color.white)
-                        .frame(width: dotRadius * 2, height: dotRadius * 2)
-                        .position(x: adjacentCenterX, y: centerY)
-                )
-            } else {
-                return AnyView(EmptyView())
-            }
-        }
-
-        return ZStack {
-            // Active dot (blue) moving forward
-            Circle()
-                .fill(Color(hue: 0.08, saturation: 0.7, brightness: 0.9))
-                .frame(width: dotRadius * 2, height: dotRadius * 2)
-                .position(x: activeCenterX, y: centerY)
-
-            // Adjacent inactive dot (red) moving towards previous position
-            adjacentDotView
-        }
-    }
+extension View {
+    // Helper for bridging a View to AnyView
+    func eraseToAnyView() -> AnyView { AnyView(self) }
 }
