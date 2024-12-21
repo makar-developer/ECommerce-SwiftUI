@@ -8,15 +8,17 @@
 import Foundation
 import CoreEntities
 enum Feature: Identifiable, Hashable {
-    case welcome(id: UUID)
-    case main(User)
+    // Give each case a UUID to force re-init on reuse
+    case welcome(UUID = UUID())
+    case main(User, UUID = UUID())
     
-    var id: String {
+    
+    var id: UUID {
         switch self {
         case .welcome(let id):
-            return id.uuidString
-        case .main(let user):
-            return user.id.uuidString
+            return id
+        case .main(_, let id):
+            return id
         }
     }
 }

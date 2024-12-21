@@ -57,7 +57,8 @@ let package = Package(
             dependencies: [
                 "ProfileDomain",
                 .product(name: "CoreEntities", package: "Core"),
-                .product(name: "CoreUseCases", package: "Core")
+                .product(name: "CoreUseCases", package: "Core"),
+                .product(name: "CoreStyleguide", package: "Core")
             ]),
         .target(
             name: "ProfileDomain",

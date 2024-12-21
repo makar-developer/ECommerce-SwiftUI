@@ -11,13 +11,13 @@ import WelcomeDomain
 import WelcomeData
 import CoreEntities
 import CoreDependencies
-final class WelcomeCoordinator: ObservableObject {
+public final class WelcomeCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     private let container: WelcomeDIContainerProtocol
     private let userDataContainer: UserDataDIContainerProtocol
     private let onNavigation: (User) -> Void
 
-    init(container: WelcomeDIContainerProtocol, userDataContainer: UserDataDIContainerProtocol, onNavigation: @escaping (User) -> Void) {
+    public init(container: WelcomeDIContainerProtocol, userDataContainer: UserDataDIContainerProtocol, onNavigation: @escaping (User) -> Void) {
         self.container = container
         self.userDataContainer = userDataContainer
         self.onNavigation = onNavigation

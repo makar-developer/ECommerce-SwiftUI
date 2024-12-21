@@ -31,7 +31,8 @@ let package = Package(
                 "WelcomeDomain",
                 .product(name: "Core", package: "Core"),
                 .product(name: "CoreEntities", package: "Core"),
-                .product(name: "CoreUseCases", package: "Core")
+                .product(name: "CoreUseCases", package: "Core"),
+                .product(name: "CoreStyleguide", package: "Core")
             ],
             path: "Sources/Layers/WelcomePresentation"
         ),

@@ -10,10 +10,10 @@ import App
 
 @main
 struct ECommerceApp: App {
-    var container = AppDIContainerImpl()
+    var container: AppDIContainerProtocol = AppDIContainerImpl()
     var body: some Scene {
         WindowGroup {
-            AppCoordinatorView(container: container)
+            AppCoordinatorView(coordinator: AppCoordinator(container: container))
         }
     }
 }

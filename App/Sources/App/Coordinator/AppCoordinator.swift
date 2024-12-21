@@ -3,13 +3,12 @@ import WelcomeFeature
 import CoreEntities
 import Home
 import CoreUseCases
-final class AppCoordinator: ObservableObject {
+public final class AppCoordinator: ObservableObject {
     @Published var fullScreenCoverFeature: Feature?
 
     private let container: AppDIContainerProtocol
-    private var welcomeFeatureIdentifier: UUID = UUID()
 
-    init(container: AppDIContainerProtocol) {
+    public init(container: AppDIContainerProtocol) {
         self.container = container
     }
 
@@ -24,8 +23,7 @@ final class AppCoordinator: ObservableObject {
     }
 
     func presentWelcome() {
-        welcomeFeatureIdentifier = UUID()
-        presentFeature(.welcome(id: welcomeFeatureIdentifier))
+        presentFeature(.welcome())
     }
     
     func dismissFeature() {
@@ -60,20 +58,22 @@ final class AppCoordinator: ObservableObject {
         switch feature {
         case .welcome(let id):
             WelcomeCoordinatorView(
-                container: container.welcomeDIContainer,
-                userDataContainer: container.userDataDIContainer,
-                onNavigation: { [weak self] user in
-                    self?.presentMain(user)
-                }
-            ).id(id)
-        case .main(let user):
+                coordinator: WelcomeCoordinator(
+                    container: container.welcomeDIContainer,
+                    userDataContainer: container.userDataDIContainer,
+                    onNavigation: { [weak self] user in
+                        self?.presentMain(user)
+                    }
+                    
+                )).id(id)
+        case .main(let user, let id):
             HomeCoordinatorTabView(
                 user: user,
                 container: container.homeDIContainer,
                 onLogout: { [weak self] in
                     self?.presentWelcome()
                 }
-            )
+            ).id(id)
         }
     }
 }

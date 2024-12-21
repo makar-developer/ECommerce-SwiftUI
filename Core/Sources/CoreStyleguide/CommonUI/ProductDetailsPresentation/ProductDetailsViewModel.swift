@@ -11,7 +11,7 @@ import CoreUseCases
 public class ProductDetailsViewModel: ObservableObject {
     @Published var user: User
     @Published var product: Product
-    @Published var currentImageIndex: Int = 0  // For the carousel
+    @Published var currentImageIndex: Int = 0
     let onNavigation: () -> Void
     private let addProductToCartUseCase: AddProductToCartUseCaseProtocol
     private let addProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol
