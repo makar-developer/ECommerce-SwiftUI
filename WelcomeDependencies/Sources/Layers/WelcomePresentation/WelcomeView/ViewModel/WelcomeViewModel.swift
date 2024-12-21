@@ -17,7 +17,7 @@ final public class WelcomeViewModel: ObservableObject {
     }
     @Published var users: [User] = []
     @Published var isEditingModeEnabled: Bool = false
-    var userCardBackgroundImages: [String] = ["image1", "image2", "image3"]
+    var userCardBackgroundImages: [String] = ["image1", "image2", "image3", "image4", "image5", "image6"]
     var assignedImages: [UUID: String] = [:]
     
     private let getAllUsersUseCase: GetAllUsersUseCaseProtocol

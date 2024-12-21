@@ -11,6 +11,10 @@
         <relationship name="cart" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CartEntity" inverseName="products" inverseEntity="CartEntity"/>
         <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProductEntity" inverseName="cartItems" inverseEntity="ProductEntity"/>
     </entity>
+    <entity name="ImageEntity" representedClassName="ImageEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="image" attributeType="String"/>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductEntity" inverseName="images" inverseEntity="ProductEntity"/>
+    </entity>
     <entity name="ProductEntity" representedClassName="ProductEntity" syncable="YES" codeGenerationType="class">
         <attribute name="brand" optional="YES" attributeType="String"/>
         <attribute name="category" attributeType="String"/>
@@ -23,6 +27,7 @@
         <attribute name="thumbnail" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
         <relationship name="cartItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CartItemEntity" inverseName="product" inverseEntity="CartItemEntity"/>
+        <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ImageEntity" inverseName="products" inverseEntity="ImageEntity"/>
         <relationship name="productHistories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductHistoryEntity" inverseName="product" inverseEntity="ProductHistoryEntity"/>
     </entity>
     <entity name="ProductHistoryEntity" representedClassName="ProductHistoryEntity" syncable="YES" codeGenerationType="class">

@@ -138,7 +138,7 @@ public struct SnapCarousel<Content: View>: View {
             .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
         }
         .padding(.horizontal, (screenWidth - cardWidth) / 2)
-        .background(Color(hue: 0.1, saturation: 0.3, brightness: 0.95))
+        .background(Color(hue: 0.1, saturation: 0.2, brightness: 1))
     }
 }
 
