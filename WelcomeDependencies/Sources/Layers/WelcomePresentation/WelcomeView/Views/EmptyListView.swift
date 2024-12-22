@@ -12,34 +12,33 @@ import SwiftUI
 
 struct EmptyListView: View {
     var body: some View {
-        VStack {
+        VStack(spacing: 30) {
             Image(systemName: "person.crop.circle.badge.plus")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 100, height: 100)
-                .foregroundColor(.white.opacity(1))
-                .shadow(radius: 5)
-            Text("No accounts added")
+                .frame(width: 120, height: 120)
+                .foregroundColor(.accentPrimary)
+                .shadow(color: Color.borderColor.opacity(0.5), radius: 10, x: 0, y: 5)
+
+            Text("No Accounts Added")
                 .font(.title)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
-                .padding(.top, 20)
-                .shadow(radius: 5)
+                .foregroundColor(.textPrimary)
+                .shadow(color: Color.borderColor.opacity(0.3), radius: 5, x: 0, y: 2)
 
-            Text("Tap the button below to add a new account")
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
+            Text("Tap the button below to add a new account.")
+                .font(.body)
+                .foregroundColor(.textSecondary)
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
-                .shadow(radius: 5)
+                .padding(.horizontal, 40)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding()
         .background(
-            Color(hue: 0.1, saturation: 0.3, brightness: 0.95)
-                .ignoresSafeArea()
+            RoundedRectangle(cornerRadius: 30)
+                .fill(Color.backgroundSecondary)
+                .shadow(color: Color.borderColor.opacity(0.5), radius: 10, x: 0, y: 5)
         )
+        .padding()
     }
 }
 

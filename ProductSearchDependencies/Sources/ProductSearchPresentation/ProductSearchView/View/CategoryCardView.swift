@@ -50,7 +50,7 @@ struct CategoryCardView: View {
                 .padding(.horizontal)
         }
         .frame(height: screenHeight * 0.6)
-        .background(Color(.systemBackground))
+        .background(Color.backgroundSecondary)
         .cornerRadius(12)
         .shadow(radius: 4)
     }

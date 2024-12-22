@@ -21,7 +21,7 @@ public final class ProductDiscoverViewModel: ObservableObject {
     private let getRecommendedForYouUseCase: GetRecommendedForYouUseCaseProtocol
     let getImageUseCase: GetImageUseCaseProtocol  // Exposed for child ViewModels
 
-    private var currentPage = 0
+    private var currentPage = 1
     private var isLastPage = false
 
     let onNavigation: (Product) -> Void

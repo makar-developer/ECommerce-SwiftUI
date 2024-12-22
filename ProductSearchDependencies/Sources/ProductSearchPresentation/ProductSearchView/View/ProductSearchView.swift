@@ -19,7 +19,7 @@ import CoreStyleguide
 public struct ProductSearchView: View {
     @StateObject private var viewModel: ProductSearchViewModel
     @Environment(\.screenWidth) private var screenWidth
-    @FocusState private var isKeyboardFocused: Bool // Keep the focus state if you need it for keyboard management
+    @FocusState private var isKeyboardFocused: Bool
 
     public init(viewModel: ProductSearchViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -36,6 +36,13 @@ public struct ProductSearchView: View {
                         viewModel.saveCurrentSearch()
                     }
                 )
+                .padding(.top, 8)
+                .background(
+                    LinearGradient(gradient: Gradient(colors: [Color.backgroundSecondary.opacity(0.8), Color.backgroundSecondary]), startPoint: .top, endPoint: .bottom)
+                )
+                .cornerRadius(15)
+                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                .padding(.horizontal)
 
                 // Recent Searches
                 if viewModel.isSearchFocused && viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -52,6 +59,7 @@ public struct ProductSearchView: View {
                         }
                     )
                     .padding(.horizontal)
+                    .background(Color.backgroundPrimary)
                 }
 
                 // Categories or Products Grid
@@ -59,14 +67,19 @@ public struct ProductSearchView: View {
                     CategoriesGridView(
                         categories: viewModel.categories,
                         getImageUseCase: viewModel.getImageUseCase,
-                        thumbnails: viewModel.categoryThumbnails, onTap: { category in
+                        thumbnails: viewModel.categoryThumbnails,
+                        onTap: { category in
                             viewModel.onNavigation(.categoryDetails(category))
                         }
                     )
                 } else {
-                    ProductsGridView(products: viewModel.products, getImageUseCase: viewModel.getImageUseCase, onTap: { product in
-                        viewModel.onNavigation(.productDetails(product))
-                    })
+                    ProductsGridView(
+                        products: viewModel.products,
+                        getImageUseCase: viewModel.getImageUseCase,
+                        onTap: { product in
+                            viewModel.onNavigation(.productDetails(product))
+                        }
+                    )
                 }
             }
             .alert(isPresented: $viewModel.showDeleteAllConfirmation) {
@@ -79,7 +92,7 @@ public struct ProductSearchView: View {
                     secondaryButton: .cancel()
                 )
             }
-            .navigationTitle("Product Search")
+            .background(Color.backgroundPrimary)
         }
     }
 }

@@ -32,7 +32,8 @@ public struct ProductCardView: View {
                     placeholder: {
                         ZStack {
                             ProgressView()
-                            Color.gray
+                                .tint(.accentPrimary)
+                            Color.gray.opacity(0.1)
                         }
                     },
                     image: { image in
@@ -47,33 +48,37 @@ public struct ProductCardView: View {
                     .resizable()
                     .scaledToFit()
             }
-
-            // Title
-            Text(product.title)
-                .font(.headline)
-                .lineLimit(1)
-            // Description
-            Text(product.description)
-                .font(.subheadline)
-                .lineLimit(2)
-                .foregroundColor(.secondary)
-            // Rating and Price
-            HStack {
-                Label("\(product.rating, specifier: "%.1f")", systemImage: "star.fill")
-                    .foregroundColor(.yellow)
-                    .font(.subheadline)
-                Spacer()
-                Text("$\(product.price, specifier: "%.2f")")
+            VStack {
+                // Title
+                Text(product.title)
                     .font(.headline)
-                    .foregroundColor(.green)
+                    .lineLimit(1)
+                    .foregroundColor(.textSecondary)
+                    .saturation(1.7)
+                // Description
+                Text(product.description)
+                    .font(.subheadline)
+                    .lineLimit(2)
+                    .foregroundColor(.textSecondary)
+                    .saturation(1.5)
+                // Rating and Price
+                HStack {
+                    Label("\(product.rating, specifier: "%.1f")", systemImage: "star.fill")
+                        .foregroundColor(.accentPrimary)
+                        .font(.subheadline)
+                    Spacer()
+                    Text("$\(product.price, specifier: "%.2f")")
+                        .font(.headline)
+                        .foregroundColor(.accentPrimary)
+                }
             }
         }
         .frame(height: screenHeight * 0.6)
         .padding(.horizontal)
         .padding(.bottom)
-        .background(Color(.systemBackground))
+        .background(Color.backgroundSecondary)
         .cornerRadius(12)
-        .shadow(radius: 4)
+        .shadow(color: Color.borderColor.opacity(0.5), radius: 4, x: 0, y: 2)
         .onTapGesture {
             onNavigation(product)
         }

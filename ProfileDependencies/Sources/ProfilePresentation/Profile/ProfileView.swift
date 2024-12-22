@@ -12,78 +12,100 @@ public struct ProfileView: View {
     @StateObject private var viewModel: ProfileViewModel
     @State private var isImagePickerPresented = false
     @State private var selectedImageData: Data?
-
+    
     public init(viewModel: ProfileViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-
+    
     public var body: some View {
-        VStack {
-            profileImageView
+        ScrollView {
+            VStack {
+                profileImageView
+                    .padding(.top, 20)
+                
+                VStack(spacing: 16) {
+                    TextField("User Name", text: $viewModel.userName)
+                        .textFieldStyle(CustomTextFieldStyle())
+                        .foregroundColor(.textBackground)
 
-            VStack(spacing: 16) {
-                TextField("User Name", text: $viewModel.userName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .autocapitalization(.words)
-                    .onChange(of: viewModel.userName) { _ in
-                        // Validation handled in ViewModel
+                    if !viewModel.isUserNameValid && !viewModel.userName.isEmpty {
+                        Text("Invalid User Name")
+                            .foregroundColor(.errorColor)
+                            .font(.caption)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
+                    
+                    TextField("Login", text: $viewModel.login)
+                        .textFieldStyle(CustomTextFieldStyle())
+                        .foregroundColor(.textBackground)
 
-                if !viewModel.isUserNameValid && !viewModel.userName.isEmpty {
-                    Text("Invalid User Name")
-                        .foregroundColor(.red)
-                        .font(.caption)
-                        .padding(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-
-                TextField("Login", text: $viewModel.login)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .autocapitalization(.none)
-                    .onChange(of: viewModel.login) { _ in
-                        // Validation handled in ViewModel
+                    if !viewModel.isLoginValid && !viewModel.login.isEmpty {
+                        Text("Invalid Login (Min 4 alphanumeric characters)")
+                            .foregroundColor(.errorColor)
+                            .font(.caption)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
-
-                if !viewModel.isLoginValid && !viewModel.login.isEmpty {
-                    Text("Invalid Login (Min 4 alphanumeric characters)")
-                        .foregroundColor(.red)
-                        .font(.caption)
-                        .padding(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .padding()
+                .background(Color.backgroundSecondary)
+                .cornerRadius(12)
+                .shadow(color: Color.borderColor.opacity(0.2), radius: 4, x: 0, y: 2)
+                
+                if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.errorColor)
+                        .padding()
+                        .background(Color.backgroundSecondary)
+                        .cornerRadius(8)
+                }
+                
+                Button(action: viewModel.saveChanges) {
+                    Text("Save Changes")
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(viewModel.canSaveChanges ? Color.accentPrimary : Color.accentSecondary.opacity(0.6))
+                        .foregroundColor(.textBackground)
+                        .cornerRadius(30)
+                }
+                .disabled(!viewModel.canSaveChanges || viewModel.isLoading)
+                .padding([.horizontal, .top])
+                
+                Button(action: viewModel.changePassword) {
+                    Text("Change Password")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.backgroundSecondary)
+                        .foregroundColor(.accentPrimary)
+                        .cornerRadius(30)
+                }
+                .padding(.horizontal)
+                
+                Button(action: viewModel.showProductHistory) {
+                    Text("View Product History")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.backgroundSecondary)
+                        .foregroundColor(.accentPrimary)
+                        .cornerRadius(30)
+                }
+                .padding([.horizontal, .top])
+                
+                Spacer()
+                
+                Button(action: viewModel.logout) {
+                    Text("Logout")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.errorColor.opacity(0.1))
+                        .foregroundColor(.errorColor)
+                        .cornerRadius(30)
+                }
+                .padding([.horizontal, .bottom])
             }
-            .padding()
-
-            if let errorMessage = viewModel.errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-                    .padding()
-            }
-
-            Button("Save Changes") {
-                viewModel.saveChanges()
-            }
-            .disabled(!viewModel.canSaveChanges || viewModel.isLoading)
-            .padding()
-
-            Button("Change Password") {
-                viewModel.changePassword()
-            }
-            .padding()
-            Button("View Product History") {
-                viewModel.showProductHistory()
-            }
-            .padding()
-
-            Spacer()
-
-            Button("Logout") {
-                viewModel.logout()
-            }
-            .foregroundColor(.red)
             .padding()
         }
-        .padding()
+        .background(Color.backgroundPrimary)
         .sheet(isPresented: $isImagePickerPresented, onDismiss: {
             if let data = selectedImageData {
                 viewModel.updateProfilePicture(with: data)
@@ -95,7 +117,7 @@ public struct ProfileView: View {
             viewModel.loadProfilePicture()
         }
     }
-
+    
     private var profileImageView: some View {
         Group {
             if let data = viewModel.profilePictureData,
@@ -105,17 +127,20 @@ public struct ProfileView: View {
                     .scaledToFill()
                     .frame(width: 120, height: 120)
                     .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.accentPrimary, lineWidth: 2))
+                    .shadow(color: Color.accentPrimary.opacity(0.5), radius: 5, x: 0, y: 2)
                     .onTapGesture {
                         isImagePickerPresented = true
                     }
             } else {
                 Circle()
-                    .fill(Color.gray)
+                    .fill(Color.backgroundSecondary)
                     .frame(width: 120, height: 120)
                     .overlay(
                         Text("Tap to select")
-                            .foregroundColor(.white)
+                            .foregroundColor(.textBackground)
                     )
+                    .shadow(color: Color.borderColor.opacity(0.2), radius: 5, x: 0, y: 2)
                     .onTapGesture {
                         isImagePickerPresented = true
                     }
@@ -123,44 +148,17 @@ public struct ProfileView: View {
         }
     }
 }
-import UIKit
 
-struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var imageData: Data?
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    func makeUIViewController(context: Context) -> some UIViewController {
-        let picker = UIImagePickerController()
-        picker.delegate = context.coordinator
-        picker.sourceType = .photoLibrary
-        return picker
-    }
-
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-
-    final class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-        let parent: ImagePicker
-
-        init(_ parent: ImagePicker) {
-            self.parent = parent
-        }
-
-        func imagePickerController(
-            _ picker: UIImagePickerController,
-            didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
-        ) {
-            if let image = info[.originalImage] as? UIImage,
-               let data = image.jpegData(compressionQuality: 0.8) {
-                parent.imageData = data
-            }
-            picker.dismiss(animated: true)
-        }
-
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            picker.dismiss(animated: true)
-        }
+struct CustomTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<_Label>) -> some View {
+        configuration
+            .padding()
+            .background(Color.backgroundPrimary)
+            .cornerRadius(8)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.borderColor, lineWidth: 1)
+            )
     }
 }
+

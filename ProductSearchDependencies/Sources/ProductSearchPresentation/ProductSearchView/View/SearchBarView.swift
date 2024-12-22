@@ -22,12 +22,12 @@ struct SearchBarView: View {
             }, onCommit: onCommit)
             .padding(7)
             .padding(.horizontal, 25)
-            .background(Color(.systemGray6))
+            .background(Color.backgroundSecondary)
             .cornerRadius(8)
             .overlay(
                 HStack {
                     Image(systemName: "magnifyingglass")
-                        .foregroundColor(.gray)
+                        .foregroundColor(.accentPrimary)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 8)
 
@@ -36,7 +36,7 @@ struct SearchBarView: View {
                             self.text = ""
                         }) {
                             Image(systemName: "multiply.circle.fill")
-                                .foregroundColor(.gray)
+                                .foregroundColor(.accentSecondary)
                                 .padding(.trailing, 8)
                         }
                     }

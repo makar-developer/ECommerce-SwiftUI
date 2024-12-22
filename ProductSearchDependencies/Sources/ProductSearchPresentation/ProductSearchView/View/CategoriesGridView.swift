@@ -20,15 +20,15 @@ struct CategoriesGridView: View {
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-    
+
     var body: some View {
         ScrollView {
             if categories.isEmpty {
                 Text("No categories available.")
-                    .foregroundColor(.gray)
+                    .foregroundColor(.textSecondary)
                     .padding()
             } else {
-                LazyVGrid(columns: columns, spacing: 16) {
+                LazyVGrid(columns: columns) {
                     ForEach(categories, id: \.slug) { category in
                         CategoryCardView(
                             category: category,
@@ -44,5 +44,6 @@ struct CategoriesGridView: View {
                 .padding(.top)
             }
         }
+        .background(Color.backgroundPrimary)
     }
 }

@@ -18,24 +18,33 @@ struct ProductsGridView: View {
     private let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
+        
     ]
-    
+
     var body: some View {
         ScrollView {
             if products.isEmpty {
                 Text("No products found.")
-                    .foregroundColor(.gray)
+                    .foregroundColor(.textSecondary)
             } else {
                 LazyVGrid(columns: columns, spacing: 16) {
                     ForEach(products) { product in
-                        ProductCardView(product: product, onNavigation: { product in
-                            onTap(product)
-                        }, getImageUseCase: getImageUseCase)
+                        ProductCardView(
+                            product: product,
+                            onNavigation: { product in
+                                onTap(product)
+                            },
+                            getImageUseCase: getImageUseCase
+                        )
                     }
+                    .background(Color.backgroundPrimary)
+
                 }
                 .padding(.horizontal)
                 .padding(.top)
+                .background(Color.backgroundPrimary)
             }
         }
+        .background(Color.backgroundPrimary)
     }
 }

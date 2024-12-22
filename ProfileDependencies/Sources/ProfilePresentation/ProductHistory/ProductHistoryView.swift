@@ -9,18 +9,25 @@ import SwiftUI
 import CoreUseCases
 public struct ProductHistoryView: View {
     @StateObject private var viewModel: ProductHistoryViewModel
-    
+
     public init(viewModel: ProductHistoryViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     public var body: some View {
         VStack {
             if viewModel.isLoading {
                 ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .accentPrimary))
+                    .scaleEffect(1.5)
             } else if viewModel.productHistories.isEmpty {
-                Text("No product history available.")
-                    .foregroundColor(.secondary)
+                ZStack {
+                    Color.backgroundPrimary
+                    Text("No product history available.")
+                        .foregroundColor(.textSecondary)
+                        .font(.headline)
+                        .padding()
+                }
             } else {
                 List {
                     ForEach(viewModel.productHistories) { history in
@@ -34,6 +41,7 @@ public struct ProductHistoryView: View {
                                 viewModel.removeProductHistory(history)
                             }
                         )
+                        .listRowBackground(Color.backgroundSecondary)
                     }
                 }
                 .listStyle(PlainListStyle())
@@ -47,23 +55,23 @@ public struct ProductHistoryView: View {
                 }) {
                     HStack {
                         Image(systemName: "chevron.left")
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentPrimary)
                         Text("Back")
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentPrimary)
                     }
                 }
             }
-        }
-        .navigationTitle("Product History")
-        .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 if !viewModel.productHistories.isEmpty {
                     Button("Clear") {
                         viewModel.clearHistory()
                     }
+                    .foregroundColor(.errorColor)
                 }
             }
         }
+        .navigationTitle("Product History")
+        .background(Color.backgroundPrimary)
         .task {
             await viewModel.loadHistory()
         }

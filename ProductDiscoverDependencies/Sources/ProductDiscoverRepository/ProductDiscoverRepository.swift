@@ -23,7 +23,7 @@ public final class ProductDiscoverRepositoryImpl: ProductDiscoverRepositoryProto
     }
 
     public func getRecommendedForYou(page: Int) async throws -> [Product] {
-        let limit = 8
+        let limit = 10
         let skip = (page - 1) * limit
         let endpoint = "?limit=\(limit)&skip=\(skip)"
         let productResponse: ProductResponse = try await networkService.request(endpoint: endpoint)

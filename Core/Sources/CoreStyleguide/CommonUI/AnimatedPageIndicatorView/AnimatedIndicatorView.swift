@@ -91,9 +91,10 @@ public struct AnimatedPageIndicatorView: View {
             }
             .background(
                 Capsule()
-                    .fill(Color.black.opacity(0.3))
+                    .fill(Color.textBackground.opacity(0.2))
                     .frame(width: (dotSpacing * Double(numberOfDots)) + (dotRadius * 2 * Double(numberOfDots)))
             )
+            .shadow(color: Color.borderColor.opacity(0.3), radius: 5, x: 0, y: 2)
         }
     
     // MARK: - Subviews
@@ -130,8 +131,10 @@ public struct AnimatedPageIndicatorView: View {
             let centerX: CGFloat = startX + CGFloat(i) * dotSpacing + dotRadius
             return AnyView(
                 Circle()
-                    .fill(Color.white)
+                    .fill(Color.textSecondary)
                     .frame(width: dotRadius * 2, height: dotRadius * 2)
+                    .shadow(color: Color.accentPrimary.opacity(0.5), radius: 4, x: 0, y: 2)
+                    .shadow(color: Color.accentPrimary.opacity(0.5), radius: 4, x: 0, y: 2)
                     .position(x: centerX, y: containerHeight / 2)
             )
         }
@@ -157,10 +160,13 @@ public struct AnimatedPageIndicatorView: View {
         
         let fractionAdjustment: CGFloat = (index == numberOfDots - 1) ? 0 : CGFloat(fraction)
         let blueCenterX: CGFloat = startCenterX + fractionAdjustment * (endCenterX - startCenterX)
-        
         return Circle()
-            .fill(Color(hue: 0.08, saturation: 0.7, brightness: 0.9))
+            .fill(Color.accentPrimary)
+            .brightness(0.05)
+            .saturation(1.7)
             .frame(width: dotRadius * 2, height: dotRadius * 2)
+            .shadow(color: Color.accentPrimary.opacity(0.5), radius: 4, x: 0, y: 2)
+            .shadow(color: Color.accentPrimary.opacity(0.5), radius: 4, x: 0, y: 2)
             .position(x: blueCenterX, y: containerHeight / 2)
     }
     
@@ -183,8 +189,10 @@ public struct AnimatedPageIndicatorView: View {
             let neighborCenterX: CGFloat = neighborStartX - CGFloat(fraction) * dx
             
             return Circle()
-                .fill(Color.white)
+                .fill(Color.textSecondary)
                 .frame(width: dotRadius * 2, height: dotRadius * 2)
+                .shadow(color: Color.accentPrimary.opacity(0.5), radius: 4, x: 0, y: 2)
+                .shadow(color: Color.accentPrimary.opacity(0.5), radius: 4, x: 0, y: 2)
                 .position(x: neighborCenterX, y: containerHeight / 2)
                 .eraseToAnyView()
         } else {

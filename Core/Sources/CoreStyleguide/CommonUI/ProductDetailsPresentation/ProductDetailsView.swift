@@ -1,9 +1,10 @@
 import SwiftUI
 import Core
 public struct ProductDetailsView: View {
-    
+
     @StateObject var viewModel: ProductDetailsViewModel
     @Environment(\.screenHeight) var screenHeight
+
     public init(viewModel: ProductDetailsViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
@@ -25,7 +26,6 @@ public struct ProductDetailsView: View {
             if let brand = viewModel.product.brand {
                 Text(brand)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
             }
 
             // HStack with rating, discountPercentage, and stock
@@ -33,24 +33,25 @@ public struct ProductDetailsView: View {
                 // Rating
                 HStack {
                     Image(systemName: "star.fill")
-                        .foregroundColor(.yellow)
+                        .foregroundColor(Color.accentPrimary)
                     Text(String(format: "%.1f", viewModel.product.rating))
                 }
 
                 // Discount Percentage
                 HStack {
                     Image(systemName: "percent")
+                        .foregroundColor(Color.accentPrimary)
                     Text("\(viewModel.product.discountPercentage, specifier: "%.0f")% off")
                 }
 
                 // Stock
                 HStack {
                     Image(systemName: "cube.box.fill")
+                        .foregroundColor(Color.accentPrimary)
                     Text("Stock: \(viewModel.product.stock)")
                 }
             }
             .font(.subheadline)
-            .foregroundColor(.secondary)
 
             // Description
             Text(viewModel.product.description)
@@ -64,6 +65,7 @@ public struct ProductDetailsView: View {
                 Text("$\(viewModel.product.price, specifier: "%.2f")")
                     .font(.title2)
                     .fontWeight(.bold)
+                    .foregroundColor(Color.textSecondary)
 
                 Spacer()
 
@@ -73,13 +75,14 @@ public struct ProductDetailsView: View {
                 }) {
                     Text("Add to Cart")
                         .fontWeight(.semibold)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color.textPrimary)
                         .padding(.horizontal, 24)
                         .padding(.vertical, 12)
-                        .background(Color.blue)
+                        .background(Color.accentPrimary)
                         .cornerRadius(10)
                 }
             }
+            .padding()
         }
         .padding()
         .navigationTitle("Product Details")
@@ -91,9 +94,9 @@ public struct ProductDetailsView: View {
                 }) {
                     HStack {
                         Image(systemName: "chevron.left")
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color.accentPrimary)
                         Text("Back")
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color.accentPrimary)
                     }
                 }
             }
@@ -101,6 +104,6 @@ public struct ProductDetailsView: View {
         .task {
             await viewModel.addProductToHistory()
         }
+        .background(Color.backgroundPrimary)
     }
 }
-

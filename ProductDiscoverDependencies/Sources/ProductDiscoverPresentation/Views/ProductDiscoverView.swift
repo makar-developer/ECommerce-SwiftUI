@@ -37,20 +37,24 @@ public struct ProductDiscoverView: View {
             }
             .frame(height: 0)
 
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 5) {
                 // Hot Sales Carousel
                 if !viewModel.hotSalesProducts.isEmpty {
                     Text("Hot Sales")
                         .font(.title)
+                        .foregroundColor(Color.accentSecondary)
                         .padding(.leading)
 
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 16) {
                             ForEach(viewModel.hotSalesProducts) { product in
-                                ProductCardView(product: product, onNavigation: { product in
-                                    viewModel.showProductDetails(product: product)
-                                }, getImageUseCase: viewModel.getImageUseCase)
-                                
+                                ProductCardView(
+                                    product: product,
+                                    onNavigation: { product in
+                                        viewModel.showProductDetails(product: product)
+                                    },
+                                    getImageUseCase: viewModel.getImageUseCase
+                                )
                                 .frame(width: screenWidth * 0.5)
                             }
                         }
@@ -61,14 +65,18 @@ public struct ProductDiscoverView: View {
                 // Recommended Products
                 Text("Recommended for You")
                     .font(.title)
+                    .foregroundColor(Color.accentSecondary)
                     .padding(.leading)
-                    .padding(.top)
 
                 LazyVGrid(columns: [GridItem(), GridItem()], spacing: 16) {
                     ForEach(viewModel.recommendedProducts) { product in
-                        ProductCardView(product: product, onNavigation: { product in
-                            viewModel.showProductDetails(product: product)
-                        }, getImageUseCase: viewModel.getImageUseCase)
+                        ProductCardView(
+                            product: product,
+                            onNavigation: { product in
+                                viewModel.showProductDetails(product: product)
+                            },
+                            getImageUseCase: viewModel.getImageUseCase
+                        )
                     }
 
                     // Loading Next Page Indicator
@@ -88,6 +96,7 @@ public struct ProductDiscoverView: View {
                 }
                 .padding(.horizontal)
             }
+            .background(Color.backgroundPrimary)
             .background(
                 GeometryReader { contentGeometryProxy in
                     Color.clear
@@ -100,6 +109,7 @@ public struct ProductDiscoverView: View {
                 }
             )
         }
+        .background(Color.backgroundPrimary)
         .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
             scrollOffset = value
             checkIfNeedToLoadMore()
@@ -108,7 +118,6 @@ public struct ProductDiscoverView: View {
             await viewModel.loadHotSalesProducts()
             await viewModel.loadRecommendedProducts()
         }
-        .navigationTitle("Discover")
     }
 
     private func checkIfNeedToLoadMore() {
@@ -123,5 +132,4 @@ public struct ProductDiscoverView: View {
         }
     }
 }
-
 

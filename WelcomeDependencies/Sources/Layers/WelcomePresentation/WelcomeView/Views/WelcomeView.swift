@@ -3,10 +3,9 @@ import Core
 import CoreEntities
 
 // MARK: - WelcomeView
-
 public struct WelcomeView: View {
     @StateObject private var viewModel: WelcomeViewModel
-    @State private var currentIndex: Int = 0 // Track the current index
+    @State private var currentIndex: Int = 0
 
     public init(viewModel: WelcomeViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -15,12 +14,14 @@ public struct WelcomeView: View {
     public var body: some View {
         SnapCarousel(data: viewModel.users, currentIndex: $currentIndex) { user in
             GreetingCardView(
-                user: user, imageName: viewModel.getImage(for: user),
+                user: user,
+                imageName: viewModel.getImage(for: user),
                 isEditingModeEnabled: $viewModel.isEditingModeEnabled,
                 logoutAction: { selectedUser in
                     viewModel.deleteUser(user: selectedUser)
                     adjustCurrentIndexAfterDeletion()
-                }, signInAction: { selectedUser in
+                },
+                signInAction: { selectedUser in
                     viewModel.signIn(user: user)
                     viewModel.showMain(user: user)
                 }
@@ -30,21 +31,22 @@ public struct WelcomeView: View {
         }
         .toolbar {
             if !viewModel.users.isEmpty {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            withAnimation {
-                                viewModel.toggleEditingMode()
-                            }
-                        }) {
-                            Image(systemName: viewModel.isEditingModeEnabled ? "arrow.backward" : "pencil")
-                                .resizable()
-                                .scaledToFit()
-                                .imageScale(.large)
-                                .frame(width: 24, height: 24)
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        withAnimation {
+                            viewModel.toggleEditingMode()
                         }
+                    }) {
+                        Image(systemName: viewModel.isEditingModeEnabled ? "arrow.backward" : "pencil")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                            .foregroundColor(.accentPrimary)
                     }
                 }
             }
+        }
+        .background(Color.backgroundPrimary)
         .task {
             await viewModel.loadUsers()
         }
@@ -53,7 +55,6 @@ public struct WelcomeView: View {
         }
     }
 
-//    Adjusts the currentIndex to ensure it's within the bounds of the users array.
     private func adjustCurrentIndexAfterDeletion() {
         DispatchQueue.main.async {
             if currentIndex >= viewModel.users.count {
@@ -62,6 +63,3 @@ public struct WelcomeView: View {
         }
     }
 }
-
-
-

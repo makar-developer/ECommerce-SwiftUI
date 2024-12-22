@@ -29,7 +29,6 @@ public class CoreDataWrapperImpl: CoreDataWrapperProtocol {
             fatalError("Failed to load Core Data model from package.")
         }
         persistentContainer = NSPersistentContainer(name: modelName, managedObjectModel: model)
-//        persistentContainer = NSPersistentContainer(name: modelName)
         persistentContainer.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("CoreData load error: \(error)")
@@ -54,7 +53,6 @@ public class CoreDataWrapperImpl: CoreDataWrapperProtocol {
     }
     
     public func update<T>(_ object: T) async throws where T : NSManagedObject {
-        // In Core Data, updating is handled by modifying the managed object and saving the context
         if context.hasChanges {
             try context.save()
         }

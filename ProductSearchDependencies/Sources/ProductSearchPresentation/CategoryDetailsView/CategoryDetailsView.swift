@@ -10,18 +10,20 @@ import SwiftUI
 
 // MARK: - CategoryDetailsView
 
+import SwiftUI
+
 public struct CategoryDetailsView: View {
     @StateObject private var viewModel: CategoryDetailsViewModel
-    
+
     public init(viewModel: CategoryDetailsViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     private let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-    
+
     public var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
@@ -33,9 +35,13 @@ public struct CategoryDetailsView: View {
                         },
                         getImageUseCase: viewModel.getImageUseCase
                     )
+                    .background(Color.backgroundSecondary)
+                    .cornerRadius(12)
+                    .shadow(radius: 4)
                 }
             }
             .padding()
+            .background(Color.backgroundPrimary)
         }
         .navigationTitle(viewModel.categoryResponse.name)
         .navigationBarBackButtonHidden()
@@ -46,9 +52,9 @@ public struct CategoryDetailsView: View {
                 }) {
                     HStack {
                         Image(systemName: "chevron.left")
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color.accentPrimary)
                         Text("Product Search")
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color.accentPrimary)
                     }
                 }
             }
@@ -56,5 +62,6 @@ public struct CategoryDetailsView: View {
         .onAppear {
             viewModel.fetchProducts()
         }
+        .background(Color.backgroundPrimary)
     }
 }
