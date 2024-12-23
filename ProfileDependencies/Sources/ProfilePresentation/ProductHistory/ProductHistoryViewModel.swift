@@ -74,7 +74,7 @@ public final class ProductHistoryViewModel: ObservableObject {
     func removeProductHistory(_ history: ProductHistory) {
         Task {
             do {
-                try await removeProductFromHistoryUseCase.execute(productHistory: history, for: userId)
+                try await removeProductFromHistoryUseCase.execute(product: history.product, for: userId)
                 DispatchQueue.main.async {
                     self.productHistories.removeAll { $0.id == history.id }
                 }

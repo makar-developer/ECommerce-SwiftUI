@@ -10,17 +10,17 @@ import CoreEntities
 import CoreRepositories
 
 public protocol RemoveProductFromHistoryUseCaseProtocol {
-    func execute(productHistory: ProductHistory, for userId: UUID) async throws
+    func execute(product: Product, for userId: UUID) async throws
 }
 public class RemoveProductFromHistoryUseCase: RemoveProductFromHistoryUseCaseProtocol {
     private let repository: ProductHistoryRepositoryProtocol
-    
+
     public init(repository: ProductHistoryRepositoryProtocol) {
         self.repository = repository
     }
-    
-    public func execute(productHistory: ProductHistory, for userId: UUID) async throws {
-        try await repository.removeProductFromHistory(productHistory, for: userId)
+
+    public func execute(product: Product, for userId: UUID) async throws {
+        try await repository.removeProductHistory(product, for: userId)
     }
 }
 

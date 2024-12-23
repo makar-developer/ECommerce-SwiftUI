@@ -12,7 +12,7 @@ import CoreData
 public protocol ProductHistoryRepositoryProtocol {
     func getAllHistory(for userId: UUID) async throws -> [ProductHistory]
     func addProductToHistory(_ product: Product, for userId: UUID) async throws
-    func removeProductFromHistory(_ productHistory: ProductHistory, for userId: UUID) async throws
+    func removeProductHistory(_ product: Product, for userId: UUID) async throws
     func removeAllHistory(for userId: UUID) async throws
     func removeHistory(olderThan date: Date, for userId: UUID) async throws
 }
@@ -58,15 +58,21 @@ public class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
         }
     }
 
-    public func removeProductFromHistory(_ productHistory: ProductHistory, for userId: UUID) async throws {
+    ///Remove all ProductHistoryEntity which contains some specific Product.
+    public func removeProductHistory(_ product: Product, for userId: UUID) async throws {
         let context = coreDataWrapper.context
         try await context.perform {
             let fetchRequest: NSFetchRequest<ProductHistoryEntity> = ProductHistoryEntity.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == %@ AND userData.id == %@", productHistory.id as CVarArg, userId as CVarArg)
-            if let entityToDelete = try context.fetch(fetchRequest).first {
-                context.delete(entityToDelete)
-                try context.save()
+            let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+                NSPredicate(format: "product.id == %d", product.id),
+                NSPredicate(format: "userData.id == %@", userId as CVarArg)
+            ])
+            fetchRequest.predicate = predicate
+            let historyEntities = try context.fetch(fetchRequest)
+            for entity in historyEntities {
+                context.delete(entity)
             }
+            try context.save()
         }
     }
 

@@ -39,7 +39,7 @@ public struct SnapCarousel<Content: View>: View {
             let totalWidth = cardWidth + spacing
             let offsetX = (-CGFloat(currentIndex) * totalWidth) + dragOffset
             
-            VStack(spacing: 20) {
+            VStack(spacing: 10) {
                 if data.isEmpty {
                     EmptyListView()
                         .frame(width: cardWidth, height: geometry.size.height * 0.8)

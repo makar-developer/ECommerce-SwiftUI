@@ -161,7 +161,7 @@ public struct AnimatedPageIndicatorView: View {
         let fractionAdjustment: CGFloat = (index == numberOfDots - 1) ? 0 : CGFloat(fraction)
         let blueCenterX: CGFloat = startCenterX + fractionAdjustment * (endCenterX - startCenterX)
         return Circle()
-            .fill(Color.accentPrimary)
+            .fill(Color.white)
             .brightness(0.05)
             .saturation(1.7)
             .frame(width: dotRadius * 2, height: dotRadius * 2)

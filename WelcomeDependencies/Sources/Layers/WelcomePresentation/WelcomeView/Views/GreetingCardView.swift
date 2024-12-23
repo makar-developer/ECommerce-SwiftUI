@@ -74,7 +74,7 @@ public struct GreetingCardView: View {
                         .cornerRadius(20)
                 }
                 .shadow(color: Color.borderColor.opacity(0.3), radius: 5, x: 0, y: 2)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
+                .padding(.bottom, 40)
                 .alert(isPresented: $showLogoutAlert) {
                     Alert(
                         title: Text("Log Out"),
@@ -93,5 +93,22 @@ public struct GreetingCardView: View {
             RoundedRectangle(cornerRadius: 30)
                 .stroke(Color.borderColor, lineWidth: 3)
         )
+    }
+}
+
+struct GreetingCardView_Previews: PreviewProvider {
+
+    static let user: User = User(name: UserName("DefaultUser1")!, login: Login("user1")!, password: Password("Password1@")!, profilePicture: nil)
+    
+    static var previews: some View {
+        GreetingCardView(
+            user: user,
+            imageName: "image1",
+            isEditingModeEnabled: .constant(false),
+            logoutAction: { _ in },
+            signInAction: { _ in }
+        )
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }

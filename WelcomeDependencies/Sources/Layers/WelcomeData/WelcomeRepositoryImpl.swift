@@ -24,40 +24,6 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
     }
     
     public func getUsers() async throws -> [User] {
-//        let isFirstFetch = !UserDefaults.standard.bool(forKey: usersFetchedKey)
-        
-//        if isFirstFetch {
-//            // Initialize default users using compactMap
-//            let userData = [
-//                ("DefaultUser1", "user1", "Password1@"),
-//                ("DefaultUser2", "user2", "Password2@"),
-//                ("DefaultUser3", "user3", "Password3@"),
-//                ("DefaultUser4", "user4", "Password4@"),
-//                ("DefaultUser5", "user5", "Password5@")
-//            ]
-//
-//            let defaultUsers: [User] = userData.compactMap { (nameString, loginString, passwordString) in
-//                guard let name = UserName(nameString),
-//                      let login = Login(loginString),
-//                      let password = Password(passwordString) else {
-//                    // Optionally handle invalid data
-//                    print("Invalid user data for \(nameString)")
-//                    return nil
-//                }
-//                return User(
-//                    name: name,
-//                    login: login,
-//                    password: password,
-//                    profilePicture: nil
-//                )
-//            }
-//
-//            try await saveUsers(defaultUsers)
-//            // Update UserDefaults to indicate that the initial fetch has occurred
-//            UserDefaults.standard.set(true, forKey: usersFetchedKey)
-//
-//            return defaultUsers
-//        } else {
             // Subsequent fetches: retrieve users from Keychain
             guard let data = try keychainWrapper.load() else {
                 // Handle the case where no users are found in Keychain
@@ -65,7 +31,6 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
             }
             let users = try JSONDecoder().decode([User].self, from: data)
             return users
-//        }
     }
     
     public func delete(user: User) async throws {
