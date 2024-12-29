@@ -47,7 +47,9 @@ public class ProductCartViewModel: ObservableObject {
             .map { items in
                 items.reduce(0) { $0 + ($1.product.price * Double($1.quantity)) }
             }
-            .assign(to: \.totalPrice, on: self)
+            .sink(receiveValue: { [weak self] totalPrice in
+                self?.totalPrice = totalPrice
+            })
             .store(in: &cancellables)
     }
     

@@ -25,7 +25,7 @@ final public class WelcomeViewModel: ObservableObject {
     private let signInUseCase: SignInUseCaseProtocol
     private let deleteUserDataUseCase: DeleteUserDataUseCaseProtocol
     private let createUserUseCase: CreateUserUseCaseProtocol        // This
-    private let createUserDataUseCase: CreateUserDataUseCaseProtocol // And this one are here just to populate Keychain and CoreData with some default users.
+    private let createUserDataUseCase: CreateUserDataUseCaseProtocol // And this one are injected here just to populate Keychain and CoreData with some default users.
     private let fetchUserDataUseCase: FetchUserDataUseCaseProtocol
     
     private var onNavigation: (WelcomeViewModel.NavigationTarget) -> Void

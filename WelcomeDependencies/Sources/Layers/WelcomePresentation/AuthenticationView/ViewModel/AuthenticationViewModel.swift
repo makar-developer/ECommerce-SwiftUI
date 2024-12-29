@@ -4,6 +4,7 @@ import Combine
 import CoreEntities
 import WelcomeDomain
 import CoreUseCases
+
 final public class AuthenticationViewModel: ObservableObject {
     // Input Fields
     @Published var name: String = "John Doe"
@@ -30,7 +31,7 @@ final public class AuthenticationViewModel: ObservableObject {
     private let createUserUseCase: CreateUserUseCaseProtocol
     private let createUserDataUseCase: CreateUserDataUseCaseProtocol
     private let onNavigation: () -> Void
-    
+
     public init(createUserUseCase: CreateUserUseCaseProtocol, createUserDataUseCase: CreateUserDataUseCaseProtocol, onNavigation: @escaping () -> Void) {
         self.createUserUseCase = createUserUseCase
         self.createUserDataUseCase = createUserDataUseCase
@@ -42,7 +43,9 @@ final public class AuthenticationViewModel: ObservableObject {
         // Name Validation
         $name
             .map { UserName($0) != nil }
-            .assign(to: \.isNameValid, on: self)
+            .sink { [weak self] isValid in
+                self?.isNameValid = isValid
+            }
             .store(in: &cancellables)
 
         $name
@@ -56,13 +59,17 @@ final public class AuthenticationViewModel: ObservableObject {
                 }
                 return ""
             }
-            .assign(to: \.nameError, on: self)
+            .sink { [weak self] error in
+                self?.nameError = error
+            }
             .store(in: &cancellables)
 
         // Login Validation
         $login
             .map { Login($0) != nil }
-            .assign(to: \.isLoginValid, on: self)
+            .sink { [weak self] isValid in
+                self?.isLoginValid = isValid
+            }
             .store(in: &cancellables)
 
         $login
@@ -75,13 +82,17 @@ final public class AuthenticationViewModel: ObservableObject {
                 }
                 return ""
             }
-            .assign(to: \.loginError, on: self)
+            .sink { [weak self] error in
+                self?.loginError = error
+            }
             .store(in: &cancellables)
 
         // Password Validation
         $password
             .map { Password($0) != nil }
-            .assign(to: \.isPasswordValid, on: self)
+            .sink { [weak self] isValid in
+                self?.isPasswordValid = isValid
+            }
             .store(in: &cancellables)
 
         $password
@@ -98,17 +109,22 @@ final public class AuthenticationViewModel: ObservableObject {
                 }
                 return ""
             }
-            .assign(to: \.passwordError, on: self)
+            .sink { [weak self] error in
+                self?.passwordError = error
+            }
             .store(in: &cancellables)
 
         // Confirm Password Validation
         Publishers.CombineLatest($password, $confirmPassword)
             .map { ($0 == $1) && !$1.isEmpty }
-            .assign(to: \.doPasswordsMatch, on: self)
+            .sink { [weak self] match in
+                self?.doPasswordsMatch = match
+            }
             .store(in: &cancellables)
 
         $confirmPassword
-            .map { confirmPassword -> String in
+            .map { [weak self] confirmPassword -> String in
+                guard let self = self else { return "" }
                 if confirmPassword.isEmpty {
                     return "Please confirm your password."
                 } else if confirmPassword != self.password {
@@ -116,13 +132,17 @@ final public class AuthenticationViewModel: ObservableObject {
                 }
                 return ""
             }
-            .assign(to: \.confirmPasswordError, on: self)
+            .sink { [weak self] error in
+                self?.confirmPasswordError = error
+            }
             .store(in: &cancellables)
 
         // Overall Form Validation
         Publishers.CombineLatest4($isNameValid, $isLoginValid, $isPasswordValid, $doPasswordsMatch)
             .map { $0 && $1 && $2 && $3 }
-            .assign(to: \.isFormValid, on: self)
+            .sink { [weak self] isValid in
+                self?.isFormValid = isValid
+            }
             .store(in: &cancellables)
     }
 
@@ -145,7 +165,7 @@ final public class AuthenticationViewModel: ObservableObject {
         try await createUserDataUseCase.execute(user: newUser)
         onNavigation()
     }
-    
+
     func backToWelcome() {
         onNavigation()
     }

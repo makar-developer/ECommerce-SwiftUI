@@ -3,7 +3,6 @@ import CoreEntities
 import CoreUseCases
 import ProductSearchEntities
 import ProductSearchDomain
-import Core
 import CoreStyleguide
 import Foundation
 // MARK: - ProductSearchViewModel
