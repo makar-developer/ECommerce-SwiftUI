@@ -15,7 +15,7 @@ struct SearchBarView: View {
 
     var body: some View {
         HStack {
-            TextField("Search products...", text: $text, onEditingChanged: { editing in
+            TextField(String(localized: "Search products..."), text: $text, onEditingChanged: { editing in
                 withAnimation {
                     isFocused = editing
                 }

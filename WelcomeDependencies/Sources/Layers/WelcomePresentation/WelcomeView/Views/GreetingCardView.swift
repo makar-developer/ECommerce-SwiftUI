@@ -38,7 +38,7 @@ public struct GreetingCardView: View {
             VStack(alignment: .leading, spacing: 16) {
                 Spacer()
 
-                Text("Good afternoon, \(user.name.rawValue)!")
+                Text(String(localized: "Good afternoon, \(user.name.rawValue)!"))
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.textPrimary)
@@ -63,7 +63,7 @@ public struct GreetingCardView: View {
                         signInAction(user)
                     }
                 }) {
-                    Text(isEditingModeEnabled ? "Log Out this Account" : "Go Shopping")
+                    Text(isEditingModeEnabled ? String(localized: "Log Out this Account") : String(localized: "Go Shopping!"))
                         .fontWeight(.semibold)
                         .foregroundColor(.textPrimary)
                         .padding(.horizontal, 36)
@@ -77,10 +77,10 @@ public struct GreetingCardView: View {
                 .padding(.bottom, 40)
                 .alert(isPresented: $showLogoutAlert) {
                     Alert(
-                        title: Text("Log Out"),
-                        message: Text("Are you sure you want to log out of this account?"),
-                        primaryButton: .destructive(Text("Log Out"), action: { logoutAction(user) }),
-                        secondaryButton: .cancel(Text("Cancel"))
+                        title: Text(String(localized: "Log Out")),
+                        message: Text(String(localized: "Are you sure you want to log out of this account?")),
+                        primaryButton: .destructive(Text(String(localized: "Log Out")), action: { logoutAction(user) }),
+                        secondaryButton: .cancel(Text(String(localized: "Cancel")))
                     )
                 }
             }

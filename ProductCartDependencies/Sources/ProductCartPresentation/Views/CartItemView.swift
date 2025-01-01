@@ -35,7 +35,7 @@ public struct CartItemView: View {
                         .foregroundColor(.accentSecondary)
                     Spacer()
                     Menu {
-                        Button("Delete from Cart", role: .destructive) {
+                        Button(String(localized: "Delete from Cart"), role: .destructive) {
                             onDelete()
                         }
                     } label: {

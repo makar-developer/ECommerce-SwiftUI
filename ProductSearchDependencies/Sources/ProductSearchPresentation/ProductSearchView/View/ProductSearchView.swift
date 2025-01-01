@@ -84,9 +84,9 @@ public struct ProductSearchView: View {
             }
             .alert(isPresented: $viewModel.showDeleteAllConfirmation) {
                 Alert(
-                    title: Text("Delete All Searches"),
-                    message: Text("Are you sure you want to delete all recent searches?"),
-                    primaryButton: .destructive(Text("Delete All")) {
+                    title: Text(String(localized: "Delete All Searches")),
+                    message: Text(String(localized: "Are you sure you want to delete all recent searches?")),
+                    primaryButton: .destructive(Text(String(localized: "Delete All"))) {
                         viewModel.deleteAllSearchQueries()
                     },
                     secondaryButton: .cancel()
@@ -96,7 +96,6 @@ public struct ProductSearchView: View {
         }
     }
 }
-
 
 
 

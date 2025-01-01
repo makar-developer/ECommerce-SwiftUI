@@ -39,7 +39,7 @@ public struct ProductCartView: View {
                 Spacer()
                 Button(action: viewModel.checkout) {
                     HStack {
-                        Text("Checkout")
+                        Text(String(localized: "Checkout"))
                             .foregroundColor(.textPrimary)
                         Spacer()
                         Text("$\(viewModel.totalPrice, specifier: "%.2f")")

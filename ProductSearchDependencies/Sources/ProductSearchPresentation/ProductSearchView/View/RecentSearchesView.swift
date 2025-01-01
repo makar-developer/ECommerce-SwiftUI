@@ -19,18 +19,18 @@ struct RecentSearchesView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text("Recent Searches")
+                Text(String(localized: "Recent Searches"))
                     .font(.headline)
                     .foregroundColor(.textBackground)
                 Spacer()
                 Button(action: onDeleteAll) {
-                    Text("Delete All")
+                    Text(String(localized: "Delete All"))
                         .foregroundColor(.errorColor)
                         .font(.system(size: 14, weight: .medium))
                 }
             }
             if recentQueries.isEmpty {
-                Text("No recent searches.")
+                Text(String(localized: "No recent searches."))
                     .foregroundColor(.textSecondary)
                     .padding(.top, 5)
             } else {
@@ -38,7 +38,7 @@ struct RecentSearchesView: View {
                     ForEach(recentQueries) { query in
                         Text(query.query)
                             .foregroundColor(.accentSecondary)
-                            .listRowBackground(Color.backgroundSecondary) // Fix: Explicitly set list row background
+                            .listRowBackground(Color.backgroundSecondary)
                             .onTapGesture {
                                 onSelect(query)
                             }
@@ -46,7 +46,7 @@ struct RecentSearchesView: View {
                                 Button(role: .destructive) {
                                     onDelete(query)
                                 } label: {
-                                    Text("Delete")
+                                    Text(String(localized: "Delete"))
                                     Image(systemName: "trash")
                                 }
                             }
@@ -54,12 +54,9 @@ struct RecentSearchesView: View {
                 }
                 .listStyle(PlainListStyle())
                 .frame(height: min(CGFloat(recentQueries.count) * 44, 200))
-                 .background(Color.backgroundPrimary) // Ensure the List itself has the correct background
-                 .cornerRadius(12) // Optional: Add corner radius for visual consistency
-
-
+                 .background(Color.backgroundPrimary)
+                 .cornerRadius(12)
             }
         }
-
     }
 }

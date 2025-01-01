@@ -23,7 +23,7 @@ public struct ProductHistoryView: View {
             } else if viewModel.productHistories.isEmpty {
                 ZStack {
                     Color.backgroundPrimary
-                    Text("No product history available.")
+                    Text(String(localized: "No product history available."))
                         .foregroundColor(.textSecondary)
                         .font(.headline)
                         .padding()
@@ -56,33 +56,31 @@ public struct ProductHistoryView: View {
                     HStack {
                         Image(systemName: "chevron.left")
                             .foregroundColor(.accentPrimary)
-                        Text("Back")
+                        Text(String(localized: "Back"))
                             .foregroundColor(.accentPrimary)
                     }
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 if !viewModel.productHistories.isEmpty {
-                    Button("Clear") {
+                    Button(String(localized: "Clear")) {
                         viewModel.clearHistory()
                     }
                     .foregroundColor(.errorColor)
                 }
             }
         }
-        .navigationTitle("Product History")
+        .navigationTitle(String(localized: "Product History"))
         .background(Color.backgroundPrimary)
         .task {
             await viewModel.loadHistory()
         }
         .alert(item: $viewModel.errorMessage) { error in
             Alert(
-                title: Text("Error"),
+                title: Text(String(localized: "Error")),
                 message: Text(error.message),
-                dismissButton: .default(Text("OK"))
+                dismissButton: .default(Text(String(localized: "OK")))
             )
         }
     }
 }
-
-

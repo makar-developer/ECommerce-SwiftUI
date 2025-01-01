@@ -47,7 +47,7 @@ struct ProductHistoryRowView: View {
                     .font(.subheadline)
                     .foregroundColor(.textSecondary)
                     .lineLimit(2)
-                Text("Viewed on \(formattedDate(history.timestamp))")
+                Text(String(localized: "Viewed on \(formattedDate(history.timestamp))"))
                     .font(.caption)
                     .foregroundColor(.textSecondary)
             }

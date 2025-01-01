@@ -18,34 +18,34 @@ public struct ChangePasswordView: View {
     public var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                SecureField("Current Password", text: $viewModel.currentPassword)
+                SecureField(String(localized: "Current Password"), text: $viewModel.currentPassword)
                     .textFieldStyle(CustomSecureFieldStyle())
                     .foregroundColor(.textBackground)
 
                 if !viewModel.isCurrentPasswordValid && !viewModel.currentPassword.isEmpty {
-                    Text("Incorrect current password")
+                    Text(String(localized: "Incorrect current password"))
                         .foregroundColor(.errorColor)
                         .font(.caption)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                SecureField("New Password", text: $viewModel.newPassword)
+                SecureField(String(localized: "New Password"), text: $viewModel.newPassword)
                     .textFieldStyle(CustomSecureFieldStyle())
                     .foregroundColor(.textBackground)
 
                 if !viewModel.isNewPasswordValid && !viewModel.newPassword.isEmpty {
-                    Text("Password must be at least 8 characters, include uppercase, lowercase, number, and special character")
+                    Text(String(localized: "Password must be at least 8 characters, include uppercase, lowercase, number, and special character"))
                         .foregroundColor(.errorColor)
                         .font(.caption)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                SecureField("Confirm New Password", text: $viewModel.confirmPassword)
+                SecureField(String(localized: "Confirm New Password"), text: $viewModel.confirmPassword)
                     .textFieldStyle(CustomSecureFieldStyle())
                     .foregroundColor(.textBackground)
 
                 if !viewModel.doPasswordsMatch && !viewModel.confirmPassword.isEmpty {
-                    Text("Passwords do not match")
+                    Text(String(localized: "Passwords do not match"))
                         .foregroundColor(.errorColor)
                         .font(.caption)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -60,7 +60,7 @@ public struct ChangePasswordView: View {
                 }
 
                 Button(action: viewModel.changePassword) {
-                    Text("Change Password")
+                    Text(String(localized: "Change Password"))
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity)
                         .padding()

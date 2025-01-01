@@ -24,7 +24,7 @@ struct CategoriesGridView: View {
     var body: some View {
         ScrollView {
             if categories.isEmpty {
-                Text("No categories available.")
+                Text(String(localized: "No categories available."))
                     .foregroundColor(.textSecondary)
                     .padding()
             } else {

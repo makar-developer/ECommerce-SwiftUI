@@ -26,7 +26,7 @@ public struct HomeCoordinatorTabView: View {
                 user: user
             )
             .tabItem {
-                Label("Home", systemImage: "house")
+                Label(String(localized: "Home"), systemImage: "house")
             }
 
             ProductSearchCoordinatorView(
@@ -37,7 +37,7 @@ public struct HomeCoordinatorTabView: View {
                 user: user
             )
             .tabItem {
-                Label("Search", systemImage: "magnifyingglass")
+                Label(String(localized: "Search"), systemImage: "magnifyingglass")
             }
 
             ProductCartCoordinatorView(
@@ -45,7 +45,7 @@ public struct HomeCoordinatorTabView: View {
                 user: user
             )
             .tabItem {
-                Label("Cart", systemImage: "cart")
+                Label(String(localized: "Cart"), systemImage: "cart")
             }
 
             ProfileCoordinatorView(
@@ -57,7 +57,7 @@ public struct HomeCoordinatorTabView: View {
                 onLogout: onLogout
             )
             .tabItem {
-                Label("Account", systemImage: "person")
+                Label(String(localized: "Account"), systemImage: "person")
             }
         }
         .accentColor(.accentPrimary)

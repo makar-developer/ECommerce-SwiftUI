@@ -53,7 +53,7 @@ public struct CategoryDetailsView: View {
                     HStack {
                         Image(systemName: "chevron.left")
                             .foregroundColor(Color.accentPrimary)
-                        Text("Product Search")
+                        Text(String(localized: "Product Search"))
                             .foregroundColor(Color.accentPrimary)
                     }
                 }

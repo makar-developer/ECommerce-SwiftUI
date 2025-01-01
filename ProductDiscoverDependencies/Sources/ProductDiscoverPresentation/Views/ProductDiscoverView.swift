@@ -24,11 +24,11 @@ public struct ProductDiscoverView: View {
     @State private var scrollOffset: CGFloat = 0.0
     @State private var contentHeight: CGFloat = 0.0
     @State private var scrollViewHeight: CGFloat = 0.0
-
+    
     public init(viewModel: ProductDiscoverViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-
+    
     public var body: some View {
         // Wrap your content in ScrollView again if you want to preserve the existing layout
         ScrollView {
@@ -37,17 +37,16 @@ public struct ProductDiscoverView: View {
                     .preference(key: ScrollOffsetPreferenceKey.self, value: scrollViewProxy.frame(in: .global).minY)
             }
             .frame(height: 0)
-
+            
             VStack(alignment: .leading, spacing: 5) {
                 
                 // Hot Sales Section
+                Text(String(localized: "Hot Sales"))
+                    .font(.title)
+                    .foregroundColor(Color.accentSecondary)
+                    .padding(.leading)
                 LoadableScreen($viewModel.hotSalesState) { hotSalesProducts in
                     if !hotSalesProducts.isEmpty {
-                        Text("Hot Sales")
-                            .font(.title)
-                            .foregroundColor(Color.accentSecondary)
-                            .padding(.leading)
-
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 16) {
                                 ForEach(hotSalesProducts) { product in
@@ -66,13 +65,13 @@ public struct ProductDiscoverView: View {
                         }
                     }
                 }
-
+                
                 // Recommended Products Section
-                Text("Recommended for You")
+                Text(String(localized: "Recommended for You"))
                     .font(.title)
                     .foregroundColor(Color.accentSecondary)
                     .padding(.leading)
-
+                
                 LoadableScreen($viewModel.recommendedState) { recommendedProducts in
                     LazyVGrid(columns: [GridItem(), GridItem()], spacing: 16) {
                         ForEach(recommendedProducts) { product in
@@ -121,7 +120,7 @@ public struct ProductDiscoverView: View {
             await viewModel.loadRecommendedProducts()
         }
     }
-
+    
     private func checkIfNeedToLoadMore() {
         let threshold: CGFloat = 100
         let scrollViewBottomOffset = contentHeight + scrollOffset - scrollViewHeight

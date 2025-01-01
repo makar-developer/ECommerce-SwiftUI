@@ -24,23 +24,23 @@ public struct ProfileView: View {
                     .padding(.top, 20)
                 
                 VStack(spacing: 16) {
-                    TextField("User Name", text: $viewModel.userName)
+                    TextField(String(localized: "User Name"), text: $viewModel.userName)
                         .textFieldStyle(CustomTextFieldStyle())
                         .foregroundColor(.textBackground)
 
                     if !viewModel.isUserNameValid && !viewModel.userName.isEmpty {
-                        Text("Invalid User Name")
+                        Text(String(localized: "Invalid User Name"))
                             .foregroundColor(.errorColor)
                             .font(.caption)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     
-                    TextField("Login", text: $viewModel.login)
+                    TextField(String(localized: "Login"), text: $viewModel.login)
                         .textFieldStyle(CustomTextFieldStyle())
                         .foregroundColor(.textBackground)
 
                     if !viewModel.isLoginValid && !viewModel.login.isEmpty {
-                        Text("Invalid Login (Min 4 alphanumeric characters)")
+                        Text(String(localized: "Invalid Login (Min 4 alphanumeric characters)"))
                             .foregroundColor(.errorColor)
                             .font(.caption)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -60,7 +60,7 @@ public struct ProfileView: View {
                 }
                 
                 Button(action: viewModel.saveChanges) {
-                    Text("Save Changes")
+                    Text(String(localized: "Save Changes"))
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -72,7 +72,7 @@ public struct ProfileView: View {
                 .padding([.horizontal, .top])
                 
                 Button(action: viewModel.changePassword) {
-                    Text("Change Password")
+                    Text(String(localized: "Change Password"))
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.backgroundSecondary)
@@ -82,7 +82,7 @@ public struct ProfileView: View {
                 .padding(.horizontal)
                 
                 Button(action: viewModel.showProductHistory) {
-                    Text("View Product History")
+                    Text(String(localized: "View Product History"))
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.backgroundSecondary)
@@ -94,7 +94,7 @@ public struct ProfileView: View {
                 Spacer()
                 
                 Button(action: viewModel.logout) {
-                    Text("Logout")
+                    Text(String(localized: "Logout"))
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.errorColor.opacity(0.1))
@@ -137,7 +137,7 @@ public struct ProfileView: View {
                     .fill(Color.backgroundSecondary)
                     .frame(width: 120, height: 120)
                     .overlay(
-                        Text("Tap to select")
+                        Text(String(localized: "Tap to select"))
                             .foregroundColor(.textBackground)
                     )
                     .shadow(color: Color.borderColor.opacity(0.2), radius: 5, x: 0, y: 2)

@@ -15,7 +15,6 @@ public struct SnapCarousel<Content: View>: View {
     @Binding var currentIndex: Int
     let content: (User) -> Content
     
-    
     let createAccount: () -> Void
     
     // State variables
@@ -125,7 +124,7 @@ public struct SnapCarousel<Content: View>: View {
                 Button(action: {
                     createAccount()
                 }) {
-                    Text("Add account")
+                    Text(String(localized: "Add account"))
                         .fontWeight(.semibold)
                         .foregroundColor(.textPrimary)
                         .padding(.horizontal, 36)

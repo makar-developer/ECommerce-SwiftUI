@@ -20,13 +20,13 @@ struct EmptyListView: View {
                 .foregroundColor(.accentPrimary)
                 .shadow(color: Color.borderColor.opacity(0.5), radius: 10, x: 0, y: 5)
 
-            Text("No Accounts Added")
+            Text(String(localized: "No Accounts Added"))
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundColor(.textPrimary)
                 .shadow(color: Color.borderColor.opacity(0.3), radius: 5, x: 0, y: 2)
 
-            Text("Tap the button below to add a new account.")
+            Text(String(localized: "Tap the button below to add a new account."))
                 .font(.body)
                 .foregroundColor(.textSecondary)
                 .multilineTextAlignment(.center)
@@ -41,4 +41,3 @@ struct EmptyListView: View {
         .padding()
     }
 }
-

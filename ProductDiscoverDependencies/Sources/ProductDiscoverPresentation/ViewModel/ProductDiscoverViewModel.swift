@@ -10,10 +10,6 @@ import ProductDiscoverDomain
 import Foundation
 import CoreUseCases
 import CoreStyleguide
-public struct DiscoverData {
-    let hotSalesProducts: [Product]
-    let recommendedProducts: [Product]
-}
 
 public final class ProductDiscoverViewModel: ObservableObject {
     // Instead of separate arrays and booleans, hold them within ScreenState

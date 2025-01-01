@@ -48,7 +48,7 @@ public struct ProductDetailsView: View {
                 HStack {
                     Image(systemName: "cube.box.fill")
                         .foregroundColor(Color.accentPrimary)
-                    Text("Stock: \(viewModel.product.stock)")
+                    Text(String(localized: "Stock: \(viewModel.product.stock)"))
                 }
             }
             .font(.subheadline)
@@ -73,7 +73,7 @@ public struct ProductDetailsView: View {
                 Button(action: {
                     viewModel.addToCart()
                 }) {
-                    Text("Add to Cart")
+                    Text(String(localized: "Add to Cart"))
                         .fontWeight(.semibold)
                         .foregroundColor(Color.textPrimary)
                         .padding(.horizontal, 24)
@@ -85,7 +85,7 @@ public struct ProductDetailsView: View {
             .padding()
         }
         .padding()
-        .navigationTitle("Product Details")
+        .navigationTitle(String(localized: "Product Details"))
         .navigationBarBackButtonHidden()
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -95,7 +95,7 @@ public struct ProductDetailsView: View {
                     HStack {
                         Image(systemName: "chevron.left")
                             .foregroundColor(Color.accentPrimary)
-                        Text("Back")
+                        Text(String(localized: "Back"))
                             .foregroundColor(Color.accentPrimary)
                     }
                 }
