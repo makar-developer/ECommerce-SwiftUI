@@ -9,22 +9,25 @@ import CoreEntities
 import ProductDiscoverDomain
 import Foundation
 import CoreUseCases
-public final class ProductDiscoverViewModel: ObservableObject {
-    // Published properties for the view to observe
-    @Published var hotSalesProducts: [Product] = []
-    @Published var recommendedProducts: [Product] = []
-    @Published var isLoading: Bool = false
-    @Published var isLoadingNextPage: Bool = false
-    @Published var errorMessage: String?
+import CoreStyleguide
+public struct DiscoverData {
+    let hotSalesProducts: [Product]
+    let recommendedProducts: [Product]
+}
 
+public final class ProductDiscoverViewModel: ObservableObject {
+    // Instead of separate arrays and booleans, hold them within ScreenState
+    @Published var hotSalesState: ScreenState<[Product]> = .loading
+    @Published var recommendedState: ScreenState<[Product]> = .loading
+    
     private let getHotSalesUseCase: GetHotSalesUseCaseProtocol
     private let getRecommendedForYouUseCase: GetRecommendedForYouUseCaseProtocol
-    let getImageUseCase: GetImageUseCaseProtocol  // Exposed for child ViewModels
+    let getImageUseCase: GetImageUseCaseProtocol  // For ProductCardView(s)
+
+    let onNavigation: (Product) -> Void
 
     private var currentPage = 1
     private var isLastPage = false
-
-    let onNavigation: (Product) -> Void
 
     public init(
         getHotSalesUseCase: GetHotSalesUseCaseProtocol,
@@ -40,38 +43,47 @@ public final class ProductDiscoverViewModel: ObservableObject {
 
     @MainActor
     func loadHotSalesProducts() async {
-        isLoading = true
-        defer { isLoading = false }
+        hotSalesState = .loading
         do {
             let products = try await getHotSalesUseCase.execute()
-            self.hotSalesProducts = products
+            hotSalesState = .loaded(data: products)
         } catch {
-            errorMessage = error.localizedDescription
+            hotSalesState.toError(error: error)
         }
     }
 
     @MainActor
     func loadRecommendedProducts() async {
+        // Prevent fetching if we already know there's no more
         guard !isLastPage else { return }
-        isLoadingNextPage = true
-        defer { isLoadingNextPage = false }
+        
+        // If we already have some recommended products, hold onto them so we can append
+        let existingProducts: [Product] = {
+            if case let .loaded(data) = recommendedState {
+                return data
+            } else {
+                return []
+            }
+        }()
+
+        recommendedState = .loading
         currentPage += 1
         do {
             let products = try await getRecommendedForYouUseCase.execute(page: currentPage)
             if products.isEmpty {
                 isLastPage = true
-            } else {
-                self.recommendedProducts.append(contentsOf: products)
             }
+            // Combine new products with existing if any
+            recommendedState = .loaded(data: existingProducts + products)
         } catch {
-            errorMessage = error.localizedDescription
+            recommendedState.toError(error: error)
         }
     }
 
     func resetRecommendedProducts() {
         currentPage = 0
         isLastPage = false
-        recommendedProducts.removeAll()
+        recommendedState = .loading
     }
 
     func showProductDetails(product: Product) {

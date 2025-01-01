@@ -30,6 +30,7 @@ public struct ProductDiscoverView: View {
     }
 
     public var body: some View {
+        // Wrap your content in ScrollView again if you want to preserve the existing layout
         ScrollView {
             GeometryReader { scrollViewProxy in
                 Color.clear
@@ -38,53 +39,52 @@ public struct ProductDiscoverView: View {
             .frame(height: 0)
 
             VStack(alignment: .leading, spacing: 5) {
-                // Hot Sales Carousel
-                if !viewModel.hotSalesProducts.isEmpty {
-                    Text("Hot Sales")
-                        .font(.title)
-                        .foregroundColor(Color.accentSecondary)
-                        .padding(.leading)
+                
+                // Hot Sales Section
+                LoadableScreen($viewModel.hotSalesState) { hotSalesProducts in
+                    if !hotSalesProducts.isEmpty {
+                        Text("Hot Sales")
+                            .font(.title)
+                            .foregroundColor(Color.accentSecondary)
+                            .padding(.leading)
 
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            ForEach(viewModel.hotSalesProducts) { product in
-                                ProductCardView(
-                                    product: product,
-                                    onNavigation: { product in
-                                        viewModel.showProductDetails(product: product)
-                                    },
-                                    getImageUseCase: viewModel.getImageUseCase
-                                )
-                                .frame(width: screenWidth * 0.5)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 16) {
+                                ForEach(hotSalesProducts) { product in
+                                    ProductCardView(
+                                        product: product,
+                                        onNavigation: { product in
+                                            viewModel.showProductDetails(product: product)
+                                        },
+                                        getImageUseCase: viewModel.getImageUseCase
+                                    )
+                                    .frame(width: screenWidth * 0.5)
+                                }
                             }
+                            .padding(.horizontal)
+                            .padding(.vertical)
                         }
-                        .padding(.horizontal)
-                        .padding(.vertical)
                     }
                 }
-                // Recommended Products
+
+                // Recommended Products Section
                 Text("Recommended for You")
                     .font(.title)
                     .foregroundColor(Color.accentSecondary)
                     .padding(.leading)
 
-                LazyVGrid(columns: [GridItem(), GridItem()], spacing: 16) {
-                    ForEach(viewModel.recommendedProducts) { product in
-                        ProductCardView(
-                            product: product,
-                            onNavigation: { product in
-                                viewModel.showProductDetails(product: product)
-                            },
-                            getImageUseCase: viewModel.getImageUseCase
-                        )
-                    }
-
-                    // Loading Next Page Indicator
-                    if viewModel.isLoadingNextPage {
-                        ProgressView()
-                            .frame(maxWidth: .infinity)
-                    } else {
-                        // This view triggers loading more when it comes into view
+                LoadableScreen($viewModel.recommendedState) { recommendedProducts in
+                    LazyVGrid(columns: [GridItem(), GridItem()], spacing: 16) {
+                        ForEach(recommendedProducts) { product in
+                            ProductCardView(
+                                product: product,
+                                onNavigation: { product in
+                                    viewModel.showProductDetails(product: product)
+                                },
+                                getImageUseCase: viewModel.getImageUseCase
+                            )
+                        }
+                        // Trigger next page load when scrolled into view
                         Color.clear
                             .frame(height: 1)
                             .onAppear {
@@ -93,10 +93,11 @@ public struct ProductDiscoverView: View {
                                 }
                             }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
             .background(Color.backgroundPrimary)
+            // Track content height
             .background(
                 GeometryReader { contentGeometryProxy in
                     Color.clear
@@ -115,16 +116,15 @@ public struct ProductDiscoverView: View {
             checkIfNeedToLoadMore()
         }
         .task {
+            // Initial loads
             await viewModel.loadHotSalesProducts()
             await viewModel.loadRecommendedProducts()
         }
     }
 
     private func checkIfNeedToLoadMore() {
-        // Calculate the threshold to trigger loading more content
         let threshold: CGFloat = 100
         let scrollViewBottomOffset = contentHeight + scrollOffset - scrollViewHeight
-
         if scrollViewBottomOffset < threshold {
             Task {
                 await viewModel.loadRecommendedProducts()

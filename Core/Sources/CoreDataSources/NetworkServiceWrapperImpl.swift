@@ -27,13 +27,35 @@ public final class NetworkServiceWrapperImpl: NetworkServiceWrapperProtocol {
             throw URLError(.badURL)
         }
         
-        let (data, response) = try await urlSession.data(from: url)
-        
-        if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
-            throw URLError(.badServerResponse)
+        do {
+            let (data, response) = try await urlSession.data(from: url)
+            if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+                throw URLError(.badServerResponse)
+            }
+            
+            let decodedData = try JSONDecoder().decode(T.self, from: data)
+            return decodedData
+        } catch {
+            print("error")
+            throw NetworkError.badConnection
         }
+    }
+}
 
-        let decodedData = try JSONDecoder().decode(T.self, from: data)
-        return decodedData
+public enum NetworkError: LocalizedError {
+    case badConnection
+
+    public var errorDescription: String? {
+        switch self {
+        case .badConnection:
+            return "Bad internet connection"
+        }
+    }
+
+    public var recoverySuggestion: String? {
+        switch self {
+        case .badConnection:
+            return "Try to check the internet connection or relaunch the app"
+        }
     }
 }
