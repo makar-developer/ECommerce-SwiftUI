@@ -8,6 +8,7 @@
 import Foundation
 import CoreEntities
 import CoreUseCases
+
 public class ProductDetailsViewModel: ObservableObject {
     @Published var user: User
     @Published var product: Product

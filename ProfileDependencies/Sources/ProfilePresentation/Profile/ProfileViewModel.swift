@@ -8,16 +8,18 @@
 
 import SwiftUI
 import Combine
-import CoreEntities
 import ProfileDomain
+import CoreEntities
 import CoreUseCases
+
+@MainActor
 public final class ProfileViewModel: ObservableObject {
     public enum NavigationTarget {
         case changePassword(User)
         case logout
         case productHistory
     }
-
+    
     @Published var user: User
     @Published var userName: String
     @Published var login: String
@@ -29,16 +31,16 @@ public final class ProfileViewModel: ObservableObject {
     @Published private(set) var isUserNameValid: Bool = false
     @Published private(set) var isLoginValid: Bool = false
     @Published var canSaveChanges: Bool = false
-
+    
     private let updateUserNameUseCase: UpdateUserNameUseCaseProtocol
     private let updateLoginUseCase: UpdateLoginUseCaseProtocol
     private let updateProfilePictureUseCase: UpdateProfilePictureUseCaseProtocol
     private let getProfilePictureUseCase: GetProfilePictureUseCaseProtocol
     private var signOutUseCase: SignOutUseCaseProtocol
     private let onNavigation: (NavigationTarget) -> Void
-
+    
     private var cancellables = Set<AnyCancellable>()
-
+    
     public init(
         user: User,
         updateUserNameUseCase: UpdateUserNameUseCaseProtocol,
@@ -59,7 +61,7 @@ public final class ProfileViewModel: ObservableObject {
         self.onNavigation = onNavigation
         self.setupValidation()
     }
-
+    
     func setupValidation() {
         $userName
             .sink { [weak self] newName in
@@ -77,42 +79,36 @@ public final class ProfileViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
+    
     private func updateCanSaveChanges() {
         canSaveChanges = isUserNameValid && isLoginValid
     }
-
+    
     func loadProfilePicture() {
         Task {
             do {
                 let data = try await getProfilePictureUseCase.execute(for: user.id)
-                DispatchQueue.main.async {
-                    self.profilePictureData = data
-                }
+                self.profilePictureData = data
             } catch {
                 // Handle error if necessary
             }
         }
     }
-
+    
     func updateProfilePicture(with data: Data?) {
         isLoading = true
         Task {
             do {
                 try await updateProfilePictureUseCase.execute(data: data, for: user.id)
-                DispatchQueue.main.async {
-                    self.profilePictureData = data
-                    self.isLoading = false
-                }
+                self.profilePictureData = data
+                self.isLoading = false
             } catch {
-                DispatchQueue.main.async {
-                    self.errorMessage = error.localizedDescription
-                    self.isLoading = false
-                }
+                self.errorMessage = error.localizedDescription
+                self.isLoading = false
             }
         }
     }
-
+    
     func saveChanges() {
         guard canSaveChanges else { return }
         isLoading = true
@@ -120,22 +116,18 @@ public final class ProfileViewModel: ObservableObject {
             do {
                 try await updateUserNameUseCase.execute(newName: userName, for: user.id)
                 try await updateLoginUseCase.execute(newLogin: login, for: user.id)
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                }
+                self.isLoading = false
             } catch {
-                DispatchQueue.main.async {
-                    self.errorMessage = error.localizedDescription
-                    self.isLoading = false
-                }
+                self.errorMessage = error.localizedDescription
+                self.isLoading = false
             }
         }
     }
-
+    
     func changePassword() {
         onNavigation(.changePassword(user))
     }
-
+    
     func logout() {
         Task {
             try await signOutUseCase.execute()

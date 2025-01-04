@@ -9,6 +9,7 @@
 import SwiftUI
 import CoreEntities
 import CoreStyleguide
+
 public struct ProductCartView: View {
     @StateObject private var viewModel: ProductCartViewModel
     
@@ -26,7 +27,7 @@ public struct ProductCartView: View {
                             cartItem: cartItem,
                             onIncrement: { viewModel.incrementQuantity(for: cartItem) },
                             onDecrement: { viewModel.decrementQuantity(for: cartItem) },
-                            onDelete: { viewModel.removeItem(cartItem) }
+                            onDelete: { viewModel.removeEntireItem(cartItem) }
                         )
                     }
                 }
@@ -37,7 +38,7 @@ public struct ProductCartView: View {
             // Checkout Button
             VStack {
                 Spacer()
-                Button(action: viewModel.checkout) {
+                Button(action: {viewModel.checkout()}) {
                     HStack {
                         Text(String(localized: "Checkout"))
                             .foregroundColor(.textPrimary)

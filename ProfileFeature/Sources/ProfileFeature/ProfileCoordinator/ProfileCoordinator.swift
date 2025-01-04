@@ -10,6 +10,8 @@ import CoreEntities
 import ProfilePresentation
 import CoreDependencies
 import CoreStyleguide
+
+@MainActor
 final class ProfileCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     private let container: ProfileDIContainerProtocol
@@ -28,15 +30,11 @@ final class ProfileCoordinator: ObservableObject {
     }
 
     private func push(screen: ProfileScreen) {
-        DispatchQueue.main.async {
             self.path.append(screen)
-        }
     }
 
     private func pop() {
-        DispatchQueue.main.async {
             self.path.removeLast()
-        }
     }
     
     private func showChangePassword(user: User) {

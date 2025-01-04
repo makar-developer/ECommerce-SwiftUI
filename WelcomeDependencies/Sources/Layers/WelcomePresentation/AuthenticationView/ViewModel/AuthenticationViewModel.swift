@@ -5,6 +5,7 @@ import CoreEntities
 import WelcomeDomain
 import CoreUseCases
 
+@MainActor
 final public class AuthenticationViewModel: ObservableObject {
     // Input Fields
     @Published var name: String = "John Doe"

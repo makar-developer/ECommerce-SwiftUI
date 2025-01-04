@@ -10,6 +10,7 @@ import CoreEntities
 import WelcomeDomain
 import CoreUseCases
 
+@MainActor
 final public class WelcomeViewModel: ObservableObject {
     public enum NavigationTarget {
         case authentication
@@ -25,7 +26,7 @@ final public class WelcomeViewModel: ObservableObject {
     private let signInUseCase: SignInUseCaseProtocol
     private let deleteUserDataUseCase: DeleteUserDataUseCaseProtocol
     private let createUserUseCase: CreateUserUseCaseProtocol        // This
-    private let createUserDataUseCase: CreateUserDataUseCaseProtocol // And this one are injected here just to populate Keychain and CoreData with some default users.
+    private let createUserDataUseCase: CreateUserDataUseCaseProtocol // And this one are injected here just to populate Keychain and CoreData with some default users for testing purposes.
     private let fetchUserDataUseCase: FetchUserDataUseCaseProtocol
     
     private var onNavigation: (WelcomeViewModel.NavigationTarget) -> Void
@@ -41,7 +42,6 @@ final public class WelcomeViewModel: ObservableObject {
         self.onNavigation = onNavigation
     }
     
-    @MainActor
     func loadUsers() async {
         do {
             let isFirstFetch = !UserDefaults.standard.bool(forKey: "hasFetchedUsersBefore")
@@ -123,11 +123,9 @@ final public class WelcomeViewModel: ObservableObject {
                 try await deleteUserUseCase.execute(user: user)
                 try await deleteUserDataUseCase.execute(userId: user.id)
                 // Handle logout success
-                await MainActor.run {
                     users.removeAll { $0.id == user.id }
                     isEditingModeEnabled = false
                     assignedImages.removeValue(forKey: user.id)
-                }
             } catch {
                 // Handle logout error
                 print("Error logging out user: \(error.localizedDescription)")

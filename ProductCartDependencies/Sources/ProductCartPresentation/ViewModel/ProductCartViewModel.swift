@@ -5,11 +5,12 @@
 //  Created by Admin on 05/12/2024.
 //
 
-import CoreEntities
-import CoreUseCases
 import SwiftUI
 import Combine
+import CoreEntities
+import CoreUseCases
 
+@MainActor
 public class ProductCartViewModel: ObservableObject {
     // Published properties
     @Published public var cartItems: [CartItem] = []
@@ -21,6 +22,7 @@ public class ProductCartViewModel: ObservableObject {
     private let addProductToCartUseCase: AddProductToCartUseCaseProtocol
     private let removeProductFromCartUseCase: RemoveProductFromCartUseCaseProtocol
     private let removeAllProductsFromCartUseCase: RemoveAllProductsFromCartUseCaseProtocol
+    private let removeEntireItemUseCase: RemoveEntireItemFromCartUseCaseProtocol
     
     // Cancellables for async operations
     private var cancellables = Set<AnyCancellable>()
@@ -31,13 +33,15 @@ public class ProductCartViewModel: ObservableObject {
         getAllProductsUseCase: GetAllProductsUseCaseProtocol,
         addProductToCartUseCase: AddProductToCartUseCaseProtocol,
         removeProductFromCartUseCase: RemoveProductFromCartUseCaseProtocol,
-        removeAllProductsFromCartUseCase: RemoveAllProductsFromCartUseCaseProtocol
+        removeAllProductsFromCartUseCase: RemoveAllProductsFromCartUseCaseProtocol,
+        removeEntireItemUseCase: RemoveEntireItemFromCartUseCaseProtocol
     ) {
         self.user = user
         self.getAllProductsUseCase = getAllProductsUseCase
         self.addProductToCartUseCase = addProductToCartUseCase
         self.removeProductFromCartUseCase = removeProductFromCartUseCase
         self.removeAllProductsFromCartUseCase = removeAllProductsFromCartUseCase
+        self.removeEntireItemUseCase = removeEntireItemUseCase
         setupTotalPriceObservation()
     }
     
@@ -58,9 +62,7 @@ public class ProductCartViewModel: ObservableObject {
         Task {
             do {
                 let items = try await getAllProductsUseCase.execute(user: user)
-                await MainActor.run {
-                    self.cartItems = items
-                }
+                self.cartItems = items
             } catch {
                 print("Error loading cart items: \(error)")
             }
@@ -72,9 +74,7 @@ public class ProductCartViewModel: ObservableObject {
         Task {
             do {
                 try await addProductToCartUseCase.execute(product: cartItem.product, user: user)
-                await MainActor.run {
-                    self.loadCartItems()
-                }
+                self.loadCartItems()
             } catch {
                 print("Error incrementing quantity: \(error)")
             }
@@ -86,25 +86,20 @@ public class ProductCartViewModel: ObservableObject {
         Task {
             do {
                 try await removeProductFromCartUseCase.execute(cartItem: cartItem, user: user)
-                await MainActor.run {
-                    self.loadCartItems()
-                }
+                self.loadCartItems()
             } catch {
                 print("Error decrementing quantity: \(error)")
             }
         }
     }
     
-    // Remove specific item
-    public func removeItem(_ cartItem: CartItem) {
+    public func removeEntireItem(_ cartItem: CartItem) {
         Task {
             do {
-                try await removeProductFromCartUseCase.execute(cartItem: cartItem, user: user)
-                await MainActor.run {
-                    self.loadCartItems()
-                }
+                try await removeEntireItemUseCase.execute(cartItem: cartItem, user: user)
+                loadCartItems()
             } catch {
-                print("Error removing item: \(error)")
+                print("Error removing entire item: \(error)")
             }
         }
     }
@@ -114,10 +109,8 @@ public class ProductCartViewModel: ObservableObject {
         Task {
             do {
                 try await removeAllProductsFromCartUseCase.execute(user: user)
-                await MainActor.run {
-                    self.cartItems = []
-                    print("Total price at checkout: \(self.totalPrice)")
-                }
+                self.cartItems = []
+                print("Total price at checkout: \(self.totalPrice)")
             } catch {
                 print("Error during checkout: \(error)")
             }

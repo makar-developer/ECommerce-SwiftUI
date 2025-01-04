@@ -87,9 +87,7 @@ public struct ProductDiscoverView: View {
                         Color.clear
                             .frame(height: 1)
                             .onAppear {
-                                Task {
-                                    await viewModel.loadRecommendedProducts()
-                                }
+                                viewModel.loadRecommendedProducts()
                             }
                     }
                     .padding(.horizontal)
@@ -114,20 +112,13 @@ public struct ProductDiscoverView: View {
             scrollOffset = value
             checkIfNeedToLoadMore()
         }
-        .task {
-            // Initial loads
-            await viewModel.loadHotSalesProducts()
-            await viewModel.loadRecommendedProducts()
-        }
     }
     
     private func checkIfNeedToLoadMore() {
         let threshold: CGFloat = 100
         let scrollViewBottomOffset = contentHeight + scrollOffset - scrollViewHeight
         if scrollViewBottomOffset < threshold {
-            Task {
-                await viewModel.loadRecommendedProducts()
-            }
+            viewModel.loadRecommendedProducts()
         }
     }
 }

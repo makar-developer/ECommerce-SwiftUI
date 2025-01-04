@@ -59,7 +59,7 @@ public struct ChangePasswordView: View {
                         .cornerRadius(8)
                 }
 
-                Button(action: viewModel.changePassword) {
+                Button(action: { viewModel.changePassword() }) {
                     Text(String(localized: "Change Password"))
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity)

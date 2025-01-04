@@ -11,7 +11,6 @@ import SwiftUI
 // MARK: - CategoryDetailsView
 
 import SwiftUI
-
 public struct CategoryDetailsView: View {
     @StateObject private var viewModel: CategoryDetailsViewModel
 
@@ -26,23 +25,29 @@ public struct CategoryDetailsView: View {
 
     public var body: some View {
         ScrollView {
-            LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(viewModel.products) { product in
-                    ProductCardView(
-                        product: product,
-                        onNavigation: { selectedProduct in
-                            viewModel.showProductDetails(product: selectedProduct)
-                        },
-                        getImageUseCase: viewModel.getImageUseCase
-                    )
-                    .background(Color.backgroundSecondary)
-                    .cornerRadius(12)
-                    .shadow(radius: 4)
+            LoadableScreen($viewModel.productsState) { products in
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(products) { product in
+                        ProductCardView(
+                            product: product,
+                            onNavigation: { selectedProduct in
+                                viewModel.showProductDetails(product: selectedProduct)
+                            },
+                            getImageUseCase: viewModel.getImageUseCase
+                        )
+                        .background(Color.backgroundSecondary)
+                        .cornerRadius(12)
+                        .shadow(radius: 4)
+                    }
                 }
+                .padding()
+                .background(Color.backgroundPrimary)
             }
-            .padding()
             .background(Color.backgroundPrimary)
+
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.backgroundPrimary)
         .navigationTitle(viewModel.categoryResponse.name)
         .navigationBarBackButtonHidden()
         .toolbar {
@@ -58,9 +63,6 @@ public struct CategoryDetailsView: View {
                     }
                 }
             }
-        }
-        .onAppear {
-            viewModel.fetchProducts()
         }
         .background(Color.backgroundPrimary)
     }

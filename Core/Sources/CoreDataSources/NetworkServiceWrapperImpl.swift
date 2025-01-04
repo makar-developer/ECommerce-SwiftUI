@@ -36,7 +36,6 @@ public final class NetworkServiceWrapperImpl: NetworkServiceWrapperProtocol {
             let decodedData = try JSONDecoder().decode(T.self, from: data)
             return decodedData
         } catch {
-            print("error")
             throw NetworkError.badConnection
         }
     }

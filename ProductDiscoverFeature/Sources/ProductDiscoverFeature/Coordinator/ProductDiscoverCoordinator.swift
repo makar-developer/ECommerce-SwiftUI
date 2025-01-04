@@ -10,6 +10,8 @@ import ProductDiscoverPresentation
 import CoreEntities
 import CoreStyleguide
 import CoreDependencies
+
+@MainActor
 final class ProductDiscoverCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     private let container: ProductDiscoverDIContainerProtocol
@@ -25,17 +27,13 @@ final class ProductDiscoverCoordinator: ObservableObject {
         self.productHistoryContainer = productHistoryContainer
         self.user = user
     }
-
+    
     private func push(screen: ProductDiscoverScreen) {
-        DispatchQueue.main.async {
-            self.path.append(screen)
-        }
+        self.path.append(screen)
     }
-
+    
     private func pop() {
-        DispatchQueue.main.async {
-            self.path.removeLast()
-        }
+        self.path.removeLast()
     }
     
     private func showProductDetails(product: Product, user: User) {
@@ -62,4 +60,4 @@ final class ProductDiscoverCoordinator: ObservableObject {
         }
     }
 }
-	
+

@@ -12,6 +12,8 @@ import ProductSearchEntities
 import CoreEntities
 import CoreStyleguide
 import CoreDependencies
+
+@MainActor
 final class ProductSearchCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     private let container: ProductSearchDIContainerProtocol

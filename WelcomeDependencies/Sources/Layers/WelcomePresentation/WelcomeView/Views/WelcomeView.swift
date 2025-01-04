@@ -54,12 +54,11 @@ public struct WelcomeView: View {
             adjustCurrentIndexAfterDeletion()
         }
     }
-
+    
+    @MainActor
     private func adjustCurrentIndexAfterDeletion() {
-        DispatchQueue.main.async {
-            if currentIndex >= viewModel.users.count {
-                currentIndex = max(viewModel.users.count - 1, 0)
-            }
+        if currentIndex >= viewModel.users.count {
+            currentIndex = max(viewModel.users.count - 1, 0)
         }
     }
 }

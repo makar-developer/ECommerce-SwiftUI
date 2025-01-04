@@ -5,10 +5,12 @@
 //  Created by Admin on 16/12/2024.
 //
 
-import ProfileDomain
 import SwiftUI
-import CoreEntities
 import Combine
+import ProfileDomain
+import CoreEntities
+
+@MainActor
 public final class ChangePasswordViewModel: ObservableObject {
     @Published var currentPassword: String = ""
     @Published var newPassword: String = ""
@@ -65,31 +67,27 @@ public final class ChangePasswordViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
+    
     private func updateCanChangePassword() {
         canChangePassword = isCurrentPasswordValid && isNewPasswordValid && doPasswordsMatch
     }
-
+    
     func changePassword() {
         guard canChangePassword else { return }
-
+        
         isLoading = true
         Task {
             do {
                 try await updatePasswordUseCase.execute(newPassword: newPassword, for: user.id)
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                    self.onNavigation()
-                }
+                self.isLoading = false
+                self.onNavigation()
             } catch {
-                DispatchQueue.main.async {
-                    self.errorMessage = error.localizedDescription
-                    self.isLoading = false
-                }
+                self.errorMessage = error.localizedDescription
+                self.isLoading = false
             }
         }
     }
-
+    
     private func verifyCurrentPassword(_ input: String) -> Bool {
         // Comparing the input with the user's current password
         return input == user.password.rawValue

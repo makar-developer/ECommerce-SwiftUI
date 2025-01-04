@@ -14,7 +14,7 @@ public protocol CartDIContainerProtocol {
     var removeAllProductsFromCartUseCase: RemoveAllProductsFromCartUseCaseProtocol { get }
     var getAllProductsUseCase: GetAllProductsUseCaseProtocol { get }
     var removeProductFromCartUseCase: RemoveProductFromCartUseCaseProtocol { get }
-    
+    var removeEntireItemFromCartUseCase: RemoveEntireItemFromCartUseCaseProtocol { get }
     // MARK: - Repositories
     var cartRepository: CartRepositoryProtocol { get }
 }
@@ -51,5 +51,9 @@ public class CartDIContainerImpl: CartDIContainerProtocol {
     
     public lazy var removeProductFromCartUseCase: RemoveProductFromCartUseCaseProtocol = {
         return RemoveProductFromCartUseCase(cartRepository: cartRepository)
+    }()
+    
+    public lazy var removeEntireItemFromCartUseCase: RemoveEntireItemFromCartUseCaseProtocol = {
+        return RemoveEntireItemFromCartUseCase(cartRepository: cartRepository)
     }()
 }

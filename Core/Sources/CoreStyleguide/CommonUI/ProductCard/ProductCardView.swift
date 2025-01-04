@@ -9,6 +9,7 @@ import SwiftUI
 import Core
 import CoreEntities
 import CoreUseCases
+
 public struct ProductCardView: View {
     let product: Product
     let onNavigation: (Product) -> Void

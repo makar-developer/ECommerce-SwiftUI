@@ -3,33 +3,31 @@ import WelcomeFeature
 import CoreEntities
 import Home
 import CoreUseCases
+
+@MainActor
 public final class AppCoordinator: ObservableObject {
     @Published var fullScreenCoverFeature: Feature?
-
+    
     private let container: AppDIContainerProtocol
-
+    
     public init(container: AppDIContainerProtocol) {
         self.container = container
     }
-
+    
     func presentFeature(_ feature: Feature) {
-        DispatchQueue.main.async {
-            self.fullScreenCoverFeature = feature
-        }
+        self.fullScreenCoverFeature = feature
     }
     
     func presentMain(_ user: User) {
         presentFeature(.main(user))
     }
-
+    
     func presentWelcome() {
         presentFeature(.welcome())
     }
     
     func dismissFeature() {
-        DispatchQueue.main.async {
-            self.fullScreenCoverFeature = nil
-        }
+        self.fullScreenCoverFeature = nil
     }
     
     func getSignedInUser() async -> User? {

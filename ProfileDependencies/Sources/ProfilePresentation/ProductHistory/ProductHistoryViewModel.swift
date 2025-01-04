@@ -6,9 +6,11 @@
 //
 
 import Foundation
+
 import CoreUseCases
 import CoreEntities
 
+@MainActor
 public final class ProductHistoryViewModel: ObservableObject {
     public enum NavigationTarget {
         case productDetails(Product)
@@ -18,7 +20,7 @@ public final class ProductHistoryViewModel: ObservableObject {
     @Published var productHistories: [ProductHistory] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: AlertError?
-
+    
     private let getProductHistoryUseCase: GetProductHistoryUseCaseProtocol
     private let removeProductFromHistoryUseCase: RemoveProductFromHistoryUseCaseProtocol
     private let removeAllHistoryUseCase: RemoveAllHistoryUseCaseProtocol
@@ -42,7 +44,6 @@ public final class ProductHistoryViewModel: ObservableObject {
         self.onNavigation = onNavigation
     }
     
-    @MainActor
     func loadHistory() async {
         isLoading = true
         do {
@@ -62,26 +63,21 @@ public final class ProductHistoryViewModel: ObservableObject {
                 }
             }
             
-                self.productHistories = uniqueHistories
-                self.isLoading = false
+            self.productHistories = uniqueHistories
+            self.isLoading = false
         } catch {
-                self.errorMessage = AlertError(message: error.localizedDescription)
-                self.isLoading = false
+            self.errorMessage = AlertError(message: error.localizedDescription)
+            self.isLoading = false
         }
     }
-
     
     func removeProductHistory(_ history: ProductHistory) {
         Task {
             do {
                 try await removeProductFromHistoryUseCase.execute(product: history.product, for: userId)
-                DispatchQueue.main.async {
-                    self.productHistories.removeAll { $0.id == history.id }
-                }
+                self.productHistories.removeAll { $0.id == history.id }
             } catch {
-                DispatchQueue.main.async {
-                    self.errorMessage = AlertError(message: error.localizedDescription)
-                }
+                self.errorMessage = AlertError(message: error.localizedDescription)
             }
         }
     }
@@ -90,13 +86,9 @@ public final class ProductHistoryViewModel: ObservableObject {
         Task {
             do {
                 try await removeAllHistoryUseCase.execute(for: userId)
-                DispatchQueue.main.async {
-                    self.productHistories.removeAll()
-                }
+                self.productHistories.removeAll()
             } catch {
-                DispatchQueue.main.async {
-                    self.errorMessage = AlertError(message: error.localizedDescription)
-                }
+                self.errorMessage = AlertError(message: error.localizedDescription)
             }
         }
     }

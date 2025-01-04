@@ -21,7 +21,6 @@ struct LocalizedAlertError<T>: LocalizedError {
     }
 
     init?(state: ScreenState<T>) {
-        print("error")
         guard let localizedError = state.error as? LocalizedError else { return nil }
         underlyingError = localizedError
     }

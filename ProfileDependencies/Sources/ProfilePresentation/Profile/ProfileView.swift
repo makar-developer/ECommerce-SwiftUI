@@ -59,7 +59,7 @@ public struct ProfileView: View {
                         .cornerRadius(8)
                 }
                 
-                Button(action: viewModel.saveChanges) {
+                Button(action: {viewModel.saveChanges()}) {
                     Text(String(localized: "Save Changes"))
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity)
@@ -71,7 +71,7 @@ public struct ProfileView: View {
                 .disabled(!viewModel.canSaveChanges || viewModel.isLoading)
                 .padding([.horizontal, .top])
                 
-                Button(action: viewModel.changePassword) {
+                Button(action: {viewModel.changePassword()}) {
                     Text(String(localized: "Change Password"))
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -81,7 +81,7 @@ public struct ProfileView: View {
                 }
                 .padding(.horizontal)
                 
-                Button(action: viewModel.showProductHistory) {
+                Button(action: {viewModel.showProductHistory()}) {
                     Text(String(localized: "View Product History"))
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -93,7 +93,7 @@ public struct ProfileView: View {
                 
                 Spacer()
                 
-                Button(action: viewModel.logout) {
+                Button(action: {viewModel.logout()}) {
                     Text(String(localized: "Logout"))
                         .frame(maxWidth: .infinity)
                         .padding()

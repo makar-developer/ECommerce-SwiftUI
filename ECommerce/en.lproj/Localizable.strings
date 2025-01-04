@@ -1,0 +1,116 @@
+/* 
+  Localizable.strings
+  ECommerce
+
+  Created by Admin on 02/01/2025.
+  
+*/
+
+
+// MARK: - GreetingCardView
+"Good afternoon, %@!" = "Good afternoon, %@!";
+"Log Out this Account" = "Log Out this Account";
+"Go Shopping!" = "Go Shopping!";
+"Log Out" = "Log Out";
+"Are you sure you want to log out of this account?" = "Are you sure you want to log out of this account?";
+"Cancel" = "Cancel";
+
+// MARK: - ProductDetailsView
+"%.0f%% off" = "%.0f%% off";
+"Stock: \(viewModel.product.stock)" = "Stock: %d";
+"$%.2f" = "$%.2f";
+"Add to Cart" = "Add to Cart";
+"Product Details" = "Product Details";
+"Back" = "Back";
+
+// MARK: - SnapCarousel
+"Add account" = "Add account";
+
+// MARK: - EmptyListView
+"No Accounts Added" = "No Accounts Added";
+"Tap the button below to add a new account." = "Tap the button below to add a new account.";
+
+// MARK: - AuthenticationView
+"Create Account" = "Create Account";
+"Name" = "Name";
+"Login" = "Login";
+"Password" = "Password";
+"Confirm Password" = "Confirm Password";
+"Password Requirements:" = "Password Requirements:";
+"At least 8 characters" = "At least 8 characters";
+"At least one uppercase letter" = "At least one uppercase letter";
+"At least one lowercase letter" = "At least one lowercase letter";
+"At least one number" = "At least one number";
+"At least one special character" = "At least one special character";
+"Back" = "Back";
+
+// MARK: - HomeCoordinatorTabView
+ "Home" = "Home";
+ "Search" = "Search";
+ "Cart" = "Cart";
+ "Account" = "Account";
+
+// MARK: - ProductDiscoverView
+"Hot Sales" = "Hot Sales";
+"Recommended for You" = "Recommended for You";
+
+// MARK: - CategoriesGridView
+"No categories available." = "No categories available.";
+
+// MARK: - ProductSearchView
+"Delete All Searches" = "Delete All Searches";
+"Are you sure you want to delete all recent searches?" = "Are you sure you want to delete all recent searches?";
+"Delete All" = "Delete All";
+
+// MARK: - ProductsGridView
+"No products found." = "No products found.";
+
+// MARK: - RecentSearchesView
+"Recent Searches" = "Recent Searches";
+"Delete All" = "Delete All";
+"No recent searches." = "No recent searches.";
+"Delete" = "Delete";
+
+// MARK: - SearchBarView
+"Search products..." = "Search products...";
+
+// MARK: - CategoryDetailsView
+"Product Search" = "Product Search";
+
+// MARK: - CartItemView
+"Delete from Cart" = "Delete from Cart";
+
+// MARK: - ProductCartView
+"Checkout" = "Checkout";
+
+// MARK: - ProfileView
+"User Name" = "User Name";
+"Invalid User Name" = "Invalid User Name";
+"Login" = "Login";
+"Invalid Login (Min 4 alphanumeric characters)" = "Invalid Login (Min 4 alphanumeric characters)";
+"Save Changes" = "Save Changes";
+"Change Password" = "Change Password";
+"View Product History" = "View Product History";
+"Logout" = "Logout";
+"Tap to select" = "Tap to select";
+
+// MARK: - ProductHistoryView
+"No product history available." = "No product history available.";
+"Back" = "Back";
+"Clear" = "Clear";
+"Product History" = "Product History";
+"Error" = "Error";
+"OK" = "OK";
+
+// MARK: - ProductHistoryRowView
+"Viewed on %@." = "Viewed on %@.";
+
+// MARK: - ChangePasswordView
+"Current Password" = "Current Password";
+"Incorrect current password" = "Incorrect current password";
+"New Password" = "New Password";
+"Password must be at least 8 characters, include uppercase, lowercase, number, and special character" = "Password must be at least 8 characters, include uppercase, lowercase, number, and special character";
+"Confirm New Password" = "Confirm New Password";
+"Passwords do not match" = "Passwords do not match";
+"Change Password" = "Change Password";
+

@@ -1,27 +1,34 @@
 import Combine
-import CoreEntities
-import CoreUseCases
+import Foundation
 import ProductSearchEntities
 import ProductSearchDomain
+import CoreEntities
+import CoreUseCases
 import CoreStyleguide
-import Foundation
-// MARK: - ProductSearchViewModel
 
+// MARK: - ProductSearchViewModel
+@MainActor
 public final class ProductSearchViewModel: ObservableObject {
     
+    // MARK: - Subtypes
     public enum NavigationTarget {
         case categoryDetails(CategoryResponse)
         case productDetails(Product)
     }
+    /// A container for categories plus their thumbnails
+    struct CategoriesData {
+        let categories: [CategoryResponse]
+        let thumbnails: [String: String]
+    }
     
-    let onNavigation: (ProductSearchViewModel.NavigationTarget) -> Void
     // MARK: - Published Properties
+    let onNavigation: (ProductSearchViewModel.NavigationTarget) -> Void
+    
     @Published var searchText: String = ""
     @Published var isSearchFocused: Bool = false
-    
-    @Published var categories: [CategoryResponse] = []
-    @Published var categoryThumbnails: [String: String] = [:]
-    @Published var products: [Product] = []
+
+    @Published var categoriesState: ScreenState<CategoriesData> = .loading
+    @Published var productsState: ScreenState<[Product]> = .loaded(data: [])  // Start empty
     @Published var recentSearchQueries: [SearchQuery] = []
     @Published var showDeleteAllConfirmation: Bool = false
     
@@ -59,9 +66,11 @@ public final class ProductSearchViewModel: ObservableObject {
         self.getAllExistingCategoriesUseCase = getAllExistingCategoriesUseCase
         self.getImageUseCase = getImageUseCase
         self.onNavigation = onNavigation
+        
         setupBindings()
-        loadCategories()
         loadRecentSearchQueries()
+        // Trigger initial categories load
+        loadCategories()
     }
     
     // MARK: - Setup Bindings
@@ -74,7 +83,7 @@ public final class ProductSearchViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
-        // Reload recent searches when search field is focused
+        // Reload recent searches when search field is unfocused and we have empty text
         $isSearchFocused
             .sink { [weak self] focused in
                 if !focused && self?.searchText.isEmpty == true {
@@ -83,59 +92,48 @@ public final class ProductSearchViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
+
     // MARK: - Load Categories
     public func loadCategories() {
-            Task {
-                do {
-                    let fetchedCategories = try await getAllExistingCategoriesUseCase.execute()
-                    await MainActor.run {
-                        categories = fetchedCategories
-                        // Immediately load thumbnails after categories are fetched
-                        loadCategoryThumbnails()
-                    }
-                } catch {
-                    print("Failed to load categories: \(error)")
-                }
+        Task {
+                categoriesState = .loading
+            do {
+                let fetchedCategories = try await getAllExistingCategoriesUseCase.execute()
+                let slugs = fetchedCategories.map { $0.slug }
+                let thumbs = try await getCategoryThumbnailUseCase.execute(categorySlugs: slugs)
+                    categoriesState = .loaded(data: CategoriesData(categories: fetchedCategories, thumbnails: thumbs))
+            } catch {
+                    categoriesState.toError(error: error)
             }
         }
-    
-    public func loadCategoryThumbnails() {
-            Task {
-                do {
-                    // Extract slugs from existing categories
-                    let slugs = categories.map { $0.slug }
-                    
-                    // Fetch thumbnails for all categories
-                    let thumbnails = try await getCategoryThumbnailUseCase.execute(categorySlugs: slugs)
-                    
-                    await MainActor.run {
-                        categoryThumbnails = thumbnails
-                    }
-                } catch {
-                    print("Failed to load category thumbnails: \(error)")
-                }
-            }
-        }
+    }
+
     // MARK: - Perform Search
     private func performSearch(with keyword: String) {
-        if keyword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            DispatchQueue.main.async {
-                self.products = []
-            }
+        let trimmedKeyword = keyword.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedKeyword.isEmpty {
+            // If search text is blank, just show empty results (no error).
+            productsState = .loaded(data: [])
             return
         }
-        
         Task {
-            do {
-                let results = try await searchProductsUseCase.execute(keyword: keyword)
-                await MainActor.run {
-                    products = results
-                }
-            } catch {
-                print("Search error: \(error)")
-            }
+            await actuallySearchProducts(with: trimmedKeyword)
         }
+    }
+    
+    private func actuallySearchProducts(with keyword: String) async {
+        productsState = .loading
+        do {
+            let results = try await searchProductsUseCase.execute(keyword: keyword)
+            productsState = .loaded(data: results)
+        } catch {
+            productsState.toError(error: error)
+        }
+    }
+
+    public func performSearch(from query: SearchQuery) {
+        searchText = query.query
+        isSearchFocused = false
     }
     
     public func saveCurrentSearch() {
@@ -146,34 +144,21 @@ public final class ProductSearchViewModel: ObservableObject {
         saveSearchQueryUseCase.execute(searchQuery: query)
         loadRecentSearchQueries()
     }
-    
-    // MARK: - Save Search Query
-    private func saveSearch(query: SearchQuery) {
-        saveSearchQueryUseCase.execute(searchQuery: query)
-        loadRecentSearchQueries()
-    }
-    
+
     // MARK: - Load Recent Search Queries
     public func loadRecentSearchQueries() {
         let queries = getAllRecentSearchQueriesUseCase.execute()
         recentSearchQueries = queries.sorted { $0.creationDate > $1.creationDate }
     }
     
-    // MARK: - Delete Single Search Query
+    // MARK: - Delete Search Queries
     public func deleteSearchQuery(_ query: SearchQuery) {
         removeSearchQueryUseCase.execute(searchQuery: query)
         loadRecentSearchQueries()
     }
-    
-    // MARK: - Delete All Search Queries
+
     public func deleteAllSearchQueries() {
         removeAllSearchQueriesUseCase.execute()
         loadRecentSearchQueries()
-    }
-    
-    // MARK: - Perform Search from Recent Query
-    public func performSearch(from query: SearchQuery) {
-        searchText = query.query
-        isSearchFocused = false
     }
 }

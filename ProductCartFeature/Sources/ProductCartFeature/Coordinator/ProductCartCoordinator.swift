@@ -5,19 +5,12 @@
 //  Created by Admin on 05/12/2024.
 //
 
-import Foundation
-
-//
-//  File.swift
-//
-//
-//  Created by Admin on 29/11/2024.
-//
-
 import SwiftUI
 import ProductCartPresentation
 import CoreEntities
 import CoreDependencies
+
+@MainActor
 final class ProductCartCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     private let container: CartDIContainerProtocol
@@ -29,22 +22,18 @@ final class ProductCartCoordinator: ObservableObject {
     }
 
     private func push(screen: ProductCartScreen) {
-        DispatchQueue.main.async {
             self.path.append(screen)
-        }
     }
 
     private func pop() {
-        DispatchQueue.main.async {
             self.path.removeLast()
-        }
     }
     
     @ViewBuilder
     func build(screen: ProductCartScreen) -> some View {
         switch screen {
         case .productCart:
-            ProductCartView(viewModel: ProductCartViewModel(user: user, getAllProductsUseCase: container.getAllProductsUseCase, addProductToCartUseCase: container.addProductToCartUseCase, removeProductFromCartUseCase: container.removeProductFromCartUseCase, removeAllProductsFromCartUseCase: container.removeAllProductsFromCartUseCase))
+            ProductCartView(viewModel: ProductCartViewModel(user: user, getAllProductsUseCase: container.getAllProductsUseCase, addProductToCartUseCase: container.addProductToCartUseCase, removeProductFromCartUseCase: container.removeProductFromCartUseCase, removeAllProductsFromCartUseCase: container.removeAllProductsFromCartUseCase, removeEntireItemUseCase: container.removeEntireItemFromCartUseCase))
         }
     }
 }
