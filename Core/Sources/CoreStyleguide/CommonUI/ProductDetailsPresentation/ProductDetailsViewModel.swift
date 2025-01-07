@@ -9,9 +9,9 @@ import Foundation
 import CoreEntities
 import CoreUseCases
 
-public class ProductDetailsViewModel: ObservableObject {
-    @Published var user: User
-    @Published var product: Product
+public final class ProductDetailsViewModel: ObservableObject {
+    @Published private(set) var user: User
+    @Published private(set) var product: Product
     @Published var currentImageIndex: Int = 0
     let onNavigation: () -> Void
     private let addProductToCartUseCase: AddProductToCartUseCaseProtocol

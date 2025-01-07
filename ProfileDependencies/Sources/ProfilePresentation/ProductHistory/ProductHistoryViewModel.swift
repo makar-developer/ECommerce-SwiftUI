@@ -17,8 +17,8 @@ public final class ProductHistoryViewModel: ObservableObject {
         case profile
     }
     
-    @Published var productHistories: [ProductHistory] = []
-    @Published var isLoading: Bool = false
+    @Published private(set) var productHistories: [ProductHistory] = []
+    @Published private(set) var isLoading: Bool = false
     @Published var errorMessage: AlertError?
     
     private let getProductHistoryUseCase: GetProductHistoryUseCaseProtocol

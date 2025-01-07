@@ -28,8 +28,10 @@ let package = Package(
             targets: ["CoreDataSources"]),
         .library(
             name: "CoreDependencies",
-            targets: ["CoreDependencies"])
-        
+            targets: ["CoreDependencies"]),
+        .library(
+            name: "CoreTestHelpers",
+            targets: ["CoreTestHelpers"])
     ],
     dependencies: [
     ],
@@ -40,7 +42,14 @@ let package = Package(
         ),
         .testTarget(
             name: "CoreTests",
-            dependencies: ["Core"]),
+            dependencies: [
+                "Core",
+                "CoreEntities",
+                "CoreDataSources",
+                "CoreRepositories",
+                "CoreTestHelpers"
+            ]
+        ),
         .target(
             name: "CoreEntities",
             dependencies: []
@@ -86,6 +95,12 @@ let package = Package(
 
             resources: [
                 .process("CoreData/Models/UserData.xcdatamodeld")
+            ]
+        ),
+        .target(
+            name: "CoreTestHelpers",
+            dependencies: [
+            "CoreEntities"
             ]
         )
     ]

@@ -12,7 +12,7 @@ import CoreRepositories
 public protocol AddProductToHistoryUseCaseProtocol {
     func execute(product: Product, for userId: UUID) async throws
 }
-public class AddProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol {
+public final class AddProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol {
     private let repository: ProductHistoryRepositoryProtocol
     
     public init(repository: ProductHistoryRepositoryProtocol) {

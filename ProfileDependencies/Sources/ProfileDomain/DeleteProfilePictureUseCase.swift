@@ -12,7 +12,7 @@ public protocol DeleteProfilePictureUseCaseProtocol {
 }
 
 
-public class DeleteProfilePictureUseCase: DeleteProfilePictureUseCaseProtocol {
+public final class DeleteProfilePictureUseCase: DeleteProfilePictureUseCaseProtocol {
     private let repository: ProfileRepositoryProtocol
 
     public init(repository: ProfileRepositoryProtocol) {

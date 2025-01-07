@@ -11,7 +11,7 @@ public protocol CreateUserDataUseCaseProtocol {
     func execute(user: User) async throws
 }
 
-public class CreateUserDataUseCase: CreateUserDataUseCaseProtocol {
+public final class CreateUserDataUseCase: CreateUserDataUseCaseProtocol {
     private let userDataRepository: UserDataRepositoryProtocol
 
     public init(userDataRepository: UserDataRepositoryProtocol) {

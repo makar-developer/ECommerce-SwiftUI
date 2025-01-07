@@ -11,7 +11,7 @@ import ProductSearchEntities
 import CoreEntities
 import Foundation
 
-public class ProductSearchRepository: ProductSearchRepositoryProtocol {
+public final class ProductSearchRepository: ProductSearchRepositoryProtocol {
     private let networkService: NetworkServiceWrapperProtocol
 
     public init(networkService: NetworkServiceWrapperProtocol) {

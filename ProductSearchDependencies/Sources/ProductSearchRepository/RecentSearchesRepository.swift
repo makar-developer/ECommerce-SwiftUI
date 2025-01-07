@@ -10,7 +10,7 @@ import ProductSearchRepositoryProtocol
 import CoreDataSources
 import ProductSearchEntities
 
-public class RecentSearchesRepository: RecentSearchesRepositoryProtocol {
+public final class RecentSearchesRepository: RecentSearchesRepositoryProtocol {
     private let userDefaultsWrapper: UserDefaultsWrapperProtocol
     private let key = "RecentSearchQueries"
 

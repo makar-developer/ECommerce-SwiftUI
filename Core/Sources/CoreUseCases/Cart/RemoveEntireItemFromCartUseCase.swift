@@ -13,7 +13,7 @@ public protocol RemoveEntireItemFromCartUseCaseProtocol {
 }
 
 // Implementation
-public class RemoveEntireItemFromCartUseCase: RemoveEntireItemFromCartUseCaseProtocol {
+public final class RemoveEntireItemFromCartUseCase: RemoveEntireItemFromCartUseCaseProtocol {
     private let cartRepository: CartRepositoryProtocol
     
     public init(cartRepository: CartRepositoryProtocol) {

@@ -18,7 +18,7 @@ public protocol UserDataDIContainerProtocol {
     var userDataRepository: UserDataRepositoryProtocol { get }
 }
 
-public class UserDataDIContainerImpl: UserDataDIContainerProtocol {
+public final class UserDataDIContainerImpl: UserDataDIContainerProtocol {
 
     // Core Data Wrapper
     public var coreDataWrapper: CoreDataWrapperProtocol

@@ -20,17 +20,17 @@ public final class ProfileViewModel: ObservableObject {
         case productHistory
     }
     
-    @Published var user: User
+    @Published private(set) var user: User
     @Published var userName: String
     @Published var login: String
-    @Published var profilePictureData: Data?
-    @Published var errorMessage: String?
-    @Published var isLoading: Bool = false
+    @Published private(set) var profilePictureData: Data?
+    @Published private(set) var errorMessage: String?
+    @Published private(set) var isLoading: Bool = false
     
     // Validation States
     @Published private(set) var isUserNameValid: Bool = false
     @Published private(set) var isLoginValid: Bool = false
-    @Published var canSaveChanges: Bool = false
+    @Published private(set) var canSaveChanges: Bool = false
     
     private let updateUserNameUseCase: UpdateUserNameUseCaseProtocol
     private let updateLoginUseCase: UpdateLoginUseCaseProtocol

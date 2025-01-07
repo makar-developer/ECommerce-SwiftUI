@@ -19,45 +19,48 @@ public protocol UserDataRepositoryProtocol {
 
 import CoreData
 
-public class UserDataRepository: UserDataRepositoryProtocol {
+public final class UserDataRepository: UserDataRepositoryProtocol {
     private let coreDataWrapper: CoreDataWrapperProtocol
-    
+
     public init(coreDataWrapper: CoreDataWrapperProtocol) {
         self.coreDataWrapper = coreDataWrapper
     }
-    
+
     public func createUserData(_ user: User) async throws {
         let context = coreDataWrapper.context
-        // Check if user already exists
         let predicate = NSPredicate(format: "id == %@", user.id as CVarArg)
-        let existingUsers: [UserDataEntity] = try await coreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
+        let existing: [UserDataEntity] = try await coreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
         
-        if existingUsers.isEmpty {
-            // Create new UserDataEntity
-            let userDataEntity = user.toUserDataEntity(context: context)
-            try await coreDataWrapper.save(userDataEntity)
+        if existing.isEmpty {
+            let entity = user.toCoreData(context: context)
+            try await coreDataWrapper.save(entity)
         } else {
-            // User already exists
-            throw NSError(domain: "UserDataRepository", code: 1, userInfo: [NSLocalizedDescriptionKey: "UserDataEntity already exists"])
+            throw NSError(
+                domain: "UserDataRepository",
+                code: 1,
+                userInfo: [NSLocalizedDescriptionKey: "UserDataEntity already exists"]
+            )
         }
     }
-    
+
     public func deleteUserData(byId id: UUID) async throws {
-        let context = coreDataWrapper.context
         let predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        let users: [UserDataEntity] = try await coreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
-        
-        if let userDataEntity = users.first {
+        let fetched: [UserDataEntity] = try await coreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
+
+        if let userDataEntity = fetched.first {
             try await coreDataWrapper.delete(userDataEntity)
         } else {
-            // User not found
-            throw NSError(domain: "UserDataRepository", code: 404, userInfo: [NSLocalizedDescriptionKey: "UserDataEntity not found"])
+            throw NSError(
+                domain: "UserDataRepository",
+                code: 404,
+                userInfo: [NSLocalizedDescriptionKey: "UserDataEntity not found"]
+            )
         }
     }
-    
+
     public func fetchUserData(byId id: UUID) async throws -> UUID? {
         let predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        let users: [UserDataEntity] = try await coreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
-        return users.first?.id
+        let fetched: [UserDataEntity] = try await coreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
+        return fetched.first?.id
     }
 }

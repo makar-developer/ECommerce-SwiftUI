@@ -10,6 +10,7 @@ import ProfileRepositoryProtocol
 import ProfileRepository
 import CoreRepositories
 import CoreUseCases
+import CoreDataSources
 public protocol ProfileDIContainerProtocol {
     // Use Cases
     var updateUserNameUseCase: UpdateUserNameUseCaseProtocol { get }
@@ -21,16 +22,17 @@ public protocol ProfileDIContainerProtocol {
     // Repositories
     var profileRepository: ProfileRepositoryProtocol { get }
     var authenticationRepository: AuthenticationRepositoryProtocol { get }
-    
+    var authenticationKeychainWrapper: KeychainWrapperProtocol { get }
 }
 
-public class ProfileDIContainerImpl: ProfileDIContainerProtocol {
+
+public final class ProfileDIContainerImpl: ProfileDIContainerProtocol {
     
     
     // Repositories
     
     public lazy var authenticationRepository: CoreRepositories.AuthenticationRepositoryProtocol = {
-       AuthenticationRepository()
+        AuthenticationRepository(keychainWrapper: authenticationKeychainWrapper)
     }()
     
     public lazy var profileRepository: ProfileRepositoryProtocol = {
@@ -62,6 +64,11 @@ public class ProfileDIContainerImpl: ProfileDIContainerProtocol {
         return GetProfilePictureUseCase(repository: profileRepository)
     }()
 
+    // Data Sources
+    public lazy var authenticationKeychainWrapper: CoreDataSources.KeychainWrapperProtocol = {
+        return KeychainWrapperImpl(service: "com.yourapp.auth", account: "currentUser")
+    }()
+    
     // Initialization
     public init() {}
 }

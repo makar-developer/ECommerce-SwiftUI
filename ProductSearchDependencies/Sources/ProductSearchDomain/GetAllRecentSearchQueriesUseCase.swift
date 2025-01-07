@@ -12,7 +12,7 @@ public protocol GetAllRecentSearchQueriesUseCaseProtocol {
     func execute() -> [SearchQuery]
 }
 
-public class GetAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUseCaseProtocol {
+public final class GetAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUseCaseProtocol {
     private let repository: RecentSearchesRepositoryProtocol
 
     public init(repository: RecentSearchesRepositoryProtocol) {

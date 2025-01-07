@@ -7,11 +7,27 @@
 
 import CoreEntities
 import Foundation
+import CoreData
+
 public extension CartItemEntity {
-    func toCartItem() -> CartItem? {
-        guard let productEntity = self.product else { return nil }
-        guard let product = productEntity.toProduct() else { return nil }
-        return CartItem(product: product, quantity: Int(self.quantity), id: self.id ?? UUID())
+    func toDomain() -> CartItem? {
+        guard
+            let product = product?.toDomain()
+        else { return nil }
+        
+        return CartItem(
+            product: product,
+            quantity: Int(self.quantity),
+            id: self.id ?? UUID()
+        )
     }
 }
 
+public extension CartItem {
+    func toCoreData(context: NSManagedObjectContext) -> CartItemEntity {
+        let entity = CartItemEntity(context: context)
+        entity.id = id
+        entity.quantity = Int16(quantity)
+        return entity
+    }
+}

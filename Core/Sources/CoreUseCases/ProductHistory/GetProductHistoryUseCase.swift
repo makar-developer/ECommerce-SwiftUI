@@ -10,7 +10,7 @@ import Foundation
 public protocol GetProductHistoryUseCaseProtocol {
     func execute(for userId: UUID) async throws -> [ProductHistory]
 }
-public class GetProductHistoryUseCase: GetProductHistoryUseCaseProtocol {
+public final class GetProductHistoryUseCase: GetProductHistoryUseCaseProtocol {
     private let repository: ProductHistoryRepositoryProtocol
     
     public init(repository: ProductHistoryRepositoryProtocol) {

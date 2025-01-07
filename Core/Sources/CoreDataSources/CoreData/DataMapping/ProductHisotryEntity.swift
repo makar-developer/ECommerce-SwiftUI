@@ -8,13 +8,15 @@
 import Foundation
 import CoreEntities
 import CoreData
+
+
 public extension ProductHistoryEntity {
-    func toDomainModel() -> ProductHistory? {
-        guard let id = self.id,
-              let product = self.product?.toProduct(),
-              let timestamp = self.timestamp else { return nil }
-              
-        
+    func toDomain() -> ProductHistory? {
+        guard
+            let id = self.id,
+            let product = self.product?.toDomain(),
+            let timestamp = self.timestamp
+        else { return nil }
         
         return ProductHistory(
             id: id,
@@ -24,13 +26,12 @@ public extension ProductHistoryEntity {
     }
 }
 
-
 public extension ProductHistory {
-    func toCoreDataEntity(context: NSManagedObjectContext) -> ProductHistoryEntity {
+    func toCoreData(context: NSManagedObjectContext) -> ProductHistoryEntity {
         let entity = ProductHistoryEntity(context: context)
         entity.id = self.id
         entity.timestamp = self.timestamp
-        // product relationship will be set when saving
+        // product relationship will be set by repository as needed
         return entity
     }
 }

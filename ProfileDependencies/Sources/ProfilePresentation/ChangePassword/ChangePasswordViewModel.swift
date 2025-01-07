@@ -15,14 +15,14 @@ public final class ChangePasswordViewModel: ObservableObject {
     @Published var currentPassword: String = ""
     @Published var newPassword: String = ""
     @Published var confirmPassword: String = ""
-    @Published var errorMessage: String?
-    @Published var isLoading: Bool = false
+    @Published private(set) var errorMessage: String?
+    @Published private(set) var isLoading: Bool = false
     
     // Validation States
     @Published private(set) var isCurrentPasswordValid: Bool = false
     @Published private(set) var isNewPasswordValid: Bool = false
     @Published private(set) var doPasswordsMatch: Bool = false
-    @Published var canChangePassword: Bool = false
+    @Published private(set) var canChangePassword: Bool = false
 
     private let user: User
     private let updatePasswordUseCase: UpdatePasswordUseCaseProtocol

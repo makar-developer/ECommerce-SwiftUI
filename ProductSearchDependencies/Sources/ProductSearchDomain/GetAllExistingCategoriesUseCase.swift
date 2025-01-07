@@ -11,7 +11,7 @@ public protocol GetAllExistingCategoriesUseCaseProtocol {
     func execute() async throws -> [CategoryResponse]
 }
 
-public class GetAllExistingCategoriesUseCase: GetAllExistingCategoriesUseCaseProtocol {
+public final class GetAllExistingCategoriesUseCase: GetAllExistingCategoriesUseCaseProtocol {
     private let repository: ProductSearchRepositoryProtocol
 
     public init(repository: ProductSearchRepositoryProtocol) {

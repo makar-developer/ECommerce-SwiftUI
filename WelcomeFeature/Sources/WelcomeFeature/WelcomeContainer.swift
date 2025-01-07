@@ -11,6 +11,7 @@ import WelcomeData
 import WelcomeDomain
 import CoreUseCases
 import CoreRepositories
+import CoreDataSources
 public protocol WelcomeDIContainerProtocol {
     // MARK: - Use Cases
     var getAllUsersUseCase: GetAllUsersUseCaseProtocol { get }
@@ -22,16 +23,28 @@ public protocol WelcomeDIContainerProtocol {
     // MARK: - Repositories
     var welcomeRepository: WelcomeRepositoryProtocol { get }
     var authenticationRepository: AuthenticationRepositoryProtocol { get }
+    // MARK: - DataSources
+    var welcomeKeychainWrapper: KeychainWrapperProtocol { get }
+    var authenticationKeychainWrapper: KeychainWrapperProtocol { get }
+
 }
 
-public class WelcomeDIContainerImpl: WelcomeDIContainerProtocol {
+public final class WelcomeDIContainerImpl: WelcomeDIContainerProtocol {
+    public lazy var welcomeKeychainWrapper: CoreDataSources.KeychainWrapperProtocol = {
+        return KeychainWrapperImpl(service: "com.yourapp.welcome", account: "users")
+    }()
+    
+    public lazy var authenticationKeychainWrapper: CoreDataSources.KeychainWrapperProtocol = {
+        return KeychainWrapperImpl(service: "com.yourapp.auth", account: "currentUser")
+    }()
+    
     // MARK: - Repositories
     public lazy var welcomeRepository: WelcomeRepositoryProtocol = {
-        return WelcomeRepositoryImpl()
+        return WelcomeRepositoryImpl(keychainWrapper: welcomeKeychainWrapper)
     }()
     
     public lazy var authenticationRepository: AuthenticationRepositoryProtocol = {
-       return AuthenticationRepository()
+        return AuthenticationRepository(keychainWrapper: authenticationKeychainWrapper)
     }()
     // MARK: - Use Cases
     // WelcomeView

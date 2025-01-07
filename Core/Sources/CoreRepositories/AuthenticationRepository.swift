@@ -18,10 +18,10 @@ public protocol AuthenticationRepositoryProtocol {
 public final class AuthenticationRepository: AuthenticationRepositoryProtocol {
     private let keychainWrapper: KeychainWrapperProtocol
 
-    public init() {
-        self.keychainWrapper = KeychainWrapperImpl(service: "com.yourapp.auth", account: "currentUser")
+    public init(keychainWrapper: KeychainWrapperProtocol) {
+        self.keychainWrapper = keychainWrapper
     }
-
+    
     public func signIn(user: User) async throws {
         let data = try JSONEncoder().encode(user)
         try keychainWrapper.save(data: data)

@@ -28,7 +28,7 @@ public protocol KeychainWrapperProtocol {
     func delete() throws
 }
 
-public class KeychainWrapperImpl: KeychainWrapperProtocol {
+public final class KeychainWrapperImpl: KeychainWrapperProtocol {
     
     private let service: String
     private let account: String
@@ -91,5 +91,32 @@ public class KeychainWrapperImpl: KeychainWrapperProtocol {
         guard status == errSecSuccess || status == errSecItemNotFound else {
             throw KeychainError.unhandledError(status: status)
         }
+    }
+}
+
+public final class MockKeychainWrapper: KeychainWrapperProtocol {
+    
+    public init() {}
+    
+    public var storedData: Data?
+
+    // We'll track calls for further verification if needed
+    private(set) var didCallSave = false
+    private(set) var didCallLoad = false
+    private(set) var didCallDelete = false
+
+    public func save(data: Data) throws {
+        didCallSave = true
+        storedData = data
+    }
+
+    public func load() throws -> Data? {
+        didCallLoad = true
+        return storedData
+    }
+
+    public func delete() throws {
+        didCallDelete = true
+        storedData = nil
     }
 }

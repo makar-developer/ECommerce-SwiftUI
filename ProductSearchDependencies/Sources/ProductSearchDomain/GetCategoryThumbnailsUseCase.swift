@@ -4,7 +4,7 @@ import ProductSearchRepositoryProtocol
 public protocol GetCategoryThumbnailsUseCaseProtocol {
     func execute(categorySlugs: [String]) async throws -> [String: String]
 }
-public class GetCategoryThumbnailsUseCase: GetCategoryThumbnailsUseCaseProtocol {
+public final class GetCategoryThumbnailsUseCase: GetCategoryThumbnailsUseCaseProtocol {
     private let repository: ProductSearchRepositoryProtocol
 
     public init(repository: ProductSearchRepositoryProtocol) {

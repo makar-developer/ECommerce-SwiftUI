@@ -12,7 +12,7 @@ public protocol SearchProductsByKeywordUseCaseProtocol {
     func execute(keyword: String) async throws -> [Product]
 }
 
-public class SearchProductsByKeywordUseCase: SearchProductsByKeywordUseCaseProtocol {
+public final class SearchProductsByKeywordUseCase: SearchProductsByKeywordUseCaseProtocol {
     private let repository: ProductSearchRepositoryProtocol
 
     public init(repository: ProductSearchRepositoryProtocol) {

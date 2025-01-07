@@ -30,7 +30,7 @@ public protocol ProductSearchDIContainerProtocol {
 
 // MARK: - DI Container Implementation
 
-public class ProductSearchDIContainerImpl: ProductSearchDIContainerProtocol {
+public final class ProductSearchDIContainerImpl: ProductSearchDIContainerProtocol {
     // MARK: - Utilities
     
     /// Network Service for API calls

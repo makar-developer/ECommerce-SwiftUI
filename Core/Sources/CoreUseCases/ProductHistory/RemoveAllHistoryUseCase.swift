@@ -11,7 +11,7 @@ import CoreRepositories
 public protocol RemoveAllHistoryUseCaseProtocol {
     func execute(for userId: UUID) async throws
 }
-public class RemoveAllHistoryUseCase: RemoveAllHistoryUseCaseProtocol {
+public final class RemoveAllHistoryUseCase: RemoveAllHistoryUseCaseProtocol {
     private let repository: ProductHistoryRepositoryProtocol
     
     public init(repository: ProductHistoryRepositoryProtocol) {

@@ -12,7 +12,7 @@ public protocol RemoveHistoryOlderThanUseCaseProtocol {
     func execute(olderThan date: Date, for userId: UUID) async throws
 }
 
-public class RemoveHistoryOlderThanUseCase: RemoveHistoryOlderThanUseCaseProtocol {
+public final class RemoveHistoryOlderThanUseCase: RemoveHistoryOlderThanUseCaseProtocol {
     private let repository: ProductHistoryRepositoryProtocol
     
     public init(repository: ProductHistoryRepositoryProtocol) {

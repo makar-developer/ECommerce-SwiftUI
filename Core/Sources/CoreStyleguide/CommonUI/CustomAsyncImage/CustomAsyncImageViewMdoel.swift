@@ -7,9 +7,9 @@
 
 import UIKit
 import CoreUseCases
-class CustomAsyncImageViewModel: ObservableObject {
-    @Published var uiImage: UIImage?
-    @Published var isLoading = false
+final class CustomAsyncImageViewModel: ObservableObject {
+    @Published private(set) var uiImage: UIImage?
+    @Published private(set) var isLoading = false
 
     private let url: URL
     private let getImageUseCase: GetImageUseCaseProtocol
