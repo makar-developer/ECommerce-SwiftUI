@@ -15,7 +15,7 @@ public protocol AppDIContainerProtocol {
     var userDataDIContainer: UserDataDIContainerProtocol { get }
 }
 
-public class AppDIContainerImpl: AppDIContainerProtocol {
+public final class AppDIContainerImpl: AppDIContainerProtocol {
     public init() {}
     //MARK: - Welcome
     public lazy var welcomeDIContainer: WelcomeDIContainerProtocol = {

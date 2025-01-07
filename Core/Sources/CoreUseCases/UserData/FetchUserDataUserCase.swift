@@ -11,7 +11,7 @@ public protocol FetchUserDataUseCaseProtocol {
     func execute(userId: UUID) async throws -> UUID?
 }
 
-public class FetchUserDataUseCase: FetchUserDataUseCaseProtocol {
+public final class FetchUserDataUseCase: FetchUserDataUseCaseProtocol {
     private let userDataRepository: UserDataRepositoryProtocol
 
     public init(userDataRepository: UserDataRepositoryProtocol) {

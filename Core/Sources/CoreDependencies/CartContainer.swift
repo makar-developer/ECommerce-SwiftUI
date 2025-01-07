@@ -19,7 +19,7 @@ public protocol CartDIContainerProtocol {
     var cartRepository: CartRepositoryProtocol { get }
 }
 
-public class CartDIContainerImpl: CartDIContainerProtocol {
+public final class CartDIContainerImpl: CartDIContainerProtocol {
     
     public var coreDataWrapper: CoreDataWrapperProtocol
     

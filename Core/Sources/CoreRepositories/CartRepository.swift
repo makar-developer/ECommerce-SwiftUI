@@ -19,7 +19,7 @@ public protocol CartRepositoryProtocol {
 }
 // MARK: - CartRepositoryImpl
 
-public class CartRepositoryImpl: CartRepositoryProtocol {
+public final class CartRepositoryImpl: CartRepositoryProtocol {
     
     private let coreDataWrapper: CoreDataWrapperProtocol
     
@@ -108,17 +108,7 @@ public class CartRepositoryImpl: CartRepositoryProtocol {
             return productEntity
         } else {
             // Create new ProductEntity
-            let productEntity = ProductEntity(context: coreDataWrapper.context)
-            productEntity.id = Int64(product.id)
-            productEntity.price = product.price
-            productEntity.title = product.title
-            productEntity.productDescription = product.description
-            productEntity.category = product.category
-            productEntity.thumbnail = product.thumbnail
-            productEntity.brand = product.brand
-            productEntity.discountPercentage = product.discountPercentage
-            productEntity.rating = product.rating
-            productEntity.stock = Int32(product.stock)
+            let productEntity = product.toCoreDataEntity(context: coreDataWrapper.context)
             try await coreDataWrapper.save(productEntity)
             return productEntity
         }

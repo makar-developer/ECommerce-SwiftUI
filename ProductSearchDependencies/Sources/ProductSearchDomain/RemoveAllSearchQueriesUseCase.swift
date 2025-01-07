@@ -11,7 +11,7 @@ public protocol RemoveAllSearchQueriesUseCaseProtocol {
     func execute()
 }
 
-public class RemoveAllSearchQueriesUseCase: RemoveAllSearchQueriesUseCaseProtocol {
+public final class RemoveAllSearchQueriesUseCase: RemoveAllSearchQueriesUseCaseProtocol {
     private let repository: RecentSearchesRepositoryProtocol
 
     public init(repository: RecentSearchesRepositoryProtocol) {

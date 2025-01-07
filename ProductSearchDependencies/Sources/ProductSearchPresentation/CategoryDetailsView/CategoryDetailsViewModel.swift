@@ -15,7 +15,7 @@ import ProductSearchDomain
 import ProductSearchEntities
 
 @MainActor
-public class CategoryDetailsViewModel: ObservableObject {
+public final class CategoryDetailsViewModel: ObservableObject {
 
     public enum NavigationTarget {
         case productSearch

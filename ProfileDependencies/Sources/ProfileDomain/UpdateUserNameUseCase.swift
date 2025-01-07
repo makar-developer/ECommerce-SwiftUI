@@ -12,7 +12,7 @@ public protocol UpdateUserNameUseCaseProtocol {
     func execute(newName: String, for userId: UUID) async throws
 }
 
-public class UpdateUserNameUseCase: UpdateUserNameUseCaseProtocol {
+public final class UpdateUserNameUseCase: UpdateUserNameUseCaseProtocol {
     private let repository: ProfileRepositoryProtocol
 
     public init(repository: ProfileRepositoryProtocol) {

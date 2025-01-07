@@ -11,15 +11,15 @@ import WelcomeDomain
 import CoreUseCases
 
 @MainActor
-final public class WelcomeViewModel: ObservableObject {
+public final class WelcomeViewModel: ObservableObject {
     public enum NavigationTarget {
         case authentication
         case main(User)
     }
-    @Published var users: [User] = []
+    @Published private(set) var users: [User] = []
     @Published var isEditingModeEnabled: Bool = false
-    var userCardBackgroundImages: [String] = ["image1", "image2", "image3", "image4", "image5", "image6"]
-    var assignedImages: [UUID: String] = [:]
+    private(set) var userCardBackgroundImages: [String] = ["image1", "image2", "image3", "image4", "image5", "image6"]
+    private(set) var assignedImages: [UUID: String] = [:]
     
     private let getAllUsersUseCase: GetAllUsersUseCaseProtocol
     private let deleteUserUseCase: DeleteUserUseCaseProtocol

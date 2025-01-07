@@ -17,7 +17,7 @@ public protocol CoreDataWrapperProtocol {
     var context: NSManagedObjectContext { get }
 }
 
-public class CoreDataWrapperImpl: CoreDataWrapperProtocol {
+public final class CoreDataWrapperImpl: CoreDataWrapperProtocol {
     private let persistentContainer: NSPersistentContainer
     
     public init(modelName: String) {

@@ -12,7 +12,7 @@ public protocol RemoveSearchQueryUseCaseProtocol {
     func execute(searchQuery: SearchQuery)
 }
 
-public class RemoveSearchQueryUseCase: RemoveSearchQueryUseCaseProtocol {
+public final class RemoveSearchQueryUseCase: RemoveSearchQueryUseCaseProtocol {
     private let repository: RecentSearchesRepositoryProtocol
 
     public init(repository: RecentSearchesRepositoryProtocol) {

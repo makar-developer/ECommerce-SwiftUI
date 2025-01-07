@@ -17,7 +17,7 @@ public protocol ProductHistoryRepositoryProtocol {
     func removeHistory(olderThan date: Date, for userId: UUID) async throws
 }
 
-public class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
+public final class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
     private let coreDataWrapper: CoreDataWrapperProtocol
 
     public init(coreDataWrapper: CoreDataWrapperProtocol) {

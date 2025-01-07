@@ -20,7 +20,7 @@ public protocol ProductHistoryDIContainerProtocol {
     var productHistoryRepository: ProductHistoryRepositoryProtocol { get }
 }
 
-public class ProductHistoryDIContainerImpl: ProductHistoryDIContainerProtocol {
+public final class ProductHistoryDIContainerImpl: ProductHistoryDIContainerProtocol {
   
     public var coreDataWrapper: CoreDataWrapperProtocol
     

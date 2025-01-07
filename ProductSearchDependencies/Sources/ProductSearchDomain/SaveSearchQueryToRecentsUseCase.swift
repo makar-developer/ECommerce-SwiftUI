@@ -12,7 +12,7 @@ public protocol SaveSearchQueryToRecentsUseCaseProtocol {
     func execute(searchQuery: SearchQuery)
 }
 
-public class SaveSearchQueryToRecentsUseCase: SaveSearchQueryToRecentsUseCaseProtocol {
+public final class SaveSearchQueryToRecentsUseCase: SaveSearchQueryToRecentsUseCaseProtocol {
     private let repository: RecentSearchesRepositoryProtocol
 
     public init(repository: RecentSearchesRepositoryProtocol) {

@@ -6,7 +6,7 @@ import WelcomeDomain
 import CoreUseCases
 
 @MainActor
-final public class AuthenticationViewModel: ObservableObject {
+public final class AuthenticationViewModel: ObservableObject {
     // Input Fields
     @Published var name: String = "John Doe"
     @Published var login: String = "johnDoe123"
@@ -14,21 +14,21 @@ final public class AuthenticationViewModel: ObservableObject {
     @Published var confirmPassword: String = "StrongP@ssw0rd"
 
     // Validation States
-    @Published var isNameValid: Bool = false
-    @Published var isLoginValid: Bool = false
-    @Published var isPasswordValid: Bool = false
-    @Published var doPasswordsMatch: Bool = false
+    @Published private(set) var isNameValid: Bool = false
+    @Published private(set) var isLoginValid: Bool = false
+    @Published private(set) var isPasswordValid: Bool = false
+    @Published private(set) var doPasswordsMatch: Bool = false
 
     // Error Messages
-    @Published var nameError: String = ""
-    @Published var loginError: String = ""
-    @Published var passwordError: String = ""
-    @Published var confirmPasswordError: String = ""
+    @Published private(set) var nameError: String = ""
+    @Published private(set) var loginError: String = ""
+    @Published private(set) var passwordError: String = ""
+    @Published private(set) var confirmPasswordError: String = ""
 
     // Overall Form Validity
-    @Published var isFormValid: Bool = false
+    @Published private(set) var isFormValid: Bool = false
 
-    private var cancellables = Set<AnyCancellable>()
+    private(set) var cancellables = Set<AnyCancellable>()
     private let createUserUseCase: CreateUserUseCaseProtocol
     private let createUserDataUseCase: CreateUserDataUseCaseProtocol
     private let onNavigation: () -> Void

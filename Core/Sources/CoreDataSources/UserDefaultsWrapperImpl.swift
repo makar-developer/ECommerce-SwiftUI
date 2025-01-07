@@ -13,7 +13,7 @@ public protocol UserDefaultsWrapperProtocol {
     func removeObject(forKey key: String)
 }
 
-public class UserDefaultsWrapper: UserDefaultsWrapperProtocol {
+public final class UserDefaultsWrapper: UserDefaultsWrapperProtocol {
     private let userDefaults: UserDefaults
 
     public init(userDefaults: UserDefaults = .standard) {

@@ -12,7 +12,7 @@ public protocol AddProductToCartUseCaseProtocol {
     func execute(product: Product, user: User) async throws
 }
 
-public class AddProductToCartUseCase: AddProductToCartUseCaseProtocol {
+public final class AddProductToCartUseCase: AddProductToCartUseCaseProtocol {
     
     private let cartRepository: CartRepositoryProtocol
     

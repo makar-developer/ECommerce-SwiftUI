@@ -13,7 +13,7 @@ public protocol ProductDiscoverDIContainerProtocol {
     var productDiscoverRepository: ProductDiscoverRepositoryProtocol { get }
 }
 
-public class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol {
+public final class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol {
     //MARK: - Data Sources
     public lazy var networkService: NetworkServiceWrapperProtocol = {
         return NetworkServiceWrapperImpl(baseURL: URL(string: "https://dummyjson.com/products")!)
@@ -46,7 +46,7 @@ public class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol 
 //}
 //
 //
-//public class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol {
+//public final class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol {
 //    // MARK: - Repositories
 ////    public lazy var ProductDiscoverRepository: ProductDiscoverRepositoryProtocol = {
 ////        return ProductDiscoverRepositoryImpl()

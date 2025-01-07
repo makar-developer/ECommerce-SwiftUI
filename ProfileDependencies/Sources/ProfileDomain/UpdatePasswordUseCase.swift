@@ -13,7 +13,7 @@ public protocol UpdatePasswordUseCaseProtocol {
     func execute(newPassword: String, for userId: UUID) async throws
 }
 
-public class UpdatePasswordUseCase: UpdatePasswordUseCaseProtocol {
+public final class UpdatePasswordUseCase: UpdatePasswordUseCaseProtocol {
     private let repository: ProfileRepositoryProtocol
 
     public init(repository: ProfileRepositoryProtocol) {

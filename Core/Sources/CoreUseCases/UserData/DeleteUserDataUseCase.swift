@@ -12,7 +12,7 @@ public protocol DeleteUserDataUseCaseProtocol {
     func execute(userId: UUID) async throws
 }
 
-public class DeleteUserDataUseCase: DeleteUserDataUseCaseProtocol {
+public final class DeleteUserDataUseCase: DeleteUserDataUseCaseProtocol {
     private let userDataRepository: UserDataRepositoryProtocol
 
     public init(userDataRepository: UserDataRepositoryProtocol) {

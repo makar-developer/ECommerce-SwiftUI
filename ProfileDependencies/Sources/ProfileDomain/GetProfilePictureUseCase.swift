@@ -13,7 +13,7 @@ public protocol GetProfilePictureUseCaseProtocol {
 }
 
 
-public class GetProfilePictureUseCase: GetProfilePictureUseCaseProtocol {
+public final class GetProfilePictureUseCase: GetProfilePictureUseCaseProtocol {
     private let repository: ProfileRepositoryProtocol
 
     public init(repository: ProfileRepositoryProtocol) {

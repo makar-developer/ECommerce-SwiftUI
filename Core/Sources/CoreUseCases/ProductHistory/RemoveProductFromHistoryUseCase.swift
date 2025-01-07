@@ -12,7 +12,7 @@ import CoreRepositories
 public protocol RemoveProductFromHistoryUseCaseProtocol {
     func execute(product: Product, for userId: UUID) async throws
 }
-public class RemoveProductFromHistoryUseCase: RemoveProductFromHistoryUseCaseProtocol {
+public final class RemoveProductFromHistoryUseCase: RemoveProductFromHistoryUseCaseProtocol {
     private let repository: ProductHistoryRepositoryProtocol
 
     public init(repository: ProductHistoryRepositoryProtocol) {

@@ -11,7 +11,7 @@ public protocol DiskImageCacheWrapperProtocol {
     func save(_ image: UIImage, for url: URL)
 }
 
-public class DiskImageCacheWrapperImpl: DiskImageCacheWrapperProtocol {
+public final class DiskImageCacheWrapperImpl: DiskImageCacheWrapperProtocol {
     private let cacheDirectory: URL
 
     public init() {

@@ -19,7 +19,7 @@ public protocol UserDataRepositoryProtocol {
 
 import CoreData
 
-public class UserDataRepository: UserDataRepositoryProtocol {
+public final class UserDataRepository: UserDataRepositoryProtocol {
     private let coreDataWrapper: CoreDataWrapperProtocol
     
     public init(coreDataWrapper: CoreDataWrapperProtocol) {
@@ -43,7 +43,7 @@ public class UserDataRepository: UserDataRepositoryProtocol {
     }
     
     public func deleteUserData(byId id: UUID) async throws {
-        let context = coreDataWrapper.context
+//        let context = coreDataWrapper.context
         let predicate = NSPredicate(format: "id == %@", id as CVarArg)
         let users: [UserDataEntity] = try await coreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
         

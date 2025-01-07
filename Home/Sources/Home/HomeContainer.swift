@@ -24,7 +24,7 @@ public protocol HomeDIContainerProtocol {
 }
 
 // MARK: - Dependency Injection Container Implementation
-public class HomeDIContainerImpl: HomeDIContainerProtocol {
+public final class HomeDIContainerImpl: HomeDIContainerProtocol {
     public init(coreDataWrapper: CoreDataWrapperProtocol) {
         self.coreDataWrapper = coreDataWrapper
     }

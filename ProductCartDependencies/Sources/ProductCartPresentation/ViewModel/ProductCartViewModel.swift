@@ -11,7 +11,7 @@ import CoreEntities
 import CoreUseCases
 
 @MainActor
-public class ProductCartViewModel: ObservableObject {
+public final class ProductCartViewModel: ObservableObject {
     // Published properties
     @Published public var cartItems: [CartItem] = []
     @Published public var totalPrice: Double = 0.0

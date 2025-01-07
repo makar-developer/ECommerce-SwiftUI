@@ -19,10 +19,10 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
     private let keychainWrapper: KeychainWrapperProtocol
     private let usersFetchedKey = "hasFetchedUsersBefore"
     
-    public init() {
-        self.keychainWrapper = KeychainWrapperImpl(service: "com.yourapp.welcome", account: "users")
+    public init(keychainWrapper: KeychainWrapperProtocol) {
+        self.keychainWrapper = keychainWrapper
     }
-    
+
     public func getUsers() async throws -> [User] {
             // Subsequent fetches: retrieve users from Keychain
             guard let data = try keychainWrapper.load() else {
@@ -48,7 +48,7 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
         try await saveUsers(users)
     }
     
-    public func deleteUser(_ user: User) async throws {
+    private func deleteUser(_ user: User) async throws {
         var users = try await getUsers()
         users.removeAll { $0.id == user.id }
         try await saveUsers(users)

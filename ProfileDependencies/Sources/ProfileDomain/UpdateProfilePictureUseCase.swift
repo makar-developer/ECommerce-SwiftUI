@@ -12,7 +12,7 @@ public protocol UpdateProfilePictureUseCaseProtocol {
     func execute(data: Data?, for userId: UUID) async throws
 }
 
-public class UpdateProfilePictureUseCase: UpdateProfilePictureUseCaseProtocol {
+public final class UpdateProfilePictureUseCase: UpdateProfilePictureUseCaseProtocol {
     private let repository: ProfileRepositoryProtocol
 
     public init(repository: ProfileRepositoryProtocol) {

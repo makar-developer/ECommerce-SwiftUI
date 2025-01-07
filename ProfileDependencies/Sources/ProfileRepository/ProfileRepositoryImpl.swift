@@ -9,7 +9,7 @@ import Foundation
 import CoreDataSources
 import ProfileRepositoryProtocol
 import CoreEntities
-public class ProfileRepositoryImpl: ProfileRepositoryProtocol {
+public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
     
     private let keychainWrapper: KeychainWrapperProtocol
     private let fileStorageDataSource: FileStorageDataSourceProtocol

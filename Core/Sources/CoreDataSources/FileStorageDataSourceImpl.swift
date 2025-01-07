@@ -13,7 +13,7 @@ public protocol FileStorageDataSourceProtocol {
     func delete(from directory: FileManager.SearchPathDirectory, with fileName: String) throws
 }
 
-public class FileStorageDataSourceImpl: FileStorageDataSourceProtocol {
+public final class FileStorageDataSourceImpl: FileStorageDataSourceProtocol {
     public init() {}
     
     public func save(data: Data, to directory: FileManager.SearchPathDirectory, with fileName: String) throws {
