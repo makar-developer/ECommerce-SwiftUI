@@ -12,7 +12,6 @@ import Foundation
 public protocol CoreDataWrapperProtocol {
     func fetch<T: NSManagedObject>(entityName: String, predicate: NSPredicate?) async throws -> [T]
     func save<T: NSManagedObject>(_ object: T) async throws
-    func update<T: NSManagedObject>(_ object: T) async throws
     func delete<T: NSManagedObject>(_ object: T) async throws
     var context: NSManagedObjectContext { get }
 }
@@ -47,12 +46,6 @@ public final class CoreDataWrapperImpl: CoreDataWrapperProtocol {
     }
     
     public func save<T>(_ object: T) async throws where T : NSManagedObject {
-        if context.hasChanges {
-            try context.save()
-        }
-    }
-    
-    public func update<T>(_ object: T) async throws where T : NSManagedObject {
         if context.hasChanges {
             try context.save()
         }

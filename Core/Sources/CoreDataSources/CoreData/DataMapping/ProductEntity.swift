@@ -7,14 +7,15 @@
 
 import CoreEntities
 import CoreData
+
 public extension ProductEntity {
-    func toProduct() -> Product? {
-        guard let title = self.title,
-              let description = self.productDescription,
-              let category = self.category,
-              let thumbnail = self.thumbnail else {
-            return nil
-        }
+    func toDomain() -> Product? {
+        guard
+            let title = self.title,
+            let description = self.productDescription,
+            let category = self.category,
+            let thumbnail = self.thumbnail
+        else { return nil }
         
         let imageSet = (self.images as? Set<ImageEntity>) ?? []
         let imageURLs = imageSet.compactMap { $0.image }
@@ -36,33 +37,26 @@ public extension ProductEntity {
 }
 
 public extension Product {
-    func toCoreDataEntity(context: NSManagedObjectContext) -> ProductEntity {
-        let fetchRequest: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", self.id)
+    func toCoreData(context: NSManagedObjectContext) -> ProductEntity {
+        let entity = ProductEntity(context: context)
+        entity.id = Int64(id)
+        entity.price = price
+        entity.title = title
+        entity.category = category
+        entity.thumbnail = thumbnail
+        entity.brand = brand
+        entity.productDescription = description
+        entity.discountPercentage = discountPercentage
+        entity.rating = rating
+        entity.stock = Int32(stock)
         
-        let imageEntities = self.images.map { imageURL -> ImageEntity in
+        let imageEntities = images.map { url -> ImageEntity in
             let imageEntity = ImageEntity(context: context)
-            imageEntity.image = imageURL
+            imageEntity.image = url
             return imageEntity
         }
+        entity.images = NSSet(array: imageEntities)
         
-        if let existingEntity = try? context.fetch(fetchRequest).first {
-            return existingEntity
-        } else {
-            let entity = ProductEntity(context: context)
-            entity.id = Int64(self.id)
-            entity.price = self.price
-            entity.title = self.title
-            entity.category = self.category
-            entity.thumbnail = self.thumbnail
-            entity.brand = self.brand
-            entity.productDescription = self.description
-            entity.discountPercentage = self.discountPercentage
-            entity.rating = self.rating
-            entity.stock = Int32(self.stock)
-            
-            entity.images = NSSet(array: imageEntities)
-            return entity
-        }
+        return entity
     }
 }

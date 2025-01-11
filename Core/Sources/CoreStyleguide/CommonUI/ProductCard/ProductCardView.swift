@@ -54,7 +54,7 @@ public struct ProductCardView: View {
                 Text(product.title)
                     .font(.headline)
                     .lineLimit(1)
-                    .foregroundColor(.textSecondary)
+                    .foregroundColor(.accentSecondary)
                     .saturation(1.7)
                 // Description
                 Text(product.description)
