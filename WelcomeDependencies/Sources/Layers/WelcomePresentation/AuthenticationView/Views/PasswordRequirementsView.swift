@@ -50,3 +50,11 @@ struct PasswordRequirementsView: View {
         )
     }
 }
+
+struct PasswordRequirementsView_Previews: PreviewProvider {
+    static var previews: some View {
+        PasswordRequirementsView(password: "StrongP@ssw0rd")
+            .previewLayout(.sizeThatFits)
+            .padding()
+    }
+}

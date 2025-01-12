@@ -53,7 +53,7 @@ public final class ChangePasswordViewModel: ObservableObject {
         $newPassword
             .sink { [weak self] input in
                 guard let self = self else { return }
-                self.isNewPasswordValid = Password(input) != nil
+                self.isNewPasswordValid = Password(rawValue: input) != nil
                 self.doPasswordsMatch = self.newPassword == self.confirmPassword
                 self.updateCanChangePassword()
             }

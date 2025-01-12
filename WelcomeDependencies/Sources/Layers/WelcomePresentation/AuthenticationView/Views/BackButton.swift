@@ -22,3 +22,13 @@ struct BackButton: View {
         }
     }
 }
+
+struct BackButton_Previews: PreviewProvider {
+    static var previews: some View {
+        BackButton(action: {
+            print("Back button tapped")
+        })
+        .previewLayout(.sizeThatFits)
+        .padding()
+    }
+}

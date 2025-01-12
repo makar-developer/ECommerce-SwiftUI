@@ -112,3 +112,31 @@ public struct AuthenticationView: View {
     }
 }
 
+import CoreUseCases
+import WelcomeDomain
+struct AuthenticationView_Previews: PreviewProvider {
+    static var previews: some View {
+        // Create mock use cases
+        let mockCreateUserUseCase = MockCreateUserUseCase()
+        let mockCreateUserDataUseCase = MockCreateUserDataUseCase()
+
+        // Create a mock view model
+        let mockViewModel = AuthenticationViewModel(
+            createUserUseCase: mockCreateUserUseCase,
+            createUserDataUseCase: mockCreateUserDataUseCase,
+            onNavigation: {
+                print("Navigation action triggered")
+            }
+        )
+
+        // Provide default mock data for preview
+        mockViewModel.name = "John Doe"
+        mockViewModel.login = "johnDoe123"
+        mockViewModel.password = "StrongP@ssw0rd"
+        mockViewModel.confirmPassword = "StrongP@ssw0rd"
+
+        return NavigationView {
+            AuthenticationView(viewModel: mockViewModel)
+        }
+    }
+}

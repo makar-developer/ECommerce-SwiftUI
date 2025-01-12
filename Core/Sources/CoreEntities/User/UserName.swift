@@ -9,7 +9,7 @@
 public struct UserName: Hashable, Codable {
     public let rawValue: String
 
-    public init?(_ rawValue: String) {
+    public init?(rawValue: String) {
         // Validate that the name is not empty and has a reasonable length
         guard !rawValue.trimmingCharacters(in: .whitespaces).isEmpty,
               rawValue.count >= 2,

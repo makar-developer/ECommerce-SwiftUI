@@ -21,7 +21,7 @@ public final class UpdateLoginUseCase: UpdateLoginUseCaseProtocol {
     }
     
     public func execute(newLogin: String, for userId: UUID) async throws {
-        guard let login = Login(newLogin) else {
+        guard let login = Login(rawValue: newLogin) else {
             throw ProfileUseCaseError.invalidLogin
         }
         try await repository.updateLogin(login, for: userId)

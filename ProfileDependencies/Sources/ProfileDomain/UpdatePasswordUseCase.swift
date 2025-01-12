@@ -21,7 +21,7 @@ public final class UpdatePasswordUseCase: UpdatePasswordUseCaseProtocol {
     }
     
     public func execute(newPassword: String, for userId: UUID) async throws {
-        guard let password = Password(newPassword) else {
+        guard let password = Password(rawValue: newPassword) else {
             throw ProfileUseCaseError.invalidPassword
         }
         try await repository.updatePassword(password, for: userId)

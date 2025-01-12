@@ -46,3 +46,28 @@ struct InputField: View {
         }
     }
 }
+
+struct InputField_Previews: PreviewProvider {
+    @State static var text: String = "Sample Input"
+    static var previews: some View {
+        VStack(spacing: 20) {
+            InputField(
+                title: "Username",
+                text: $text,
+                error: "",
+                icon: "person",
+                isSecure: false
+            )
+            
+            InputField(
+                title: "Password",
+                text: $text,
+                error: "Password is too weak",
+                icon: "lock",
+                isSecure: true
+            )
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
+    }
+}

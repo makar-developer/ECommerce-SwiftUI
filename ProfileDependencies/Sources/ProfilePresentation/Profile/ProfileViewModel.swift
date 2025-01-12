@@ -66,7 +66,7 @@ public final class ProfileViewModel: ObservableObject {
         $userName
             .sink { [weak self] newName in
                 guard let self = self else { return }
-                self.isUserNameValid = UserName(newName) != nil
+                self.isUserNameValid = UserName(rawValue: newName) != nil
                 self.updateCanSaveChanges()
             }
             .store(in: &cancellables)
@@ -74,7 +74,7 @@ public final class ProfileViewModel: ObservableObject {
         $login
             .sink { [weak self] newLogin in
                 guard let self = self else { return }
-                self.isLoginValid = Login(newLogin) != nil
+                self.isLoginValid = Login(rawValue: newLogin) != nil
                 self.updateCanSaveChanges()
             }
             .store(in: &cancellables)

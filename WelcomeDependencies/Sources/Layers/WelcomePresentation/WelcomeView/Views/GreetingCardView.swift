@@ -22,7 +22,7 @@ public struct GreetingCardView: View {
     public var body: some View {
         ZStack(alignment: .bottomLeading) {
             // Background Image
-            Image(imageName)
+            Image("image1")
                 .resizable()
                 .scaledToFill()
                 .overlay(
@@ -98,7 +98,7 @@ public struct GreetingCardView: View {
 
 struct GreetingCardView_Previews: PreviewProvider {
 
-    static let user: User = User(name: UserName("DefaultUser1")!, login: Login("user1")!, password: Password("Password1@")!, profilePicture: nil)
+    static let user: User = User(name: UserName(rawValue: "DefaultUser1")!, login: Login(rawValue: "user1")!, password: Password(rawValue: "Password1@")!, profilePicture: nil)
     
     static var previews: some View {
         GreetingCardView(

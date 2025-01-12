@@ -9,7 +9,7 @@
 public struct Password: Hashable, Codable {
     public let rawValue: String
 
-    public init?(_ rawValue: String) {
+    public init?(rawValue: String) {
         // Validate password:
         // - Minimum 8 characters
         // - At least one uppercase letter

@@ -7,6 +7,7 @@
 
 import WelcomeRepositoryProtocol
 import CoreEntities
+import Foundation
 
 public protocol GetAllUsersUseCaseProtocol {
     func execute() async throws -> [User]
@@ -25,3 +26,16 @@ public final class GetAllUsersUseCase: GetAllUsersUseCaseProtocol {
     }
 }
 
+public final class MockGetAllUsersUseCase: GetAllUsersUseCaseProtocol {
+    public var shouldThrowError = false
+    public var returnedUsers: [User] = []
+
+    public init() {}
+    
+    public func execute() async throws -> [User] {
+        if shouldThrowError {
+            throw NSError(domain: "GetAllUsersError", code: 1, userInfo: nil)
+        }
+        return returnedUsers
+    }
+}

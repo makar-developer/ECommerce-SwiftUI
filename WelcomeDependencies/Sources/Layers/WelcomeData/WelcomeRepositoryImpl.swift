@@ -55,3 +55,33 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
     }
 }
 
+public final class MockWelcomeRepository: WelcomeRepositoryProtocol {
+    
+    public var storedUsers: [User] = []
+    
+    // Track calls
+    public private(set) var getUsersCallCount = 0
+    public private(set) var deleteCallCount = 0
+    public private(set) var saveUserCallCount = 0
+    
+    public init() {}
+    
+    public func getUsers() async throws -> [User] {
+        getUsersCallCount += 1
+        return storedUsers
+    }
+    
+    public func delete(user: User) async throws {
+        deleteCallCount += 1
+        storedUsers.removeAll { $0.id == user.id }
+    }
+    
+    public func saveUsers(_ users: [User]) async throws {
+        storedUsers = users
+    }
+    
+    public func saveUser(_ user: User) async throws {
+        saveUserCallCount += 1
+        storedUsers.append(user)
+    }
+}

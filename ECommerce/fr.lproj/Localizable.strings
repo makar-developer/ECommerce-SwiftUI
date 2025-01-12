@@ -1,0 +1,114 @@
+/* 
+  Localizable.strings
+  ECommerce
+
+  Created by Admin on 02/01/2025.
+  
+*/
+
+// MARK: - GreetingCardView
+"Good afternoon, %@!" = "Bon après-midi, %@!";
+"Log Out this Account" = "Se déconnecter de ce compte";
+"Go Shopping!" = "Faire des achats!";
+"Log Out" = "Se déconnecter";
+"Are you sure you want to log out of this account?" = "Êtes-vous sûr de vouloir vous déconnecter de ce compte ?";
+"Cancel" = "Annuler";
+
+// MARK: - ProductDetailsView
+"%.0f%% off" = "%.0f%% de réduction";
+"Stock: \(viewModel.product.stock)" = "Stock : %d";
+"$%.2f" = "%.2f €";
+"Add to Cart" = "Ajouter au panier";
+"Product Details" = "Détails du produit";
+"Back" = "Retour";
+
+// MARK: - SnapCarousel
+"Add account" = "Ajouter un compte";
+
+// MARK: - EmptyListView
+"No Accounts Added" = "Aucun compte ajouté";
+"Tap the button below to add a new account." = "Appuyez sur le bouton ci-dessous pour ajouter un nouveau compte.";
+
+// MARK: - AuthenticationView
+"Create Account" = "Créer un compte";
+"Name" = "Nom";
+"Login" = "Identifiant";
+"Password" = "Mot de passe";
+"Confirm Password" = "Confirmer le mot de passe";
+"Password Requirements:" = "Exigences du mot de passe :";
+"At least 8 characters" = "Au moins 8 caractères";
+"At least one uppercase letter" = "Au moins une lettre majuscule";
+"At least one lowercase letter" = "Au moins une lettre minuscule";
+"At least one number" = "Au moins un chiffre";
+"At least one special character" = "Au moins un caractère spécial";
+"Back" = "Retour";
+
+// MARK: - HomeCoordinatorTabView
+"Home" = "Accueil";
+"Search" = "Recherche";
+"Cart" = "Panier";
+"Account" = "Compte";
+
+// MARK: - ProductDiscoverView
+"Hot Sales" = "Ventes en vedette";
+"Recommended for You" = "Recommandé pour vous";
+
+// MARK: - CategoriesGridView
+"No categories available." = "Aucune catégorie disponible.";
+
+// MARK: - ProductSearchView
+"Delete All Searches" = "Supprimer toutes les recherches";
+"Are you sure you want to delete all recent searches?" = "Êtes-vous sûr de vouloir supprimer toutes les recherches récentes ?";
+"Delete All" = "Tout supprimer";
+
+// MARK: - ProductsGridView
+"No products found." = "Aucun produit trouvé.";
+
+// MARK: - RecentSearchesView
+"Recent Searches" = "Recherches récentes";
+"Delete All" = "Tout supprimer";
+"No recent searches." = "Aucune recherche récente.";
+"Delete" = "Supprimer";
+
+// MARK: - SearchBarView
+"Search products..." = "Rechercher des produits...";
+
+// MARK: - CategoryDetailsView
+"Product Search" = "Recherche de produits";
+
+// MARK: - CartItemView
+"Delete from Cart" = "Supprimer du panier";
+
+// MARK: - ProductCartView
+"Checkout" = "Passer à la caisse";
+
+// MARK: - ProfileView
+"User Name" = "Nom d'utilisateur";
+"Invalid User Name" = "Nom d'utilisateur invalide";
+"Login" = "Identifiant";
+"Invalid Login (Min 4 alphanumeric characters)" = "Identifiant invalide (minimum 4 caractères alphanumériques)";
+"Save Changes" = "Enregistrer les modifications";
+"Change Password" = "Changer le mot de passe";
+"View Product History" = "Voir l'historique des produits";
+"Logout" = "Déconnexion";
+"Tap to select" = "Appuyez pour sélectionner";
+
+// MARK: - ProductHistoryView
+"No product history available." = "Aucun historique de produit disponible.";
+"Back" = "Retour";
+"Clear" = "Effacer";
+"Product History" = "Historique des produits";
+"Error" = "Erreur";
+"OK" = "OK";
+
+// MARK: - ProductHistoryRowView
+"Viewed on %@." = "Vu le %@.";
+
+// MARK: - ChangePasswordView
+"Current Password" = "Mot de passe actuel";
+"Incorrect current password" = "Mot de passe actuel incorrect";
+"New Password" = "Nouveau mot de passe";
+"Password must be at least 8 characters, include uppercase, lowercase, number, and special character" = "Le mot de passe doit contenir au moins 8 caractères, inclure une majuscule, une minuscule, un chiffre et un caractère spécial";
+"Confirm New Password" = "Confirmer le nouveau mot de passe";
+"Passwords do not match" = "Les mots de passe ne correspondent pas";
+"Change Password" = "Changer le mot de passe";

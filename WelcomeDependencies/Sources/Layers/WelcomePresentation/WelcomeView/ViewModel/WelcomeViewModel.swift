@@ -16,7 +16,7 @@ public final class WelcomeViewModel: ObservableObject {
         case authentication
         case main(User)
     }
-    @Published private(set) var users: [User] = []
+    @Published var users: [User] = []
     @Published var isEditingModeEnabled: Bool = false
     private(set) var userCardBackgroundImages: [String] = ["image1", "image2", "image3", "image4", "image5", "image6"]
     private(set) var assignedImages: [UUID: String] = [:]
@@ -57,9 +57,9 @@ public final class WelcomeViewModel: ObservableObject {
                 ]
 
                 for (nameString, loginString, passwordString) in userData {
-                    guard let name = UserName(nameString),
-                          let login = Login(loginString),
-                          let password = Password(passwordString) else {
+                    guard let name = UserName(rawValue: nameString),
+                          let login = Login(rawValue: loginString),
+                          let password = Password(rawValue: passwordString) else {
                         print("Invalid user data for \(nameString)")
                         continue
                     }

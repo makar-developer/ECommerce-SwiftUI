@@ -23,3 +23,17 @@ public final class DeleteUserDataUseCase: DeleteUserDataUseCaseProtocol {
         try await userDataRepository.deleteUserData(byId: userId)
     }
 }
+
+public final class MockDeleteUserDataUseCase: DeleteUserDataUseCaseProtocol {
+    public var shouldThrowError = false
+    public var deletedUserDataIDs: [UUID] = []
+
+    public init() {}
+    
+    public func execute(userId: UUID) async throws {
+        if shouldThrowError {
+            throw NSError(domain: "DeleteUserDataError", code: 1, userInfo: nil)
+        }
+        deletedUserDataIDs.append(userId)
+    }
+}

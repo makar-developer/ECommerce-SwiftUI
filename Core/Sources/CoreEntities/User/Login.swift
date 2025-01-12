@@ -9,7 +9,7 @@
 public struct Login: Hashable, Codable {
     public let rawValue: String
 
-    public init?(_ rawValue: String) {
+    public init?(rawValue: String) {
         // Validate login: minimum 4 characters, alphanumeric
         let regex = "^[a-zA-Z0-9]{4,}$"
         guard rawValue.range(of: regex, options: .regularExpression) != nil else {

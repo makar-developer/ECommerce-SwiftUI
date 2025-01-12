@@ -45,7 +45,6 @@
 
 /* Begin PBXFileReference section */
 		847BE8782D25FC0100A79E82 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		847BE87C2D262A5700A79E82 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		847D18A22CF895E500A2018E /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Home; sourceTree = "<group>"; };
 		847D18A32CF895F300A2018E /* ProductDiscoverFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductDiscoverFeature; sourceTree = "<group>"; };
 		847D18A42CF895F900A2018E /* ProductDiscoverDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductDiscoverDependencies; sourceTree = "<group>"; };
@@ -62,6 +61,7 @@
 		847EB2172CFA36FF00213DDE /* ProfileFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProfileFeature; sourceTree = "<group>"; };
 		847EDFD22CEA32D900F3FB81 /* WelcomeFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WelcomeFeature; sourceTree = "<group>"; };
 		847EDFD32CEA32DF00F3FB81 /* WelcomeDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WelcomeDependencies; sourceTree = "<group>"; };
+		84842F5F2D36F546000041FE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8494DA3E2D0905980063E569 /* ProductSearchDependencies */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductSearchDependencies; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -236,7 +236,7 @@
 			knownRegions = (
 				en,
 				Base,
-				ru,
+				fr,
 			);
 			mainGroup = 847E433A2CE8F718008EBF43;
 			productRefGroup = 847E43442CE8F718008EBF43 /* Products */;
@@ -277,7 +277,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				847BE8782D25FC0100A79E82 /* en */,
-				847BE87C2D262A5700A79E82 /* ru */,
+				84842F5F2D36F546000041FE /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

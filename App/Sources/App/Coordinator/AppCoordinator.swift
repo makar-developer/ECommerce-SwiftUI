@@ -4,6 +4,7 @@ import CoreEntities
 import Home
 import CoreUseCases
 
+/// App-level Coordinator  - can perform navigation between each individual Feature(within the App). Feature-level Coordinator - can perform navigation between each individual Screen(within the Feature).
 @MainActor
 public final class AppCoordinator: ObservableObject {
     @Published var fullScreenCoverFeature: Feature?

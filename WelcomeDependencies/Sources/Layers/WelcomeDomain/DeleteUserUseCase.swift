@@ -7,6 +7,8 @@
 
 import WelcomeRepositoryProtocol
 import CoreEntities
+import Foundation
+	
 public protocol DeleteUserUseCaseProtocol {
     func execute(user: User) async throws
 }
@@ -21,5 +23,19 @@ public final class DeleteUserUseCase: DeleteUserUseCaseProtocol {
     
     public func execute(user: User) async throws {
         try await welcomeRepository.delete(user: user)
+    }
+}
+
+public final class MockDeleteUserUseCase: DeleteUserUseCaseProtocol {
+    public var shouldThrowError = false
+    public var deletedUserIDs: [UUID] = []
+
+    public init() {}
+    
+    public func execute(user: User) async throws {
+        if shouldThrowError {
+            throw NSError(domain: "DeleteUserError", code: 1, userInfo: nil)
+        }
+        deletedUserIDs.append(user.id)
     }
 }

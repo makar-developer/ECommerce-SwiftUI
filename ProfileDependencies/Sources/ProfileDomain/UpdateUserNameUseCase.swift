@@ -20,7 +20,7 @@ public final class UpdateUserNameUseCase: UpdateUserNameUseCaseProtocol {
     }
     
     public func execute(newName: String, for userId: UUID) async throws {
-        guard let userName = UserName(newName) else {
+        guard let userName = UserName(rawValue: newName) else {
             throw ProfileUseCaseError.invalidUserName
         }
         try await repository.updateUserName(userName, for: userId)

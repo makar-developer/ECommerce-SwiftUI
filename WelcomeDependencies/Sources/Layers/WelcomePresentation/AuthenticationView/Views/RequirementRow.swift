@@ -24,3 +24,14 @@ struct RequirementRow: View {
         .font(.caption)
     }
 }
+
+struct RequirementRow_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack(spacing: 10) {
+            RequirementRow(condition: true, text: "At least 8 characters")
+            RequirementRow(condition: false, text: "At least one uppercase letter")
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
+    }
+}

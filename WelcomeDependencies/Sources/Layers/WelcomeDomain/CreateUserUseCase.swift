@@ -7,6 +7,8 @@
 
 import WelcomeRepositoryProtocol
 import CoreEntities
+import Foundation
+
 public protocol CreateUserUseCaseProtocol {
     func execute(user: User) async throws
 }
@@ -20,5 +22,20 @@ public final class CreateUserUseCase: CreateUserUseCaseProtocol {
 
     public func execute(user: User) async throws {
         try await welcomeRepository.saveUser(user)
+    }
+}
+
+public final class MockCreateUserUseCase: CreateUserUseCaseProtocol {
+    
+    public init() {}
+    
+    var shouldThrowError = false
+    var createdUsers: [User] = []
+
+    public func execute(user: User) async throws {
+        if shouldThrowError {
+            throw NSError(domain: "CreateUserError", code: 1, userInfo: nil)
+        }
+        createdUsers.append(user)
     }
 }

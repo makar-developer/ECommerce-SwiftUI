@@ -43,7 +43,7 @@ public final class AuthenticationViewModel: ObservableObject {
     func setupValidation() {
         // Name Validation
         $name
-            .map { UserName($0) != nil }
+            .map { UserName(rawValue: $0) != nil }
             .sink { [weak self] isValid in
                 self?.isNameValid = isValid
             }
@@ -67,7 +67,7 @@ public final class AuthenticationViewModel: ObservableObject {
 
         // Login Validation
         $login
-            .map { Login($0) != nil }
+            .map { Login(rawValue: $0) != nil }
             .sink { [weak self] isValid in
                 self?.isLoginValid = isValid
             }
@@ -90,7 +90,7 @@ public final class AuthenticationViewModel: ObservableObject {
 
         // Password Validation
         $password
-            .map { Password($0) != nil }
+            .map { Password(rawValue: $0) != nil }
             .sink { [weak self] isValid in
                 self?.isPasswordValid = isValid
             }
@@ -148,9 +148,9 @@ public final class AuthenticationViewModel: ObservableObject {
     }
 
     func createAccount() async throws {
-        guard let userName = UserName(name),
-              let userLogin = Login(login),
-              let userPassword = Password(password) else {
+        guard let userName = UserName(rawValue: name),
+              let userLogin = Login(rawValue: login),
+              let userPassword = Password(rawValue: password) else {
             // Handle invalid data
             return
         }

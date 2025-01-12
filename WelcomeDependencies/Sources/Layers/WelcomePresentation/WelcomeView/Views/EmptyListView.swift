@@ -41,3 +41,10 @@ struct EmptyListView: View {
         .padding()
     }
 }
+
+struct EmptyListView_Previews: PreviewProvider {
+    static var previews: some View {
+        EmptyListView()
+            .background(Color.gray)
+    }
+}
