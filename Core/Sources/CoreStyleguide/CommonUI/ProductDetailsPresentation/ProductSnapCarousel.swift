@@ -118,6 +118,3 @@ public struct ProductSnapCarousel: View {
         .padding(.horizontal, (screenWidth - cardWidth) / 2)
     }
 }
-
-
-

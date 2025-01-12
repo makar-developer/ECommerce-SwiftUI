@@ -62,6 +62,32 @@ let package = Package(
                 .product(name: "CoreDataSources", package: "Core")
             ],
             path: "Sources/Layers/WelcomeData"
+        ),
+        .testTarget(
+            name: "WelcomeDependenciesTests",
+            dependencies: [
+                "WelcomeRepositoryProtocol",
+                "WelcomeData",
+                "WelcomePresentation",
+                "WelcomeDomain",
+                .product(name: "Core", package: "Core"),
+                .product(name: "CoreEntities", package: "Core"),
+                .product(name: "CoreDataSources", package: "Core")
+            ]
         )
+        
     ]
 )
+//
+//    .testTarget(
+//        name: "CoreTests",
+//        dependencies: [
+//            "Core",
+//            "CoreEntities",
+//            "CoreDataSources",
+//            "CoreRepositories",
+//            "CoreUseCases",
+//            "CoreTestHelpers",
+//            "CoreStyleguide"
+//        ]
+//    ),
