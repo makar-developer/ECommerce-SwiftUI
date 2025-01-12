@@ -36,3 +36,28 @@ public final class AddProductToCartUseCase: AddProductToCartUseCaseProtocol {
         }
     }
 }
+
+public final class MockAddProductToCartUseCase: AddProductToCartUseCaseProtocol {
+    
+    // Track the number of times 'execute' is called
+    private(set) var executeCallCount = 0
+    
+    // Track parameters for verification
+    private(set) var passedProduct: Product?
+    private(set) var passedUser: User?
+    
+    // Optional error to simulate failure
+    var errorToThrow: Error?
+    
+    public init() {} // No dependencies
+    
+    public func execute(product: Product, user: User) async throws {
+        executeCallCount += 1
+        passedProduct = product
+        passedUser = user
+        
+        if let error = errorToThrow {
+            throw error
+        }
+    }
+}

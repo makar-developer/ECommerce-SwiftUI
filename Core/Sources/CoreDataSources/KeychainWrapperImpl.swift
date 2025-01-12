@@ -100,7 +100,6 @@ public final class MockKeychainWrapper: KeychainWrapperProtocol {
     
     public var storedData: Data?
 
-    // We'll track calls for further verification if needed
     private(set) var didCallSave = false
     private(set) var didCallLoad = false
     private(set) var didCallDelete = false

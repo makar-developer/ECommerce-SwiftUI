@@ -36,3 +36,31 @@ public final class AuthenticationRepository: AuthenticationRepositoryProtocol {
         return try JSONDecoder().decode(User.self, from: data)
     }
 }
+
+public final class MockAuthenticationRepository: AuthenticationRepositoryProtocol {
+    
+    // In-memory user representation
+    private(set) var storedUser: User?
+    
+    // For test assertions
+    public var didSignIn = false
+    public var didSignOut = false
+    public var didGetSignedInUser = false
+    
+    public init() {}
+    
+    public func signIn(user: User) async throws {
+        didSignIn = true
+        storedUser = user
+    }
+    
+    public func signOut() async throws {
+        didSignOut = true
+        storedUser = nil
+    }
+    
+    public func getSignedInUser() async throws -> User? {
+        didGetSignedInUser = true
+        return storedUser
+    }
+}

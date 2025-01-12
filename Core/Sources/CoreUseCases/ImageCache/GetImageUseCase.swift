@@ -7,6 +7,8 @@
 
 import CoreRepositories
 import UIKit
+
+///Get cached image, or else - load.
 public protocol GetImageUseCaseProtocol {
     func execute(url: URL) async throws -> UIImage
 }
@@ -20,5 +22,32 @@ public final class GetImageUseCase: GetImageUseCaseProtocol {
 
     public func execute(url: URL) async throws -> UIImage {
         return try await repository.getImage(url: url)
+    }
+}
+
+final class MockGetImageUseCase: GetImageUseCaseProtocol {
+    
+    // Track calls:
+    private(set) var executeCallCount = 0
+    private(set) var requestedURLs = [URL]()
+    
+    // Control behavior:
+    var imageToReturn: UIImage?
+    var errorToThrow: Error?
+    
+    init() {} // No dependencies
+
+    func execute(url: URL) async throws -> UIImage {
+        executeCallCount += 1
+        requestedURLs.append(url)
+        
+        // Simulate error if set, otherwise return image
+        if let errorToThrow = errorToThrow {
+            throw errorToThrow
+        }
+        guard let image = imageToReturn else {
+            throw NSError(domain: "MockGetImageUseCase", code: -1, userInfo: nil)
+        }
+        return image
     }
 }

@@ -12,7 +12,6 @@ public protocol RemoveEntireItemFromCartUseCaseProtocol {
     func execute(cartItem: CartItem, user: User) async throws
 }
 
-// Implementation
 public final class RemoveEntireItemFromCartUseCase: RemoveEntireItemFromCartUseCaseProtocol {
     private let cartRepository: CartRepositoryProtocol
     

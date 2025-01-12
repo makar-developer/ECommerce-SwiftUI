@@ -12,7 +12,7 @@ public struct Product: Codable, Identifiable, Equatable, Hashable {
     public let description: String
     public let category: String
     public let thumbnail: String
-    public let brand: String? // Optional
+    public let brand: String?
     public let images: [String]
     public let discountPercentage: Double
     public let rating: Double

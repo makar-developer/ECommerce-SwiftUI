@@ -9,17 +9,32 @@ import CoreEntities
 import Foundation
 
 public extension ProductHistory {
+    
+    // An array of three fixed timestamps for reproducible, differentiated mock data.
+    private static let timestamps: [Date] = [
+        Date(timeIntervalSince1970: 1672531200), // 2023-01-01 00:00:00 UTC
+        Date(timeIntervalSince1970: 1672617600), // 2023-01-02 00:00:00 UTC
+        Date(timeIntervalSince1970: 1672704000)  // 2023-01-03 00:00:00 UTC
+    ]
+    
     static func getOneOfThis() -> ProductHistory {
-        // Create a single instance
-        let oneProduct = Product.getOneOfThis()
-        return ProductHistory(product: oneProduct)
+        let product = Product.getOneOfThis()
+        return ProductHistory(product: product, timestamp: timestamps[0])
     }
     
     static func getAnArrayOfThese() -> [ProductHistory] {
-        // Create multiple items from Product.getAnArrayOfThese()
+        // Create multiple ProductHistory objects, each with a different timestamp.
         let products = Product.getAnArrayOfThese()
-        return products.map { product in
-            ProductHistory(product: product, timestamp: Date())
+        guard !products.isEmpty else { return [] }
+        
+        // Match each product with a distinct timestamp, cycling if there are more products than timestamps.
+        var histories: [ProductHistory] = []
+        
+        for (index, product) in products.enumerated() {
+            let timestamp = timestamps[index % timestamps.count]
+            histories.append(ProductHistory(product: product, timestamp: timestamp))
         }
+        
+        return histories
     }
 }

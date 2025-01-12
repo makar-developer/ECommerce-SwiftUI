@@ -48,3 +48,22 @@ public final class ImageRepository: ImageRepositoryProtocol {
         throw URLError(.unknown)
     }
 }
+
+public final class MockImageRepository: ImageRepositoryProtocol {
+    
+    public var imageToReturn: UIImage?
+    public var errorToThrow: Error?
+    
+    public init() {}
+    
+    public func getImage(url: URL) async throws -> UIImage {
+        if let error = errorToThrow {
+            throw error
+        }
+        if let image = imageToReturn {
+            return image
+        }
+        // If nothing is set, return an empty placeholder
+        return UIImage()
+    }
+}

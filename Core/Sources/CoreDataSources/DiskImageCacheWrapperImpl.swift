@@ -40,3 +40,19 @@ public final class DiskImageCacheWrapperImpl: DiskImageCacheWrapperProtocol {
         return String(url.absoluteString.hashValue)
     }
 }
+
+
+final class MockDiskImageCacheWrapper: DiskImageCacheWrapperProtocol {
+    private var storedImages: [URL: UIImage] = [:]
+    
+    init() {}
+    
+    func image(for url: URL) -> UIImage? {
+        storedImages[url]
+    }
+    
+    func save(_ image: UIImage, for url: URL) {
+        storedImages[url] = image
+    }
+}
+

@@ -47,7 +47,9 @@ let package = Package(
                 "CoreEntities",
                 "CoreDataSources",
                 "CoreRepositories",
-                "CoreTestHelpers"
+                "CoreUseCases",
+                "CoreTestHelpers",
+                "CoreStyleguide"
             ]
         ),
         .target(
@@ -64,7 +66,9 @@ let package = Package(
         .target(
             name: "CoreStyleguide",
             dependencies: [
-            "CoreUseCases"
+            "CoreUseCases",
+            "CoreTestHelpers",
+            "Core"
             ],
             resources: [
                 .process("Resources")

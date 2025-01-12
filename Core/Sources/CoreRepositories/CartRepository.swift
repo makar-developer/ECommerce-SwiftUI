@@ -78,7 +78,9 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
         let cartEntity = try await fetchOrCreateCartEntity(for: user)
         let existingItems = cartEntity.products?.allObjects as? [CartItemEntity] ?? []
         if let cartItemEntity = existingItems.first(where: { $0.id == item.id }) {
+            print("[removeItem] Found CartItemEntity with id=\(cartItemEntity.id?.uuidString ?? "nil"), deleting now...")
             try await coreDataWrapper.delete(cartItemEntity)
+            print("[removeItem] Successfully called delete() on item with id=\(item.id)")
         }
     }
 
@@ -122,5 +124,58 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
             try await coreDataWrapper.save(entity)
             return entity
         }
+    }
+}
+
+
+public final class MockCartRepository: CartRepositoryProtocol {
+    
+    // In-memory storage of user carts
+    private var userCarts: [UUID: Cart] = [:]
+    
+    // For test verifications
+    public var didGetCart = false
+    public var didAddItem = false
+    public var didUpdateItem = false
+    public var didRemoveItem = false
+    
+    public init() {}
+    
+    public func getCart(for user: User) async throws -> Cart {
+        didGetCart = true
+        if let existingCart = userCarts[user.id] {
+            return existingCart
+        } else {
+            let newCart = Cart(products: [], id: UUID(), userId: user.id)
+            userCarts[user.id] = newCart
+            return newCart
+        }
+    }
+    
+    public func addItem(_ item: CartItem, to user: User) async throws {
+        didAddItem = true
+        var cart = try await getCart(for: user)
+        if let index = cart.products.firstIndex(where: { $0.product.id == item.product.id }) {
+            cart.products[index].quantity += item.quantity
+        } else {
+            cart.products.append(item)
+        }
+        userCarts[user.id] = cart
+    }
+    
+    public func updateItem(_ item: CartItem, for user: User) async throws {
+        didUpdateItem = true
+        var cart = try await getCart(for: user)
+        if let index = cart.products.firstIndex(where: { $0.id == item.id }) {
+            cart.products[index] = item
+        }
+        userCarts[user.id] = cart
+    }
+    
+    public func removeItem(_ item: CartItem, from user: User) async throws {
+        didRemoveItem = true
+        var cart = try await getCart(for: user)
+        cart.products.removeAll { $0.id == item.id }
+        userCarts[user.id] = cart
     }
 }

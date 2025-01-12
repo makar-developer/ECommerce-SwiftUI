@@ -13,7 +13,7 @@ public extension User {
     func toCoreData(context: NSManagedObjectContext) -> UserDataEntity {
         let entity = UserDataEntity(context: context)
         entity.id = self.id
-        // Additional fields as needed
+        // Relationships to the data itself (e.g. cart/producthisotry) should be established in repository layer.
         return entity
     }
 }

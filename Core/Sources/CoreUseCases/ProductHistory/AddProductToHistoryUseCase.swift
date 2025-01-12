@@ -24,4 +24,28 @@ public final class AddProductToHistoryUseCase: AddProductToHistoryUseCaseProtoco
     }
 }
 
+public final class MockAddProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol {
+    
+    // Track calls
+    private(set) var executeCallCount = 0
+    
+    // Track parameters
+    private(set) var passedProduct: Product?
+    private(set) var passedUserId: UUID?
+    
+    // Optional error
+    public var errorToThrow: Error?
+    
+    public init() {} // No dependencies
+    
+    public func execute(product: Product, for userId: UUID) async throws {
+        executeCallCount += 1
+        passedProduct = product
+        passedUserId = userId
+        
+        if let error = errorToThrow {
+            throw error
+        }
+    }
+}
 
