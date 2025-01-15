@@ -3,8 +3,6 @@
    on:
      pull_request:
        branches: [ main ]  # or whatever branch triggers you want
-     push:
-       branches: [ main ]
 
    jobs:
      build-and-test:

@@ -22,7 +22,7 @@ public struct GreetingCardView: View {
     public var body: some View {
         ZStack(alignment: .bottomLeading) {
             // Background Image
-            Image("image1")
+            Image(imageName, bundle: .module)
                 .resizable()
                 .scaledToFill()
                 .overlay(
