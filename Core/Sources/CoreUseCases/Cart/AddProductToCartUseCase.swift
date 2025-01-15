@@ -27,7 +27,7 @@ public final class AddProductToCartUseCase: AddProductToCartUseCaseProtocol {
         // Check if product already exists in cart
         if let existingItem = cart.products.first(where: { $0.product.id == product.id }) {
             var updatedItem = existingItem
-            updatedItem.quantity += 1
+            updatedItem.quantity += 2
             try await cartRepository.updateItem(updatedItem, for: user)
         } else {
             // Add new item
