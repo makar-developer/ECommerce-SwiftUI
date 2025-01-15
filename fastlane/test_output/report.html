@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Test Results | xcpretty</title>
+    <style type="text/css">
+      body { font-family:Avenir Next, Helvetica Neue, sans-serif; color: #4A4A4A; background-color: #F0F3FB; margin:0;}
+      h1 { font-weight: normal; font-size: 24px; margin: 10px 0 0 0;}
+      h3 { font-weight: normal; margin: 2px; font-size: 1.1em;}
+      header { position: fixed;width: 100%;background: rgba(249, 254, 255, 0.9);margin: 0;padding: 10px;}
+      header:before, header:after { content:""; display:table;}
+      header:after { clear:both;}
+      a:link { color: #A1D761;}
+      footer { clear: both;position: relative;z-index: 10;height: 40px;margin-top: -10px; margin-left:30px; font-size:12px;}
+      table { width:100%; border-collapse: collapse;}
+      tr td:first-child { width:7%}
+      .left { float: left; margin-left:30px;}
+      .right { float: right; margin-right: 40px; margin-top: 0; margin-bottom:0;}
+      .test-suite { margin: 0 0 30px 0;}
+      .test-suite > .heading { font-family:Menlo, Monaco, monospace; font-weight: bold; border-color: #A1D761; background-color: #B8E986; border-width: 1px;}
+      .test-suite.failing > .heading { border-color: #C84F5E; background-color: #E58591;}
+      .test-suite > .heading > .title { margin-top: 4px; margin-left: 10px;}
+      .tests { overflow: scroll;margin: 0 30px 0 60px;}
+      .test, .test-suite > .heading { height: 30px; overflow: hidden; margin: 0 30px;}
+      .test, .test-suite > .heading { border-width: 1px; border-collapse: collapse; border-style: solid; }
+      .test { margin-left: 30px; border-top:none;}
+      .test.failing { border-color: #C84F5E; background-color: #F4DDE0;}
+      .test.passing { border-color: #A1D761;}
+      .test.failing { background-color: #E7A1AA;}
+      .test.passing { background-color: #CAF59F;}
+      .test.failing.odd { background-color: #EEC7CC;}
+      .test.passing.odd { background-color: #E5FBCF;}
+      .details.failing { background-color: #F4DDE0; border: 1px solid #C84F5E;}
+      .details.passing { background-color: #E5F4DC; border: 1px solid #A1D761;}
+      .test .test-detail:last-child { padding-bottom: 8px;}
+      .test .title { float: left; font-size: 0.9em; margin-top: 8px; font-family: Menlo, Monaco, monospace;}
+      .test .time { float: left;margin: 4px 10px 0 20px;}
+      .test-detail { font-family:Menlo, Monaco, monospace; font-size: 0.9em; margin: 5px 0 5px 0px;}
+      .screenshots { height: auto; overflow: hidden; padding: 4px 4px 0 4px; background-color: #B8E986; border: #A1D761; border-width: 0 1px; border-style: solid; }
+      .screenshots.failing { border-color: #C84F5E; background-color: #E58591; }
+      .screenshot { max-height: 60px; float: left; transition: max-height 0.2s; margin: 0 4px 4px 0 }
+      .screenshot.selected { max-height: 568px; }
+      #test-suites { display: inline-block; width: 100%;margin-top:100px;}
+      #segment-bar { margin-top: 10px;margin-left: 14px;float:right;}
+      #segment-bar a:first-child { border-radius: 9px 0 0 9px; border-right: none;}
+      #segment-bar a:last-child { border-radius: 0 9px 9px 0; border-left: none;}
+      #segment-bar > a { color: #565656; border: 2px solid  #7B7B7B; width: 80px; font-weight: bold; display:inline-block;text-align:center; font-weight: normal;}
+      #segment-bar > a.selected { background-color: #979797; color: #F0F3FB;}
+      #counters { float: left;margin: 10px;text-align: right;}
+      #counters h2 { font-size: 16px; font-family: Avenir, sans-serif; font-weight: lighter; display:inline;}
+      #counters .number { font-size: 20px;}
+      #fail-count { color: #D0021B; margin-left:10px;}
+      @media (max-width: 640px) {
+        h1, #counters, #segment-bar { margin: 5px auto; text-align:center;}
+        header, #segment-bar { width: 100%; position: relative; background:none;}
+        .left, .right { float:none; margin:0;}
+        #test-suites { margin-top: 0;}
+        #counters { float:none;}
+      }
+    </style>
+    <script type="text/javascript">
+      var hide = function(element) { element.style.display = 'none';}
+      var show = function(element) { element.style.display = '';}
+      var isHidden = function(element) { return element.style.display == 'none';}
+      var isSelected = function(element) { return element.classList.contains("selected");}
+      var deselect = function(element) { return element.classList.remove("selected");}
+      var select = function(element) { return element.classList.add("selected");}
+      var toggle = function(element) { isHidden(element) ? show(element) : hide(element);};
+      var toggleTests = function(heading) { toggle(heading.parentNode.children[1]);};
+      var toggleDetails = function(detailClass) {
+        var details = document.querySelectorAll('.' + detailClass);
+        for (var i = details.length - 1; i >= 0; i--) { toggle(details[i]);};
+      };
+      var hideAll = function(collection) {
+        for (var i = collection.length - 1; i >= 0; i--) { hide(collection[i]); };
+      }
+      var showAll = function(collection) {
+        for (var i = collection.length - 1; i >= 0; i--) { show(collection[i]); };
+      }
+      var selectSegment = function(segment) {
+        if (isSelected(segment)) return;
+        var segments = document.querySelectorAll('#segment-bar > a');
+        for (var i = segments.length - 1; i >= 0; i--) { deselect(segments[i]);};
+        select(segment);
+        if (segment.id == "all-segment") {
+          showAll(document.querySelectorAll('.test-suite'));
+          showAll(document.querySelectorAll('.test'));
+        } else if (segment.id == "failing-segment") {
+          hideAll(document.querySelectorAll('.test.passing'));
+          showAll(document.querySelectorAll('.test.failing'));
+          hideAll(document.querySelectorAll('.test-suite.passing'));
+          showAll(document.querySelectorAll('.test-suite.failing'));
+        } else if (segment.id == "passing-segment") {
+          hideAll(document.querySelectorAll('.test.failing'));
+          showAll(document.querySelectorAll('.test.passing'));
+          hideAll(document.querySelectorAll('.test-suite.failing'));
+          showAll(document.querySelectorAll('.test-suite.passing'));
+        }
+      }
+      var toggleScreenshot = function(suiteName, index) {
+        var screenshot = document.getElementById("screenshot-" + suiteName + "-" + index);
+        isSelected(screenshot) ? deselect(screenshot) : select(screenshot);
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <section class="left">
+        <h1>Test Results</h1>
+      </section>
+      <section class="right">
+        <section id="counters">
+          <h2 id="test-count"><span class="number">77</span> tests</h2>
+          
+        </section>
+        <section id="segment-bar">
+          <a id="all-segment" onclick="selectSegment(this);" class="selected">All</a><a id="failing-segment" onclick="selectSegment(this);">Failing</a><a id="passing-segment" onclick="selectSegment(this);">Passing</a>
+        </section>
+      </section>
+    </header>
+    <section id="test-suites">
+      
+        
+        <section class="test-suite passing" id="CoreTests.AddProductToCartUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.AddProductToCartUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_AddsNewItemWhenNotPresent');">
+                <td>
+                  
+                    <h3 class="time">0.008s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_AddsNewItemWhenNotPresent</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testExecute_IncrementsQuantityWhenAlreadyInCart');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_IncrementsQuantityWhenAlreadyInCart</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.AddProductToHistoryUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.AddProductToHistoryUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_ShouldCallAddProductToHistoryOnRepository');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_ShouldCallAddProductToHistoryOnRepository</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.AuthenticationRepositoryTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.AuthenticationRepositoryTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testGetSignedInUserReturnsNilIfNoData');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testGetSignedInUserReturnsNilIfNoData</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testGetSignedInUserReturnsStoredUser');">
+                <td>
+                  
+                    <h3 class="time">0.008s</h3>
+                  
+                </td>
+                <td><h3 class="title">testGetSignedInUserReturnsStoredUser</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testSignInSavesUserData');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSignInSavesUserData</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testSignOutDeletesUserData');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSignOutDeletesUserData</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.CartRepositoryTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.CartRepositoryTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_addItem_whenItemAlreadyInCart_incrementsQuantity');">
+                <td>
+                  
+                    <h3 class="time">0.023s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_addItem_whenItemAlreadyInCart_incrementsQuantity</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_addItem_whenItemDoesNotExist_createsNewItemInCart');">
+                <td>
+                  
+                    <h3 class="time">0.006s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_addItem_whenItemDoesNotExist_createsNewItemInCart</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_getCart_whenCartAlreadyExists_returnsExistingCart');">
+                <td>
+                  
+                    <h3 class="time">0.006s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_getCart_whenCartAlreadyExists_returnsExistingCart</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_getCart_whenNoExistingCart_createsNewCart');">
+                <td>
+                  
+                    <h3 class="time">0.005s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_getCart_whenNoExistingCart_createsNewCart</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_updateItem_whenItemExists_updatesQuantity');">
+                <td>
+                  
+                    <h3 class="time">0.006s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_updateItem_whenItemExists_updatesQuantity</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.CreateUserDataUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.CreateUserDataUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_CallsCreateUserDataOnRepository');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_CallsCreateUserDataOnRepository</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testExecute_WhenRepositoryThrowsError_ThrowsError');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_WhenRepositoryThrowsError_ThrowsError</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.CustomAsyncImageViewModelTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.CustomAsyncImageViewModelTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testLoad_WhenUseCaseSucceeds_ShouldSetUIImageAndNotRetry');">
+                <td>
+                  
+                    <h3 class="time">1.164s</h3>
+                  
+                </td>
+                <td><h3 class="title">testLoad_WhenUseCaseSucceeds_ShouldSetUIImageAndNotRetry</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testLoad_WhenUseCaseThrowsError_ShouldRetryUpToMaxRetries');">
+                <td>
+                  
+                    <h3 class="time">7.015s</h3>
+                  
+                </td>
+                <td><h3 class="title">testLoad_WhenUseCaseThrowsError_ShouldRetryUpToMaxRetries</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.DeleteUserDataUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.DeleteUserDataUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_CallsDeleteUserDataOnRepository');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_CallsDeleteUserDataOnRepository</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testExecute_WhenRepositoryThrowsError_ThrowsError');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_WhenRepositoryThrowsError_ThrowsError</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.FetchUserDataUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.FetchUserDataUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_CallsFetchUserDataOnRepository_AndReturnsValue');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_CallsFetchUserDataOnRepository_AndReturnsValue</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testExecute_WhenRepositoryThrowsError_ThrowsError');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_WhenRepositoryThrowsError_ThrowsError</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.GetAllProductsUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.GetAllProductsUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_ReturnsAllCartItems');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_ReturnsAllCartItems</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.GetImageUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.GetImageUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_Failure_ThrowsError');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_Failure_ThrowsError</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testExecute_NoExplicitConfig_ReturnsPlaceholder');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_NoExplicitConfig_ReturnsPlaceholder</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_SuccessfulFetch_ReturnsImage');">
+                <td>
+                  
+                    <h3 class="time">0.259s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_SuccessfulFetch_ReturnsImage</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.GetProductHistoryUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.GetProductHistoryUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_ShouldReturnHistoryFromRepository');">
+                <td>
+                  
+                    <h3 class="time">0.004s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_ShouldReturnHistoryFromRepository</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.GetSignedInUserUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.GetSignedInUserUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_ReturnsNilWhenNoUserSignedIn');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_ReturnsNilWhenNoUserSignedIn</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testExecute_ReturnsUserWhenSignedIn');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_ReturnsUserWhenSignedIn</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.ImageRepositoryTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.ImageRepositoryTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testGetImage_ReturnsCachedImage_IfAlreadyInCache');">
+                <td>
+                  
+                    <h3 class="time">0.132s</h3>
+                  
+                </td>
+                <td><h3 class="title">testGetImage_ReturnsCachedImage_IfAlreadyInCache</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.ProductDetailsViewModelTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.ProductDetailsViewModelTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testAddProductToHistory_SuccessfulCall');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testAddProductToHistory_SuccessfulCall</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testAddProductToHistory_WhenUseCaseThrowsError_ShouldCatchIt');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testAddProductToHistory_WhenUseCaseThrowsError_ShouldCatchIt</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testAddToCart_Error_ShouldStillCallUseCaseAndCatchError');">
+                <td>
+                  
+                    <h3 class="time">0.106s</h3>
+                  
+                </td>
+                <td><h3 class="title">testAddToCart_Error_ShouldStillCallUseCaseAndCatchError</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testAddToCart_Success_ShouldCallUseCaseWithCorrectParameters');">
+                <td>
+                  
+                    <h3 class="time">0.107s</h3>
+                  
+                </td>
+                <td><h3 class="title">testAddToCart_Success_ShouldCallUseCaseWithCorrectParameters</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.ProductHistoryRepositoryTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.ProductHistoryRepositoryTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_addProductToHistory_whenUserDoesNotExist_throwsError');">
+                <td>
+                  
+                    <h3 class="time">0.006s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_addProductToHistory_whenUserDoesNotExist_throwsError</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_addProductToHistory_whenUserExists_insertsNewHistory');">
+                <td>
+                  
+                    <h3 class="time">0.007s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_addProductToHistory_whenUserExists_insertsNewHistory</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_getAllHistory_whenNoRecordsExist_returnsEmptyArray');">
+                <td>
+                  
+                    <h3 class="time">0.004s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_getAllHistory_whenNoRecordsExist_returnsEmptyArray</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_getAllHistory_whenRecordsExist_returnsHistoryInDescendingOrder');">
+                <td>
+                  
+                    <h3 class="time">0.006s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_getAllHistory_whenRecordsExist_returnsHistoryInDescendingOrder</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_removeAllHistory_deletesEverythingForUser');">
+                <td>
+                  
+                    <h3 class="time">0.007s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_removeAllHistory_deletesEverythingForUser</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_removeProductHistory_whenMatchingRecordsExist_deletesThem');">
+                <td>
+                  
+                    <h3 class="time">0.008s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_removeProductHistory_whenMatchingRecordsExist_deletesThem</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.RemoveAllHistoryUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.RemoveAllHistoryUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_ShouldCallRemoveAllHistoryOnRepository');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_ShouldCallRemoveAllHistoryOnRepository</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.RemoveAllProductsFromCartUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.RemoveAllProductsFromCartUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_RemovesAllItems');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_RemovesAllItems</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.RemoveEntireItemFromCartUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.RemoveEntireItemFromCartUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_RemovesDesignatedCartItem');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_RemovesDesignatedCartItem</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.RemoveHistoryOlderThanUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.RemoveHistoryOlderThanUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_ShouldCallRemoveHistoryOlderThanOnRepository');">
+                <td>
+                  
+                    <h3 class="time">0.107s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_ShouldCallRemoveHistoryOlderThanOnRepository</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.RemoveProductFromCartUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.RemoveProductFromCartUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_DecrementsQuantityIfMoreThanOne');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_DecrementsQuantityIfMoreThanOne</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testExecute_RemovesItemIfLastQuantity');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_RemovesItemIfLastQuantity</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.RemoveProductFromHistoryUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.RemoveProductFromHistoryUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_ShouldCallRemoveProductHistoryOnRepository');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_ShouldCallRemoveProductHistoryOnRepository</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.SignInUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.SignInUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testSignIn_SavesUserInRepository');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSignIn_SavesUserInRepository</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.SignOutUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.SignOutUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testSignOut_ClearsUserFromRepository');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSignOut_ClearsUserFromRepository</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="CoreTests.UserDataRepositoryTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">CoreTests.UserDataRepositoryTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_createUserData_whenUserAlreadyExists_throwsError');">
+                <td>
+                  
+                    <h3 class="time">0.005s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_createUserData_whenUserAlreadyExists_throwsError</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_createUserData_whenUserDoesNotExist_succeeds');">
+                <td>
+                  
+                    <h3 class="time">0.004s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_createUserData_whenUserDoesNotExist_succeeds</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_deleteUserData_whenUserDoesNotExist_throwsError');">
+                <td>
+                  
+                    <h3 class="time">0.004s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_deleteUserData_whenUserDoesNotExist_throwsError</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_deleteUserData_whenUserExists_succeeds');">
+                <td>
+                  
+                    <h3 class="time">0.004s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_deleteUserData_whenUserExists_succeeds</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_fetchUserData_whenUserDoesNotExist_returnsNil');">
+                <td>
+                  
+                    <h3 class="time">0.004s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_fetchUserData_whenUserDoesNotExist_returnsNil</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="WelcomeDependenciesTests.AuthenticationViewModelTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">WelcomeDependenciesTests.AuthenticationViewModelTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testConfirmPasswordValidation');">
+                <td>
+                  
+                    <h3 class="time">0.011s</h3>
+                  
+                </td>
+                <td><h3 class="title">testConfirmPasswordValidation</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testCreateAccount_FailureInCreateUserDataUseCase');">
+                <td>
+                  
+                    <h3 class="time">0.005s</h3>
+                  
+                </td>
+                <td><h3 class="title">testCreateAccount_FailureInCreateUserDataUseCase</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testCreateAccount_FailureInCreateUserUseCase');">
+                <td>
+                  
+                    <h3 class="time">0.004s</h3>
+                  
+                </td>
+                <td><h3 class="title">testCreateAccount_FailureInCreateUserUseCase</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testCreateAccount_Success');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testCreateAccount_Success</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testLoginValidation');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testLoginValidation</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testNameValidation');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testNameValidation</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testOverallFormValidity');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testOverallFormValidity</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testPasswordValidation');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testPasswordValidation</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="WelcomeDependenciesTests.CreateUserUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">WelcomeDependenciesTests.CreateUserUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_ShouldCallSaveUserOnRepository');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_ShouldCallSaveUserOnRepository</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="WelcomeDependenciesTests.DeleteUserUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">WelcomeDependenciesTests.DeleteUserUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_ShouldRemoveUserFromRepository');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_ShouldRemoveUserFromRepository</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="WelcomeDependenciesTests.GetAllUsersUseCaseTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">WelcomeDependenciesTests.GetAllUsersUseCaseTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testExecute_ShouldReturnAllUsersFromRepository');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testExecute_ShouldReturnAllUsersFromRepository</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="WelcomeDependenciesTests.WelcomeRepositoryImplTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">WelcomeDependenciesTests.WelcomeRepositoryImplTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testDeleteUser_RemovesUserFromKeychain');">
+                <td>
+                  
+                    <h3 class="time">0.006s</h3>
+                  
+                </td>
+                <td><h3 class="title">testDeleteUser_RemovesUserFromKeychain</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testGetUsers_Empty_ReturnsEmptyList');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testGetUsers_Empty_ReturnsEmptyList</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testGetUsers_WithStoredData_ReturnsDecodedUsers');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testGetUsers_WithStoredData_ReturnsDecodedUsers</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testSaveUser_AppendNewUserToExistingList');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSaveUser_AppendNewUserToExistingList</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testSaveUsers_ShouldEncodeAndSaveInKeychain');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSaveUsers_ShouldEncodeAndSaveInKeychain</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="WelcomeDependenciesTests.WelcomeViewModelTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">WelcomeDependenciesTests.WelcomeViewModelTests</h3>
+          </section>
+          <section class="tests">
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testAssignUniqueImages');">
+                <td>
+                  
+                    <h3 class="time">0.007s</h3>
+                  
+                </td>
+                <td><h3 class="title">testAssignUniqueImages</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testDeleteUserHandlesError');">
+                <td>
+                  
+                    <h3 class="time">0.104s</h3>
+                  
+                </td>
+                <td><h3 class="title">testDeleteUserHandlesError</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testDeleteUserSuccessfully');">
+                <td>
+                  
+                    <h3 class="time">0.108s</h3>
+                  
+                </td>
+                <td><h3 class="title">testDeleteUserSuccessfully</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testLoadUsersEnsuresConsistency');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testLoadUsersEnsuresConsistency</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testLoadUsersInitialFetchCreatesDefaultUsers');">
+                <td>
+                  
+                    <h3 class="time">0.008s</h3>
+                  
+                </td>
+                <td><h3 class="title">testLoadUsersInitialFetchCreatesDefaultUsers</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testLoadUsersSuccessfully');">
+                <td>
+                  
+                    <h3 class="time">0.004s</h3>
+                  
+                </td>
+                <td><h3 class="title">testLoadUsersSuccessfully</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testSignInUserHandlesError');">
+                <td>
+                  
+                    <h3 class="time">0.103s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSignInUserHandlesError</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testSignInUserSuccessfully');">
+                <td>
+                  
+                    <h3 class="time">0.105s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSignInUserSuccessfully</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testToggleEditingMode');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testToggleEditingMode</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+    </section>
+    <footer>Report generated with <a href="https://github.com/supermarin/xcpretty">xcpretty</a></footer>
+  </body>
+</html>

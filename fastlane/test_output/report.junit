@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites name='WelcomeDependenciesTests.xctest' tests='77' failures='0'>
+  <testsuite name='CoreTests.AddProductToCartUseCaseTests' tests='2' failures='0'>
+    <testcase classname='CoreTests.AddProductToCartUseCaseTests' name='testExecute_AddsNewItemWhenNotPresent' time='0.008'/>
+    <testcase classname='CoreTests.AddProductToCartUseCaseTests' name='testExecute_IncrementsQuantityWhenAlreadyInCart' time='0.003'/>
+  </testsuite>
+  <testsuite name='CoreTests.AddProductToHistoryUseCaseTests' tests='1' failures='0'>
+    <testcase classname='CoreTests.AddProductToHistoryUseCaseTests' name='testExecute_ShouldCallAddProductToHistoryOnRepository' time='0.003'/>
+  </testsuite>
+  <testsuite name='CoreTests.AuthenticationRepositoryTests' tests='4' failures='0'>
+    <testcase classname='CoreTests.AuthenticationRepositoryTests' name='testGetSignedInUserReturnsNilIfNoData' time='0.002'/>
+    <testcase classname='CoreTests.AuthenticationRepositoryTests' name='testGetSignedInUserReturnsStoredUser' time='0.008'/>
+    <testcase classname='CoreTests.AuthenticationRepositoryTests' name='testSignInSavesUserData' time='0.003'/>
+    <testcase classname='CoreTests.AuthenticationRepositoryTests' name='testSignOutDeletesUserData' time='0.002'/>
+  </testsuite>
+  <testsuite name='CoreTests.CartRepositoryTests' tests='5' failures='0'>
+    <testcase classname='CoreTests.CartRepositoryTests' name='test_addItem_whenItemAlreadyInCart_incrementsQuantity' time='0.023'/>
+    <testcase classname='CoreTests.CartRepositoryTests' name='test_addItem_whenItemDoesNotExist_createsNewItemInCart' time='0.006'/>
+    <testcase classname='CoreTests.CartRepositoryTests' name='test_getCart_whenCartAlreadyExists_returnsExistingCart' time='0.006'/>
+    <testcase classname='CoreTests.CartRepositoryTests' name='test_getCart_whenNoExistingCart_createsNewCart' time='0.005'/>
+    <testcase classname='CoreTests.CartRepositoryTests' name='test_updateItem_whenItemExists_updatesQuantity' time='0.006'/>
+  </testsuite>
+  <testsuite name='CoreTests.CreateUserDataUseCaseTests' tests='2' failures='0'>
+    <testcase classname='CoreTests.CreateUserDataUseCaseTests' name='testExecute_CallsCreateUserDataOnRepository' time='0.002'/>
+    <testcase classname='CoreTests.CreateUserDataUseCaseTests' name='testExecute_WhenRepositoryThrowsError_ThrowsError' time='0.002'/>
+  </testsuite>
+  <testsuite name='CoreTests.CustomAsyncImageViewModelTests' tests='2' failures='0'>
+    <testcase classname='CoreTests.CustomAsyncImageViewModelTests' name='testLoad_WhenUseCaseSucceeds_ShouldSetUIImageAndNotRetry' time='1.164'/>
+    <testcase classname='CoreTests.CustomAsyncImageViewModelTests' name='testLoad_WhenUseCaseThrowsError_ShouldRetryUpToMaxRetries' time='7.015'/>
+  </testsuite>
+  <testsuite name='CoreTests.DeleteUserDataUseCaseTests' tests='2' failures='0'>
+    <testcase classname='CoreTests.DeleteUserDataUseCaseTests' name='testExecute_CallsDeleteUserDataOnRepository' time='0.002'/>
+    <testcase classname='CoreTests.DeleteUserDataUseCaseTests' name='testExecute_WhenRepositoryThrowsError_ThrowsError' time='0.002'/>
+  </testsuite>
+  <testsuite name='CoreTests.FetchUserDataUseCaseTests' tests='2' failures='0'>
+    <testcase classname='CoreTests.FetchUserDataUseCaseTests' name='testExecute_CallsFetchUserDataOnRepository_AndReturnsValue' time='0.002'/>
+    <testcase classname='CoreTests.FetchUserDataUseCaseTests' name='testExecute_WhenRepositoryThrowsError_ThrowsError' time='0.002'/>
+  </testsuite>
+  <testsuite name='CoreTests.GetAllProductsUseCaseTests' tests='1' failures='0'>
+    <testcase classname='CoreTests.GetAllProductsUseCaseTests' name='testExecute_ReturnsAllCartItems' time='0.002'/>
+  </testsuite>
+  <testsuite name='CoreTests.GetImageUseCaseTests' tests='3' failures='0'>
+    <testcase classname='CoreTests.GetImageUseCaseTests' name='testExecute_Failure_ThrowsError' time='0.003'/>
+    <testcase classname='CoreTests.GetImageUseCaseTests' name='testExecute_NoExplicitConfig_ReturnsPlaceholder' time='0.003'/>
+    <testcase classname='CoreTests.GetImageUseCaseTests' name='testExecute_SuccessfulFetch_ReturnsImage' time='0.259'/>
+  </testsuite>
+  <testsuite name='CoreTests.GetProductHistoryUseCaseTests' tests='1' failures='0'>
+    <testcase classname='CoreTests.GetProductHistoryUseCaseTests' name='testExecute_ShouldReturnHistoryFromRepository' time='0.004'/>
+  </testsuite>
+  <testsuite name='CoreTests.GetSignedInUserUseCaseTests' tests='2' failures='0'>
+    <testcase classname='CoreTests.GetSignedInUserUseCaseTests' name='testExecute_ReturnsNilWhenNoUserSignedIn' time='0.002'/>
+    <testcase classname='CoreTests.GetSignedInUserUseCaseTests' name='testExecute_ReturnsUserWhenSignedIn' time='0.002'/>
+  </testsuite>
+  <testsuite name='CoreTests.ImageRepositoryTests' tests='1' failures='0'>
+    <testcase classname='CoreTests.ImageRepositoryTests' name='testGetImage_ReturnsCachedImage_IfAlreadyInCache' time='0.132'/>
+  </testsuite>
+  <testsuite name='CoreTests.ProductDetailsViewModelTests' tests='4' failures='0'>
+    <testcase classname='CoreTests.ProductDetailsViewModelTests' name='testAddProductToHistory_SuccessfulCall' time='0.003'/>
+    <testcase classname='CoreTests.ProductDetailsViewModelTests' name='testAddProductToHistory_WhenUseCaseThrowsError_ShouldCatchIt' time='0.003'/>
+    <testcase classname='CoreTests.ProductDetailsViewModelTests' name='testAddToCart_Error_ShouldStillCallUseCaseAndCatchError' time='0.106'/>
+    <testcase classname='CoreTests.ProductDetailsViewModelTests' name='testAddToCart_Success_ShouldCallUseCaseWithCorrectParameters' time='0.107'/>
+  </testsuite>
+  <testsuite name='CoreTests.ProductHistoryRepositoryTests' tests='6' failures='0'>
+    <testcase classname='CoreTests.ProductHistoryRepositoryTests' name='test_addProductToHistory_whenUserDoesNotExist_throwsError' time='0.006'/>
+    <testcase classname='CoreTests.ProductHistoryRepositoryTests' name='test_addProductToHistory_whenUserExists_insertsNewHistory' time='0.007'/>
+    <testcase classname='CoreTests.ProductHistoryRepositoryTests' name='test_getAllHistory_whenNoRecordsExist_returnsEmptyArray' time='0.004'/>
+    <testcase classname='CoreTests.ProductHistoryRepositoryTests' name='test_getAllHistory_whenRecordsExist_returnsHistoryInDescendingOrder' time='0.006'/>
+    <testcase classname='CoreTests.ProductHistoryRepositoryTests' name='test_removeAllHistory_deletesEverythingForUser' time='0.007'/>
+    <testcase classname='CoreTests.ProductHistoryRepositoryTests' name='test_removeProductHistory_whenMatchingRecordsExist_deletesThem' time='0.008'/>
+  </testsuite>
+  <testsuite name='CoreTests.RemoveAllHistoryUseCaseTests' tests='1' failures='0'>
+    <testcase classname='CoreTests.RemoveAllHistoryUseCaseTests' name='testExecute_ShouldCallRemoveAllHistoryOnRepository' time='0.002'/>
+  </testsuite>
+  <testsuite name='CoreTests.RemoveAllProductsFromCartUseCaseTests' tests='1' failures='0'>
+    <testcase classname='CoreTests.RemoveAllProductsFromCartUseCaseTests' name='testExecute_RemovesAllItems' time='0.003'/>
+  </testsuite>
+  <testsuite name='CoreTests.RemoveEntireItemFromCartUseCaseTests' tests='1' failures='0'>
+    <testcase classname='CoreTests.RemoveEntireItemFromCartUseCaseTests' name='testExecute_RemovesDesignatedCartItem' time='0.002'/>
+  </testsuite>
+  <testsuite name='CoreTests.RemoveHistoryOlderThanUseCaseTests' tests='1' failures='0'>
+    <testcase classname='CoreTests.RemoveHistoryOlderThanUseCaseTests' name='testExecute_ShouldCallRemoveHistoryOlderThanOnRepository' time='0.107'/>
+  </testsuite>
+  <testsuite name='CoreTests.RemoveProductFromCartUseCaseTests' tests='2' failures='0'>
+    <testcase classname='CoreTests.RemoveProductFromCartUseCaseTests' name='testExecute_DecrementsQuantityIfMoreThanOne' time='0.002'/>
+    <testcase classname='CoreTests.RemoveProductFromCartUseCaseTests' name='testExecute_RemovesItemIfLastQuantity' time='0.002'/>
+  </testsuite>
+  <testsuite name='CoreTests.RemoveProductFromHistoryUseCaseTests' tests='1' failures='0'>
+    <testcase classname='CoreTests.RemoveProductFromHistoryUseCaseTests' name='testExecute_ShouldCallRemoveProductHistoryOnRepository' time='0.002'/>
+  </testsuite>
+  <testsuite name='CoreTests.SignInUseCaseTests' tests='1' failures='0'>
+    <testcase classname='CoreTests.SignInUseCaseTests' name='testSignIn_SavesUserInRepository' time='0.002'/>
+  </testsuite>
+  <testsuite name='CoreTests.SignOutUseCaseTests' tests='1' failures='0'>
+    <testcase classname='CoreTests.SignOutUseCaseTests' name='testSignOut_ClearsUserFromRepository' time='0.002'/>
+  </testsuite>
+  <testsuite name='CoreTests.UserDataRepositoryTests' tests='5' failures='0'>
+    <testcase classname='CoreTests.UserDataRepositoryTests' name='test_createUserData_whenUserAlreadyExists_throwsError' time='0.005'/>
+    <testcase classname='CoreTests.UserDataRepositoryTests' name='test_createUserData_whenUserDoesNotExist_succeeds' time='0.004'/>
+    <testcase classname='CoreTests.UserDataRepositoryTests' name='test_deleteUserData_whenUserDoesNotExist_throwsError' time='0.004'/>
+    <testcase classname='CoreTests.UserDataRepositoryTests' name='test_deleteUserData_whenUserExists_succeeds' time='0.004'/>
+    <testcase classname='CoreTests.UserDataRepositoryTests' name='test_fetchUserData_whenUserDoesNotExist_returnsNil' time='0.004'/>
+  </testsuite>
+  <testsuite name='WelcomeDependenciesTests.AuthenticationViewModelTests' tests='8' failures='0'>
+    <testcase classname='WelcomeDependenciesTests.AuthenticationViewModelTests' name='testConfirmPasswordValidation' time='0.011'/>
+    <testcase classname='WelcomeDependenciesTests.AuthenticationViewModelTests' name='testCreateAccount_FailureInCreateUserDataUseCase' time='0.005'/>
+    <testcase classname='WelcomeDependenciesTests.AuthenticationViewModelTests' name='testCreateAccount_FailureInCreateUserUseCase' time='0.004'/>
+    <testcase classname='WelcomeDependenciesTests.AuthenticationViewModelTests' name='testCreateAccount_Success' time='0.003'/>
+    <testcase classname='WelcomeDependenciesTests.AuthenticationViewModelTests' name='testLoginValidation' time='0.003'/>
+    <testcase classname='WelcomeDependenciesTests.AuthenticationViewModelTests' name='testNameValidation' time='0.003'/>
+    <testcase classname='WelcomeDependenciesTests.AuthenticationViewModelTests' name='testOverallFormValidity' time='0.003'/>
+    <testcase classname='WelcomeDependenciesTests.AuthenticationViewModelTests' name='testPasswordValidation' time='0.003'/>
+  </testsuite>
+  <testsuite name='WelcomeDependenciesTests.CreateUserUseCaseTests' tests='1' failures='0'>
+    <testcase classname='WelcomeDependenciesTests.CreateUserUseCaseTests' name='testExecute_ShouldCallSaveUserOnRepository' time='0.003'/>
+  </testsuite>
+  <testsuite name='WelcomeDependenciesTests.DeleteUserUseCaseTests' tests='1' failures='0'>
+    <testcase classname='WelcomeDependenciesTests.DeleteUserUseCaseTests' name='testExecute_ShouldRemoveUserFromRepository' time='0.003'/>
+  </testsuite>
+  <testsuite name='WelcomeDependenciesTests.GetAllUsersUseCaseTests' tests='1' failures='0'>
+    <testcase classname='WelcomeDependenciesTests.GetAllUsersUseCaseTests' name='testExecute_ShouldReturnAllUsersFromRepository' time='0.002'/>
+  </testsuite>
+  <testsuite name='WelcomeDependenciesTests.WelcomeRepositoryImplTests' tests='5' failures='0'>
+    <testcase classname='WelcomeDependenciesTests.WelcomeRepositoryImplTests' name='testDeleteUser_RemovesUserFromKeychain' time='0.006'/>
+    <testcase classname='WelcomeDependenciesTests.WelcomeRepositoryImplTests' name='testGetUsers_Empty_ReturnsEmptyList' time='0.002'/>
+    <testcase classname='WelcomeDependenciesTests.WelcomeRepositoryImplTests' name='testGetUsers_WithStoredData_ReturnsDecodedUsers' time='0.003'/>
+    <testcase classname='WelcomeDependenciesTests.WelcomeRepositoryImplTests' name='testSaveUser_AppendNewUserToExistingList' time='0.003'/>
+    <testcase classname='WelcomeDependenciesTests.WelcomeRepositoryImplTests' name='testSaveUsers_ShouldEncodeAndSaveInKeychain' time='0.003'/>
+  </testsuite>
+  <testsuite name='WelcomeDependenciesTests.WelcomeViewModelTests' tests='9' failures='0'>
+    <testcase classname='WelcomeDependenciesTests.WelcomeViewModelTests' name='testAssignUniqueImages' time='0.007'/>
+    <testcase classname='WelcomeDependenciesTests.WelcomeViewModelTests' name='testDeleteUserHandlesError' time='0.104'/>
+    <testcase classname='WelcomeDependenciesTests.WelcomeViewModelTests' name='testDeleteUserSuccessfully' time='0.108'/>
+    <testcase classname='WelcomeDependenciesTests.WelcomeViewModelTests' name='testLoadUsersEnsuresConsistency' time='0.003'/>
+    <testcase classname='WelcomeDependenciesTests.WelcomeViewModelTests' name='testLoadUsersInitialFetchCreatesDefaultUsers' time='0.008'/>
+    <testcase classname='WelcomeDependenciesTests.WelcomeViewModelTests' name='testLoadUsersSuccessfully' time='0.004'/>
+    <testcase classname='WelcomeDependenciesTests.WelcomeViewModelTests' name='testSignInUserHandlesError' time='0.103'/>
+    <testcase classname='WelcomeDependenciesTests.WelcomeViewModelTests' name='testSignInUserSuccessfully' time='0.105'/>
+    <testcase classname='WelcomeDependenciesTests.WelcomeViewModelTests' name='testToggleEditingMode' time='0.002'/>
+  </testsuite>
+</testsuites>
