@@ -10,17 +10,17 @@ import Foundation
 
 public extension User {
     static func getOneOfThis() -> User {
-        // Provide "mock" user with fixed fields and a known, consistent ID for reproducible tests
+
         let name = UserName(rawValue: "JohnDoe")!
         let login = Login(rawValue: "john123")!
         let password = Password(rawValue: "ValidP@ss1")!
-        // Using a fixed UUID string for deterministic tests
+
         let knownID = UUID(uuidString: "11111111-1111-1111-1111-111111111111")!
         return User(name: name, login: login, password: password, profilePicture: nil, id: knownID)
     }
     
     static func getAnArrayOfThese() -> [User] {
-        // Provide multiple example Users with known IDs.
+
         return [
             User(
                 name: UserName(rawValue: "Alice")!,

@@ -10,7 +10,7 @@ import Foundation
 
 public extension ProductHistory {
     
-    // An array of three fixed timestamps for reproducible, differentiated mock data.
+
     private static let timestamps: [Date] = [
         Date(timeIntervalSince1970: 1672531200), // 2023-01-01 00:00:00 UTC
         Date(timeIntervalSince1970: 1672617600), // 2023-01-02 00:00:00 UTC

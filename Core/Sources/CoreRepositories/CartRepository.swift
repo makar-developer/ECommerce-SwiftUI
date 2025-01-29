@@ -78,9 +78,7 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
         let cartEntity = try await fetchOrCreateCartEntity(for: user)
         let existingItems = cartEntity.products?.allObjects as? [CartItemEntity] ?? []
         if let cartItemEntity = existingItems.first(where: { $0.id == item.id }) {
-            print("[removeItem] Found CartItemEntity with id=\(cartItemEntity.id?.uuidString ?? "nil"), deleting now...")
             try await coreDataDataSource.delete(cartItemEntity)
-            print("[removeItem] Successfully called delete() on item with id=\(item.id)")
         }
     }
 

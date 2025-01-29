@@ -27,10 +27,6 @@ public final class CartDIContainerImpl: CartDIContainerProtocol {
         self.coreDataDataSource = coreDataDataSource
     }
     
-//    public lazy var coreDataDataSource: CoreDataDataSourceProtocol = {
-//       return CoreDataDataSource(modelName: "Cart")
-//    }()
-    
     // MARK: - Repositories
     public lazy var cartRepository: CartRepositoryProtocol = {
         return CartRepositoryImpl(coreDataDataSource: coreDataDataSource)

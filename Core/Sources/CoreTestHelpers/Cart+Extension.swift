@@ -10,7 +10,7 @@ import Foundation
 
 extension Cart {
     static func getOneOfThis() -> Cart {
-        // Create a single Cart using one CartItem
+
         let cartItem = CartItem.getOneOfThis()
         return Cart(products: [cartItem], userId: UUID())
     }

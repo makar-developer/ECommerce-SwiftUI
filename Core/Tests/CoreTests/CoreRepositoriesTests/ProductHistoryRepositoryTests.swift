@@ -34,7 +34,7 @@ final class ProductHistoryRepositoryTests: XCTestCase {
     func test_getAllHistory_whenRecordsExist_returnsHistoryInDescendingOrder() async throws {
         // given
         let user = User.getOneOfThis()
-        // We'll insert 3 ProductHistories with varying timestamps
+        // insert 3 ProductHistories with varying timestamps
         let histories = ProductHistory.getAnArrayOfThese()
         try await insertProductHistories(histories, for: user)
         

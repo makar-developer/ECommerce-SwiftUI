@@ -13,7 +13,7 @@ import XCTest
 
 final class CreateUserDataUseCaseTests: XCTestCase {
     
-    private var sut: CreateUserDataUseCase! // The system under test
+    private var sut: CreateUserDataUseCase!
     private var mockRepository: MockUserDataRepository!
     
     override func setUp() {

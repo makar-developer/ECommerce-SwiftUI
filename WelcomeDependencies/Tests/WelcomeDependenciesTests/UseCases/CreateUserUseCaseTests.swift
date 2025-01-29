@@ -14,7 +14,7 @@ import XCTest
 
 final class CreateUserUseCaseTests: XCTestCase {
     
-    private var sut: CreateUserUseCase! // The system under test
+    private var sut: CreateUserUseCase!
     private var mockRepository: MockWelcomeRepository!
     
     override func setUp() {

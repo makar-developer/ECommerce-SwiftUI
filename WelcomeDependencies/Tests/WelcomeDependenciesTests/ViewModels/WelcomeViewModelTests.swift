@@ -44,7 +44,7 @@ final class WelcomeViewModelTests: XCTestCase {
             createUserDataUseCase: mockCreateUserDataUseCase,
             fetchUserDataUseCase: mockFetchUserDataUseCase
         ) { _ in
-            // Navigation callback not tested here, can track if needed.
+
         }
     }
 

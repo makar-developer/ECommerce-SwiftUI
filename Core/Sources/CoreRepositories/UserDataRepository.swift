@@ -80,13 +80,13 @@ public final class MockUserDataRepository: UserDataRepositoryProtocol {
     public var deleteUserDataErrorToThrow: Error?
     public var fetchUserDataErrorToThrow: Error?
     
-    public init() {} // No dependencies
+    public init() {}
     
     public func createUserData(_ user: User) async throws {
         createUserDataCallCount += 1
         capturedUserForCreate = user
         
-        // If we have an error set, throw it
+
         if let error = createUserDataErrorToThrow {
             throw error
         }
@@ -96,7 +96,7 @@ public final class MockUserDataRepository: UserDataRepositoryProtocol {
         deleteUserDataCallCount += 1
         capturedUserIdForDelete = id
         
-        // If we have an error set, throw it
+
         if let error = deleteUserDataErrorToThrow {
             throw error
         }
@@ -106,7 +106,7 @@ public final class MockUserDataRepository: UserDataRepositoryProtocol {
         fetchUserDataCallCount += 1
         capturedUserIdForFetch = id
         
-        // If we have an error set, throw it
+
         if let error = fetchUserDataErrorToThrow {
             throw error
         }

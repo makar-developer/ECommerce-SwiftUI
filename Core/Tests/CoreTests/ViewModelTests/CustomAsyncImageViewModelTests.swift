@@ -17,7 +17,7 @@ final class CustomAsyncImageViewModelTests: XCTestCase {
     func testLoad_WhenUseCaseSucceeds_ShouldSetUIImageAndNotRetry() async throws {
         // given
         let mockUseCase = MockGetImageUseCase()
-        let expectedImage = UIImage.getOneOfThis() ?? UIImage() // fallback if nil
+        let expectedImage = UIImage.getOneOfThis() ?? UIImage()
         mockUseCase.imageToReturn = expectedImage
         let testURL = URL.getOneOfThis()
 
@@ -53,39 +53,4 @@ final class CustomAsyncImageViewModelTests: XCTestCase {
         XCTAssertNil(sut.uiImage, "uiImage should remain nil if all retries fail")
         XCTAssertEqual(mockUseCase.executeCallCount, 3, "Should attempt exactly 3 retries (maxRetries)")
     }
-
-//    func testLoad_WhenUseCaseFailsThenSucceeds_ShouldStopAfterSuccess() async throws {
-//        // given
-//        let mockUseCase = MockGetImageUseCase()
-//        let expectedImage = UIImage.getOneOfThis() ?? UIImage()
-//        
-//        // Configure the mock to fail the first time, succeed the second time
-//        var callCount = 0
-//        mockUseCase.errorToThrow = NSError(domain: "TestError", code: 456)
-//        mockUseCase.imageToReturn = expectedImage
-//
-//        let testURL = URL.getOneOfThis()
-//        let sut = CustomAsyncImageViewModel(url: testURL, getImageUseCase: mockUseCase)
-//
-//        // We'll override execute in the mock to swap from error to success after the first call:
-//        let originalExecute = mockUseCase.execute
-//        mockUseCase.execute = { url in
-//            callCount += 1
-//            if callCount >= 2 {
-//                mockUseCase.errorToThrow = nil // no more errors
-//            }
-//            return try await originalExecute(url)
-//        }
-//
-//        // when
-//        sut.load()
-//        // Wait long enough for multiple retries
-//        try await Task.sleep(nanoseconds: 5_000_000_000)
-//
-//        // then
-//        XCTAssertFalse(sut.isLoading)
-//        XCTAssertEqual(sut.uiImage, expectedImage, "Should eventually load the image on the second attempt")
-//        XCTAssertTrue(mockUseCase.executeCallCount >= 2 && mockUseCase.executeCallCount < 4,
-//                      "Should not keep retrying after a successful attempt")
-//    }
 }

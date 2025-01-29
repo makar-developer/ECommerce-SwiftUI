@@ -54,8 +54,4 @@ public final class ProductHistoryDIContainerImpl: ProductHistoryDIContainerProto
     public lazy var addProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol = {
         AddProductToHistoryUseCase(repository: productHistoryRepository)
     }()
-    // Core Data DataSource
-//    public lazy var coreDataDataSource: CoreDataDataSourceProtocol = {
-//       return CoreDataDataSource(modelName: "Cart")
-//    }()
 }

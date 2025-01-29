@@ -16,14 +16,13 @@ final class ImageRepositoryTests: XCTestCase {
     
     private var mockCache: MockDiskImageCacheDataSource!
     private var mockSession: URLSession!
-    private var sut: ImageRepository! // System Under Test
+    private var sut: ImageRepository!
     
     override func setUp() {
         super.setUp()
         mockCache = MockDiskImageCacheDataSource()
         mockSession = .shared
         
-        // Wrap our mockSession in a subclass of URLSession so ImageRepository can call data(from:) as usual
         sut = ImageRepository(cache: mockCache, session: mockSession)
     }
     

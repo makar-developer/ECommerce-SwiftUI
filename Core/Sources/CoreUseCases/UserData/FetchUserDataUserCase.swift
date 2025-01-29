@@ -26,7 +26,7 @@ public final class FetchUserDataUseCase: FetchUserDataUseCaseProtocol {
 
 public final class MockFetchUserDataUseCase: FetchUserDataUseCaseProtocol {
     public var shouldThrowError = false
-    // Map user id -> userDataId (same or different, you can vary to simulate existence)
+
     public var userDataMap: [UUID: UUID?] = [:]
 
     public init() {}

@@ -49,7 +49,7 @@ public final class MockAddProductToCartUseCase: AddProductToCartUseCaseProtocol 
     // Optional error to simulate failure
     var errorToThrow: Error?
     
-    public init() {} // No dependencies
+    public init() {}
     
     public func execute(product: Product, user: User) async throws {
         executeCallCount += 1

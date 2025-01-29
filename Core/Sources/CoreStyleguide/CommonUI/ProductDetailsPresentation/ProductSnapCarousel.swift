@@ -9,7 +9,7 @@ import SwiftUI
 
 public struct ProductSnapCarousel: View {
     let images: [String]
-    @Binding var currentIndex: Int  // Bind the current index
+    @Binding var currentIndex: Int
 
     // State variables
     @GestureState private var dragOffset: CGFloat = 0
@@ -23,7 +23,7 @@ public struct ProductSnapCarousel: View {
         screenWidth * 0.8
     }
 
-    private let swipeThreshold: CGFloat = 50  // Adjust based on testing
+    private let swipeThreshold: CGFloat = 150  // Adjust based on testing
 
     public var body: some View {
         GeometryReader { geometry in

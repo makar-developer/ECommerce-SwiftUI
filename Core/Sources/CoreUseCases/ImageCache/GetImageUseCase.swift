@@ -35,7 +35,7 @@ final class MockGetImageUseCase: GetImageUseCaseProtocol {
     var imageToReturn: UIImage?
     var errorToThrow: Error?
     
-    init() {} // No dependencies
+    init() {}
 
     func execute(url: URL) async throws -> UIImage {
         executeCallCount += 1

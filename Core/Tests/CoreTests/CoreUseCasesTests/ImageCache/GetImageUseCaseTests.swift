@@ -9,16 +9,14 @@ import XCTest
 import UIKit
 @testable import CoreRepositories
 @testable import CoreUseCases
-//@testable import
 
 final class GetImageUseCaseTests: XCTestCase {
     
     private var mockRepository: MockImageRepository!
-    private var sut: GetImageUseCase! // The real object we want to test
+    private var sut: GetImageUseCase!
     
     override func setUp() {
         super.setUp()
-        // Prepare our mock object and the system under test
         mockRepository = MockImageRepository()
         sut = GetImageUseCase(repository: mockRepository)
     }
@@ -31,9 +29,6 @@ final class GetImageUseCaseTests: XCTestCase {
     
     func testExecute_SuccessfulFetch_ReturnsImage() async throws {
         //given
-        // Use your extension method to get a real image from the net.
-        // In practice, you might prefer to keep it purely in-memory (to avoid relying on network),
-        // but here we follow your blueprint of using extension methods.
         let testImage = UIImage.getOneOfThis()
         mockRepository.imageToReturn = testImage
         
@@ -64,7 +59,6 @@ final class GetImageUseCaseTests: XCTestCase {
     
     func testExecute_NoExplicitConfig_ReturnsPlaceholder() async throws {
         //given
-        // We do NOT set imageToReturn or errorToThrow, so the mock will return a placeholder
         let testURL = URL.getOneOfThis()
         
         //when

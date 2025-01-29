@@ -15,25 +15,23 @@ final class ProductDetailsViewModelTests: XCTestCase {
     
     private var mockAddToCartUseCase: MockAddProductToCartUseCase!
     private var mockAddToHistoryUseCase: MockAddProductToHistoryUseCase!
-    private var sut: ProductDetailsViewModel!  // The system under test
+    private var sut: ProductDetailsViewModel!
     
     override func setUp() {
         super.setUp()
         mockAddToCartUseCase = MockAddProductToCartUseCase()
         mockAddToHistoryUseCase = MockAddProductToHistoryUseCase()
         
-        // Given a user and a product (from provided extensions):
         let user = User.getOneOfThis()
         let product = Product.getOneOfThis()
         
-        // SUT uses the mocks
         sut = ProductDetailsViewModel(
             user: user,
             product: product,
             addProductToCartUseCase: mockAddToCartUseCase,
             addProductToHistoryUseCase: mockAddToHistoryUseCase
         ) {
-            // onNavigation closure (not tested here, but could be)
+
         }
     }
     
@@ -68,12 +66,10 @@ final class ProductDetailsViewModelTests: XCTestCase {
         // when
         sut.addToCart()
         
-        // Wait for the async call
         try await Task.sleep(nanoseconds: 100_000_000)
         
         // then
         XCTAssertEqual(mockAddToCartUseCase.executeCallCount, 1, "Should call useCase even if it throws")
-        // The ViewModel prints an error instead of exposing a published error value, so we only confirm it didn't crash.
     }
     
     func testAddProductToHistory_SuccessfulCall() async throws {
@@ -99,6 +95,5 @@ final class ProductDetailsViewModelTests: XCTestCase {
         
         // then
         XCTAssertEqual(mockAddToHistoryUseCase.executeCallCount, 1, "Should call useCase even if it throws")
-        // As with addToCart, the ViewModel prints on error, so we just confirm no crash & correct call.
     }
 }

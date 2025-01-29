@@ -36,7 +36,7 @@ public final class MockAddProductToHistoryUseCase: AddProductToHistoryUseCasePro
     // Optional error
     public var errorToThrow: Error?
     
-    public init() {} // No dependencies
+    public init() {} 
     
     public func execute(product: Product, for userId: UUID) async throws {
         executeCallCount += 1

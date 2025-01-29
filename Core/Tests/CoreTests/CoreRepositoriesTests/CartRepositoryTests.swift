@@ -13,13 +13,11 @@ import XCTest
 
 final class CartRepositoryTests: XCTestCase {
     
-    private var sut: CartRepositoryImpl!            // The real object under test
-    private var mockCoreDataDataSource: MockCoreDataDataSource!  // Our mock data source
+    private var sut: CartRepositoryImpl!
+    private var mockCoreDataDataSource: MockCoreDataDataSource!
     
     override func setUp() {
         super.setUp()
-        // Initialize the mock with the model name that corresponds to your .xcdatamodeld file,
-        // e.g. "UserData" or "MyModel"—whatever the actual name is.
         mockCoreDataDataSource = MockCoreDataDataSource(modelName: "UserData")
         sut = CartRepositoryImpl(coreDataDataSource: mockCoreDataDataSource)
     }

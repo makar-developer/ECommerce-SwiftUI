@@ -17,6 +17,7 @@ public protocol CoreDataDataSourceProtocol {
 }
 
 public final class CoreDataDataSourceImpl: CoreDataDataSourceProtocol {
+    
     private let persistentContainer: NSPersistentContainer
     
     public init(modelName: String) {
@@ -24,30 +25,37 @@ public final class CoreDataDataSourceImpl: CoreDataDataSourceProtocol {
         guard let modelURL = Bundle.module.url(forResource: modelName, withExtension: "momd") else {
             fatalError("Failed to find Core Data model in package.")
         }
+        
         guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
             fatalError("Failed to load Core Data model from package.")
         }
+        
         persistentContainer = NSPersistentContainer(name: modelName, managedObjectModel: model)
+        
         persistentContainer.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("CoreData load error: \(error)")
             }
         }
+        
+        context = persistentContainer.newBackgroundContext()
     }
     
-    public var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
+    public var context: NSManagedObjectContext
     
-    public func fetch<T>(entityName: String, predicate: NSPredicate? = nil) async throws -> [T] where T : NSManagedObject {
-        let request = NSFetchRequest<T>(entityName: entityName)
-        request.predicate = predicate
-        return try context.fetch(request)
+    public func fetch<T>(entityName: String, predicate: NSPredicate? = nil) async throws -> [T] where T: NSManagedObject {
+        try await context.perform {
+            let request = NSFetchRequest<T>(entityName: entityName)
+            request.predicate = predicate
+             return try self.context.fetch(request)
+        }
     }
     
     public func save<T>(_ object: T) async throws where T : NSManagedObject {
         if context.hasChanges {
-            try context.save()
+            try await context.perform {
+                try self.context.save()
+            }
         }
     }
     
@@ -60,14 +68,10 @@ public final class CoreDataDataSourceImpl: CoreDataDataSourceProtocol {
 }
 
 /// A generic, in-memory mock for CoreDataDataSourceProtocol.
-/// It does not persist anything to disk; everything is stored only in memory.
 public final class MockCoreDataDataSource: CoreDataDataSourceProtocol {
     
     // We store objects keyed by entity name:
     private var inMemoryStore: [String: [NSManagedObject]] = [:]
-    
-    /// Use a real NSPersistentContainer in memory (storeType = NSInMemoryStoreType).
-    /// This lets us provide a functional NSManagedObjectContext.
     private let persistentContainer: NSPersistentContainer
     
     public init(modelName: String) {

@@ -20,7 +20,7 @@ public final class RemoveEntireItemFromCartUseCase: RemoveEntireItemFromCartUseC
     }
     
     public func execute(cartItem: CartItem, user: User) async throws {
-        // Always remove the entire item from the cart
+        // remove the entire item from the cart
         try await cartRepository.removeItem(cartItem, from: user)
     }
 }

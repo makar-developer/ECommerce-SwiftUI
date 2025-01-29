@@ -112,26 +112,23 @@ import CoreUseCases
 import CoreEntities
 struct ProductDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        // 1) Create mock data
         let mockUser = User.getOneOfThis()
         let mockProduct = Product.getOneOfThis()
 
-        // 2) Create mock use cases
         let mockAddToCartUseCase = MockAddProductToCartUseCase()
         let mockAddToHistoryUseCase = MockAddProductToHistoryUseCase()
 
-        // 3) Create the ViewModel using our mocks
         let viewModel = ProductDetailsViewModel(
             user: mockUser,
             product: mockProduct,
             addProductToCartUseCase: mockAddToCartUseCase,
             addProductToHistoryUseCase: mockAddToHistoryUseCase
         ) {
-            // Navigation closure - for preview, we can leave this empty or print something
+
             print("Navigating back...")
         }
 
-        // 4) Return the SwiftUI preview within a NavigationView (so the toolbar buttons show)
+
         return NavigationView {
             ProductDetailsView(viewModel: viewModel)
         }

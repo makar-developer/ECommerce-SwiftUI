@@ -17,7 +17,7 @@ public struct AnimatedPageIndicatorView: View {
         self.dotSpacing = dotSpacing
         self.currentProgress = currentProgress
     }
-    // Identical input parameters to the UIKit version:
+
     let numberOfDots: Int
     let dotRadius: Double
     let dotSpacing: Double
@@ -73,7 +73,7 @@ public struct AnimatedPageIndicatorView: View {
                             dotSpacing: dotS,
                             startX: startX,
                             containerHeight: containerHeight
-                        ).zIndex(1)
+                        ).zIndex(1) // Keep it on top of others
                         
                         // C) The “neighbor” red dot from index+1 → index
                         neighborRedDotView(

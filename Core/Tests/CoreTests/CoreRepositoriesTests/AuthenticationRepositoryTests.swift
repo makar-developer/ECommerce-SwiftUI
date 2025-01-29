@@ -18,7 +18,7 @@ final class AuthenticationRepositoryTests: XCTestCase {
         // given
         let mockKeychain = MockKeychainDataSource()
         let sut = AuthenticationRepository(keychainDataSource: mockKeychain)
-        let user = User.getOneOfThis()  // ← Use your existing "getOneOfThis()" method
+        let user = User.getOneOfThis()
 
         // when
         try await sut.signIn(user: user)
