@@ -17,20 +17,20 @@ public protocol UserDataRepositoryProtocol {
 }
 
 public final class UserDataRepository: UserDataRepositoryProtocol {
-    private let coreDataWrapper: CoreDataWrapperProtocol
+    private let coreDataDataSource: CoreDataDataSourceProtocol
 
-    public init(coreDataWrapper: CoreDataWrapperProtocol) {
-        self.coreDataWrapper = coreDataWrapper
+    public init(coreDataDataSource: CoreDataDataSourceProtocol) {
+        self.coreDataDataSource = coreDataDataSource
     }
 
     public func createUserData(_ user: User) async throws {
-        let context = coreDataWrapper.context
+        let context = coreDataDataSource.context
         let predicate = NSPredicate(format: "id == %@", user.id as CVarArg)
-        let existing: [UserDataEntity] = try await coreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
+        let existing: [UserDataEntity] = try await coreDataDataSource.fetch(entityName: "UserDataEntity", predicate: predicate)
         
         if existing.isEmpty {
             let entity = user.toCoreData(context: context)
-            try await coreDataWrapper.save(entity)
+            try await coreDataDataSource.save(entity)
         } else {
             throw NSError(
                 domain: "UserDataRepository",
@@ -42,10 +42,10 @@ public final class UserDataRepository: UserDataRepositoryProtocol {
 
     public func deleteUserData(byId id: UUID) async throws {
         let predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        let fetched: [UserDataEntity] = try await coreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
+        let fetched: [UserDataEntity] = try await coreDataDataSource.fetch(entityName: "UserDataEntity", predicate: predicate)
 
         if let userDataEntity = fetched.first {
-            try await coreDataWrapper.delete(userDataEntity)
+            try await coreDataDataSource.delete(userDataEntity)
         } else {
             throw NSError(
                 domain: "UserDataRepository",
@@ -57,7 +57,7 @@ public final class UserDataRepository: UserDataRepositoryProtocol {
 
     public func fetchUserData(byId id: UUID) async throws -> UUID? {
         let predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        let fetched: [UserDataEntity] = try await coreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
+        let fetched: [UserDataEntity] = try await coreDataDataSource.fetch(entityName: "UserDataEntity", predicate: predicate)
         return fetched.first?.id
     }
 }

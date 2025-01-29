@@ -11,11 +11,11 @@ import CoreDataSources
 import ProductSearchEntities
 
 public final class RecentSearchesRepository: RecentSearchesRepositoryProtocol {
-    private let userDefaultsWrapper: UserDefaultsWrapperProtocol
+    private let userDefaultsDataSource: UserDefaultsDataSourceProtocol
     private let key = "RecentSearchQueries"
 
-    public init(userDefaultsWrapper: UserDefaultsWrapperProtocol) {
-        self.userDefaultsWrapper = userDefaultsWrapper
+    public init(userDefaultsDataSource: UserDefaultsDataSourceProtocol) {
+        self.userDefaultsDataSource = userDefaultsDataSource
     }
 
     public func saveSearchQuery(_ searchQuery: SearchQuery) {
@@ -28,21 +28,21 @@ public final class RecentSearchesRepository: RecentSearchesRepositoryProtocol {
         queries.insert(searchQuery, at: 0)
 
         // Save back to UserDefaults
-        userDefaultsWrapper.setObject(queries, forKey: key)
+        userDefaultsDataSource.setObject(queries, forKey: key)
     }
 
     public func getAllRecentSearchQueries() -> [SearchQuery] {
-        let queries: [SearchQuery] = userDefaultsWrapper.getObject(forKey: key) ?? []
+        let queries: [SearchQuery] = userDefaultsDataSource.getObject(forKey: key) ?? []
         return queries.sorted(by: { $0.creationDate > $1.creationDate })
     }
 
     public func removeSearchQuery(_ searchQuery: SearchQuery) {
         var queries = getAllRecentSearchQueries()
         queries.removeAll { $0.id == searchQuery.id }
-        userDefaultsWrapper.setObject(queries, forKey: key)
+        userDefaultsDataSource.setObject(queries, forKey: key)
     }
 
     public func removeAllSearchQueries() {
-        userDefaultsWrapper.removeObject(forKey: key)
+        userDefaultsDataSource.removeObject(forKey: key)
     }
 }

@@ -31,7 +31,7 @@ public struct SnapCarousel<Content: View>: View {
     private var cardWidth: CGFloat {
         screenWidth * 0.8
     }
-    private let swipeThreshold: CGFloat = 50
+    private let swipeThreshold: CGFloat = 100
     
     public var body: some View {
         GeometryReader { geometry in

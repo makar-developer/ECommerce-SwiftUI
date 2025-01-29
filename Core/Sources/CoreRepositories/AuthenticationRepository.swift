@@ -16,23 +16,23 @@ public protocol AuthenticationRepositoryProtocol {
 }
 
 public final class AuthenticationRepository: AuthenticationRepositoryProtocol {
-    private let keychainWrapper: KeychainWrapperProtocol
+    private let keychainDataSource: KeychainDataSourceProtocol
 
-    public init(keychainWrapper: KeychainWrapperProtocol) {
-        self.keychainWrapper = keychainWrapper
+    public init(keychainDataSource: KeychainDataSourceProtocol) {
+        self.keychainDataSource = keychainDataSource
     }
     
     public func signIn(user: User) async throws {
         let data = try JSONEncoder().encode(user)
-        try keychainWrapper.save(data: data)
+        try keychainDataSource.save(data: data)
     }
 
     public func signOut() async throws {
-        try keychainWrapper.delete()
+        try keychainDataSource.delete()
     }
 
     public func getSignedInUser() async throws -> User? {
-        guard let data = try keychainWrapper.load() else { return nil }
+        guard let data = try keychainDataSource.load() else { return nil }
         return try JSONDecoder().decode(User.self, from: data)
     }
 }

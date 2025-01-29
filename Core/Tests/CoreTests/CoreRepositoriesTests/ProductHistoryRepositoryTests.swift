@@ -15,17 +15,17 @@ import CoreData
 final class ProductHistoryRepositoryTests: XCTestCase {
     
     private var sut: ProductHistoryRepository!
-    private var mockCoreDataWrapper: MockCoreDataWrapper!
+    private var mockCoreDataDataSource: MockCoreDataDataSource!
     
     override func setUp() {
         super.setUp()
-        mockCoreDataWrapper = MockCoreDataWrapper(modelName: "UserData")
-        sut = ProductHistoryRepository(coreDataWrapper: mockCoreDataWrapper)
+        mockCoreDataDataSource = MockCoreDataDataSource(modelName: "UserData")
+        sut = ProductHistoryRepository(coreDataDataSource: mockCoreDataDataSource)
     }
     
     override func tearDown() {
         sut = nil
-        mockCoreDataWrapper = nil
+        mockCoreDataDataSource = nil
         super.tearDown()
     }
     
@@ -139,10 +139,10 @@ final class ProductHistoryRepositoryTests: XCTestCase {
     /// Insert a UserDataEntity for the given domain user into the mock in-memory store (if not already present).
     private func insertUserEntityIfNeeded(_ user: User) async throws {
         let predicate = NSPredicate(format: "id == %@", user.id as CVarArg)
-        let existing: [UserDataEntity] = try await mockCoreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
+        let existing: [UserDataEntity] = try await mockCoreDataDataSource.fetch(entityName: "UserDataEntity", predicate: predicate)
         if existing.isEmpty {
-            let newEntity = user.toCoreData(context: mockCoreDataWrapper.context)
-            try await mockCoreDataWrapper.save(newEntity)
+            let newEntity = user.toCoreData(context: mockCoreDataDataSource.context)
+            try await mockCoreDataDataSource.save(newEntity)
         }
     }
     
@@ -151,7 +151,7 @@ final class ProductHistoryRepositoryTests: XCTestCase {
         try await insertUserEntityIfNeeded(user)
         
         // We also need to create the actual ProductHistoryEntity + ProductEntity + user relationship
-        let context = mockCoreDataWrapper.context
+        let context = mockCoreDataDataSource.context
         try context.performAndWait {
             // fetch or create userData
             let userFetch = NSFetchRequest<UserDataEntity>(entityName: "UserDataEntity")

@@ -16,8 +16,8 @@ final class AuthenticationRepositoryTests: XCTestCase {
 
     func testSignInSavesUserData() async throws {
         // given
-        let mockKeychain = MockKeychainWrapper()
-        let sut = AuthenticationRepository(keychainWrapper: mockKeychain)
+        let mockKeychain = MockKeychainDataSource()
+        let sut = AuthenticationRepository(keychainDataSource: mockKeychain)
         let user = User.getOneOfThis()  // ← Use your existing "getOneOfThis()" method
 
         // when
@@ -37,8 +37,8 @@ final class AuthenticationRepositoryTests: XCTestCase {
 
     func testGetSignedInUserReturnsStoredUser() async throws {
         // given
-        let mockKeychain = MockKeychainWrapper()
-        let sut = AuthenticationRepository(keychainWrapper: mockKeychain)
+        let mockKeychain = MockKeychainDataSource()
+        let sut = AuthenticationRepository(keychainDataSource: mockKeychain)
         let user = User.getOneOfThis()
         try await sut.signIn(user: user)  // Preload keychain
 
@@ -53,8 +53,8 @@ final class AuthenticationRepositoryTests: XCTestCase {
 
     func testGetSignedInUserReturnsNilIfNoData() async throws {
         // given
-        let mockKeychain = MockKeychainWrapper()
-        let sut = AuthenticationRepository(keychainWrapper: mockKeychain)
+        let mockKeychain = MockKeychainDataSource()
+        let sut = AuthenticationRepository(keychainDataSource: mockKeychain)
 
         // when
         let loadedUser = try await sut.getSignedInUser()
@@ -66,8 +66,8 @@ final class AuthenticationRepositoryTests: XCTestCase {
 
     func testSignOutDeletesUserData() async throws {
         // given
-        let mockKeychain = MockKeychainWrapper()
-        let sut = AuthenticationRepository(keychainWrapper: mockKeychain)
+        let mockKeychain = MockKeychainDataSource()
+        let sut = AuthenticationRepository(keychainDataSource: mockKeychain)
         let user = User.getOneOfThis()
         try await sut.signIn(user: user)
 

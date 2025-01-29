@@ -7,13 +7,13 @@
 
 import Foundation
 
-public protocol UserDefaultsWrapperProtocol {
+public protocol UserDefaultsDataSourceProtocol {
     func setObject<T: Codable>(_ object: T, forKey key: String)
     func getObject<T: Codable>(forKey key: String) -> T?
     func removeObject(forKey key: String)
 }
 
-public final class UserDefaultsWrapper: UserDefaultsWrapperProtocol {
+public final class UserDefaultsDataSource: UserDefaultsDataSourceProtocol {
     private let userDefaults: UserDefaults
 
     public init(userDefaults: UserDefaults = .standard) {

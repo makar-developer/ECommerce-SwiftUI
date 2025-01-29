@@ -16,7 +16,7 @@ public protocol ImageDIContainerProtocol {
     var imageRepository: ImageRepositoryProtocol { get }
     
     // MARK: - Cache
-    var diskImageCache: DiskImageCacheWrapperProtocol { get }
+    var diskImageCache: DiskImageCacheDataSourceProtocol { get }
 }
 
 public final class ImageDIContainer: ImageDIContainerProtocol {
@@ -24,8 +24,8 @@ public final class ImageDIContainer: ImageDIContainerProtocol {
     public init() {}
     
     // MARK: - Cache
-    public lazy var diskImageCache: DiskImageCacheWrapperProtocol = {
-        return DiskImageCacheWrapperImpl()
+    public lazy var diskImageCache: DiskImageCacheDataSourceProtocol = {
+        return DiskImageCacheDataSourceImpl()
     }()
     
     // MARK: - Repositories

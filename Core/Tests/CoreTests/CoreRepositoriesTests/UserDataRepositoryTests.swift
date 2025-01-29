@@ -13,17 +13,17 @@ import XCTest
 final class UserDataRepositoryTests: XCTestCase {
     
     private var sut: UserDataRepository!
-    private var mockCoreDataWrapper: MockCoreDataWrapper!
+    private var mockCoreDataDataSource: MockCoreDataDataSource!
     
     override func setUp() {
         super.setUp()
-        mockCoreDataWrapper = MockCoreDataWrapper(modelName: "UserData")
-        sut = UserDataRepository(coreDataWrapper: mockCoreDataWrapper)
+        mockCoreDataDataSource = MockCoreDataDataSource(modelName: "UserData")
+        sut = UserDataRepository(coreDataDataSource: mockCoreDataDataSource)
     }
     
     override func tearDown() {
         sut = nil
-        mockCoreDataWrapper = nil
+        mockCoreDataDataSource = nil
         super.tearDown()
     }
     

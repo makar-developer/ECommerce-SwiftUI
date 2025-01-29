@@ -7,13 +7,13 @@ import XCTest
 
 final class WelcomeRepositoryImplTests: XCTestCase {
 
-    private var mockKeychain: MockKeychainWrapper!
+    private var mockKeychain: MockKeychainDataSource!
     private var sut: WelcomeRepositoryImpl!
 
     override func setUp() {
         super.setUp()
-        mockKeychain = MockKeychainWrapper()
-        sut = WelcomeRepositoryImpl(keychainWrapper: mockKeychain)
+        mockKeychain = MockKeychainDataSource()
+        sut = WelcomeRepositoryImpl(keychainDataSource: mockKeychain)
     }
 
     override func tearDown() {
@@ -31,7 +31,7 @@ final class WelcomeRepositoryImplTests: XCTestCase {
 
         // then
         XCTAssertTrue(users.isEmpty, "Expected to get an empty list when no data is stored")
-        XCTAssertTrue(mockKeychain.didCallLoad, "getUsers should call load() on KeychainWrapper")
+        XCTAssertTrue(mockKeychain.didCallLoad, "getUsers should call load() on KeychainDataSource")
     }
 
     func testGetUsers_WithStoredData_ReturnsDecodedUsers() async throws {
@@ -56,7 +56,7 @@ final class WelcomeRepositoryImplTests: XCTestCase {
         try await sut.saveUsers(fakeUsers)
 
         // then
-        XCTAssertTrue(mockKeychain.didCallSave, "Should call save() on KeychainWrapper")
+        XCTAssertTrue(mockKeychain.didCallSave, "Should call save() on KeychainDataSource")
         let decodedUsers = try JSONDecoder().decode([User].self, from: mockKeychain.storedData!)
         XCTAssertEqual(decodedUsers, fakeUsers, "Should encode and store the given array in Keychain")
     }

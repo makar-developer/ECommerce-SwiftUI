@@ -21,19 +21,19 @@ public protocol CartDIContainerProtocol {
 
 public final class CartDIContainerImpl: CartDIContainerProtocol {
     
-    public var coreDataWrapper: CoreDataWrapperProtocol
+    public var coreDataDataSource: CoreDataDataSourceProtocol
     
-    public init(coreDataWrapper: CoreDataWrapperProtocol) {
-        self.coreDataWrapper = coreDataWrapper
+    public init(coreDataDataSource: CoreDataDataSourceProtocol) {
+        self.coreDataDataSource = coreDataDataSource
     }
     
-//    public lazy var coreDataWrapper: CoreDataWrapperProtocol = {
-//       return CoreDataWrapper(modelName: "Cart")
+//    public lazy var coreDataDataSource: CoreDataDataSourceProtocol = {
+//       return CoreDataDataSource(modelName: "Cart")
 //    }()
     
     // MARK: - Repositories
     public lazy var cartRepository: CartRepositoryProtocol = {
-        return CartRepositoryImpl(coreDataWrapper: coreDataWrapper)
+        return CartRepositoryImpl(coreDataDataSource: coreDataDataSource)
     }()
     
     // MARK: - Use Cases

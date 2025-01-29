@@ -10,9 +10,9 @@ import CoreEntities
 import ProductDiscoverRepositoryProtocol
 import CoreDataSources
 public final class ProductDiscoverRepositoryImpl: ProductDiscoverRepositoryProtocol {
-    private let networkService: NetworkServiceWrapperProtocol
+    private let networkService: NetworkServiceDataSourceProtocol
 
-    public init(networkService: NetworkServiceWrapperProtocol) {
+    public init(networkService: NetworkServiceDataSourceProtocol) {
         self.networkService = networkService
     }
 

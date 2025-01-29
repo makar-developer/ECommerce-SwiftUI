@@ -20,16 +20,16 @@ public protocol UserDataDIContainerProtocol {
 
 public final class UserDataDIContainerImpl: UserDataDIContainerProtocol {
 
-    // Core Data Wrapper
-    public var coreDataWrapper: CoreDataWrapperProtocol
+    // Core Data DataSource
+    public var coreDataDataSource: CoreDataDataSourceProtocol
 
-    public init(coreDataWrapper: CoreDataWrapperProtocol) {
-        self.coreDataWrapper = coreDataWrapper
+    public init(coreDataDataSource: CoreDataDataSourceProtocol) {
+        self.coreDataDataSource = coreDataDataSource
     }
 
     // Repositories
     public lazy var userDataRepository: UserDataRepositoryProtocol = {
-        UserDataRepository(coreDataWrapper: coreDataWrapper)
+        UserDataRepository(coreDataDataSource: coreDataDataSource)
     }()
 
     // Use Cases

@@ -22,7 +22,7 @@ public protocol ProfileDIContainerProtocol {
     // Repositories
     var profileRepository: ProfileRepositoryProtocol { get }
     var authenticationRepository: AuthenticationRepositoryProtocol { get }
-    var authenticationKeychainWrapper: KeychainWrapperProtocol { get }
+    var authenticationKeychainDataSource: KeychainDataSourceProtocol { get }
 }
 
 
@@ -32,7 +32,7 @@ public final class ProfileDIContainerImpl: ProfileDIContainerProtocol {
     // Repositories
     
     public lazy var authenticationRepository: CoreRepositories.AuthenticationRepositoryProtocol = {
-        AuthenticationRepository(keychainWrapper: authenticationKeychainWrapper)
+        AuthenticationRepository(keychainDataSource: authenticationKeychainDataSource)
     }()
     
     public lazy var profileRepository: ProfileRepositoryProtocol = {
@@ -65,8 +65,8 @@ public final class ProfileDIContainerImpl: ProfileDIContainerProtocol {
     }()
 
     // Data Sources
-    public lazy var authenticationKeychainWrapper: CoreDataSources.KeychainWrapperProtocol = {
-        return KeychainWrapperImpl(service: "com.yourapp.auth", account: "currentUser")
+    public lazy var authenticationKeychainDataSource: CoreDataSources.KeychainDataSourceProtocol = {
+        return KeychainDataSourceImpl(service: "com.yourapp.auth", account: "currentUser")
     }()
     
     // Initialization

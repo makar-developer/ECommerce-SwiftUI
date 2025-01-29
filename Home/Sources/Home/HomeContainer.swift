@@ -25,14 +25,14 @@ public protocol HomeDIContainerProtocol {
 
 // MARK: - Dependency Injection Container Implementation
 public final class HomeDIContainerImpl: HomeDIContainerProtocol {
-    public init(coreDataWrapper: CoreDataWrapperProtocol) {
-        self.coreDataWrapper = coreDataWrapper
+    public init(coreDataDataSource: CoreDataDataSourceProtocol) {
+        self.coreDataDataSource = coreDataDataSource
     }
     
-    public var coreDataWrapper: CoreDataWrapperProtocol
+    public var coreDataDataSource: CoreDataDataSourceProtocol
     
     public lazy var productHistoryDIContainer: ProductHistoryDIContainerProtocol = {
-        return ProductHistoryDIContainerImpl(coreDataWrapper: coreDataWrapper)
+        return ProductHistoryDIContainerImpl(coreDataDataSource: coreDataDataSource)
     }()
     
 
@@ -41,7 +41,7 @@ public final class HomeDIContainerImpl: HomeDIContainerProtocol {
     }()
     
     public lazy var cartDIContainer: CartDIContainerProtocol = {
-        return CartDIContainerImpl(coreDataWrapper: coreDataWrapper)
+        return CartDIContainerImpl(coreDataDataSource: coreDataDataSource)
     }()
     
     public lazy var imageCacheContainer: ImageDIContainerProtocol = {

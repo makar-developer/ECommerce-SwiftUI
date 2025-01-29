@@ -15,8 +15,8 @@ public protocol ProductDiscoverDIContainerProtocol {
 
 public final class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol {
     //MARK: - Data Sources
-    public lazy var networkService: NetworkServiceWrapperProtocol = {
-        return NetworkServiceWrapperImpl(baseURL: URL(string: "https://dummyjson.com/products")!)
+    public lazy var networkService: NetworkServiceDataSourceProtocol = {
+        return NetworkServiceDataSourceImpl(baseURL: URL(string: "https://dummyjson.com/products")!)
     }()
     
     // MARK: - Repositories

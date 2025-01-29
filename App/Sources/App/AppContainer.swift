@@ -25,14 +25,14 @@ public final class AppDIContainerImpl: AppDIContainerProtocol {
     }()
     //MARK: - Home
     public lazy var homeDIContainer: HomeDIContainerProtocol = {
-        return HomeDIContainerImpl(coreDataWrapper: coreDataWrapper)
+        return HomeDIContainerImpl(coreDataDataSource: coreDataDataSource)
     }()
     
     public lazy var userDataDIContainer: UserDataDIContainerProtocol = {
-        return UserDataDIContainerImpl(coreDataWrapper: coreDataWrapper)
+        return UserDataDIContainerImpl(coreDataDataSource: coreDataDataSource)
     }()
     
-    public lazy var coreDataWrapper: CoreDataWrapperProtocol = {
-        return CoreDataWrapperImpl(modelName: "UserData")
+    public lazy var coreDataDataSource: CoreDataDataSourceProtocol = {
+        return CoreDataDataSourceImpl(modelName: "UserData")
     }()
 }

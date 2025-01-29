@@ -22,15 +22,15 @@ public protocol ProductHistoryDIContainerProtocol {
 
 public final class ProductHistoryDIContainerImpl: ProductHistoryDIContainerProtocol {
   
-    public var coreDataWrapper: CoreDataWrapperProtocol
+    public var coreDataDataSource: CoreDataDataSourceProtocol
     
-    public init(coreDataWrapper: CoreDataWrapperProtocol) {
-        self.coreDataWrapper = coreDataWrapper
+    public init(coreDataDataSource: CoreDataDataSourceProtocol) {
+        self.coreDataDataSource = coreDataDataSource
     }
 
     // Repositories
     public lazy var productHistoryRepository: ProductHistoryRepositoryProtocol = {
-        ProductHistoryRepository(coreDataWrapper: coreDataWrapper)
+        ProductHistoryRepository(coreDataDataSource: coreDataDataSource)
     }()
     
     // Use Cases
@@ -54,8 +54,8 @@ public final class ProductHistoryDIContainerImpl: ProductHistoryDIContainerProto
     public lazy var addProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol = {
         AddProductToHistoryUseCase(repository: productHistoryRepository)
     }()
-    // Core Data Wrapper
-//    public lazy var coreDataWrapper: CoreDataWrapperProtocol = {
-//       return CoreDataWrapper(modelName: "Cart")
+    // Core Data DataSource
+//    public lazy var coreDataDataSource: CoreDataDataSourceProtocol = {
+//       return CoreDataDataSource(modelName: "Cart")
 //    }()
 }

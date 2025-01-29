@@ -12,7 +12,7 @@ public enum KeychainError: Error {
     case unhandledError(status: OSStatus)
 }
 
-public protocol KeychainWrapperProtocol {
+public protocol KeychainDataSourceProtocol {
     /// Save data to the keychain
     /// - Parameter data: The data to save
     /// - Throws: An error if the data cannot be saved
@@ -28,7 +28,7 @@ public protocol KeychainWrapperProtocol {
     func delete() throws
 }
 
-public final class KeychainWrapperImpl: KeychainWrapperProtocol {
+public final class KeychainDataSourceImpl: KeychainDataSourceProtocol {
     
     private let service: String
     private let account: String
@@ -94,7 +94,7 @@ public final class KeychainWrapperImpl: KeychainWrapperProtocol {
     }
 }
 
-public final class MockKeychainWrapper: KeychainWrapperProtocol {
+public final class MockKeychainDataSource: KeychainDataSourceProtocol {
     
     public init() {}
     

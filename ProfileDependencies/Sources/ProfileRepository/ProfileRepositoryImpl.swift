@@ -11,16 +11,16 @@ import ProfileRepositoryProtocol
 import CoreEntities
 public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
     
-    private let keychainWrapper: KeychainWrapperProtocol
+    private let keychainDataSource: KeychainDataSourceProtocol
     private let fileStorageDataSource: FileStorageDataSourceProtocol
     private let profilePictureFileNamePrefix = "profile_picture_"
     private let usersKey = "users"
     
     public init(
-        keychainWrapper: KeychainWrapperProtocol = KeychainWrapperImpl(service: "com.yourapp.welcome", account: "users"),
+        keychainDataSource: KeychainDataSourceProtocol = KeychainDataSourceImpl(service: "com.yourapp.welcome", account: "users"),
         fileStorageDataSource: FileStorageDataSourceProtocol = FileStorageDataSourceImpl()
     ) {
-        self.keychainWrapper = keychainWrapper
+        self.keychainDataSource = keychainDataSource
         self.fileStorageDataSource = fileStorageDataSource
     }
     
@@ -124,7 +124,7 @@ public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
     // MARK: - Private Helpers
     
     private func getUsers() async throws -> [User] {
-        guard let data = try keychainWrapper.load() else {
+        guard let data = try keychainDataSource.load() else {
             return [] // No users found
         }
         let users = try JSONDecoder().decode([User].self, from: data)
@@ -133,7 +133,7 @@ public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
     
     private func saveUsers(_ users: [User]) async throws {
         let data = try JSONEncoder().encode(users)
-        try keychainWrapper.save(data: data)
+        try keychainDataSource.save(data: data)
     }
     
     private func fileNameForProfilePicture(userId: UUID) -> String {

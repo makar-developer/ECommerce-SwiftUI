@@ -16,16 +16,16 @@ import CoreDataSources
 
 public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
     
-    private let keychainWrapper: KeychainWrapperProtocol
+    private let keychainDataSource: KeychainDataSourceProtocol
     private let usersFetchedKey = "hasFetchedUsersBefore"
     
-    public init(keychainWrapper: KeychainWrapperProtocol) {
-        self.keychainWrapper = keychainWrapper
+    public init(keychainDataSource: KeychainDataSourceProtocol) {
+        self.keychainDataSource = keychainDataSource
     }
 
     public func getUsers() async throws -> [User] {
             // Subsequent fetches: retrieve users from Keychain
-            guard let data = try keychainWrapper.load() else {
+            guard let data = try keychainDataSource.load() else {
                 // Handle the case where no users are found in Keychain
                 return []
             }
@@ -39,7 +39,7 @@ public final class WelcomeRepositoryImpl: WelcomeRepositoryProtocol {
     
     public func saveUsers(_ users: [User]) async throws {
         let data = try JSONEncoder().encode(users)
-        try keychainWrapper.save(data: data)
+        try keychainDataSource.save(data: data)
     }
     
     public func saveUser(_ user: User) async throws {

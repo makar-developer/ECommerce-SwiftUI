@@ -24,27 +24,27 @@ public protocol WelcomeDIContainerProtocol {
     var welcomeRepository: WelcomeRepositoryProtocol { get }
     var authenticationRepository: AuthenticationRepositoryProtocol { get }
     // MARK: - DataSources
-    var welcomeKeychainWrapper: KeychainWrapperProtocol { get }
-    var authenticationKeychainWrapper: KeychainWrapperProtocol { get }
+    var welcomeKeychainDataSource: KeychainDataSourceProtocol { get }
+    var authenticationKeychainDataSource: KeychainDataSourceProtocol { get }
 
 }
 
 public final class WelcomeDIContainerImpl: WelcomeDIContainerProtocol {
-    public lazy var welcomeKeychainWrapper: CoreDataSources.KeychainWrapperProtocol = {
-        return KeychainWrapperImpl(service: "com.yourapp.welcome", account: "users")
+    public lazy var welcomeKeychainDataSource: CoreDataSources.KeychainDataSourceProtocol = {
+        return KeychainDataSourceImpl(service: "com.yourapp.welcome", account: "users")
     }()
     
-    public lazy var authenticationKeychainWrapper: CoreDataSources.KeychainWrapperProtocol = {
-        return KeychainWrapperImpl(service: "com.yourapp.auth", account: "currentUser")
+    public lazy var authenticationKeychainDataSource: CoreDataSources.KeychainDataSourceProtocol = {
+        return KeychainDataSourceImpl(service: "com.yourapp.auth", account: "currentUser")
     }()
     
     // MARK: - Repositories
     public lazy var welcomeRepository: WelcomeRepositoryProtocol = {
-        return WelcomeRepositoryImpl(keychainWrapper: welcomeKeychainWrapper)
+        return WelcomeRepositoryImpl(keychainDataSource: welcomeKeychainDataSource)
     }()
     
     public lazy var authenticationRepository: AuthenticationRepositoryProtocol = {
-        return AuthenticationRepository(keychainWrapper: authenticationKeychainWrapper)
+        return AuthenticationRepository(keychainDataSource: authenticationKeychainDataSource)
     }()
     // MARK: - Use Cases
     // WelcomeView

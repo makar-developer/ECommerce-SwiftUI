@@ -12,9 +12,9 @@ import CoreEntities
 import Foundation
 
 public final class ProductSearchRepository: ProductSearchRepositoryProtocol {
-    private let networkService: NetworkServiceWrapperProtocol
+    private let networkService: NetworkServiceDataSourceProtocol
 
-    public init(networkService: NetworkServiceWrapperProtocol) {
+    public init(networkService: NetworkServiceDataSourceProtocol) {
         self.networkService = networkService
     }
 

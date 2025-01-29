@@ -9,14 +9,14 @@
 import CoreData
 import Foundation
 
-public protocol CoreDataWrapperProtocol {
+public protocol CoreDataDataSourceProtocol {
     func fetch<T: NSManagedObject>(entityName: String, predicate: NSPredicate?) async throws -> [T]
     func save<T: NSManagedObject>(_ object: T) async throws
     func delete<T: NSManagedObject>(_ object: T) async throws
     var context: NSManagedObjectContext { get }
 }
 
-public final class CoreDataWrapperImpl: CoreDataWrapperProtocol {
+public final class CoreDataDataSourceImpl: CoreDataDataSourceProtocol {
     private let persistentContainer: NSPersistentContainer
     
     public init(modelName: String) {
@@ -59,9 +59,9 @@ public final class CoreDataWrapperImpl: CoreDataWrapperProtocol {
     }
 }
 
-/// A generic, in-memory mock for CoreDataWrapperProtocol.
+/// A generic, in-memory mock for CoreDataDataSourceProtocol.
 /// It does not persist anything to disk; everything is stored only in memory.
-public final class MockCoreDataWrapper: CoreDataWrapperProtocol {
+public final class MockCoreDataDataSource: CoreDataDataSourceProtocol {
     
     // We store objects keyed by entity name:
     private var inMemoryStore: [String: [NSManagedObject]] = [:]
@@ -73,7 +73,7 @@ public final class MockCoreDataWrapper: CoreDataWrapperProtocol {
     public init(modelName: String) {
         guard let modelURL = Bundle.module.url(forResource: modelName, withExtension: "momd"),
               let model = NSManagedObjectModel(contentsOf: modelURL) else {
-            fatalError("Could not load model for MockCoreDataWrapper.")
+            fatalError("Could not load model for MockCoreDataDataSource.")
         }
         persistentContainer = NSPersistentContainer(name: modelName, managedObjectModel: model)
         
@@ -132,7 +132,7 @@ public final class MockCoreDataWrapper: CoreDataWrapperProtocol {
         
         existingArray.removeAll(where: { $0 == object })
         inMemoryStore[entityName] = existingArray
-        print("[MockCoreDataWrapper.delete] Removed object from \(entityName). Now the store has \(existingArray.count) objects.")
+        print("[MockCoreDataDataSource.delete] Removed object from \(entityName). Now the store has \(existingArray.count) objects.")
 
     }
 }

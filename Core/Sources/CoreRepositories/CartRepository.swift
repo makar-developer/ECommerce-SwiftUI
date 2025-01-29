@@ -21,24 +21,24 @@ public protocol CartRepositoryProtocol {
 
 public final class CartRepositoryImpl: CartRepositoryProtocol {
     
-    private let coreDataWrapper: CoreDataWrapperProtocol
+    private let coreDataDataSource: CoreDataDataSourceProtocol
 
-    public init(coreDataWrapper: CoreDataWrapperProtocol) {
-        self.coreDataWrapper = coreDataWrapper
+    public init(coreDataDataSource: CoreDataDataSourceProtocol) {
+        self.coreDataDataSource = coreDataDataSource
     }
 
     public func getCart(for user: User) async throws -> Cart {
         let predicate = NSPredicate(format: "userData.id == %@", user.id as CVarArg)
-        let fetchedCarts: [CartEntity] = try await coreDataWrapper.fetch(entityName: "CartEntity", predicate: predicate)
+        let fetchedCarts: [CartEntity] = try await coreDataDataSource.fetch(entityName: "CartEntity", predicate: predicate)
 
         guard let cartEntity = fetchedCarts.first else {
             // If no cart exists, create a new one
             let newCart = Cart(products: [], id: UUID(), userId: user.id)
-            let newCartEntity = newCart.toCoreData(context: coreDataWrapper.context)
+            let newCartEntity = newCart.toCoreData(context: coreDataDataSource.context)
             // Link to user
             let userDataEntity = try await fetchOrCreateUserDataEntity(for: user)
             newCartEntity.userData = userDataEntity
-            try await coreDataWrapper.save(newCartEntity)
+            try await coreDataDataSource.save(newCartEntity)
             return newCartEntity.toDomain()
         }
         return cartEntity.toDomain()
@@ -55,13 +55,13 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
         if let existingCartItem = existingItems.first(where: { $0.product?.id == productEntity.id }) {
             // Update quantity
             existingCartItem.quantity += Int16(item.quantity)
-            try await coreDataWrapper.save(existingCartItem)
+            try await coreDataDataSource.save(existingCartItem)
         } else {
             // Create new cart item
-            let cartItemEntity = item.toCoreData(context: coreDataWrapper.context)
+            let cartItemEntity = item.toCoreData(context: coreDataDataSource.context)
             cartItemEntity.product = productEntity
             cartItemEntity.cart = cartEntity
-            try await coreDataWrapper.save(cartItemEntity)
+            try await coreDataDataSource.save(cartItemEntity)
         }
     }
 
@@ -70,7 +70,7 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
         let existingItems = cartEntity.products?.allObjects as? [CartItemEntity] ?? []
         if let cartItemEntity = existingItems.first(where: { $0.id == item.id }) {
             cartItemEntity.quantity = Int16(item.quantity)
-            try await coreDataWrapper.save(cartItemEntity)
+            try await coreDataDataSource.save(cartItemEntity)
         }
     }
 
@@ -79,7 +79,7 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
         let existingItems = cartEntity.products?.allObjects as? [CartItemEntity] ?? []
         if let cartItemEntity = existingItems.first(where: { $0.id == item.id }) {
             print("[removeItem] Found CartItemEntity with id=\(cartItemEntity.id?.uuidString ?? "nil"), deleting now...")
-            try await coreDataWrapper.delete(cartItemEntity)
+            try await coreDataDataSource.delete(cartItemEntity)
             print("[removeItem] Successfully called delete() on item with id=\(item.id)")
         }
     }
@@ -88,40 +88,40 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
 
     private func fetchOrCreateCartEntity(for user: User) async throws -> CartEntity {
         let predicate = NSPredicate(format: "userData.id == %@", user.id as CVarArg)
-        let fetchedCarts: [CartEntity] = try await coreDataWrapper.fetch(entityName: "CartEntity", predicate: predicate)
+        let fetchedCarts: [CartEntity] = try await coreDataDataSource.fetch(entityName: "CartEntity", predicate: predicate)
 
         if let existingCart = fetchedCarts.first {
             return existingCart
         } else {
             let newCart = Cart(products: [], id: UUID(), userId: user.id)
-            let newCartEntity = newCart.toCoreData(context: coreDataWrapper.context)
+            let newCartEntity = newCart.toCoreData(context: coreDataDataSource.context)
             let userDataEntity = try await fetchOrCreateUserDataEntity(for: user)
             newCartEntity.userData = userDataEntity
-            try await coreDataWrapper.save(newCartEntity)
+            try await coreDataDataSource.save(newCartEntity)
             return newCartEntity
         }
     }
 
     private func fetchOrCreateProductEntity(from product: Product) async throws -> ProductEntity {
         let predicate = NSPredicate(format: "id == %d", product.id)
-        let fetched: [ProductEntity] = try await coreDataWrapper.fetch(entityName: "ProductEntity", predicate: predicate)
+        let fetched: [ProductEntity] = try await coreDataDataSource.fetch(entityName: "ProductEntity", predicate: predicate)
         if let existingEntity = fetched.first {
             return existingEntity
         } else {
-            let entity = product.toCoreData(context: coreDataWrapper.context)
-            try await coreDataWrapper.save(entity)
+            let entity = product.toCoreData(context: coreDataDataSource.context)
+            try await coreDataDataSource.save(entity)
             return entity
         }
     }
     
     private func fetchOrCreateUserDataEntity(for user: User) async throws -> UserDataEntity {
         let predicate = NSPredicate(format: "id == %@", user.id as CVarArg)
-        let fetched: [UserDataEntity] = try await coreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
+        let fetched: [UserDataEntity] = try await coreDataDataSource.fetch(entityName: "UserDataEntity", predicate: predicate)
         if let userDataEntity = fetched.first {
             return userDataEntity
         } else {
-            let entity = user.toCoreData(context: coreDataWrapper.context)
-            try await coreDataWrapper.save(entity)
+            let entity = user.toCoreData(context: coreDataDataSource.context)
+            try await coreDataDataSource.save(entity)
             return entity
         }
     }

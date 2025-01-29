@@ -14,19 +14,19 @@ import XCTest
 final class CartRepositoryTests: XCTestCase {
     
     private var sut: CartRepositoryImpl!            // The real object under test
-    private var mockCoreDataWrapper: MockCoreDataWrapper!  // Our mock data source
+    private var mockCoreDataDataSource: MockCoreDataDataSource!  // Our mock data source
     
     override func setUp() {
         super.setUp()
         // Initialize the mock with the model name that corresponds to your .xcdatamodeld file,
         // e.g. "UserData" or "MyModel"—whatever the actual name is.
-        mockCoreDataWrapper = MockCoreDataWrapper(modelName: "UserData")
-        sut = CartRepositoryImpl(coreDataWrapper: mockCoreDataWrapper)
+        mockCoreDataDataSource = MockCoreDataDataSource(modelName: "UserData")
+        sut = CartRepositoryImpl(coreDataDataSource: mockCoreDataDataSource)
     }
     
     override func tearDown() {
         sut = nil
-        mockCoreDataWrapper = nil
+        mockCoreDataDataSource = nil
         super.tearDown()
     }
     
@@ -129,24 +129,24 @@ final class CartRepositoryTests: XCTestCase {
     /// Optionally: a small helper to manually create a CartEntity in memory, which can be used to simulate a pre-existing cart for a user.
     private func createCartEntityInMemory(for user: User) async throws -> CartEntity {
         let cart = Cart(products: [], userId: user.id)
-        let cartEntity = cart.toCoreData(context: mockCoreDataWrapper.context)
+        let cartEntity = cart.toCoreData(context: mockCoreDataDataSource.context)
         // Link the cart entity to the existing or newly created userData
         let userData = try await fetchOrCreateUserData(for: user)
         cartEntity.userData = userData
         
-        try await mockCoreDataWrapper.save(cartEntity)
+        try await mockCoreDataDataSource.save(cartEntity)
         return cartEntity
     }
     
     /// Manually replicate what the repository does to get or create a UserDataEntity
     private func fetchOrCreateUserData(for user: User) async throws -> UserDataEntity {
         let predicate = NSPredicate(format: "id == %@", user.id as CVarArg)
-        let fetched: [UserDataEntity] = try await mockCoreDataWrapper.fetch(entityName: "UserDataEntity", predicate: predicate)
+        let fetched: [UserDataEntity] = try await mockCoreDataDataSource.fetch(entityName: "UserDataEntity", predicate: predicate)
         if let existing = fetched.first {
             return existing
         } else {
-            let entity = user.toCoreData(context: mockCoreDataWrapper.context)
-            try await mockCoreDataWrapper.save(entity)
+            let entity = user.toCoreData(context: mockCoreDataDataSource.context)
+            try await mockCoreDataDataSource.save(entity)
             return entity
         }
     }

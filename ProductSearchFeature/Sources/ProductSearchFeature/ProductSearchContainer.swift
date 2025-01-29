@@ -24,8 +24,8 @@ public protocol ProductSearchDIContainerProtocol {
     var recentSearchesRepository: RecentSearchesRepositoryProtocol { get }
     
     // MARK: - Utilities
-    var networkService: NetworkServiceWrapperProtocol { get }
-    var userDefaultsWrapper: UserDefaultsWrapperProtocol { get }
+    var networkService: NetworkServiceDataSourceProtocol { get }
+    var userDefaultsDataSource: UserDefaultsDataSourceProtocol { get }
 }
 
 // MARK: - DI Container Implementation
@@ -34,13 +34,13 @@ public final class ProductSearchDIContainerImpl: ProductSearchDIContainerProtoco
     // MARK: - Utilities
     
     /// Network Service for API calls
-    public lazy var networkService: NetworkServiceWrapperProtocol = {
-        return NetworkServiceWrapperImpl(baseURL: URL(string: "https://dummyjson.com")!)
+    public lazy var networkService: NetworkServiceDataSourceProtocol = {
+        return NetworkServiceDataSourceImpl(baseURL: URL(string: "https://dummyjson.com")!)
     }()
 
-    /// UserDefaults Wrapper for storing recent search queries
-    public lazy var userDefaultsWrapper: UserDefaultsWrapperProtocol = {
-        return UserDefaultsWrapper()
+    /// UserDefaults DataSource for storing recent search queries
+    public lazy var userDefaultsDataSource: UserDefaultsDataSourceProtocol = {
+        return UserDefaultsDataSource()
     }()
     
     // MARK: - Repositories
@@ -52,7 +52,7 @@ public final class ProductSearchDIContainerImpl: ProductSearchDIContainerProtoco
     
     /// Repository handling recent search queries
     public lazy var recentSearchesRepository: RecentSearchesRepositoryProtocol = {
-        return RecentSearchesRepository(userDefaultsWrapper: userDefaultsWrapper)
+        return RecentSearchesRepository(userDefaultsDataSource: userDefaultsDataSource)
     }()
 
     

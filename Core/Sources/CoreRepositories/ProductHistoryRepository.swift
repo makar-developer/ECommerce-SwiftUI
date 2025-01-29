@@ -18,14 +18,14 @@ public protocol ProductHistoryRepositoryProtocol {
 }
 
 public final class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
-    private let coreDataWrapper: CoreDataWrapperProtocol
+    private let coreDataDataSource: CoreDataDataSourceProtocol
 
-    public init(coreDataWrapper: CoreDataWrapperProtocol) {
-        self.coreDataWrapper = coreDataWrapper
+    public init(coreDataDataSource: CoreDataDataSourceProtocol) {
+        self.coreDataDataSource = coreDataDataSource
     }
 
     public func getAllHistory(for userId: UUID) async throws -> [ProductHistory] {
-        let context = coreDataWrapper.context
+        let context = coreDataDataSource.context
         return try await context.perform {
             let fetchRequest: NSFetchRequest<ProductHistoryEntity> = ProductHistoryEntity.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "userData.id == %@", userId as CVarArg)
@@ -36,7 +36,7 @@ public final class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
     }
 
     public func addProductToHistory(_ product: Product, for userId: UUID) async throws {
-        let context = coreDataWrapper.context
+        let context = coreDataDataSource.context
         try await context.perform {
             // 1. Fetch or create the product entity
             let productEntity = try self.fetchOrCreateProductEntity(product, in: context)
@@ -60,7 +60,7 @@ public final class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
     }
 
     public func removeProductHistory(_ product: Product, for userId: UUID) async throws {
-        let context = coreDataWrapper.context
+        let context = coreDataDataSource.context
         try await context.perform {
             let fetchRequest: NSFetchRequest<ProductHistoryEntity> = ProductHistoryEntity.fetchRequest()
             let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
@@ -77,7 +77,7 @@ public final class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
     }
 
     public func removeAllHistory(for userId: UUID) async throws {
-        let context = coreDataWrapper.context
+        let context = coreDataDataSource.context
         try await context.perform {
             let fetchRequest: NSFetchRequest<ProductHistoryEntity> = ProductHistoryEntity.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "userData.id == %@", userId as CVarArg)
@@ -90,7 +90,7 @@ public final class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
     }
 
     public func removeHistory(olderThan date: Date, for userId: UUID) async throws {
-        let context = coreDataWrapper.context
+        let context = coreDataDataSource.context
         try await context.perform {
             let fetchRequest: NSFetchRequest<ProductHistoryEntity> = ProductHistoryEntity.fetchRequest()
             fetchRequest.predicate = NSPredicate(
