@@ -25,12 +25,13 @@ public final class UserDataRepository: UserDataRepositoryProtocol {
 
     public func createUserData(_ user: User) async throws {
         let context = coreDataDataSource.context
-        let predicate = NSPredicate(format: "id == %@", user.id as CVarArg)
-        let existing: [UserDataEntity] = try await coreDataDataSource.fetch(entityName: "UserDataEntity", predicate: predicate)
+        let request: NSFetchRequest<UserDataEntity> = UserDataEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", user.id as CVarArg)
+        let existing: [UserDataEntity] = try await coreDataDataSource.fetch(request)
         
         if existing.isEmpty {
-            let entity = user.toCoreData(context: context)
-            try await coreDataDataSource.save(entity)
+            _ = user.toCoreData(context: context)
+            try await coreDataDataSource.save()
         } else {
             throw NSError(
                 domain: "UserDataRepository",
@@ -41,8 +42,9 @@ public final class UserDataRepository: UserDataRepositoryProtocol {
     }
 
     public func deleteUserData(byId id: UUID) async throws {
-        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        let fetched: [UserDataEntity] = try await coreDataDataSource.fetch(entityName: "UserDataEntity", predicate: predicate)
+        let request: NSFetchRequest<UserDataEntity> = UserDataEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        let fetched: [UserDataEntity] = try await coreDataDataSource.fetch(request)
 
         if let userDataEntity = fetched.first {
             try await coreDataDataSource.delete(userDataEntity)
@@ -56,11 +58,13 @@ public final class UserDataRepository: UserDataRepositoryProtocol {
     }
 
     public func fetchUserData(byId id: UUID) async throws -> UUID? {
-        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
-        let fetched: [UserDataEntity] = try await coreDataDataSource.fetch(entityName: "UserDataEntity", predicate: predicate)
+        let request: NSFetchRequest<UserDataEntity> = UserDataEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        let fetched: [UserDataEntity] = try await coreDataDataSource.fetch(request)
         return fetched.first?.id
     }
 }
+
 
 public final class MockUserDataRepository: UserDataRepositoryProtocol {
     

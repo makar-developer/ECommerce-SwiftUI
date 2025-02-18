@@ -20,7 +20,7 @@ public protocol CartRepositoryProtocol {
 // MARK: - CartRepositoryImpl
 
 public final class CartRepositoryImpl: CartRepositoryProtocol {
-    
+
     private let coreDataDataSource: CoreDataDataSourceProtocol
 
     public init(coreDataDataSource: CoreDataDataSourceProtocol) {
@@ -28,8 +28,9 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
     }
 
     public func getCart(for user: User) async throws -> Cart {
-        let predicate = NSPredicate(format: "userData.id == %@", user.id as CVarArg)
-        let fetchedCarts: [CartEntity] = try await coreDataDataSource.fetch(entityName: "CartEntity", predicate: predicate)
+        let request: NSFetchRequest<CartEntity> = CartEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "userData.id == %@", user.id as CVarArg)
+        let fetchedCarts: [CartEntity] = try await coreDataDataSource.fetch(request)
 
         guard let cartEntity = fetchedCarts.first else {
             // If no cart exists, create a new one
@@ -38,7 +39,7 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
             // Link to user
             let userDataEntity = try await fetchOrCreateUserDataEntity(for: user)
             newCartEntity.userData = userDataEntity
-            try await coreDataDataSource.save(newCartEntity)
+            try await coreDataDataSource.save()
             return newCartEntity.toDomain()
         }
         return cartEntity.toDomain()
@@ -55,13 +56,13 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
         if let existingCartItem = existingItems.first(where: { $0.product?.id == productEntity.id }) {
             // Update quantity
             existingCartItem.quantity += Int16(item.quantity)
-            try await coreDataDataSource.save(existingCartItem)
+            try await coreDataDataSource.save()
         } else {
             // Create new cart item
             let cartItemEntity = item.toCoreData(context: coreDataDataSource.context)
             cartItemEntity.product = productEntity
             cartItemEntity.cart = cartEntity
-            try await coreDataDataSource.save(cartItemEntity)
+            try await coreDataDataSource.save()
         }
     }
 
@@ -70,7 +71,7 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
         let existingItems = cartEntity.products?.allObjects as? [CartItemEntity] ?? []
         if let cartItemEntity = existingItems.first(where: { $0.id == item.id }) {
             cartItemEntity.quantity = Int16(item.quantity)
-            try await coreDataDataSource.save(cartItemEntity)
+            try await coreDataDataSource.save()
         }
     }
 
@@ -85,8 +86,9 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
     // MARK: - Private Helpers
 
     private func fetchOrCreateCartEntity(for user: User) async throws -> CartEntity {
-        let predicate = NSPredicate(format: "userData.id == %@", user.id as CVarArg)
-        let fetchedCarts: [CartEntity] = try await coreDataDataSource.fetch(entityName: "CartEntity", predicate: predicate)
+        let request: NSFetchRequest<CartEntity> = CartEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "userData.id == %@", user.id as CVarArg)
+        let fetchedCarts: [CartEntity] = try await coreDataDataSource.fetch(request)
 
         if let existingCart = fetchedCarts.first {
             return existingCart
@@ -95,36 +97,37 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
             let newCartEntity = newCart.toCoreData(context: coreDataDataSource.context)
             let userDataEntity = try await fetchOrCreateUserDataEntity(for: user)
             newCartEntity.userData = userDataEntity
-            try await coreDataDataSource.save(newCartEntity)
+            try await coreDataDataSource.save()
             return newCartEntity
         }
     }
 
     private func fetchOrCreateProductEntity(from product: Product) async throws -> ProductEntity {
-        let predicate = NSPredicate(format: "id == %d", product.id)
-        let fetched: [ProductEntity] = try await coreDataDataSource.fetch(entityName: "ProductEntity", predicate: predicate)
+        let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %d", product.id)
+        let fetched: [ProductEntity] = try await coreDataDataSource.fetch(request)
         if let existingEntity = fetched.first {
             return existingEntity
         } else {
             let entity = product.toCoreData(context: coreDataDataSource.context)
-            try await coreDataDataSource.save(entity)
+            try await coreDataDataSource.save()
             return entity
         }
     }
     
     private func fetchOrCreateUserDataEntity(for user: User) async throws -> UserDataEntity {
-        let predicate = NSPredicate(format: "id == %@", user.id as CVarArg)
-        let fetched: [UserDataEntity] = try await coreDataDataSource.fetch(entityName: "UserDataEntity", predicate: predicate)
+        let request: NSFetchRequest<UserDataEntity> = UserDataEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", user.id as CVarArg)
+        let fetched: [UserDataEntity] = try await coreDataDataSource.fetch(request)
         if let userDataEntity = fetched.first {
             return userDataEntity
         } else {
             let entity = user.toCoreData(context: coreDataDataSource.context)
-            try await coreDataDataSource.save(entity)
+            try await coreDataDataSource.save()
             return entity
         }
     }
 }
-
 
 public final class MockCartRepository: CartRepositoryProtocol {
     
