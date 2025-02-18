@@ -25,7 +25,7 @@ public final class GetImageUseCase: GetImageUseCaseProtocol {
     }
 }
 
-final class MockGetImageUseCase: GetImageUseCaseProtocol {
+public final class MockGetImageUseCase: GetImageUseCaseProtocol {
     
     // Track calls:
     private(set) var executeCallCount = 0
@@ -35,9 +35,9 @@ final class MockGetImageUseCase: GetImageUseCaseProtocol {
     var imageToReturn: UIImage?
     var errorToThrow: Error?
     
-    init() {}
+    public init() {}
 
-    func execute(url: URL) async throws -> UIImage {
+    public func execute(url: URL) async throws -> UIImage {
         executeCallCount += 1
         requestedURLs.append(url)
         

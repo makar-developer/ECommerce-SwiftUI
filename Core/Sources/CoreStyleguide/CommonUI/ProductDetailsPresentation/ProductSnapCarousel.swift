@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
-
+import CoreUseCases
 public struct ProductSnapCarousel: View {
+    let getImageUseCase: GetImageUseCaseProtocol
     let images: [String]
     @Binding var currentIndex: Int
 
@@ -41,21 +42,26 @@ public struct ProductSnapCarousel: View {
                     // Carousel content
                     HStack(spacing: spacing) {
                         ForEach(images.indices, id: \.self) { index in
-                            AsyncImage(url: URL(string: images[index])) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                            } placeholder: {
-                                ZStack {
-                                    ProgressView()
-                                    Color.gray.opacity(0.3)
-                                }
+                            if let url = URL(string: images[index]) {
+                                CustomAsyncImage(
+                                    url: url,
+                                    getImageUseCase: getImageUseCase,
+                                    placeholder: {
+                                        ProgressView()
+                                            .progressViewStyle(CircularProgressViewStyle(tint: .accentPrimary))
+                                    },
+                                    image: { image in
+                                        image
+                                            .resizable()
+                                    }
+                                )
+                                .scaledToFit()
+                                .frame(width: cardWidth, height: geometry.size.height * 0.8)
+                                .clipped()
+                                .cornerRadius(30)
+                                .shadow(radius: 5)
+                                .offset(y: index == 0 ? firstViewOffset : 0)
                             }
-                            .frame(width: cardWidth, height: geometry.size.height * 0.8)
-                            .clipped()
-                            .cornerRadius(30)
-                            .shadow(radius: 5)
-                            .offset(y: index == 0 ? firstViewOffset : 0)
                         }
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height * 0.8, alignment: .leading)

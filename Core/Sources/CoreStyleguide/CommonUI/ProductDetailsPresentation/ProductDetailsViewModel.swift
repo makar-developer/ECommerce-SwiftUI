@@ -14,14 +14,18 @@ public final class ProductDetailsViewModel: ObservableObject {
     @Published private(set) var product: Product
     @Published var currentImageIndex: Int = 0
     let onNavigation: () -> Void
+    
     private let addProductToCartUseCase: AddProductToCartUseCaseProtocol
     private let addProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol
     
-    public init(user: User, product: Product, addProductToCartUseCase: AddProductToCartUseCaseProtocol, addProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol, onNavigation: @escaping () -> Void) {
+    let getImageUseCase: GetImageUseCaseProtocol
+    
+    public init(user: User, product: Product, addProductToCartUseCase: AddProductToCartUseCaseProtocol, addProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol, getImageUseCase: GetImageUseCaseProtocol, onNavigation: @escaping () -> Void) {
         self.user = user
         self.product = product
         self.addProductToCartUseCase = addProductToCartUseCase
         self.addProductToHistoryUseCase = addProductToHistoryUseCase
+        self.getImageUseCase = getImageUseCase
         self.onNavigation = onNavigation
     }
     

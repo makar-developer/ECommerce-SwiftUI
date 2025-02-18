@@ -33,7 +33,7 @@ final class ProductCartCoordinator: ObservableObject {
     func build(screen: ProductCartScreen) -> some View {
         switch screen {
         case .productCart:
-            ProductCartView(viewModel: ProductCartViewModel(user: user, getAllProductsUseCase: container.getAllProductsUseCase, addProductToCartUseCase: container.addProductToCartUseCase, removeProductFromCartUseCase: container.removeProductFromCartUseCase, removeAllProductsFromCartUseCase: container.removeAllProductsFromCartUseCase, removeEntireItemUseCase: container.removeEntireItemFromCartUseCase))
+            ProductCartView(viewModel: ProductCartViewModel(user: user, getImageUseCase: container.getImageUseCase, getAllProductsUseCase: container.getAllProductsUseCase, addProductToCartUseCase: container.addProductToCartUseCase, removeProductFromCartUseCase: container.removeProductFromCartUseCase, removeAllProductsFromCartUseCase: container.removeAllProductsFromCartUseCase, removeEntireItemUseCase: container.removeEntireItemFromCartUseCase))
         }
     }
 }

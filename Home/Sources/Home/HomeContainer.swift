@@ -18,7 +18,6 @@ public protocol HomeDIContainerProtocol {
     var cartDIContainer: CartDIContainerProtocol { get }
     var imageCacheContainer: ImageDIContainerProtocol { get }
     var productSearchDIContainer: ProductSearchDIContainerProtocol { get }
-//    var productCartDIContainer: ProductCartDIContainerProtocol { get }
     var profileDIContainer: ProfileDIContainerProtocol { get }
     var productHistoryDIContainer: ProductHistoryDIContainerProtocol { get }
 }
@@ -41,7 +40,7 @@ public final class HomeDIContainerImpl: HomeDIContainerProtocol {
     }()
     
     public lazy var cartDIContainer: CartDIContainerProtocol = {
-        return CartDIContainerImpl(coreDataDataSource: coreDataDataSource)
+        return CartDIContainerImpl(coreDataDataSource: coreDataDataSource, imageCacheDataSource: imageCacheContainer.diskImageCache, getImageCacheUseCase: imageCacheContainer.getImageUseCase)
     }()
     
     public lazy var imageCacheContainer: ImageDIContainerProtocol = {
@@ -49,7 +48,7 @@ public final class HomeDIContainerImpl: HomeDIContainerProtocol {
     }()
 
     public lazy var productSearchDIContainer: ProductSearchDIContainerProtocol = {
-        return ProductSearchDIContainerImpl()
+        return ProductSearchDIContainerImpl(imageCacheDataSource: imageCacheContainer.diskImageCache, getImageUseCase: imageCacheContainer.getImageUseCase)
     }()
     
     public lazy var profileDIContainer: ProfileDIContainerProtocol = {

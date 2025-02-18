@@ -13,6 +13,7 @@ public struct ProductDetailsView: View {
         VStack(alignment: .leading, spacing: 0) {
             // ProductSnapCarousel for product images
             ProductSnapCarousel(
+                getImageUseCase: viewModel.getImageUseCase,
                 images: viewModel.product.images,
                 currentIndex: $viewModel.currentImageIndex
             )
@@ -117,12 +118,13 @@ struct ProductDetailsView_Previews: PreviewProvider {
 
         let mockAddToCartUseCase = MockAddProductToCartUseCase()
         let mockAddToHistoryUseCase = MockAddProductToHistoryUseCase()
+        let mockGetImageUseCase = MockGetImageUseCase()
 
         let viewModel = ProductDetailsViewModel(
             user: mockUser,
             product: mockProduct,
             addProductToCartUseCase: mockAddToCartUseCase,
-            addProductToHistoryUseCase: mockAddToHistoryUseCase
+            addProductToHistoryUseCase: mockAddToHistoryUseCase, getImageUseCase: mockGetImageUseCase
         ) {
 
             print("Navigating back...")

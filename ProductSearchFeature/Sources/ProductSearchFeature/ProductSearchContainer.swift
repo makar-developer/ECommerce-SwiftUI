@@ -18,20 +18,30 @@ public protocol ProductSearchDIContainerProtocol {
     var getAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUseCaseProtocol { get }
     var getAllExistingCategoriesUseCase: GetAllExistingCategoriesUseCaseProtocol { get }
     var getAllProductsFromCategoryUseCase: GetAllProductsFromCategoryUseCaseProtocol { get }
+    var getImageUseCase: GetImageUseCaseProtocol { get }
     
     // MARK: - Repositories
     var productSearchRepository: ProductSearchRepositoryProtocol { get }
     var recentSearchesRepository: RecentSearchesRepositoryProtocol { get }
     
-    // MARK: - Utilities
+    // MARK: - DataSources
     var networkService: NetworkServiceDataSourceProtocol { get }
     var userDefaultsDataSource: UserDefaultsDataSourceProtocol { get }
+    var imageCacheDataSource: ImageCacheDataSourceProtocol { get }
 }
 
 // MARK: - DI Container Implementation
 
 public final class ProductSearchDIContainerImpl: ProductSearchDIContainerProtocol {
-    // MARK: - Utilities
+    
+    public var getImageUseCase: any CoreUseCases.GetImageUseCaseProtocol
+    public var imageCacheDataSource: any CoreDataSources.ImageCacheDataSourceProtocol
+    
+    public init(imageCacheDataSource: ImageCacheDataSourceProtocol, getImageUseCase: GetImageUseCaseProtocol) {
+        self.imageCacheDataSource = imageCacheDataSource
+        self.getImageUseCase = getImageUseCase
+    }
+    // MARK: - DataSources
     
     /// Network Service for API calls
     public lazy var networkService: NetworkServiceDataSourceProtocol = {
@@ -95,8 +105,5 @@ public final class ProductSearchDIContainerImpl: ProductSearchDIContainerProtoco
     
     public lazy var getAllProductsFromCategoryUseCase: GetAllProductsFromCategoryUseCaseProtocol = {
         return GetAllProductsFromCategoryUseCase(repository: productSearchRepository)
-    }()
-    // MARK: - Initialization
-    
-    public init() {}
+    }()    
 }

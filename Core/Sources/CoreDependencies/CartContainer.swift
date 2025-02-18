@@ -15,16 +15,25 @@ public protocol CartDIContainerProtocol {
     var getAllProductsUseCase: GetAllProductsUseCaseProtocol { get }
     var removeProductFromCartUseCase: RemoveProductFromCartUseCaseProtocol { get }
     var removeEntireItemFromCartUseCase: RemoveEntireItemFromCartUseCaseProtocol { get }
+    
+    var getImageUseCase: GetImageUseCaseProtocol { get }
     // MARK: - Repositories
     var cartRepository: CartRepositoryProtocol { get }
+    // MARK: - DataSources
+    var imageCacheDataSource: ImageCacheDataSourceProtocol { get }
 }
 
 public final class CartDIContainerImpl: CartDIContainerProtocol {
     
+    public var getImageUseCase: GetImageUseCaseProtocol
+
     public var coreDataDataSource: CoreDataDataSourceProtocol
+    public var imageCacheDataSource: ImageCacheDataSourceProtocol
     
-    public init(coreDataDataSource: CoreDataDataSourceProtocol) {
+    public init(coreDataDataSource: CoreDataDataSourceProtocol, imageCacheDataSource: ImageCacheDataSourceProtocol, getImageCacheUseCase: GetImageUseCaseProtocol) {
+        self.getImageUseCase = getImageCacheUseCase
         self.coreDataDataSource = coreDataDataSource
+        self.imageCacheDataSource = imageCacheDataSource
     }
     
     // MARK: - Repositories

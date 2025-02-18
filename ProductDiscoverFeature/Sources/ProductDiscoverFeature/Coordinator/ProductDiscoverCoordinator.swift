@@ -53,7 +53,7 @@ final class ProductDiscoverCoordinator: ObservableObject {
                 self.showProductDetails(product: product, user: self.user)
             }))
         case .productDetails(let product, let user):
-            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase, addProductToHistoryUseCase: productHistoryContainer.addProductToHistoryUseCase, onNavigation: { [weak self] in
+            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase, addProductToHistoryUseCase: productHistoryContainer.addProductToHistoryUseCase, getImageUseCase: imageCacheContainer.getImageUseCase, onNavigation: { [weak self] in
                 guard let self else { return }
                 self.showProductDiscover()
             }))

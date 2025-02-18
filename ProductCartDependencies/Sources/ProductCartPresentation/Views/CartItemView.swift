@@ -8,7 +8,10 @@
 import SwiftUI
 import CoreEntities
 import CoreStyleguide
+import CoreUseCases
+
 public struct CartItemView: View {
+    let getImageUseCase: GetImageUseCaseProtocol
     let cartItem: CartItem
     let onIncrement: () -> Void
     let onDecrement: () -> Void
@@ -17,15 +20,22 @@ public struct CartItemView: View {
     public var body: some View {
         HStack {
             // Product Image
-            AsyncImage(url: URL(string: cartItem.product.thumbnail)) { image in
-                image.resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 80, height: 80)
-                    .cornerRadius(10)
-            } placeholder: {
-                ProgressView()
+            if let url = URL(string: cartItem.product.thumbnail) {
+                CustomAsyncImage(
+                    url: url,
+                    getImageUseCase: getImageUseCase,
+                    placeholder: {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .accentPrimary))
+                    },
+                    image: { image in
+                        image
+                            .resizable()
+                    }
+                 )
+                .frame(width: 80, height: 80)
             }
-            .frame(width: 80, height: 80)
+            
             
             VStack(alignment: .leading) {
                 // Product Title and Context Menu

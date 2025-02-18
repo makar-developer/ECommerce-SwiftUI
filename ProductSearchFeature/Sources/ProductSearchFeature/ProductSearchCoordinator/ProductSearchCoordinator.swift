@@ -62,7 +62,7 @@ final class ProductSearchCoordinator: ObservableObject {
     func build(screen: ProductSearchScreen) -> some View {
         switch screen {
         case .productDetails(let product, let user):
-            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase, addProductToHistoryUseCase: productHistoryContainer.addProductToHistoryUseCase, onNavigation: { [weak self] in
+            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase, addProductToHistoryUseCase: productHistoryContainer.addProductToHistoryUseCase, getImageUseCase: container.getImageUseCase, onNavigation: { [weak self] in
                 guard let self else { return }
                 self.showCategoryDetails()
             }))

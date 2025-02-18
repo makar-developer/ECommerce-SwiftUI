@@ -14,13 +14,13 @@ import UIKit
 
 final class ImageRepositoryTests: XCTestCase {
     
-    private var mockCache: MockDiskImageCacheDataSource!
+    private var mockCache: MockImageCacheDataSource!
     private var mockSession: URLSession!
     private var sut: ImageRepository!
     
     override func setUp() {
         super.setUp()
-        mockCache = MockDiskImageCacheDataSource()
+        mockCache = MockImageCacheDataSource()
         mockSession = .shared
         
         sut = ImageRepository(cache: mockCache, session: mockSession)

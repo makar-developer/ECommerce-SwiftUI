@@ -24,6 +24,7 @@ public struct ProductCartView: View {
                 LazyVStack(spacing: 10) {
                     ForEach(viewModel.cartItems) { cartItem in
                         CartItemView(
+                            getImageUseCase: viewModel.getImageUseCase,
                             cartItem: cartItem,
                             onIncrement: { viewModel.incrementQuantity(for: cartItem) },
                             onDecrement: { viewModel.decrementQuantity(for: cartItem) },

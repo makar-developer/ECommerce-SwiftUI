@@ -18,6 +18,7 @@ public final class ProductCartViewModel: ObservableObject {
     
     // Dependencies
     private let user: User
+    let getImageUseCase: GetImageUseCaseProtocol
     private let getAllProductsUseCase: GetAllProductsUseCaseProtocol
     private let addProductToCartUseCase: AddProductToCartUseCaseProtocol
     private let removeProductFromCartUseCase: RemoveProductFromCartUseCaseProtocol
@@ -30,6 +31,7 @@ public final class ProductCartViewModel: ObservableObject {
     // Initializer
     public init(
         user: User,
+        getImageUseCase: GetImageUseCaseProtocol,
         getAllProductsUseCase: GetAllProductsUseCaseProtocol,
         addProductToCartUseCase: AddProductToCartUseCaseProtocol,
         removeProductFromCartUseCase: RemoveProductFromCartUseCaseProtocol,
@@ -37,6 +39,7 @@ public final class ProductCartViewModel: ObservableObject {
         removeEntireItemUseCase: RemoveEntireItemFromCartUseCaseProtocol
     ) {
         self.user = user
+        self.getImageUseCase = getImageUseCase
         self.getAllProductsUseCase = getAllProductsUseCase
         self.addProductToCartUseCase = addProductToCartUseCase
         self.removeProductFromCartUseCase = removeProductFromCartUseCase

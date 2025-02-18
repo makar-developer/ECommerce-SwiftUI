@@ -12,11 +12,11 @@ public protocol ImageRepositoryProtocol {
 }
 
 public final class ImageRepository: ImageRepositoryProtocol {
-    private let cache: DiskImageCacheDataSourceProtocol
+    private let cache: ImageCacheDataSourceProtocol
     private let session: URLSession
     private let maxRetries = 3
 
-    public init(cache: DiskImageCacheDataSourceProtocol, session: URLSession = .shared) {
+    public init(cache: ImageCacheDataSourceProtocol, session: URLSession = .shared) {
         self.cache = cache
         self.session = session
     }

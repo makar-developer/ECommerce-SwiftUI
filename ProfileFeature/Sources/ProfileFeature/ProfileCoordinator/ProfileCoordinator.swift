@@ -93,7 +93,7 @@ final class ProfileCoordinator: ObservableObject {
                 }
             }))
         case .productDetails(let product):
-            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase, addProductToHistoryUseCase: productHistoryContainer.addProductToHistoryUseCase, onNavigation: {
+            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase, addProductToHistoryUseCase: productHistoryContainer.addProductToHistoryUseCase, getImageUseCase: imageContainer.getImageUseCase, onNavigation: {
                 self.pop()
             }))
         }
