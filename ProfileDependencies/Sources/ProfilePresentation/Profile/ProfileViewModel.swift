@@ -81,7 +81,7 @@ public final class ProfileViewModel: ObservableObject {
     }
     
     private func updateCanSaveChanges() {
-        canSaveChanges = isUserNameValid && isLoginValid
+        canSaveChanges = (userName != user.name.rawValue || login != user.login.rawValue) && isUserNameValid && isLoginValid
     }
     
     func loadProfilePicture() {
@@ -109,20 +109,46 @@ public final class ProfileViewModel: ObservableObject {
         }
     }
     
+//    func saveChanges() {
+//        guard canSaveChanges else { return }
+//        isLoading = true
+//        Task {
+//            do {
+//                try await updateUserNameUseCase.execute(newName: userName, for: user.id)
+//                try await updateLoginUseCase.execute(newLogin: login, for: user.id)
+//                self.isLoading = false
+//            } catch {
+//                self.errorMessage = error.localizedDescription
+//                self.isLoading = false
+//            }
+//        }
+//    }
+    
     func saveChanges() {
         guard canSaveChanges else { return }
         isLoading = true
         Task {
             do {
-                try await updateUserNameUseCase.execute(newName: userName, for: user.id)
-                try await updateLoginUseCase.execute(newLogin: login, for: user.id)
-                self.isLoading = false
+                if userName != user.name.rawValue {
+                    try await updateUserNameUseCase.execute(newName: userName, for: user.id)
+                    guard let userName = UserName(rawValue: userName) else { return }
+                    user = User(name: userName, login: user.login, password: user.password, profilePicture: user.profilePicture, id: user.id)
+                }
+                if login != user.login.rawValue {
+                    try await updateLoginUseCase.execute(newLogin: login, for: user.id)
+                    guard let login = Login(rawValue: login) else { return }
+                    user = User(name: user.name, login: login, password: user.password, profilePicture: user.profilePicture, id: user.id)
+                }
+                
+                isLoading = false
+                updateCanSaveChanges() // Re-evaluate canSaveChanges
             } catch {
                 self.errorMessage = error.localizedDescription
-                self.isLoading = false
+                isLoading = false
             }
         }
     }
+
     
     func changePassword() {
         onNavigation(.changePassword(user))

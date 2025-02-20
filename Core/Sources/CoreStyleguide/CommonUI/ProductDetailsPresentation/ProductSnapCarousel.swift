@@ -24,7 +24,7 @@ public struct ProductSnapCarousel: View {
         screenWidth * 0.8
     }
 
-    private let swipeThreshold: CGFloat = 150  // Adjust based on testing
+    private let swipeThreshold: CGFloat = 100  // Adjust based on testing
 
     public var body: some View {
         GeometryReader { geometry in

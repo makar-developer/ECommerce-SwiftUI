@@ -79,13 +79,6 @@ public final class ProductDiscoverViewModel: ObservableObject {
         }
     }
     
-    func resetRecommendedProducts() {
-        
-        currentPage = 0
-        isLastPage = false
-        recommendedState = .loading
-    }
-    
     func showProductDetails(product: Product) {
         onNavigation(product)
     }
