@@ -84,6 +84,7 @@
 # Getting started
 ## Requirements
 - XCode 16
+- iOS 16
 - Fastlane(optional)
 ## Run locally
 ```
