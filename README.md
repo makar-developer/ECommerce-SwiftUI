@@ -55,7 +55,7 @@
  - CI with **GitHub Actions** and  [**Fastlane**](https://github.com/fastlane/fastlane)
  - **Unit testing** with XCTest
  - **Localized** in French & English
- - Entities design according to[ Type-Driven Design (by Alex Ozun)](https://swiftology.io/collections/type-driven-design/)
+ - Entities design according to[ Type-Driven Design (by Alex Ozun)]( https://swiftology.io/collections/type-driven-design/)
  - SwiftUI **live previews**
  - **Animations**
  - Pagination logic
@@ -84,6 +84,7 @@
 # Getting started
 ## Requirements
 - XCode 16
+- iOS 16
 - Fastlane(optional)
 ## Run locally
 ```
