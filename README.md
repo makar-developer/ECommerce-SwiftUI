@@ -64,17 +64,19 @@
 # Architecture Overview
 ### Here are some graphs which **briefly** overview the app architecture/system design. 
 ### Coordinators.
-![coordinator_graph](https://github.com/user-attachments/assets/52cceddc-df36-4f73-ba83-ade205a533e1)
+![coordinator_graph](https://github.com/user-attachments/assets/99ae12d5-c108-4fb8-b6b3-b3c9e1854858)
 🟦 - App-level, here navigations/transitions between individual Features happen.
 
 🟩 - Feature-level, here navigations/transitions between individual Screen happen.
 
 ### Dependency Injection
 
-![di_container_graph](https://github.com/user-attachments/assets/3fc70b43-5183-4fe9-bddd-759af5a8974e)
+![di_container_graph](https://github.com/user-attachments/assets/c247d129-a889-4533-a2ae-3d486ce12396)
+
 
 ### How typical data flow/chain looks like?
-![data_flow_graph](https://github.com/user-attachments/assets/8a9600ea-152a-4e6d-bf6c-8a567bfa8fc1)
+![data_flow_graph](https://github.com/user-attachments/assets/b4fdbe42-60bb-4564-8323-0217f91b94de)
+
 - 🟦 - Presentation | 🟩 - Domain | 🟨 - Data
 - Anyone can depend on Entities, since all inter-layer conversions(to-Data/to-Domain) are done in Repositories in current implementation, and idea/concept of DTOs is not used here for simplicity.
 - If some data flow objects are used by multiple features across the app - they are simply moved to Core module, where their structure and responsibilities stay the same.
