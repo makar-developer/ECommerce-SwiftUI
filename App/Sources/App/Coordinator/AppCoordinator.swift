@@ -33,7 +33,8 @@ public final class AppCoordinator: ObservableObject {
     
     func getSignedInUser() async -> User? {
         do {
-            return try await container.welcomeDIContainer.getSignedInUserUseCase.execute()
+            let welcomeDIContainer = container.makeWelcomeDIContainer()
+            return try await welcomeDIContainer.getSignedInUserUseCase.execute()
         } catch {
             print("Error accessing User in Keychain")
             return nil
@@ -56,19 +57,22 @@ public final class AppCoordinator: ObservableObject {
     func build(feature: Feature) -> some View {
         switch feature {
         case .welcome(let id):
-            WelcomeCoordinatorView(
+            let welcomeDIContainer = container.makeWelcomeDIContainer()
+            let userDataDIContainer = container.makeUserDataDIContainer()
+            return WelcomeCoordinatorView(
                 coordinator: WelcomeCoordinator(
-                    container: container.welcomeDIContainer,
-                    userDataContainer: container.userDataDIContainer,
+                    container: welcomeDIContainer,
+                    userDataContainer: userDataDIContainer,
                     onNavigation: { [weak self] user in
                         self?.presentMain(user)
                     }
-                    
-                )).id(id)
+                )
+            ).id(id)
         case .main(let user, let id):
-            HomeCoordinatorTabView(
+            let homeDIContainer = container.makeHomeDIContainer()
+            return HomeCoordinatorTabView(
                 user: user,
-                container: container.homeDIContainer,
+                container: homeDIContainer,
                 onLogout: { [weak self] in
                     self?.presentWelcome()
                 }

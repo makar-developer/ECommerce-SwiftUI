@@ -12,27 +12,27 @@ import CoreDependencies
 
 /// App-level DI container - provides Feature-level DI containers. Feature-level DI Containers provide necessary Layer dependencies (e.g. UseCases, Repositories) within boundaries of some specific Feature.
 public protocol AppDIContainerProtocol {
-    var welcomeDIContainer: WelcomeDIContainerProtocol { get }
-    var homeDIContainer: HomeDIContainerProtocol { get }
-    var userDataDIContainer: UserDataDIContainerProtocol { get }
+    func makeWelcomeDIContainer() -> WelcomeDIContainerProtocol
+    func makeHomeDIContainer() -> HomeDIContainerProtocol
+    func makeUserDataDIContainer() -> UserDataDIContainerProtocol
 }
 
 public final class AppDIContainerImpl: AppDIContainerProtocol {
     public init() {}
-    //MARK: - Welcome
-    public lazy var welcomeDIContainer: WelcomeDIContainerProtocol = {
+
+    public func makeWelcomeDIContainer() -> WelcomeDIContainerProtocol {
         return WelcomeDIContainerImpl()
-    }()
-    //MARK: - Home
-    public lazy var homeDIContainer: HomeDIContainerProtocol = {
+    }
+
+    public func makeHomeDIContainer() -> HomeDIContainerProtocol {
         return HomeDIContainerImpl(coreDataDataSource: coreDataDataSource)
-    }()
-    
-    public lazy var userDataDIContainer: UserDataDIContainerProtocol = {
+    }
+
+    public func makeUserDataDIContainer() -> UserDataDIContainerProtocol {
         return UserDataDIContainerImpl(coreDataDataSource: coreDataDataSource)
-    }()
-    
-    public lazy var coreDataDataSource: CoreDataDataSourceProtocol = {
+    }
+
+    private lazy var coreDataDataSource: CoreDataDataSourceProtocol = {
         return CoreDataDataSourceImpl(modelName: "UserData")
     }()
 }
