@@ -17,22 +17,22 @@ public protocol AppDIContainerProtocol {
     func makeUserDataDIContainer() -> UserDataDIContainerProtocol
 }
 
-public final class AppDIContainerImpl: AppDIContainerProtocol {
+public struct AppDIContainerImpl: AppDIContainerProtocol {
     public init() {}
 
     public func makeWelcomeDIContainer() -> WelcomeDIContainerProtocol {
         return WelcomeDIContainerImpl()
     }
-
+    
     public func makeHomeDIContainer() -> HomeDIContainerProtocol {
         return HomeDIContainerImpl(coreDataDataSource: coreDataDataSource)
     }
-
+    
     public func makeUserDataDIContainer() -> UserDataDIContainerProtocol {
         return UserDataDIContainerImpl(coreDataDataSource: coreDataDataSource)
     }
-
-    private lazy var coreDataDataSource: CoreDataDataSourceProtocol = {
+    
+    public var coreDataDataSource: CoreDataDataSourceProtocol {
         return CoreDataDataSourceImpl(modelName: "UserData")
-    }()
+    }
 }
