@@ -13,7 +13,6 @@ import XCTest
 @testable import CoreUseCases
 @testable import CoreTestHelpers
 
-
 @MainActor
 final class AuthenticationViewModelTests: XCTestCase {
     private var mockCreateUserUseCase: MockCreateUserUseCase!

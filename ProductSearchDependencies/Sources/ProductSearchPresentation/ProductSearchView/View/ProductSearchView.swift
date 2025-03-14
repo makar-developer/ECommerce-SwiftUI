@@ -13,7 +13,6 @@ import ProductSearchEntities
 import Core
 import CoreStyleguide
 
-
 // MARK: - ProductSearchView
 
 public struct ProductSearchView: View {

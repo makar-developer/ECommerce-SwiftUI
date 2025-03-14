@@ -72,7 +72,5 @@ public final class WelcomeDIContainerImpl: WelcomeDIContainerProtocol {
         return CreateUserUseCase(welcomeRepository: welcomeRepository)
     }()
     
-    
-    
     public init() {}
 }

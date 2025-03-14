@@ -22,7 +22,6 @@ public struct AnimatedPageIndicatorView: View {
     let dotRadius: Double
     let dotSpacing: Double
     let currentProgress: Double
-    
 
     public var body: some View {
             ZStack {

@@ -5,7 +5,6 @@
 //  Created by Admin on 16/12/2024.
 //
 
-
 import SwiftUI
 import Combine
 import ProfileDomain
@@ -148,7 +147,6 @@ public final class ProfileViewModel: ObservableObject {
             }
         }
     }
-
     
     func changePassword() {
         onNavigation(.changePassword(user))

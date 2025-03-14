@@ -77,4 +77,3 @@ public final class WelcomeCoordinator: ObservableObject {
         }
     }
 }
-

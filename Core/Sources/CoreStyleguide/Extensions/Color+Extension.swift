@@ -52,5 +52,3 @@ public extension Color {
     // White - Dark
     static let textBackground       = Color("textBackground", bundle: .module)       // Could be used to create e.g. capsule on text's background for contrast
 }
-
-

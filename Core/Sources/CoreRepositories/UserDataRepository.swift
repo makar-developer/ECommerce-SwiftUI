@@ -65,7 +65,6 @@ public final class UserDataRepository: UserDataRepositoryProtocol {
     }
 }
 
-
 public final class MockUserDataRepository: UserDataRepositoryProtocol {
     
     // Track the number of calls for each method
@@ -89,7 +88,6 @@ public final class MockUserDataRepository: UserDataRepositoryProtocol {
     public func createUserData(_ user: User) async throws {
         createUserDataCallCount += 1
         capturedUserForCreate = user
-        
 
         if let error = createUserDataErrorToThrow {
             throw error
@@ -99,7 +97,6 @@ public final class MockUserDataRepository: UserDataRepositoryProtocol {
     public func deleteUserData(byId id: UUID) async throws {
         deleteUserDataCallCount += 1
         capturedUserIdForDelete = id
-        
 
         if let error = deleteUserDataErrorToThrow {
             throw error
@@ -109,7 +106,6 @@ public final class MockUserDataRepository: UserDataRepositoryProtocol {
     public func fetchUserData(byId id: UUID) async throws -> UUID? {
         fetchUserDataCallCount += 1
         capturedUserIdForFetch = id
-        
 
         if let error = fetchUserDataErrorToThrow {
             throw error

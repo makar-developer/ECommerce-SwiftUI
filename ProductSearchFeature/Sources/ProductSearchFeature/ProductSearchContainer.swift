@@ -1,4 +1,3 @@
-
 import CoreUseCases
 import CoreRepositories
 import CoreDataSources
@@ -64,7 +63,6 @@ public final class ProductSearchDIContainerImpl: ProductSearchDIContainerProtoco
     public lazy var recentSearchesRepository: RecentSearchesRepositoryProtocol = {
         return RecentSearchesRepository(userDefaultsDataSource: userDefaultsDataSource)
     }()
-
     
     // MARK: - Use Cases
     

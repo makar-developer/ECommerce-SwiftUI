@@ -12,7 +12,6 @@ enum Feature: Identifiable, Hashable {
     case welcome
     case main(User)
     
-    
     var id: String {
         switch self {
         case .welcome:

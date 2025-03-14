@@ -23,7 +23,7 @@ let package = Package(
             targets: ["ProductSearchRepositoryProtocol"]),
         .library(
             name: "ProductSearchRepository",
-            targets: ["ProductSearchRepository"]),
+            targets: ["ProductSearchRepository"])
     ],
     dependencies: [
         .package(name: "Core", path: "../Core")
@@ -59,7 +59,6 @@ let package = Package(
                 "ProductSearchRepositoryProtocol",
                 .product(name: "CoreEntities", package: "Core"),
                 .product(name: "CoreDataSources", package: "Core")
-            ]),
+            ])
     ]
 )
-

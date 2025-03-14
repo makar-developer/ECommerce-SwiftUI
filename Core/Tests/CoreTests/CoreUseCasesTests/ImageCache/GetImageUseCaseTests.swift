@@ -28,43 +28,43 @@ final class GetImageUseCaseTests: XCTestCase {
     }
     
     func testExecute_SuccessfulFetch_ReturnsImage() async throws {
-        //given
+        // given
         let testImage = UIImage.getOneOfThis()
         mockRepository.imageToReturn = testImage
         
         let testURL = URL.getOneOfThis()
         
-        //when
+        // when
         let resultImage = try await sut.execute(url: testURL)
         
-        //then
+        // then
         XCTAssertEqual(resultImage, testImage, "Expected the image returned by the mock repository to match the test image.")
     }
     
     func testExecute_Failure_ThrowsError() async {
-        //given
+        // given
         // Simulate a network or decoding error
         mockRepository.errorToThrow = URLError(.timedOut)
         let testURL = URL.getOneOfThis()
         
-        //when
+        // when
         do {
             _ = try await sut.execute(url: testURL)
             XCTFail("Expected an error to be thrown, but got success.")
         } catch {
-            //then
+            // then
             XCTAssertTrue(error is URLError, "Should throw URLError as injected by the mock repository.")
         }
     }
     
     func testExecute_NoExplicitConfig_ReturnsPlaceholder() async throws {
-        //given
+        // given
         let testURL = URL.getOneOfThis()
         
-        //when
+        // when
         let resultImage = try await sut.execute(url: testURL)
         
-        //then
+        // then
         XCTAssertNotNil(resultImage, "Should return some non-nil UIImage placeholder by default.")
         XCTAssertNil(mockRepository.errorToThrow, "No error was configured, so none should be thrown.")
     }

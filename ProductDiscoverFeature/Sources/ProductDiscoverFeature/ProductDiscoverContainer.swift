@@ -1,4 +1,3 @@
-
 import SwiftUI
 import ProductDiscoverRepositoryProtocol
 import ProductDiscoverDomain
@@ -14,7 +13,7 @@ public protocol ProductDiscoverDIContainerProtocol {
 }
 
 public final class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol {
-    //MARK: - Data Sources
+    // MARK: - Data Sources
     public lazy var networkService: NetworkServiceDataSourceProtocol = {
         return NetworkServiceDataSourceImpl(baseURL: URL(string: "https://dummyjson.com/products")!)
     }()
@@ -36,17 +35,17 @@ public final class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerPro
     public init() {}
 }
 
-//public protocol ProductDiscoverDIContainerProtocol {
+// public protocol ProductDiscoverDIContainerProtocol {
 //    // MARK: - Use Cases
 ////    var getAllUsersUseCase: GetAllUsersUseCaseProtocol { get }
 ////    var deleteUserUseCase: LogoutUserUseCaseProtocol { get }
 ////    var createUserUseCase: CreateUserUseCaseProtocol { get }
 //    // MARK: - Repositories
 ////    var ProductDiscoverReposiqory: ProductDiscoverRepositoryProtocol { get }
-//}
+// }
 //
 //
-//public final class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol {
+// public final class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol {
 //    // MARK: - Repositories
 ////    public lazy var ProductDiscoverRepository: ProductDiscoverRepositoryProtocol = {
 ////        return ProductDiscoverRepositoryImpl()
@@ -66,5 +65,5 @@ public final class ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerPro
 ////        return CreateUserUseCase(ProductDiscoverRepository: ProductDiscoverRepository)
 ////    }()
 //    public init() {}
-//}
+// }
 //

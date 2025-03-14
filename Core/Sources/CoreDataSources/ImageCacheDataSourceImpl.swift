@@ -41,7 +41,6 @@ public final class ImageCacheDataSourceImpl: ImageCacheDataSourceProtocol {
     }
 }
 
-
 final class MockImageCacheDataSource: ImageCacheDataSourceProtocol {
     private var storedImages: [URL: UIImage] = [:]
     
@@ -55,4 +54,3 @@ final class MockImageCacheDataSource: ImageCacheDataSourceProtocol {
         storedImages[url] = image
     }
 }
-

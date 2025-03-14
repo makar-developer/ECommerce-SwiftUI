@@ -20,5 +20,3 @@ public struct User: Identifiable, Hashable, Codable {
     public let password: Password
     public let profilePicture: String?
 }
-
-

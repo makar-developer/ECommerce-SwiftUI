@@ -9,7 +9,6 @@ import SwiftUI
 import ProductDiscoverFeature
 import CoreDependencies
 import ProductSearchFeature
-//import ProductCartFeature
 import ProfileFeature
 import CoreDataSources
 // MARK: - HomeDIContainerProtocol
@@ -33,7 +32,6 @@ public final class HomeDIContainerImpl: HomeDIContainerProtocol {
     public lazy var productHistoryDIContainer: ProductHistoryDIContainerProtocol = {
         return ProductHistoryDIContainerImpl(coreDataDataSource: coreDataDataSource)
     }()
-    
 
     public lazy var productDiscoverDIContainer: ProductDiscoverDIContainerProtocol = {
         return ProductDiscoverDIContainerImpl()
@@ -55,4 +53,3 @@ public final class HomeDIContainerImpl: HomeDIContainerProtocol {
         return ProfileDIContainerImpl()
     }()
 }
-

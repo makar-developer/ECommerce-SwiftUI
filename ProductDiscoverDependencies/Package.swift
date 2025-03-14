@@ -20,7 +20,7 @@ let package = Package(
             targets: ["ProductDiscoverRepositoryProtocol"]),
         .library(
             name: "ProductDiscoverRepository",
-            targets: ["ProductDiscoverRepository"]),
+            targets: ["ProductDiscoverRepository"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -54,6 +54,6 @@ let package = Package(
                 "ProductDiscoverRepositoryProtocol",
                 .product(name: "CoreEntities", package: "Core"),
                 .product(name: "CoreRepositories", package: "Core")
-            ]),
+            ])
     ]
 )

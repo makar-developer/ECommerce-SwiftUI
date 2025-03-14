@@ -23,5 +23,3 @@ public final class RemoveProductFromHistoryUseCase: RemoveProductFromHistoryUseC
         try await repository.removeProductHistory(product, for: userId)
     }
 }
-
-

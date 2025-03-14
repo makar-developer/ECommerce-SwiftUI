@@ -63,7 +63,6 @@ public struct WelcomeView: View {
     }
 }
 
-
 import CoreTestHelpers
 import WelcomeDomain
 import CoreUseCases

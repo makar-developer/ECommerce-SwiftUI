@@ -25,9 +25,7 @@ public protocol ProfileDIContainerProtocol {
     var authenticationKeychainDataSource: KeychainDataSourceProtocol { get }
 }
 
-
 public final class ProfileDIContainerImpl: ProfileDIContainerProtocol {
-    
     
     // Repositories
     

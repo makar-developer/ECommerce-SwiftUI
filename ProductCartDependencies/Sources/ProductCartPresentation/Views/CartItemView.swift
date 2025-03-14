@@ -36,7 +36,6 @@ public struct CartItemView: View {
                 .frame(width: 80, height: 80)
             }
             
-            
             VStack(alignment: .leading) {
                 // Product Title and Context Menu
                 HStack {

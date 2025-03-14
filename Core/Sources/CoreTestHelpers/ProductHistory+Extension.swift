@@ -9,7 +9,6 @@ import CoreEntities
 import Foundation
 
 public extension ProductHistory {
-    
 
     private static let timestamps: [Date] = [
         Date(timeIntervalSince1970: 1672531200), // 2023-01-01 00:00:00 UTC
