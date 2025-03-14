@@ -185,4 +185,3 @@ final class WelcomeViewModelTests: XCTestCase {
         XCTAssertTrue(Set(sut.assignedImages.values).isSubset(of: sut.userCardBackgroundImages))
     }
 }
-

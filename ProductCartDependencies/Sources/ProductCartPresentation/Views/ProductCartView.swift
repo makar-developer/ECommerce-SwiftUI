@@ -5,7 +5,6 @@
 //  Created by Admin on 05/12/2024.
 //
 
-
 import SwiftUI
 import CoreEntities
 import CoreStyleguide

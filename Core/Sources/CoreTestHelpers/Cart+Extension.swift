@@ -15,5 +15,3 @@ extension Cart {
         return Cart(products: [cartItem], userId: UUID())
     }
 }
-
-

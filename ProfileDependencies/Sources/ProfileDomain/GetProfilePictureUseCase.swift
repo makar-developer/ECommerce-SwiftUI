@@ -12,7 +12,6 @@ public protocol GetProfilePictureUseCaseProtocol {
     func execute(for userId: UUID) async throws -> Data?
 }
 
-
 public final class GetProfilePictureUseCase: GetProfilePictureUseCaseProtocol {
     private let repository: ProfileRepositoryProtocol
 

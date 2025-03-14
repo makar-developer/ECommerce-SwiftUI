@@ -10,7 +10,7 @@ let package = Package(
     products: [
         .library(
             name: "WelcomeFeature",
-            targets: ["WelcomeFeature"]),
+            targets: ["WelcomeFeature"])
     ],
     dependencies: [
         .package(path: "../Core"),
@@ -29,6 +29,6 @@ let package = Package(
             ]),
         .testTarget(
             name: "WelcomeFeatureTests",
-            dependencies: ["WelcomeFeature"]),
+            dependencies: ["WelcomeFeature"])
     ]
 )

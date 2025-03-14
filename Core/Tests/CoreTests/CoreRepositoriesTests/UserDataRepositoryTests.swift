@@ -96,5 +96,3 @@ final class UserDataRepositoryTests: XCTestCase {
         XCTAssertNil(fetchedID, "Expected nil if user does not exist.")
     }
 }
-
-

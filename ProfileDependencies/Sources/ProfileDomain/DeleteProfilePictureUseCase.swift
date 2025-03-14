@@ -11,7 +11,6 @@ public protocol DeleteProfilePictureUseCaseProtocol {
     func execute(for userId: UUID) async throws
 }
 
-
 public final class DeleteProfilePictureUseCase: DeleteProfilePictureUseCaseProtocol {
     private let repository: ProfileRepositoryProtocol
 

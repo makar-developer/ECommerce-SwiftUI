@@ -5,7 +5,6 @@
 //  Created by Admin on 16/12/2024.
 //
 
-
 import SwiftUI
 
 public struct ProfileView: View {
@@ -161,4 +160,3 @@ struct CustomTextFieldStyle: TextFieldStyle {
             )
     }
 }
-

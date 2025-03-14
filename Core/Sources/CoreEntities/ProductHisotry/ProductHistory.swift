@@ -18,4 +18,3 @@ public struct ProductHistory: Identifiable, Hashable, Codable {
         self.timestamp = timestamp
     }
 }
-

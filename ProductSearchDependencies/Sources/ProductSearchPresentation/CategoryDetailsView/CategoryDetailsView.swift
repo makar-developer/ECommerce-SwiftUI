@@ -10,7 +10,6 @@ import SwiftUI
 
 // MARK: - CategoryDetailsView
 
-import SwiftUI
 public struct CategoryDetailsView: View {
     @StateObject private var viewModel: CategoryDetailsViewModel
 

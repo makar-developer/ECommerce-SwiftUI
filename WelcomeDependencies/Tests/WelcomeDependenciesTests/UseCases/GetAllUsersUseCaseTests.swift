@@ -42,4 +42,3 @@ final class GetAllUsersUseCaseTests: XCTestCase {
         XCTAssertEqual(result, users, "Should return the same users that are stored in the mockRepository")
     }
 }
-

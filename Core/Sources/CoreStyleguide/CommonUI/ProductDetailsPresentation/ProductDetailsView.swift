@@ -130,7 +130,6 @@ struct ProductDetailsView_Previews: PreviewProvider {
             print("Navigating back...")
         }
 
-
         return NavigationView {
             ProductDetailsView(viewModel: viewModel)
         }

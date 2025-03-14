@@ -1,4 +1,3 @@
-
 import ProductSearchRepositoryProtocol
 
 public protocol GetCategoryThumbnailsUseCaseProtocol {

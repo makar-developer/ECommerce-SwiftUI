@@ -7,7 +7,6 @@
 
 import Foundation
 import CoreRepositories
-import Foundation
 public protocol FetchUserDataUseCaseProtocol {
     func execute(userId: UUID) async throws -> UUID?
 }

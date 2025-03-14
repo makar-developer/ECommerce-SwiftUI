@@ -16,5 +16,3 @@ enum ProductCartScreen: Identifiable, Hashable {
         }
     }
 }
-
-

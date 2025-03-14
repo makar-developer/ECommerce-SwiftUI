@@ -9,7 +9,6 @@ import Foundation
 import CoreEntities
 import ProductSearchEntities
 
-
 enum ProductSearchScreen: Identifiable, Hashable {
     case productSearch
     case categoryDetails(CategoryResponse, User)

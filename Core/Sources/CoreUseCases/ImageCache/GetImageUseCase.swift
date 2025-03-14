@@ -8,7 +8,7 @@
 import CoreRepositories
 import UIKit
 
-///Get cached image, or else - load.
+/// Get cached image, or else - load.
 public protocol GetImageUseCaseProtocol {
     func execute(url: URL) async throws -> UIImage
 }

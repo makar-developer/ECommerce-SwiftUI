@@ -9,7 +9,6 @@ import Foundation
 import CoreEntities
 import CoreData
 
-
 public extension ProductHistoryEntity {
     func toDomain() -> ProductHistory? {
         guard

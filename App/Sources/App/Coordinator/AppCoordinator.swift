@@ -24,7 +24,7 @@ public final class AppCoordinator: ObservableObject {
     }
     
     func presentWelcome() {
-        presentFeature(.welcome())
+        presentFeature(.welcome)
     }
     
     func dismissFeature() {
@@ -33,7 +33,7 @@ public final class AppCoordinator: ObservableObject {
     
     func getSignedInUser() async -> User? {
         do {
-            return try await container.welcomeDIContainer.makeGetSignedInUserUseCase().execute()
+            return try await container.makeWelcomeDIContainer().makeGetSignedInUserUseCase().execute()
         } catch {
             print("Error accessing User in Keychain")
             return nil
@@ -53,26 +53,27 @@ public final class AppCoordinator: ObservableObject {
     }
 
     @ViewBuilder
-    func build(feature: Feature) -> some View {
-        switch feature {
-        case .welcome(let id):
-            WelcomeCoordinatorView(
-                coordinator: WelcomeCoordinator(
-                    container: container.welcomeDIContainer,
-                    userDataContainer: container.userDataDIContainer,
-                    onNavigation: { [weak self] user in
-                        self?.presentMain(user)
+        func build(feature: Feature) -> some View {
+            switch feature {
+            case .welcome:
+                WelcomeCoordinatorView(
+                    coordinator: WelcomeCoordinator(
+                        container: container.makeWelcomeDIContainer(),
+                        userDataContainer: container.makeUserDataDIContainer(),
+                        onNavigation: { [weak self] user in
+                            self?.presentMain(user)
+                        }
+                    )
+                )
+                
+            case .main(let user):
+                HomeCoordinatorTabView(
+                    user: user,
+                    container: container.makeHomeDIContainer(),
+                    onLogout: { [weak self] in
+                        self?.presentWelcome()
                     }
-                    
-                )).id(id)
-        case .main(let user, let id):
-            HomeCoordinatorTabView(
-                user: user,
-                container: container.homeDIContainer,
-                onLogout: { [weak self] in
-                    self?.presentWelcome()
-                }
-            ).id(id)
+                )
+            }
         }
-    }
 }

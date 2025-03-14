@@ -21,4 +21,3 @@ public final class GetProductHistoryUseCase: GetProductHistoryUseCaseProtocol {
         try await repository.getAllHistory(for: userId)
     }
 }
-
