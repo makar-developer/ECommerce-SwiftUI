@@ -23,7 +23,7 @@ public struct AnimatedPageIndicatorView: View {
     let dotSpacing: Double
     let currentProgress: Double
     
-    
+
     public var body: some View {
             ZStack {
                 GeometryReader { proxy in
