@@ -10,55 +10,47 @@ import CoreDataSources
 import CoreUseCases
 public protocol CartDIContainerProtocol {
     // MARK: - Use Cases
-    var addProductToCartUseCase: AddProductToCartUseCaseProtocol { get }
-    var removeAllProductsFromCartUseCase: RemoveAllProductsFromCartUseCaseProtocol { get }
-    var getAllProductsUseCase: GetAllProductsUseCaseProtocol { get }
-    var removeProductFromCartUseCase: RemoveProductFromCartUseCaseProtocol { get }
-    var removeEntireItemFromCartUseCase: RemoveEntireItemFromCartUseCaseProtocol { get }
-    
+    func makeAddProductToCartUseCase() -> AddProductToCartUseCaseProtocol
+    func makeRemoveAllProductsFromCartUseCase() -> RemoveAllProductsFromCartUseCaseProtocol
+    func makeGetAllProductsUseCase() -> GetAllProductsUseCaseProtocol
+    func makeRemoveProductFromCartUseCase() -> RemoveProductFromCartUseCaseProtocol
+    func makeRemoveEntireItemFromCartUseCase() -> RemoveEntireItemFromCartUseCaseProtocol
     var getImageUseCase: GetImageUseCaseProtocol { get }
-    // MARK: - Repositories
-    var cartRepository: CartRepositoryProtocol { get }
-    // MARK: - DataSources
-    var imageCacheDataSource: ImageCacheDataSourceProtocol { get }
 }
 
-public final class CartDIContainerImpl: CartDIContainerProtocol {
+public struct CartDIContainerImpl: CartDIContainerProtocol {
     
-    public var getImageUseCase: GetImageUseCaseProtocol
-
-    public var coreDataDataSource: CoreDataDataSourceProtocol
-    public var imageCacheDataSource: ImageCacheDataSourceProtocol
+    public let getImageUseCase: GetImageUseCaseProtocol
+    private let coreDataDataSource: CoreDataDataSourceProtocol
     
-    public init(coreDataDataSource: CoreDataDataSourceProtocol, imageCacheDataSource: ImageCacheDataSourceProtocol, getImageCacheUseCase: GetImageUseCaseProtocol) {
+    public init(coreDataDataSource: CoreDataDataSourceProtocol, getImageCacheUseCase: GetImageUseCaseProtocol) {
         self.getImageUseCase = getImageCacheUseCase
         self.coreDataDataSource = coreDataDataSource
-        self.imageCacheDataSource = imageCacheDataSource
+        
+        self.cartRepository = CartRepositoryImpl(coreDataDataSource: coreDataDataSource)
     }
     
     // MARK: - Repositories
-    public lazy var cartRepository: CartRepositoryProtocol = {
-        return CartRepositoryImpl(coreDataDataSource: coreDataDataSource)
-    }()
+    private var cartRepository: any CoreRepositories.CartRepositoryProtocol
     
     // MARK: - Use Cases
-    public lazy var addProductToCartUseCase: AddProductToCartUseCaseProtocol = {
+    public func makeAddProductToCartUseCase() -> AddProductToCartUseCaseProtocol {
         return AddProductToCartUseCase(cartRepository: cartRepository)
-    }()
+    }
     
-    public lazy var removeAllProductsFromCartUseCase: RemoveAllProductsFromCartUseCaseProtocol = {
+    public func makeRemoveAllProductsFromCartUseCase() -> RemoveAllProductsFromCartUseCaseProtocol {
         return RemoveAllProductsFromCartUseCase(cartRepository: cartRepository)
-    }()
+    }
     
-    public lazy var getAllProductsUseCase: GetAllProductsUseCaseProtocol = {
+    public func makeGetAllProductsUseCase() -> GetAllProductsUseCaseProtocol {
         return GetAllProductsUseCase(cartRepository: cartRepository)
-    }()
+    }
     
-    public lazy var removeProductFromCartUseCase: RemoveProductFromCartUseCaseProtocol = {
+    public func makeRemoveProductFromCartUseCase() -> RemoveProductFromCartUseCaseProtocol {
         return RemoveProductFromCartUseCase(cartRepository: cartRepository)
-    }()
+    }
     
-    public lazy var removeEntireItemFromCartUseCase: RemoveEntireItemFromCartUseCaseProtocol = {
+    public func makeRemoveEntireItemFromCartUseCase() -> RemoveEntireItemFromCartUseCaseProtocol {
         return RemoveEntireItemFromCartUseCase(cartRepository: cartRepository)
-    }()
+    }
 }

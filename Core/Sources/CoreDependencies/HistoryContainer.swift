@@ -11,47 +11,40 @@ import CoreRepositories
 import CoreDataSources
 public protocol ProductHistoryDIContainerProtocol {
     // Use Cases
-    var getProductHistoryUseCase: GetProductHistoryUseCaseProtocol { get }
-    var removeProductFromHistoryUseCase: RemoveProductFromHistoryUseCaseProtocol { get }
-    var removeAllHistoryUseCase: RemoveAllHistoryUseCaseProtocol { get }
-    var removeHistoryOlderThanUseCase: RemoveHistoryOlderThanUseCaseProtocol { get }
-    var addProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol { get }
-    // Repositories
-    var productHistoryRepository: ProductHistoryRepositoryProtocol { get }
+    func makeGetProductHistoryUseCase() -> GetProductHistoryUseCaseProtocol
+    func makeRemoveProductFromHistoryUseCase() -> RemoveProductFromHistoryUseCaseProtocol
+    func makeRemoveAllHistoryUseCase() -> RemoveAllHistoryUseCaseProtocol
+    func makeRemoveHistoryOlderThanUseCase() -> RemoveHistoryOlderThanUseCaseProtocol
+    func makeAddProductToHistoryUseCase() -> AddProductToHistoryUseCaseProtocol
 }
 
-public final class ProductHistoryDIContainerImpl: ProductHistoryDIContainerProtocol {
-  
-    public var coreDataDataSource: CoreDataDataSourceProtocol
+public struct ProductHistoryDIContainerImpl: ProductHistoryDIContainerProtocol {
+    private let coreDataDataSource: CoreDataDataSourceProtocol
+    private let productHistoryRepository: ProductHistoryRepositoryProtocol
     
     public init(coreDataDataSource: CoreDataDataSourceProtocol) {
         self.coreDataDataSource = coreDataDataSource
+        self.productHistoryRepository = ProductHistoryRepository(coreDataDataSource: coreDataDataSource)
     }
-
-    // Repositories
-    public lazy var productHistoryRepository: ProductHistoryRepositoryProtocol = {
-        ProductHistoryRepository(coreDataDataSource: coreDataDataSource)
-    }()
     
     // Use Cases
-    
-    public lazy var getProductHistoryUseCase: GetProductHistoryUseCaseProtocol = {
+    public func makeGetProductHistoryUseCase() -> GetProductHistoryUseCaseProtocol {
         GetProductHistoryUseCase(repository: productHistoryRepository)
-    }()
+    }
     
-    public lazy var removeProductFromHistoryUseCase: RemoveProductFromHistoryUseCaseProtocol = {
+    public func makeRemoveProductFromHistoryUseCase() -> RemoveProductFromHistoryUseCaseProtocol {
         RemoveProductFromHistoryUseCase(repository: productHistoryRepository)
-    }()
+    }
     
-    public lazy var removeAllHistoryUseCase: RemoveAllHistoryUseCaseProtocol = {
+    public func makeRemoveAllHistoryUseCase() -> RemoveAllHistoryUseCaseProtocol {
         RemoveAllHistoryUseCase(repository: productHistoryRepository)
-    }()
+    }
     
-    public lazy var removeHistoryOlderThanUseCase: RemoveHistoryOlderThanUseCaseProtocol = {
+    public func makeRemoveHistoryOlderThanUseCase() -> RemoveHistoryOlderThanUseCaseProtocol {
         RemoveHistoryOlderThanUseCase(repository: productHistoryRepository)
-    }()
+    }
     
-    public lazy var addProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol = {
+    public func makeAddProductToHistoryUseCase() -> AddProductToHistoryUseCaseProtocol {
         AddProductToHistoryUseCase(repository: productHistoryRepository)
-    }()
+    }
 }

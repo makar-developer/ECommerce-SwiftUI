@@ -9,50 +9,54 @@ import SwiftUI
 import ProductDiscoverFeature
 import CoreDependencies
 import ProductSearchFeature
-//import ProductCartFeature
 import ProfileFeature
 import CoreDataSources
 // MARK: - HomeDIContainerProtocol
 public protocol HomeDIContainerProtocol {
-    var productDiscoverDIContainer: ProductDiscoverDIContainerProtocol { get }
-    var cartDIContainer: CartDIContainerProtocol { get }
+    func makeProductDiscoverDIContainer() -> ProductDiscoverDIContainerProtocol
+    func makeCartDIContainer() -> CartDIContainerProtocol
+    func makeProductSearchDIContainer() -> ProductSearchDIContainerProtocol
+    func makeProfileDIContainer() -> ProfileDIContainerProtocol
+    func makeProductHistoryDIContainer() -> ProductHistoryDIContainerProtocol
+    
     var imageCacheContainer: ImageDIContainerProtocol { get }
-    var productSearchDIContainer: ProductSearchDIContainerProtocol { get }
-    var profileDIContainer: ProfileDIContainerProtocol { get }
-    var productHistoryDIContainer: ProductHistoryDIContainerProtocol { get }
 }
 
 // MARK: - Dependency Injection Container Implementation
-public final class HomeDIContainerImpl: HomeDIContainerProtocol {
+public struct HomeDIContainerImpl: HomeDIContainerProtocol {
+    public var imageCacheContainer: any CoreDependencies.ImageDIContainerProtocol
+    
+    public let coreDataDataSource: CoreDataDataSourceProtocol
+    
     public init(coreDataDataSource: CoreDataDataSourceProtocol) {
         self.coreDataDataSource = coreDataDataSource
+        self.imageCacheContainer = ImageDIContainer()
     }
     
-    public var coreDataDataSource: CoreDataDataSourceProtocol
-    
-    public lazy var productHistoryDIContainer: ProductHistoryDIContainerProtocol = {
+    public func makeProductHistoryDIContainer() -> ProductHistoryDIContainerProtocol {
         return ProductHistoryDIContainerImpl(coreDataDataSource: coreDataDataSource)
-    }()
+    }
     
-
-    public lazy var productDiscoverDIContainer: ProductDiscoverDIContainerProtocol = {
+    public func makeProductDiscoverDIContainer() -> ProductDiscoverDIContainerProtocol {
         return ProductDiscoverDIContainerImpl()
-    }()
+    }
     
-    public lazy var cartDIContainer: CartDIContainerProtocol = {
-        return CartDIContainerImpl(coreDataDataSource: coreDataDataSource, imageCacheDataSource: imageCacheContainer.diskImageCache, getImageCacheUseCase: imageCacheContainer.getImageUseCase)
-    }()
+    public func makeCartDIContainer() -> CartDIContainerProtocol {
+        return CartDIContainerImpl(
+            coreDataDataSource: coreDataDataSource,
+            getImageCacheUseCase: imageCacheContainer.getImageUseCase
+        )
+    }
     
-    public lazy var imageCacheContainer: ImageDIContainerProtocol = {
-       return ImageDIContainer()
-    }()
-
-    public lazy var productSearchDIContainer: ProductSearchDIContainerProtocol = {
-        return ProductSearchDIContainerImpl(imageCacheDataSource: imageCacheContainer.diskImageCache, getImageUseCase: imageCacheContainer.getImageUseCase)
-    }()
+    public func makeProductSearchDIContainer() -> ProductSearchDIContainerProtocol {
+        return ProductSearchDIContainerImpl(
+            getImageUseCase: imageCacheContainer.getImageUseCase
+        )
+    }
     
-    public lazy var profileDIContainer: ProfileDIContainerProtocol = {
+    public func makeProfileDIContainer() -> ProfileDIContainerProtocol {
         return ProfileDIContainerImpl()
-    }()
+    }
 }
+
 

@@ -18,6 +18,7 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
         value = nextValue()
     }
 }
+
 public struct ProductDiscoverView: View {
     @StateObject private var viewModel: ProductDiscoverViewModel
     @Environment(\.screenWidth) private var screenWidth

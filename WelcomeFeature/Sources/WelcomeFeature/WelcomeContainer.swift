@@ -14,65 +14,55 @@ import CoreRepositories
 import CoreDataSources
 public protocol WelcomeDIContainerProtocol {
     // MARK: - Use Cases
-    var getAllUsersUseCase: GetAllUsersUseCaseProtocol { get }
-    var deleteUserUseCase: DeleteUserUseCaseProtocol { get }
-    var createUserUseCase: CreateUserUseCaseProtocol { get }
-    var signInUseCase: CoreUseCases.SignInUseCaseProtocol { get }
-    var signOutUseCase: CoreUseCases.SignOutUseCaseProtocol { get }
-    var getSignedInUserUseCase: CoreUseCases.GetSignedInUserUseCaseProtocol { get }
-    // MARK: - Repositories
-    var welcomeRepository: WelcomeRepositoryProtocol { get }
-    var authenticationRepository: AuthenticationRepositoryProtocol { get }
-    // MARK: - DataSources
-    var welcomeKeychainDataSource: KeychainDataSourceProtocol { get }
-    var authenticationKeychainDataSource: KeychainDataSourceProtocol { get }
-
+    func makeGetAllUsersUseCase() -> GetAllUsersUseCaseProtocol
+    func makeDeleteUserUseCase() -> DeleteUserUseCaseProtocol
+    func makeCreateUserUseCase() -> CreateUserUseCaseProtocol
+    func makeSignInUseCase() -> CoreUseCases.SignInUseCaseProtocol
+    func makeSignOutUseCase() -> CoreUseCases.SignOutUseCaseProtocol
+    func makeGetSignedInUserUseCase() -> CoreUseCases.GetSignedInUserUseCaseProtocol
 }
 
-public final class WelcomeDIContainerImpl: WelcomeDIContainerProtocol {
-    public lazy var welcomeKeychainDataSource: CoreDataSources.KeychainDataSourceProtocol = {
-        return KeychainDataSourceImpl(service: "com.yourapp.welcome", account: "users")
-    }()
+public struct WelcomeDIContainerImpl: WelcomeDIContainerProtocol {
     
-    public lazy var authenticationKeychainDataSource: CoreDataSources.KeychainDataSourceProtocol = {
-        return KeychainDataSourceImpl(service: "com.yourapp.auth", account: "currentUser")
-    }()
+    private let keychainDataSource: KeychainDataSourceProtocol
+    private let authenticationKeychainDataSource: KeychainDataSourceProtocol
+    private let welcomeRepository: WelcomeRepositoryProtocol
+    private let authenticationRepository: AuthenticationRepositoryProtocol
     
-    // MARK: - Repositories
-    public lazy var welcomeRepository: WelcomeRepositoryProtocol = {
-        return WelcomeRepositoryImpl(keychainDataSource: welcomeKeychainDataSource)
-    }()
+    public init() {
+        self.keychainDataSource = KeychainDataSourceImpl(service: "com.yourapp.welcome", account: "users")
+        self.authenticationKeychainDataSource = KeychainDataSourceImpl(service: "com.yourapp.auth", account: "currentUser")
+        self.welcomeRepository = WelcomeRepositoryImpl(keychainDataSource: keychainDataSource)
+        self.authenticationRepository = AuthenticationRepository(keychainDataSource: authenticationKeychainDataSource)
+        
+    }
     
-    public lazy var authenticationRepository: AuthenticationRepositoryProtocol = {
+    public func makeAuthenticationRepository() -> AuthenticationRepositoryProtocol {
         return AuthenticationRepository(keychainDataSource: authenticationKeychainDataSource)
-    }()
+    }
     // MARK: - Use Cases
     // WelcomeView
-    public lazy var getAllUsersUseCase: GetAllUsersUseCaseProtocol = {
+    public func makeGetAllUsersUseCase() -> GetAllUsersUseCaseProtocol {
         return GetAllUsersUseCase(welcomeRepository: welcomeRepository)
-    }()
+    }
     
-    public lazy var deleteUserUseCase: DeleteUserUseCaseProtocol = {
+    public func makeDeleteUserUseCase() -> DeleteUserUseCaseProtocol {
         return DeleteUserUseCase(welcomeRepository: welcomeRepository)
-    }()
+    }
     
-    public lazy var signInUseCase: CoreUseCases.SignInUseCaseProtocol = {
-       return SignInUseCase(repository: authenticationRepository)
-    }()
+    public func makeSignInUseCase() -> CoreUseCases.SignInUseCaseProtocol {
+        return SignInUseCase(repository: authenticationRepository)
+    }
     
-    public lazy var signOutUseCase: CoreUseCases.SignOutUseCaseProtocol = {
-       return SignOutUseCase(repository: authenticationRepository)
-    }()
+    public func makeSignOutUseCase() -> CoreUseCases.SignOutUseCaseProtocol {
+        return SignOutUseCase(repository: authenticationRepository)
+    }
     
-    public lazy var getSignedInUserUseCase: CoreUseCases.GetSignedInUserUseCaseProtocol = {
-       return GetSignedInUserUseCase(repository: authenticationRepository)
-    }()
+    public func makeGetSignedInUserUseCase() -> CoreUseCases.GetSignedInUserUseCaseProtocol {
+        return GetSignedInUserUseCase(repository: authenticationRepository)
+    }
     // AuthenticationView
-    public lazy var createUserUseCase: CreateUserUseCaseProtocol = {
+    public func makeCreateUserUseCase() -> CreateUserUseCaseProtocol {
         return CreateUserUseCase(welcomeRepository: welcomeRepository)
-    }()
-    
-    
-    
-    public init() {}
+    }
 }

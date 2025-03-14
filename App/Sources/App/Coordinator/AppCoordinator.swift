@@ -33,7 +33,7 @@ public final class AppCoordinator: ObservableObject {
     
     func getSignedInUser() async -> User? {
         do {
-            return try await container.welcomeDIContainer.getSignedInUserUseCase.execute()
+            return try await container.welcomeDIContainer.makeGetSignedInUserUseCase().execute()
         } catch {
             print("Error accessing User in Keychain")
             return nil

@@ -10,39 +10,31 @@ import CoreRepositories
 import CoreUseCases
 import CoreDataSources
 public protocol UserDataDIContainerProtocol {
-    // Use Cases
-    var createUserDataUseCase: CreateUserDataUseCaseProtocol { get }
-    var deleteUserDataUseCase: DeleteUserDataUseCaseProtocol { get }
-    var fetchUserDataUseCase: FetchUserDataUseCaseProtocol { get }
-    // Repositories
-    var userDataRepository: UserDataRepositoryProtocol { get }
+    func makeCreateUserDataUseCase() -> CreateUserDataUseCaseProtocol
+    func makeDeleteUserDataUseCase() -> DeleteUserDataUseCaseProtocol
+    func makeFetchUserDataUseCase() -> FetchUserDataUseCaseProtocol
 }
 
-public final class UserDataDIContainerImpl: UserDataDIContainerProtocol {
+public struct UserDataDIContainerImpl: UserDataDIContainerProtocol {
 
-    // Core Data DataSource
-    public var coreDataDataSource: CoreDataDataSourceProtocol
-
+    private let coreDataDataSource: CoreDataDataSourceProtocol
+    private let userDataRepository: UserDataRepositoryProtocol
+    
     public init(coreDataDataSource: CoreDataDataSourceProtocol) {
         self.coreDataDataSource = coreDataDataSource
+        
+        self.userDataRepository = UserDataRepository(coreDataDataSource: coreDataDataSource)
     }
 
-    // Repositories
-    public lazy var userDataRepository: UserDataRepositoryProtocol = {
-        UserDataRepository(coreDataDataSource: coreDataDataSource)
-    }()
-
-    // Use Cases
-
-    public lazy var createUserDataUseCase: CreateUserDataUseCaseProtocol = {
-        CreateUserDataUseCase(userDataRepository: userDataRepository)
-    }()
-
-    public lazy var deleteUserDataUseCase: DeleteUserDataUseCaseProtocol = {
-        DeleteUserDataUseCase(userDataRepository: userDataRepository)
-    }()
+    public func makeCreateUserDataUseCase() -> CreateUserDataUseCaseProtocol {
+        return CreateUserDataUseCase(userDataRepository: userDataRepository)
+    }
     
-    public lazy var fetchUserDataUseCase: FetchUserDataUseCaseProtocol = {
-        FetchUserDataUseCase(userDataRepository: userDataRepository)
-    }()
+    public func makeDeleteUserDataUseCase() -> DeleteUserDataUseCaseProtocol {
+        return DeleteUserDataUseCase(userDataRepository: userDataRepository)
+    }
+    
+    public func makeFetchUserDataUseCase() -> FetchUserDataUseCaseProtocol {
+        return FetchUserDataUseCase(userDataRepository: userDataRepository)
+    }
 }

@@ -48,12 +48,12 @@ final class ProductDiscoverCoordinator: ObservableObject {
     func build(screen: ProductDiscoverScreen) -> some View {
         switch screen {
         case .productDiscover:
-            ProductDiscoverView(viewModel: ProductDiscoverViewModel(getHotSalesUseCase: container.getHotSalesUseCase, getRecommendedForYouUseCase: container.getRecommendedForYouUseCase, getImageUseCase: imageCacheContainer.getImageUseCase, onNavigation: { [weak self] product in
+            ProductDiscoverView(viewModel: ProductDiscoverViewModel(getHotSalesUseCase: container.makeGetHotSalesUseCase(), getRecommendedForYouUseCase: container.makeGetRecommendedForYouUseCase(), getImageUseCase: imageCacheContainer.getImageUseCase, onNavigation: { [weak self] product in
                 guard let self else { return }
                 self.showProductDetails(product: product, user: self.user)
             }))
         case .productDetails(let product, let user):
-            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase, addProductToHistoryUseCase: productHistoryContainer.addProductToHistoryUseCase, getImageUseCase: imageCacheContainer.getImageUseCase, onNavigation: { [weak self] in
+            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.makeAddProductToCartUseCase(), addProductToHistoryUseCase: productHistoryContainer.makeAddProductToHistoryUseCase(), getImageUseCase: imageCacheContainer.getImageUseCase, onNavigation: { [weak self] in
                 guard let self else { return }
                 self.showProductDiscover()
             }))

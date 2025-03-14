@@ -60,11 +60,11 @@ final class ProfileCoordinator: ObservableObject {
         case .profile:
             ProfileView(viewModel: ProfileViewModel(
                 user: self.user,
-                updateUserNameUseCase: container.updateUserNameUseCase,
-                updateLoginUseCase: container.updateLoginUseCase,
-                updateProfilePictureUseCase: container.updateProfilePictureUseCase,
-                getProfilePictureUseCase: container.getProfilePictureUseCase,
-                signOutUseCase: container.signOutUseCase,
+                updateUserNameUseCase: container.makeUpdateUserNameUseCase(),
+                updateLoginUseCase: container.makeUpdateLoginUseCase(),
+                updateProfilePictureUseCase: container.makeUpdateProfilePictureUseCase(),
+                getProfilePictureUseCase: container.makeGetProfilePictureUseCase(),
+                signOutUseCase: container.makeSignOutUseCase(),
                 onNavigation: { [weak self] target in
                     guard let self = self else { return }
                     switch target {
@@ -79,12 +79,12 @@ final class ProfileCoordinator: ObservableObject {
         case .changePassword(let user):
             ChangePasswordView(viewModel: ChangePasswordViewModel(
                 user: user,
-                updatePasswordUseCase: container.updatePasswordUseCase,
+                updatePasswordUseCase: container.makeUpdatePasswordUseCase(),
                 onNavigation: { [weak self] in
                     self?.pop()
                 }))
         case .productHistory:
-            ProductHistoryView(viewModel: ProductHistoryViewModel(userId: user.id, getProductHistoryUseCase: productHistoryContainer.getProductHistoryUseCase, removeProductFromHistoryUseCase: productHistoryContainer.removeProductFromHistoryUseCase, removeAllHistoryUseCase: productHistoryContainer.removeAllHistoryUseCase, getImageUseCase: imageContainer.getImageUseCase, onNavigation: { target in
+            ProductHistoryView(viewModel: ProductHistoryViewModel(userId: user.id, getProductHistoryUseCase: productHistoryContainer.makeGetProductHistoryUseCase(), removeProductFromHistoryUseCase: productHistoryContainer.makeRemoveProductFromHistoryUseCase(), removeAllHistoryUseCase: productHistoryContainer.makeRemoveAllHistoryUseCase(), getImageUseCase: imageContainer.getImageUseCase, onNavigation: { target in
                 switch target {
                 case .productDetails(let product):
                     self.showProductDetails(product: product)
@@ -93,7 +93,7 @@ final class ProfileCoordinator: ObservableObject {
                 }
             }))
         case .productDetails(let product):
-            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.addProductToCartUseCase, addProductToHistoryUseCase: productHistoryContainer.addProductToHistoryUseCase, getImageUseCase: imageContainer.getImageUseCase, onNavigation: {
+            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.makeAddProductToCartUseCase(), addProductToHistoryUseCase: productHistoryContainer.makeAddProductToHistoryUseCase(), getImageUseCase: imageContainer.getImageUseCase, onNavigation: {
                 self.pop()
             }))
         }

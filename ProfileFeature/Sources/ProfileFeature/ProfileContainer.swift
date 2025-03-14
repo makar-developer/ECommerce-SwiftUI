@@ -11,64 +11,51 @@ import ProfileRepository
 import CoreRepositories
 import CoreUseCases
 import CoreDataSources
+
 public protocol ProfileDIContainerProtocol {
     // Use Cases
-    var updateUserNameUseCase: UpdateUserNameUseCaseProtocol { get }
-    var updateLoginUseCase: UpdateLoginUseCaseProtocol { get }
-    var updatePasswordUseCase: UpdatePasswordUseCaseProtocol { get }
-    var updateProfilePictureUseCase: UpdateProfilePictureUseCaseProtocol { get }
-    var getProfilePictureUseCase: GetProfilePictureUseCaseProtocol { get }
-    var signOutUseCase: SignOutUseCaseProtocol { get }
-    // Repositories
-    var profileRepository: ProfileRepositoryProtocol { get }
-    var authenticationRepository: AuthenticationRepositoryProtocol { get }
-    var authenticationKeychainDataSource: KeychainDataSourceProtocol { get }
+    func makeUpdateUserNameUseCase() -> UpdateUserNameUseCaseProtocol
+    func makeUpdateLoginUseCase() -> UpdateLoginUseCaseProtocol
+    func makeUpdatePasswordUseCase() -> UpdatePasswordUseCaseProtocol
+    func makeUpdateProfilePictureUseCase() -> UpdateProfilePictureUseCaseProtocol
+    func makeGetProfilePictureUseCase() -> GetProfilePictureUseCaseProtocol
+    func makeSignOutUseCase() -> SignOutUseCaseProtocol
 }
 
+public struct ProfileDIContainerImpl: ProfileDIContainerProtocol {
+    
+    private var authenticationKeychainDataSource: KeychainDataSourceProtocol
+    private var profileRepository: ProfileRepositoryProtocol
+    private var authenticationRepository: AuthenticationRepositoryProtocol
+    
+    public init() {
+        self.authenticationKeychainDataSource = KeychainDataSourceImpl(service: "com.yourapp.auth", account: "currentUser")
+        self.profileRepository = ProfileRepositoryImpl()
+        self.authenticationRepository = AuthenticationRepository(keychainDataSource: authenticationKeychainDataSource)
+    }
 
-public final class ProfileDIContainerImpl: ProfileDIContainerProtocol {
-    
-    
-    // Repositories
-    
-    public lazy var authenticationRepository: CoreRepositories.AuthenticationRepositoryProtocol = {
-        AuthenticationRepository(keychainDataSource: authenticationKeychainDataSource)
-    }()
-    
-    public lazy var profileRepository: ProfileRepositoryProtocol = {
-        return ProfileRepositoryImpl()
-    }()
     // Use Cases
-    
-    public lazy var signOutUseCase: CoreUseCases.SignOutUseCaseProtocol = {
+    public func makeSignOutUseCase() -> SignOutUseCaseProtocol {
         SignOutUseCase(repository: authenticationRepository)
-    }()
+    }
     
-    public lazy var updateUserNameUseCase: UpdateUserNameUseCaseProtocol = {
-        return UpdateUserNameUseCase(repository: profileRepository)
-    }()
-
-    public lazy var updateLoginUseCase: UpdateLoginUseCaseProtocol = {
-        return UpdateLoginUseCase(repository: profileRepository)
-    }()
-
-    public lazy var updatePasswordUseCase: UpdatePasswordUseCaseProtocol = {
-        return UpdatePasswordUseCase(repository: profileRepository)
-    }()
-
-    public lazy var updateProfilePictureUseCase: UpdateProfilePictureUseCaseProtocol = {
-        return UpdateProfilePictureUseCase(repository: profileRepository)
-    }()
-
-    public lazy var getProfilePictureUseCase: GetProfilePictureUseCaseProtocol = {
-        return GetProfilePictureUseCase(repository: profileRepository)
-    }()
-
-    // Data Sources
-    public lazy var authenticationKeychainDataSource: CoreDataSources.KeychainDataSourceProtocol = {
-        return KeychainDataSourceImpl(service: "com.yourapp.auth", account: "currentUser")
-    }()
+    public func makeUpdateUserNameUseCase() -> UpdateUserNameUseCaseProtocol {
+        UpdateUserNameUseCase(repository: profileRepository)
+    }
     
-    // Initialization
-    public init() {}
+    public func makeUpdateLoginUseCase() -> UpdateLoginUseCaseProtocol {
+        UpdateLoginUseCase(repository: profileRepository)
+    }
+    
+    public func makeUpdatePasswordUseCase() -> UpdatePasswordUseCaseProtocol {
+        UpdatePasswordUseCase(repository: profileRepository)
+    }
+    
+    public func makeUpdateProfilePictureUseCase() -> UpdateProfilePictureUseCaseProtocol {
+        UpdateProfilePictureUseCase(repository: profileRepository)
+    }
+    
+    public func makeGetProfilePictureUseCase() -> GetProfilePictureUseCaseProtocol {
+        GetProfilePictureUseCase(repository: profileRepository)
+    }
 }

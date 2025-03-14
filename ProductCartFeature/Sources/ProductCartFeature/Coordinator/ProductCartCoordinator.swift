@@ -22,18 +22,26 @@ final class ProductCartCoordinator: ObservableObject {
     }
 
     private func push(screen: ProductCartScreen) {
-            self.path.append(screen)
+        self.path.append(screen)
     }
 
     private func pop() {
-            self.path.removeLast()
+        self.path.removeLast()
     }
     
     @ViewBuilder
     func build(screen: ProductCartScreen) -> some View {
         switch screen {
         case .productCart:
-            ProductCartView(viewModel: ProductCartViewModel(user: user, getImageUseCase: container.getImageUseCase, getAllProductsUseCase: container.getAllProductsUseCase, addProductToCartUseCase: container.addProductToCartUseCase, removeProductFromCartUseCase: container.removeProductFromCartUseCase, removeAllProductsFromCartUseCase: container.removeAllProductsFromCartUseCase, removeEntireItemUseCase: container.removeEntireItemFromCartUseCase))
+            ProductCartView(viewModel: ProductCartViewModel(
+                user: user,
+                getImageUseCase: container.getImageUseCase,
+                getAllProductsUseCase: container.makeGetAllProductsUseCase(),
+                addProductToCartUseCase: container.makeAddProductToCartUseCase(),
+                removeProductFromCartUseCase: container.makeRemoveProductFromCartUseCase(),
+                removeAllProductsFromCartUseCase: container.makeRemoveAllProductsFromCartUseCase(),
+                removeEntireItemUseCase: container.makeRemoveEntireItemFromCartUseCase()
+            ))
         }
     }
 }

@@ -50,13 +50,13 @@ public final class WelcomeCoordinator: ObservableObject {
         switch screen {
         case .welcome:
             WelcomeView(viewModel: WelcomeViewModel(
-                getAllUsersUseCase: container.getAllUsersUseCase,
-                deleteUserUseCase: container.deleteUserUseCase,
-                signInUseCase: container.signInUseCase,
-                deleteUserDataUseCase: userDataContainer.deleteUserDataUseCase,
-                createUserUseCase: container.createUserUseCase,
-                createUserDataUseCase: userDataContainer.createUserDataUseCase,
-                fetchUserDataUseCase: userDataContainer.fetchUserDataUseCase,
+                getAllUsersUseCase: container.makeGetAllUsersUseCase(),
+                deleteUserUseCase: container.makeDeleteUserUseCase(),
+                signInUseCase: container.makeSignInUseCase(),
+                deleteUserDataUseCase: userDataContainer.makeDeleteUserDataUseCase(),
+                createUserUseCase: container.makeCreateUserUseCase(),
+                createUserDataUseCase: userDataContainer.makeCreateUserDataUseCase(),
+                fetchUserDataUseCase: userDataContainer.makeFetchUserDataUseCase(),
                 onNavigation: { [weak self] target in
                     
                     switch target {
@@ -69,7 +69,8 @@ public final class WelcomeCoordinator: ObservableObject {
             ))
         case .createAccount:
             AuthenticationView(viewModel: AuthenticationViewModel(
-                createUserUseCase: container.createUserUseCase, createUserDataUseCase: userDataContainer.createUserDataUseCase,
+                createUserUseCase: container.makeCreateUserUseCase(),
+                createUserDataUseCase: userDataContainer.makeCreateUserDataUseCase(),
                 onNavigation: { [weak self] in
                     self?.showWelcome()
                 }

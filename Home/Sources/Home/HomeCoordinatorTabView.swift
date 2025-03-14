@@ -19,10 +19,10 @@ public struct HomeCoordinatorTabView: View {
     public var body: some View {
         TabView {
             ProductDiscoverCoordinatorView(
-                container: container.productDiscoverDIContainer,
-                cartContainer: container.cartDIContainer,
+                container: container.makeProductDiscoverDIContainer(),
+                cartContainer: container.makeCartDIContainer(),
                 imageCacheContainer: container.imageCacheContainer,
-                productHistoryContainer: container.productHistoryDIContainer,
+                productHistoryContainer: container.makeProductHistoryDIContainer(),
                 user: user
             )
             .tabItem {
@@ -30,10 +30,10 @@ public struct HomeCoordinatorTabView: View {
             }
 
             ProductSearchCoordinatorView(
-                container: container.productSearchDIContainer,
-                cartContainer: container.cartDIContainer,
+                container: container.makeProductSearchDIContainer(),
+                cartContainer: container.makeCartDIContainer(),
                 imageCacheContainer: container.imageCacheContainer,
-                productHistoryContainer: container.productHistoryDIContainer,
+                productHistoryContainer: container.makeProductHistoryDIContainer(),
                 user: user
             )
             .tabItem {
@@ -41,7 +41,7 @@ public struct HomeCoordinatorTabView: View {
             }
 
             ProductCartCoordinatorView(
-                container: container.cartDIContainer,
+                container: container.makeCartDIContainer(),
                 user: user
             )
             .tabItem {
@@ -49,10 +49,10 @@ public struct HomeCoordinatorTabView: View {
             }
 
             ProfileCoordinatorView(
-                container: container.profileDIContainer,
+                container: container.makeProfileDIContainer(),
                 imageContainer: container.imageCacheContainer,
-                productHistoryContainer: container.productHistoryDIContainer,
-                cartContainer: container.cartDIContainer,
+                productHistoryContainer: container.makeProductHistoryDIContainer(),
+                cartContainer: container.makeCartDIContainer(),
                 user: user,
                 onLogout: onLogout
             )
