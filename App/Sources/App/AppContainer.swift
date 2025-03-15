@@ -10,7 +10,8 @@ import CoreDependencies
 import Home
 import WelcomeFeature
 
-/// App-level DI container - provides Feature-level DI containers. Feature-level DI Containers provide necessary Layer dependencies (e.g. UseCases, Repositories) within boundaries of some specific Feature.
+/// App-level DI container - provides Feature-level DI containers. Feature-level DI Containers provide necessary Layer dependencies (e.g. UseCases,
+/// Repositories) within boundaries of some specific Feature.
 public protocol AppDIContainerProtocol {
     func makeWelcomeDIContainer() -> WelcomeDIContainerProtocol
     func makeHomeDIContainer() -> HomeDIContainerProtocol

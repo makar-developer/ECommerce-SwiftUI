@@ -98,7 +98,12 @@ public struct GreetingCardView: View {
 }
 
 struct GreetingCardView_Previews: PreviewProvider {
-    static let user: User = .init(name: UserName(rawValue: "DefaultUser1")!, login: Login(rawValue: "user1")!, password: Password(rawValue: "Password1@")!, profilePicture: nil)
+    static let user: User = .init(
+        name: UserName(rawValue: "DefaultUser1")!,
+        login: Login(rawValue: "user1")!,
+        password: Password(rawValue: "Password1@")!,
+        profilePicture: nil
+    )
 
     static var previews: some View {
         GreetingCardView(

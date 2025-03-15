@@ -18,7 +18,19 @@ public struct Product: Codable, Identifiable, Equatable, Hashable {
     public let rating: Double
     public let stock: Int
 
-    public init(id: Int, price: Double, title: String, description: String, category: String, thumbnail: String, brand: String?, images: [String], discountPercentage: Double, rating: Double, stock: Int) {
+    public init(
+        id: Int,
+        price: Double,
+        title: String,
+        description: String,
+        category: String,
+        thumbnail: String,
+        brand: String?,
+        images: [String],
+        discountPercentage: Double,
+        rating: Double,
+        stock: Int
+    ) {
         self.id = id
         self.price = price
         self.title = title

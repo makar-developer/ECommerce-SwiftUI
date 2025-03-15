@@ -27,12 +27,22 @@ public final class WelcomeViewModel: ObservableObject {
     private let signInUseCase: SignInUseCaseProtocol
     private let deleteUserDataUseCase: DeleteUserDataUseCaseProtocol
     private let createUserUseCase: CreateUserUseCaseProtocol // This
-    private let createUserDataUseCase: CreateUserDataUseCaseProtocol // And this one are injected here just to populate Keychain and CoreData with some default users for testing purposes.
+    private let createUserDataUseCase: CreateUserDataUseCaseProtocol // And this one are injected here just to populate Keychain and CoreData with some default
+    // users for testing purposes.
     private let fetchUserDataUseCase: FetchUserDataUseCaseProtocol
 
     private var onNavigation: (WelcomeViewModel.NavigationTarget) -> Void
 
-    public init(getAllUsersUseCase: GetAllUsersUseCaseProtocol, deleteUserUseCase: DeleteUserUseCaseProtocol, signInUseCase: SignInUseCaseProtocol, deleteUserDataUseCase: DeleteUserDataUseCaseProtocol, createUserUseCase: CreateUserUseCaseProtocol, createUserDataUseCase: CreateUserDataUseCaseProtocol, fetchUserDataUseCase: FetchUserDataUseCaseProtocol, onNavigation: @escaping (WelcomeViewModel.NavigationTarget) -> Void) {
+    public init(
+        getAllUsersUseCase: GetAllUsersUseCaseProtocol,
+        deleteUserUseCase: DeleteUserUseCaseProtocol,
+        signInUseCase: SignInUseCaseProtocol,
+        deleteUserDataUseCase: DeleteUserDataUseCaseProtocol,
+        createUserUseCase: CreateUserUseCaseProtocol,
+        createUserDataUseCase: CreateUserDataUseCaseProtocol,
+        fetchUserDataUseCase: FetchUserDataUseCaseProtocol,
+        onNavigation: @escaping (WelcomeViewModel.NavigationTarget) -> Void
+    ) {
         self.getAllUsersUseCase = getAllUsersUseCase
         self.deleteUserUseCase = deleteUserUseCase
         self.signInUseCase = signInUseCase

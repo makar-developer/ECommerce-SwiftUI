@@ -99,8 +99,19 @@ final class ProductHistoryRepositoryTests: XCTestCase {
         try await insertUserEntityIfNeeded(user)
 
         // Insert a few ProductHistory items
-        let product1 = Product(id: 99, price: 1.0, title: "Foo", description: "Bar", category: "Baz",
-                               thumbnail: "...", brand: "Brand", images: [], discountPercentage: 0, rating: 0, stock: 0)
+        let product1 = Product(
+            id: 99,
+            price: 1.0,
+            title: "Foo",
+            description: "Bar",
+            category: "Baz",
+            thumbnail: "...",
+            brand: "Brand",
+            images: [],
+            discountPercentage: 0,
+            rating: 0,
+            stock: 0
+        )
         let product2 = Product.getOneOfThis()
 
         try await sut.addProductToHistory(product1, for: user.id)

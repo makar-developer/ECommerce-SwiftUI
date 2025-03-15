@@ -21,7 +21,13 @@ final class ProductSearchCoordinator: ObservableObject {
     private let productHistoryContainer: ProductHistoryDIContainerProtocol
     private let user: User
 
-    init(container: ProductSearchDIContainerProtocol, cartContainer: CartDIContainerProtocol, imageCacheContainer: ImageDIContainerProtocol, productHistoryContainer: ProductHistoryDIContainerProtocol, user: User) {
+    init(
+        container: ProductSearchDIContainerProtocol,
+        cartContainer: CartDIContainerProtocol,
+        imageCacheContainer: ImageDIContainerProtocol,
+        productHistoryContainer: ProductHistoryDIContainerProtocol,
+        user: User
+    ) {
         self.container = container
         self.cartContainer = cartContainer
         self.imageCacheContainer = imageCacheContainer

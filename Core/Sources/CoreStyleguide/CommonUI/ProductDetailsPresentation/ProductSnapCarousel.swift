@@ -80,8 +80,10 @@ public struct ProductSnapCarousel: View {
 
                                 // Keep it in [0, data.count - 1]
                                 DispatchQueue.main.async {
-                                    currentProgress = max(0,
-                                                          min(Double(images.count - 1), provisional))
+                                    currentProgress = max(
+                                        0,
+                                        min(Double(images.count - 1), provisional)
+                                    )
                                 }
                                 let translationWidth = value.translation.width
                                 if (currentIndex == 0 && translationWidth > 0) ||

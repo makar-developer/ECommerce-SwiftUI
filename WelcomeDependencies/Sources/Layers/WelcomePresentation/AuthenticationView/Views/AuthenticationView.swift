@@ -90,8 +90,12 @@ public struct AuthenticationView: View {
                             .frame(maxWidth: .infinity)
                             .background(viewModel.isFormValid ? Color.accentPrimary : Color.borderColor.opacity(0.5))
                             .cornerRadius(10)
-                            .shadow(color: viewModel.isFormValid ? Color.accentPrimary.opacity(0.7) : Color.borderColor.opacity(0.3),
-                                    radius: 4, x: 0, y: 2)
+                            .shadow(
+                                color: viewModel.isFormValid ? Color.accentPrimary.opacity(0.7) : Color.borderColor.opacity(0.3),
+                                radius: 4,
+                                x: 0,
+                                y: 2
+                            )
                     }
                     .disabled(!viewModel.isFormValid)
                     .padding(.bottom, 10)

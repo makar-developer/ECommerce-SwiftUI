@@ -5,8 +5,22 @@ import SwiftUI
 public struct ProfileCoordinatorView: View {
     @StateObject private var coordinator: ProfileCoordinator
 
-    public init(container: ProfileDIContainerProtocol, imageContainer: ImageDIContainerProtocol, productHistoryContainer: ProductHistoryDIContainerProtocol, cartContainer: CartDIContainerProtocol, user: User, onLogout: @escaping () -> Void) {
-        _coordinator = StateObject(wrappedValue: ProfileCoordinator(container: container, imageContainer: imageContainer, productHistoryContainer: productHistoryContainer, cartContainer: cartContainer, user: user, onLogout: onLogout))
+    public init(
+        container: ProfileDIContainerProtocol,
+        imageContainer: ImageDIContainerProtocol,
+        productHistoryContainer: ProductHistoryDIContainerProtocol,
+        cartContainer: CartDIContainerProtocol,
+        user: User,
+        onLogout: @escaping () -> Void
+    ) {
+        _coordinator = StateObject(wrappedValue: ProfileCoordinator(
+            container: container,
+            imageContainer: imageContainer,
+            productHistoryContainer: productHistoryContainer,
+            cartContainer: cartContainer,
+            user: user,
+            onLogout: onLogout
+        ))
     }
 
     public var body: some View {

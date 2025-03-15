@@ -21,6 +21,8 @@ disabled_rules:
 - line_length
 - for_where
 - colon
+- trailing_comma
+- opening_brace
 
 #line_length:
 #    warning: 150

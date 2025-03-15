@@ -20,7 +20,13 @@ final class ProductDiscoverCoordinator: ObservableObject {
     private let productHistoryContainer: ProductHistoryDIContainerProtocol
     private let user: User
 
-    init(container: ProductDiscoverDIContainerProtocol, cartContainer: CartDIContainerProtocol, imageCacheContainer: ImageDIContainerProtocol, productHistoryContainer: ProductHistoryDIContainerProtocol, user: User) {
+    init(
+        container: ProductDiscoverDIContainerProtocol,
+        cartContainer: CartDIContainerProtocol,
+        imageCacheContainer: ImageDIContainerProtocol,
+        productHistoryContainer: ProductHistoryDIContainerProtocol,
+        user: User
+    ) {
         self.container = container
         self.cartContainer = cartContainer
         self.imageCacheContainer = imageCacheContainer
@@ -48,15 +54,27 @@ final class ProductDiscoverCoordinator: ObservableObject {
     func build(screen: ProductDiscoverScreen) -> some View {
         switch screen {
         case .productDiscover:
-            ProductDiscoverView(viewModel: ProductDiscoverViewModel(getHotSalesUseCase: container.makeGetHotSalesUseCase(), getRecommendedForYouUseCase: container.makeGetRecommendedForYouUseCase(), getImageUseCase: imageCacheContainer.getImageUseCase, onNavigation: { [weak self] product in
-                guard let self else { return }
-                self.showProductDetails(product: product, user: self.user)
-            }))
+            ProductDiscoverView(viewModel: ProductDiscoverViewModel(
+                getHotSalesUseCase: container.makeGetHotSalesUseCase(),
+                getRecommendedForYouUseCase: container.makeGetRecommendedForYouUseCase(),
+                getImageUseCase: imageCacheContainer.getImageUseCase,
+                onNavigation: { [weak self] product in
+                    guard let self else { return }
+                    self.showProductDetails(product: product, user: self.user)
+                }
+            ))
         case let .productDetails(product, user):
-            ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.makeAddProductToCartUseCase(), addProductToHistoryUseCase: productHistoryContainer.makeAddProductToHistoryUseCase(), getImageUseCase: imageCacheContainer.getImageUseCase, onNavigation: { [weak self] in
-                guard let self else { return }
-                self.showProductDiscover()
-            }))
+            ProductDetailsView(viewModel: ProductDetailsViewModel(
+                user: user,
+                product: product,
+                addProductToCartUseCase: cartContainer.makeAddProductToCartUseCase(),
+                addProductToHistoryUseCase: productHistoryContainer.makeAddProductToHistoryUseCase(),
+                getImageUseCase: imageCacheContainer.getImageUseCase,
+                onNavigation: { [weak self] in
+                    guard let self else { return }
+                    self.showProductDiscover()
+                }
+            ))
         }
     }
 }

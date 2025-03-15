@@ -4,33 +4,34 @@ import Home
 import SwiftUI
 import WelcomeFeature
 
-/// App-level Coordinator  - can perform navigation between each individual Feature(within the App). Feature-level Coordinator - can perform navigation between each individual Screen(within the Feature).
+/// App-level Coordinator  - can perform navigation between each individual Feature(within the App). Feature-level Coordinator - can perform navigation between
+/// each individual Screen(within the Feature).
 @MainActor
 public final class AppCoordinator: ObservableObject {
     @Published var fullScreenCoverFeature: Feature?
-    
+
     private let container: AppDIContainerProtocol
-    
+
     public init(container: AppDIContainerProtocol) {
         self.container = container
     }
-    
+
     func presentFeature(_ feature: Feature) {
         fullScreenCoverFeature = feature
     }
-    
+
     func presentMain(_ user: User) {
         presentFeature(.main(user))
     }
-    
+
     func presentWelcome() {
         presentFeature(.welcome)
     }
-    
+
     func dismissFeature() {
         fullScreenCoverFeature = nil
     }
-    
+
     func getSignedInUser() async -> User? {
         do {
             return try await container.makeWelcomeDIContainer().makeGetSignedInUserUseCase().execute()
@@ -39,7 +40,7 @@ public final class AppCoordinator: ObservableObject {
             return nil
         }
     }
-    
+
     @ViewBuilder
     func buildRootView() -> some View {
         EmptyView()
@@ -51,7 +52,7 @@ public final class AppCoordinator: ObservableObject {
                 }
             }
     }
-    
+
     @ViewBuilder
     func build(feature: Feature) -> some View {
         switch feature {
@@ -65,7 +66,7 @@ public final class AppCoordinator: ObservableObject {
                     }
                 )
             )
-            
+
         case let .main(user):
             HomeCoordinatorTabView(
                 user: user,

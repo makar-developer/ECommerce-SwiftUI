@@ -17,7 +17,8 @@ public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
     private let usersKey = "users"
 
     public init(
-        // Ideally the same instance should be received from DI, since keychainDataSource is used in both ProfileFeature and WelcomeFeature, but it should be fine here since it connects to the same account(source of truth).
+        // Ideally the same instance should be received from DI, since keychainDataSource is used in both ProfileFeature and WelcomeFeature, but it should be
+        // fine here since it connects to the same account(source of truth).
         keychainDataSource: KeychainDataSourceProtocol = KeychainDataSourceImpl(service: "com.yourapp.welcome", account: "users"),
         fileStorageDataSource: FileStorageDataSourceProtocol = FileStorageDataSourceImpl()
     ) {
