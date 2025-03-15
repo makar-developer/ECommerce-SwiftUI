@@ -1,12 +1,13 @@
 //
-//  File.swift
-//  
+//  GetHotSalesUseCase.swift
+//
 //
 //  Created by Admin on 02/12/2024.
 //
 
 import CoreEntities
 import ProductDiscoverRepositoryProtocol
+
 public protocol GetHotSalesUseCaseProtocol {
     func execute() async throws -> [Product]
 }

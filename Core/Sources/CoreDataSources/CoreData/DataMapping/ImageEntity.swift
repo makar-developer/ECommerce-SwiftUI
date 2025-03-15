@@ -1,14 +1,15 @@
 //
-//  File.swift
-//  
+//  ImageEntity.swift
+//
 //
 //  Created by Admin on 21/12/2024.
 //
 
 import CoreData
+
 public extension ImageEntity {
     func toImageURL() -> String? {
-        return self.image
+        return image
     }
 }
 

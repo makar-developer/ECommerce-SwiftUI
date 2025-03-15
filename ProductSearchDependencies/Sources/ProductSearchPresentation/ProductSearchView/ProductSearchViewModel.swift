@@ -1,40 +1,44 @@
 import Combine
-import Foundation
-import ProductSearchEntities
-import ProductSearchDomain
 import CoreEntities
-import CoreUseCases
 import CoreStyleguide
+import CoreUseCases
+import Foundation
+import ProductSearchDomain
+import ProductSearchEntities
 
 // MARK: - ProductSearchViewModel
+
 @MainActor
 public final class ProductSearchViewModel: ObservableObject {
-    
     // MARK: - Subtypes
+
     public enum NavigationTarget {
         case categoryDetails(CategoryResponse)
         case productDetails(Product)
     }
+
     /// A container for categories plus their thumbnails
     struct CategoriesData {
         let categories: [CategoryResponse]
         let thumbnails: [String: String]
     }
-    
+
     // MARK: - Published Properties
+
     let onNavigation: (ProductSearchViewModel.NavigationTarget) -> Void
-    
+
     @Published var searchText: String = ""
     @Published var isSearchFocused: Bool = false
 
     @Published var categoriesState: ScreenState<CategoriesData> = .loading
-    @Published var productsState: ScreenState<[Product]> = .loaded(data: [])  // Start empty
+    @Published var productsState: ScreenState<[Product]> = .loaded(data: []) // Start empty
     @Published var recentSearchQueries: [SearchQuery] = []
     @Published var showDeleteAllConfirmation: Bool = false
-    
+
     // MARK: - Private Properties
+
     private var cancellables = Set<AnyCancellable>()
-    
+
     // Use Cases
     private let searchProductsUseCase: SearchProductsByKeywordUseCaseProtocol
     private let saveSearchQueryUseCase: SaveSearchQueryToRecentsUseCaseProtocol
@@ -44,8 +48,9 @@ public final class ProductSearchViewModel: ObservableObject {
     private let getAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUseCaseProtocol
     private let getAllExistingCategoriesUseCase: GetAllExistingCategoriesUseCaseProtocol
     let getImageUseCase: GetImageUseCaseProtocol
-    
+
     // MARK: - Initialization
+
     public init(
         searchProductsUseCase: SearchProductsByKeywordUseCaseProtocol,
         saveSearchQueryUseCase: SaveSearchQueryToRecentsUseCaseProtocol,
@@ -66,14 +71,15 @@ public final class ProductSearchViewModel: ObservableObject {
         self.getAllExistingCategoriesUseCase = getAllExistingCategoriesUseCase
         self.getImageUseCase = getImageUseCase
         self.onNavigation = onNavigation
-        
+
         setupBindings()
         loadRecentSearchQueries()
         // Trigger initial categories load
         loadCategories()
     }
-    
+
     // MARK: - Setup Bindings
+
     private func setupBindings() {
         $searchText
             .debounce(for: .seconds(0.3), scheduler: RunLoop.main)
@@ -82,7 +88,7 @@ public final class ProductSearchViewModel: ObservableObject {
                 self?.performSearch(with: text)
             }
             .store(in: &cancellables)
-        
+
         // Reload recent searches when search field is unfocused and we have empty text
         $isSearchFocused
             .sink { [weak self] focused in
@@ -94,21 +100,23 @@ public final class ProductSearchViewModel: ObservableObject {
     }
 
     // MARK: - Load Categories
+
     public func loadCategories() {
         Task {
-                categoriesState = .loading
+            categoriesState = .loading
             do {
                 let fetchedCategories = try await getAllExistingCategoriesUseCase.execute()
                 let slugs = fetchedCategories.map { $0.slug }
                 let thumbs = try await getCategoryThumbnailUseCase.execute(categorySlugs: slugs)
-                    categoriesState = .loaded(data: CategoriesData(categories: fetchedCategories, thumbnails: thumbs))
+                categoriesState = .loaded(data: CategoriesData(categories: fetchedCategories, thumbnails: thumbs))
             } catch {
-                    categoriesState.toError(error: error)
+                categoriesState.toError(error: error)
             }
         }
     }
 
     // MARK: - Perform Search
+
     private func performSearch(with keyword: String) {
         let trimmedKeyword = keyword.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmedKeyword.isEmpty {
@@ -120,7 +128,7 @@ public final class ProductSearchViewModel: ObservableObject {
             await actuallySearchProducts(with: trimmedKeyword)
         }
     }
-    
+
     private func actuallySearchProducts(with keyword: String) async {
         productsState = .loading
         do {
@@ -135,23 +143,25 @@ public final class ProductSearchViewModel: ObservableObject {
         searchText = query.query
         isSearchFocused = false
     }
-    
+
     public func saveCurrentSearch() {
         let trimmedKeyword = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedKeyword.isEmpty else { return }
-        
+
         let query = SearchQuery(query: trimmedKeyword)
         saveSearchQueryUseCase.execute(searchQuery: query)
         loadRecentSearchQueries()
     }
 
     // MARK: - Load Recent Search Queries
+
     public func loadRecentSearchQueries() {
         let queries = getAllRecentSearchQueriesUseCase.execute()
         recentSearchQueries = queries.sorted { $0.creationDate > $1.creationDate }
     }
-    
+
     // MARK: - Delete Search Queries
+
     public func deleteSearchQuery(_ query: SearchQuery) {
         removeSearchQueryUseCase.execute(searchQuery: query)
         loadRecentSearchQueries()

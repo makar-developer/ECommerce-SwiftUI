@@ -10,25 +10,28 @@ let package = Package(
     products: [
         .library(
             name: "WelcomeFeature",
-            targets: ["WelcomeFeature"])
+            targets: ["WelcomeFeature"]
+        ),
     ],
     dependencies: [
         .package(path: "../Core"),
-        .package(path: "../WelcomeDependencies")
+        .package(path: "../WelcomeDependencies"),
     ],
     targets: [
         .target(
             name: "WelcomeFeature",
             dependencies: [
-            "Core",
-            .product(name: "CoreDependencies", package: "Core"),
-            .product(name: "WelcomePresentation", package: "WelcomeDependencies"),
-            .product(name: "WelcomeDomain", package: "WelcomeDependencies"),
-            .product(name: "WelcomeRepositoryProtocol", package: "WelcomeDependencies"),
-            .product(name: "WelcomeData", package: "WelcomeDependencies")
-            ]),
+                "Core",
+                .product(name: "CoreDependencies", package: "Core"),
+                .product(name: "WelcomePresentation", package: "WelcomeDependencies"),
+                .product(name: "WelcomeDomain", package: "WelcomeDependencies"),
+                .product(name: "WelcomeRepositoryProtocol", package: "WelcomeDependencies"),
+                .product(name: "WelcomeData", package: "WelcomeDependencies"),
+            ]
+        ),
         .testTarget(
             name: "WelcomeFeatureTests",
-            dependencies: ["WelcomeFeature"])
+            dependencies: ["WelcomeFeature"]
+        ),
     ]
 )

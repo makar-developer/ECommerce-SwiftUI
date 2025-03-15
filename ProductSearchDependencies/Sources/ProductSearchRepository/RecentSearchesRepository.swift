@@ -1,13 +1,13 @@
 //
-//  File.swift
-//  
+//  RecentSearchesRepository.swift
+//
 //
 //  Created by Admin on 11/12/2024.
 //
 
-import ProductSearchRepositoryProtocol
 import CoreDataSources
 import ProductSearchEntities
+import ProductSearchRepositoryProtocol
 
 public final class RecentSearchesRepository: RecentSearchesRepositoryProtocol {
     private let userDefaultsDataSource: UserDefaultsDataSourceProtocol

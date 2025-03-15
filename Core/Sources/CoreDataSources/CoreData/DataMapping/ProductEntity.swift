@@ -1,37 +1,37 @@
 //
-//  File.swift
-//  
+//  ProductEntity.swift
+//
 //
 //  Created by Admin on 04/12/2024.
 //
 
-import CoreEntities
 import CoreData
+import CoreEntities
 
 public extension ProductEntity {
     func toDomain() -> Product? {
         guard
-            let title = self.title,
-            let description = self.productDescription,
-            let category = self.category,
-            let thumbnail = self.thumbnail
+            let title = title,
+            let description = productDescription,
+            let category = category,
+            let thumbnail = thumbnail
         else { return nil }
-        
-        let imageSet = (self.images as? Set<ImageEntity>) ?? []
+
+        let imageSet = (images as? Set<ImageEntity>) ?? []
         let imageURLs = imageSet.compactMap { $0.image }
-        
+
         return Product(
-            id: Int(self.id),
-            price: self.price,
+            id: Int(id),
+            price: price,
             title: title,
             description: description,
             category: category,
             thumbnail: thumbnail,
-            brand: self.brand,
+            brand: brand,
             images: imageURLs,
-            discountPercentage: self.discountPercentage,
-            rating: self.rating,
-            stock: Int(self.stock)
+            discountPercentage: discountPercentage,
+            rating: rating,
+            stock: Int(stock)
         )
     }
 }
@@ -49,14 +49,14 @@ public extension Product {
         entity.discountPercentage = discountPercentage
         entity.rating = rating
         entity.stock = Int32(stock)
-        
+
         let imageEntities = images.map { url -> ImageEntity in
             let imageEntity = ImageEntity(context: context)
             imageEntity.image = url
             return imageEntity
         }
         entity.images = NSSet(array: imageEntities)
-        
+
         return entity
     }
 }

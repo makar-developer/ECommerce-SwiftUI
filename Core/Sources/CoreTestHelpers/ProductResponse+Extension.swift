@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  ProductResponse+Extension.swift
+//
 //
 //  Created by Admin on 07/01/2025.
 //
@@ -8,22 +8,21 @@
 import CoreEntities
 
 public extension ProductResponse {
-
     static func getOneOfThis() -> ProductResponse {
         // Return the first page, containing the first 10 products
-        let products = Array(allProducts[0..<10])
+        let products = Array(allProducts[0 ..< 10])
         return ProductResponse(products: products, total: 30, skip: 0, limit: 10)
     }
 
     static func getAnArrayOfThese() -> [ProductResponse] {
         // Return an array of 3 ProductResponse items, each containing 10 products
         return [
-            ProductResponse(products: Array(allProducts[0..<10]), total: 30, skip: 0, limit: 10),
-            ProductResponse(products: Array(allProducts[10..<20]), total: 30, skip: 10, limit: 10),
-            ProductResponse(products: Array(allProducts[20..<30]), total: 30, skip: 20, limit: 10)
+            ProductResponse(products: Array(allProducts[0 ..< 10]), total: 30, skip: 0, limit: 10),
+            ProductResponse(products: Array(allProducts[10 ..< 20]), total: 30, skip: 10, limit: 10),
+            ProductResponse(products: Array(allProducts[20 ..< 30]), total: 30, skip: 20, limit: 10),
         ]
     }
-    
+
     static let allProducts: [Product] = [
         Product(
             id: 1,
@@ -34,7 +33,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png",
             brand: "Essence",
             images: [
-                "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png"
+                "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
             ],
             discountPercentage: 7.17,
             rating: 4.94,
@@ -49,7 +48,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/thumbnail.png",
             brand: "Glamour Beauty",
             images: [
-                "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/1.png"
+                "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/1.png",
             ],
             discountPercentage: 5.5,
             rating: 3.28,
@@ -64,7 +63,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/thumbnail.png",
             brand: "Velvet Touch",
             images: [
-                "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png"
+                "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png",
             ],
             discountPercentage: 18.14,
             rating: 3.82,
@@ -79,7 +78,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/thumbnail.png",
             brand: "Chic Cosmetics",
             images: [
-                "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/1.png"
+                "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/1.png",
             ],
             discountPercentage: 19.03,
             rating: 2.51,
@@ -94,7 +93,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/beauty/Red%20Nail%20Polish/thumbnail.png",
             brand: "Nail Couture",
             images: [
-                "https://cdn.dummyjson.com/products/images/beauty/Red%20Nail%20Polish/1.png"
+                "https://cdn.dummyjson.com/products/images/beauty/Red%20Nail%20Polish/1.png",
             ],
             discountPercentage: 2.46,
             rating: 3.91,
@@ -111,7 +110,7 @@ public extension ProductResponse {
             images: [
                 "https://cdn.dummyjson.com/products/images/fragrances/Calvin%20Klein%20CK%20One/1.png",
                 "https://cdn.dummyjson.com/products/images/fragrances/Calvin%20Klein%20CK%20One/2.png",
-                "https://cdn.dummyjson.com/products/images/fragrances/Calvin%20Klein%20CK%20One/3.png"
+                "https://cdn.dummyjson.com/products/images/fragrances/Calvin%20Klein%20CK%20One/3.png",
             ],
             discountPercentage: 0.32,
             rating: 4.85,
@@ -128,7 +127,7 @@ public extension ProductResponse {
             images: [
                 "https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/1.png",
                 "https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/2.png",
-                "https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/3.png"
+                "https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/3.png",
             ],
             discountPercentage: 18.64,
             rating: 2.76,
@@ -145,7 +144,7 @@ public extension ProductResponse {
             images: [
                 "https://cdn.dummyjson.com/products/images/fragrances/Dior%20J'adore/1.png",
                 "https://cdn.dummyjson.com/products/images/fragrances/Dior%20J'adore/2.png",
-                "https://cdn.dummyjson.com/products/images/fragrances/Dior%20J'adore/3.png"
+                "https://cdn.dummyjson.com/products/images/fragrances/Dior%20J'adore/3.png",
             ],
             discountPercentage: 17.44,
             rating: 3.31,
@@ -162,7 +161,7 @@ public extension ProductResponse {
             images: [
                 "https://cdn.dummyjson.com/products/images/fragrances/Dolce%20Shine%20Eau%20de/1.png",
                 "https://cdn.dummyjson.com/products/images/fragrances/Dolce%20Shine%20Eau%20de/2.png",
-                "https://cdn.dummyjson.com/products/images/fragrances/Dolce%20Shine%20Eau%20de/3.png"
+                "https://cdn.dummyjson.com/products/images/fragrances/Dolce%20Shine%20Eau%20de/3.png",
             ],
             discountPercentage: 11.47,
             rating: 2.68,
@@ -179,7 +178,7 @@ public extension ProductResponse {
             images: [
                 "https://cdn.dummyjson.com/products/images/fragrances/Gucci%20Bloom%20Eau%20de/1.png",
                 "https://cdn.dummyjson.com/products/images/fragrances/Gucci%20Bloom%20Eau%20de/2.png",
-                "https://cdn.dummyjson.com/products/images/fragrances/Gucci%20Bloom%20Eau%20de/3.png"
+                "https://cdn.dummyjson.com/products/images/fragrances/Gucci%20Bloom%20Eau%20de/3.png",
             ],
             discountPercentage: 8.9,
             rating: 2.69,
@@ -196,7 +195,7 @@ public extension ProductResponse {
             images: [
                 "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Bed/1.png",
                 "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Bed/2.png",
-                "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Bed/3.png"
+                "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Bed/3.png",
             ],
             discountPercentage: 0.29,
             rating: 4.14,
@@ -213,7 +212,7 @@ public extension ProductResponse {
             images: [
                 "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Sofa/1.png",
                 "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Sofa/2.png",
-                "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Sofa/3.png"
+                "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Sofa/3.png",
             ],
             discountPercentage: 18.54,
             rating: 3.08,
@@ -230,7 +229,7 @@ public extension ProductResponse {
             images: [
                 "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/1.png",
                 "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/2.png",
-                "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/3.png"
+                "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/3.png",
             ],
             discountPercentage: 9.58,
             rating: 4.48,
@@ -247,7 +246,7 @@ public extension ProductResponse {
             images: [
                 "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/1.png",
                 "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/2.png",
-                "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/3.png"
+                "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/3.png",
             ],
             discountPercentage: 15.23,
             rating: 4.11,
@@ -264,7 +263,7 @@ public extension ProductResponse {
             images: [
                 "https://cdn.dummyjson.com/products/images/furniture/Wooden%20Bathroom%20Sink%20With%20Mirror/1.png",
                 "https://cdn.dummyjson.com/products/images/furniture/Wooden%20Bathroom%20Sink%20With%20Mirror/2.png",
-                "https://cdn.dummyjson.com/products/images/furniture/Wooden%20Bathroom%20Sink%20With%20Mirror/3.png"
+                "https://cdn.dummyjson.com/products/images/furniture/Wooden%20Bathroom%20Sink%20With%20Mirror/3.png",
             ],
             discountPercentage: 11.22,
             rating: 3.26,
@@ -279,7 +278,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Apple/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Apple/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Apple/1.png",
             ],
             discountPercentage: 1.97,
             rating: 2.96,
@@ -294,7 +293,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Beef%20Steak/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Beef%20Steak/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Beef%20Steak/1.png",
             ],
             discountPercentage: 17.99,
             rating: 2.83,
@@ -309,7 +308,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Cat%20Food/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Cat%20Food/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Cat%20Food/1.png",
             ],
             discountPercentage: 9.57,
             rating: 2.88,
@@ -325,7 +324,7 @@ public extension ProductResponse {
             brand: "N/A",
             images: [
                 "https://cdn.dummyjson.com/products/images/groceries/Chicken%20Meat/1.png",
-                "https://cdn.dummyjson.com/products/images/groceries/Chicken%20Meat/2.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Chicken%20Meat/2.png",
             ],
             discountPercentage: 10.46,
             rating: 4.61,
@@ -340,7 +339,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Cooking%20Oil/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Cooking%20Oil/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Cooking%20Oil/1.png",
             ],
             discountPercentage: 18.89,
             rating: 4.01,
@@ -355,7 +354,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Cucumber/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Cucumber/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Cucumber/1.png",
             ],
             discountPercentage: 11.44,
             rating: 4.71,
@@ -370,7 +369,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Dog%20Food/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Dog%20Food/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Dog%20Food/1.png",
             ],
             discountPercentage: 18.15,
             rating: 2.74,
@@ -385,7 +384,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Eggs/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Eggs/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Eggs/1.png",
             ],
             discountPercentage: 5.8,
             rating: 4.46,
@@ -400,7 +399,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Fish%20Steak/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Fish%20Steak/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Fish%20Steak/1.png",
             ],
             discountPercentage: 7.0,
             rating: 4.83,
@@ -415,7 +414,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Green%20Bell%20Pepper/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Green%20Bell%20Pepper/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Green%20Bell%20Pepper/1.png",
             ],
             discountPercentage: 15.5,
             rating: 4.28,
@@ -430,7 +429,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Green%20Chili%20Pepper/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Green%20Chili%20Pepper/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Green%20Chili%20Pepper/1.png",
             ],
             discountPercentage: 18.51,
             rating: 4.43,
@@ -445,7 +444,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Honey%20Jar/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Honey%20Jar/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Honey%20Jar/1.png",
             ],
             discountPercentage: 1.91,
             rating: 3.5,
@@ -463,7 +462,7 @@ public extension ProductResponse {
                 "https://cdn.dummyjson.com/products/images/groceries/Ice%20Cream/1.png",
                 "https://cdn.dummyjson.com/products/images/groceries/Ice%20Cream/2.png",
                 "https://cdn.dummyjson.com/products/images/groceries/Ice%20Cream/3.png",
-                "https://cdn.dummyjson.com/products/images/groceries/Ice%20Cream/4.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Ice%20Cream/4.png",
             ],
             discountPercentage: 7.58,
             rating: 3.77,
@@ -478,7 +477,7 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Juice/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Juice/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Juice/1.png",
             ],
             discountPercentage: 5.45,
             rating: 3.41,
@@ -493,11 +492,11 @@ public extension ProductResponse {
             thumbnail: "https://cdn.dummyjson.com/products/images/groceries/Kiwi/thumbnail.png",
             brand: "N/A",
             images: [
-                "https://cdn.dummyjson.com/products/images/groceries/Kiwi/1.png"
+                "https://cdn.dummyjson.com/products/images/groceries/Kiwi/1.png",
             ],
             discountPercentage: 10.32,
             rating: 4.37,
             stock: 1
-        )
+        ),
     ]
 }

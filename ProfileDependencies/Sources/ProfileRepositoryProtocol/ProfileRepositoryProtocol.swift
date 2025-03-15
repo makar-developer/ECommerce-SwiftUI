@@ -1,12 +1,12 @@
 //
-//  File.swift
-//  
+//  ProfileRepositoryProtocol.swift
+//
 //
 //  Created by Admin on 16/12/2024.
 //
 
-import Foundation
 import CoreEntities
+import Foundation
 
 public protocol ProfileRepositoryProtocol {
     func updateUserName(_ name: UserName, for userId: UUID) async throws

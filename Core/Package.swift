@@ -10,28 +10,36 @@ let package = Package(
     products: [
         .library(
             name: "Core",
-            targets: ["Core"]),
+            targets: ["Core"]
+        ),
         .library(
             name: "CoreEntities",
-            targets: ["CoreEntities"]),
+            targets: ["CoreEntities"]
+        ),
         .library(
             name: "CoreRepositories",
-            targets: ["CoreRepositories"]),
+            targets: ["CoreRepositories"]
+        ),
         .library(
             name: "CoreStyleguide",
-            targets: ["CoreStyleguide"]),
+            targets: ["CoreStyleguide"]
+        ),
         .library(
             name: "CoreUseCases",
-            targets: ["CoreUseCases"]),
+            targets: ["CoreUseCases"]
+        ),
         .library(
             name: "CoreDataSources",
-            targets: ["CoreDataSources"]),
+            targets: ["CoreDataSources"]
+        ),
         .library(
             name: "CoreDependencies",
-            targets: ["CoreDependencies"]),
+            targets: ["CoreDependencies"]
+        ),
         .library(
             name: "CoreTestHelpers",
-            targets: ["CoreTestHelpers"])
+            targets: ["CoreTestHelpers"]
+        ),
     ],
     dependencies: [
     ],
@@ -49,7 +57,7 @@ let package = Package(
                 "CoreRepositories",
                 "CoreUseCases",
                 "CoreTestHelpers",
-                "CoreStyleguide"
+                "CoreStyleguide",
             ]
         ),
         .target(
@@ -59,53 +67,53 @@ let package = Package(
         .target(
             name: "CoreRepositories",
             dependencies: [
-            "CoreEntities",
-            "CoreDataSources"
+                "CoreEntities",
+                "CoreDataSources",
             ]
         ),
         .target(
             name: "CoreStyleguide",
             dependencies: [
-            "CoreUseCases",
-            "CoreTestHelpers",
-            "Core"
+                "CoreUseCases",
+                "CoreTestHelpers",
+                "Core",
             ],
             resources: [
-                .process("Resources")
+                .process("Resources"),
             ]
         ),
         .target(
             name: "CoreUseCases",
             dependencies: [
-            "CoreEntities",
-            "CoreRepositories"
+                "CoreEntities",
+                "CoreRepositories",
             ]
         ),
         .target(
             name: "CoreDependencies",
             dependencies: [
-            "CoreEntities",
-            "CoreRepositories",
-            "CoreUseCases",
-            "CoreDataSources"
+                "CoreEntities",
+                "CoreRepositories",
+                "CoreUseCases",
+                "CoreDataSources",
             ]
         ),
         .target(
             name: "CoreDataSources",
             dependencies: [
-            "CoreEntities"
+                "CoreEntities",
             ],
             path: "Sources/CoreDataSources",
 
             resources: [
-                .process("CoreData/Models/UserData.xcdatamodeld")
+                .process("CoreData/Models/UserData.xcdatamodeld"),
             ]
         ),
         .target(
             name: "CoreTestHelpers",
             dependencies: [
-            "CoreEntities"
+                "CoreEntities",
             ]
-        )
+        ),
     ]
 )

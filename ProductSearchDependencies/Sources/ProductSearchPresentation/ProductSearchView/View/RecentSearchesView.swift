@@ -1,12 +1,12 @@
 //
-//  File.swift
-//  
+//  RecentSearchesView.swift
+//
 //
 //  Created by Admin on 19/12/2024.
 //
 
-import SwiftUI
 import ProductSearchEntities
+import SwiftUI
 
 // MARK: - RecentSearchesView
 
@@ -54,8 +54,8 @@ struct RecentSearchesView: View {
                 }
                 .listStyle(PlainListStyle())
                 .frame(height: min(CGFloat(recentQueries.count) * 44, 200))
-                 .background(Color.backgroundPrimary)
-                 .cornerRadius(12)
+                .background(Color.backgroundPrimary)
+                .cornerRadius(12)
             }
         }
     }

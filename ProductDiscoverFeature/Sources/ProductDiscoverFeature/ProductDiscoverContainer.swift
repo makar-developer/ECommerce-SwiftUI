@@ -1,8 +1,9 @@
-import SwiftUI
-import ProductDiscoverRepositoryProtocol
+import CoreDataSources
 import ProductDiscoverDomain
 import ProductDiscoverRepository
-import CoreDataSources
+import ProductDiscoverRepositoryProtocol
+import SwiftUI
+
 public protocol ProductDiscoverDIContainerProtocol {
     // Use Cases
     func makeGetHotSalesUseCase() -> GetHotSalesUseCaseProtocol
@@ -10,22 +11,20 @@ public protocol ProductDiscoverDIContainerProtocol {
 }
 
 public struct ProductDiscoverDIContainerImpl: ProductDiscoverDIContainerProtocol {
-    
     private let networkService: NetworkServiceDataSourceProtocol
     private let productDiscoverRepository: ProductDiscoverRepositoryProtocol
-    
+
     public init() {
-        self.networkService = NetworkServiceDataSourceImpl(baseURL: URL(string: "https://dummyjson.com/products")!)
-        self.productDiscoverRepository = ProductDiscoverRepositoryImpl(networkService: networkService)
+        networkService = NetworkServiceDataSourceImpl(baseURL: URL(string: "https://dummyjson.com/products")!)
+        productDiscoverRepository = ProductDiscoverRepositoryImpl(networkService: networkService)
     }
-    
+
     // Use Cases
     public func makeGetHotSalesUseCase() -> GetHotSalesUseCaseProtocol {
         GetHotSalesUseCase(repository: productDiscoverRepository)
     }
-    
+
     public func makeGetRecommendedForYouUseCase() -> GetRecommendedForYouUseCaseProtocol {
         GetRecommendedForYouUseCase(repository: productDiscoverRepository)
     }
 }
-

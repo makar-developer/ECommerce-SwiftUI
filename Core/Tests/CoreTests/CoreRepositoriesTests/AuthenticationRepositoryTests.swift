@@ -1,18 +1,17 @@
 //
-//  File.swift
-//  
+//  AuthenticationRepositoryTests.swift
+//
 //
 //  Created by Admin on 06/01/2025.
 //
 
-import XCTest
-@testable import CoreEntities
 @testable import CoreDataSources
+@testable import CoreEntities
 @testable import CoreRepositories
 @testable import CoreTestHelpers
+import XCTest
 
 final class AuthenticationRepositoryTests: XCTestCase {
-
     func testSignInSavesUserData() async throws {
         // given
         let mockKeychain = MockKeychainDataSource()
@@ -39,7 +38,7 @@ final class AuthenticationRepositoryTests: XCTestCase {
         let mockKeychain = MockKeychainDataSource()
         let sut = AuthenticationRepository(keychainDataSource: mockKeychain)
         let user = User.getOneOfThis()
-        try await sut.signIn(user: user)  // Preload keychain
+        try await sut.signIn(user: user) // Preload keychain
 
         // when
         let loadedUser = try await sut.getSignedInUser()

@@ -1,5 +1,5 @@
-import XCTest
 @testable import ProductCartDependencies
+import XCTest
 
 final class ProductCartDependenciesTests: XCTestCase {
     func testExample() throws {

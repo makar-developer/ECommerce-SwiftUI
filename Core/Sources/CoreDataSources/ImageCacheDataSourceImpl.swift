@@ -1,11 +1,12 @@
 //
-//  File.swift
-//  
+//  ImageCacheDataSourceImpl.swift
+//
 //
 //  Created by Admin on 07/12/2024.
 //
 
 import UIKit
+
 public protocol ImageCacheDataSourceProtocol {
     func image(for url: URL) -> UIImage?
     func save(_ image: UIImage, for url: URL)
@@ -22,7 +23,8 @@ public final class ImageCacheDataSourceImpl: ImageCacheDataSourceProtocol {
     public func image(for url: URL) -> UIImage? {
         let fileURL = cacheDirectory.appendingPathComponent(cacheKey(for: url))
         guard let data = try? Data(contentsOf: fileURL),
-              let image = UIImage(data: data) else {
+              let image = UIImage(data: data)
+        else {
             return nil
         }
         return image
@@ -43,13 +45,13 @@ public final class ImageCacheDataSourceImpl: ImageCacheDataSourceProtocol {
 
 final class MockImageCacheDataSource: ImageCacheDataSourceProtocol {
     private var storedImages: [URL: UIImage] = [:]
-    
+
     init() {}
-    
+
     func image(for url: URL) -> UIImage? {
         storedImages[url]
     }
-    
+
     func save(_ image: UIImage, for url: URL) {
         storedImages[url] = image
     }

@@ -1,13 +1,14 @@
 //
-//  File.swift
-//  
+//  CartEntity.swift
+//
 //
 //  Created by Admin on 04/12/2024.
 //
 
-import Foundation
-import CoreEntities
 import CoreData
+import CoreEntities
+import Foundation
+
 // MARK: - CartEntity Extension
 
 public extension CartEntity {
@@ -16,8 +17,8 @@ public extension CartEntity {
             .compactMap { $0.toDomain() } ?? []
         return Cart(
             products: products,
-            id: self.id ?? UUID(),
-            userId: self.userData?.id ?? UUID()
+            id: id ?? UUID(),
+            userId: userData?.id ?? UUID()
         )
     }
 }

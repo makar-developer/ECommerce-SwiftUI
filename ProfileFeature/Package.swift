@@ -11,13 +11,14 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "ProfileFeature",
-            targets: ["ProfileFeature"])
+            targets: ["ProfileFeature"]
+        ),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(path: "../ProfileDependencies"),
-        .package(path: "../Core")
+        .package(path: "../Core"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -29,10 +30,12 @@ let package = Package(
                 .product(name: "ProfileDomain", package: "ProfileDependencies"),
                 .product(name: "ProfileRepositoryProtocol", package: "ProfileDependencies"),
                 .product(name: "ProfileRepository", package: "ProfileDependencies"),
-                .product(name: "CoreDependencies", package: "Core")
-            ]),
+                .product(name: "CoreDependencies", package: "Core"),
+            ]
+        ),
         .testTarget(
             name: "ProfileFeatureTests",
-            dependencies: ["ProfileFeature"])
+            dependencies: ["ProfileFeature"]
+        ),
     ]
 )

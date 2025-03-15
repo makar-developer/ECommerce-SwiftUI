@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  OffsetObservingModifier.swift
+//
 //
 //  Created by Admin on 26/11/2024.
 //
@@ -14,6 +14,7 @@ public struct OffsetObservingModifier: AnimatableModifier {
         self.offset = offset
         self.update = update
     }
+
     // The offset to observe
     var offset: CGFloat
     var update: (CGFloat) -> Void

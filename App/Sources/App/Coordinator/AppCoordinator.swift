@@ -1,8 +1,8 @@
+import CoreEntities
+import CoreUseCases
+import Home
 import SwiftUI
 import WelcomeFeature
-import CoreEntities
-import Home
-import CoreUseCases
 
 /// App-level Coordinator  - can perform navigation between each individual Feature(within the App). Feature-level Coordinator - can perform navigation between each individual Screen(within the Feature).
 @MainActor
@@ -16,7 +16,7 @@ public final class AppCoordinator: ObservableObject {
     }
     
     func presentFeature(_ feature: Feature) {
-        self.fullScreenCoverFeature = feature
+        fullScreenCoverFeature = feature
     }
     
     func presentMain(_ user: User) {
@@ -28,7 +28,7 @@ public final class AppCoordinator: ObservableObject {
     }
     
     func dismissFeature() {
-        self.fullScreenCoverFeature = nil
+        fullScreenCoverFeature = nil
     }
     
     func getSignedInUser() async -> User? {
@@ -51,29 +51,29 @@ public final class AppCoordinator: ObservableObject {
                 }
             }
     }
-
+    
     @ViewBuilder
-        func build(feature: Feature) -> some View {
-            switch feature {
-            case .welcome:
-                WelcomeCoordinatorView(
-                    coordinator: WelcomeCoordinator(
-                        container: container.makeWelcomeDIContainer(),
-                        userDataContainer: container.makeUserDataDIContainer(),
-                        onNavigation: { [weak self] user in
-                            self?.presentMain(user)
-                        }
-                    )
-                )
-                
-            case .main(let user):
-                HomeCoordinatorTabView(
-                    user: user,
-                    container: container.makeHomeDIContainer(),
-                    onLogout: { [weak self] in
-                        self?.presentWelcome()
+    func build(feature: Feature) -> some View {
+        switch feature {
+        case .welcome:
+            WelcomeCoordinatorView(
+                coordinator: WelcomeCoordinator(
+                    container: container.makeWelcomeDIContainer(),
+                    userDataContainer: container.makeUserDataDIContainer(),
+                    onNavigation: { [weak self] user in
+                        self?.presentMain(user)
                     }
                 )
-            }
+            )
+            
+        case let .main(user):
+            HomeCoordinatorTabView(
+                user: user,
+                container: container.makeHomeDIContainer(),
+                onLogout: { [weak self] in
+                    self?.presentWelcome()
+                }
+            )
         }
+    }
 }

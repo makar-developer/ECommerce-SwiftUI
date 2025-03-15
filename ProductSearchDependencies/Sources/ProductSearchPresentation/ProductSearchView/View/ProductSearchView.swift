@@ -1,17 +1,17 @@
 //
-//  File.swift
-//  
+//  ProductSearchView.swift
+//
 //
 //  Created by Admin on 11/12/2024.
 //
 
-import SwiftUI
 import Combine
+import Core
 import CoreEntities
+import CoreStyleguide
 import CoreUseCases
 import ProductSearchEntities
-import Core
-import CoreStyleguide
+import SwiftUI
 
 // MARK: - ProductSearchView
 
@@ -19,11 +19,11 @@ public struct ProductSearchView: View {
     @StateObject private var viewModel: ProductSearchViewModel
     @Environment(\.screenWidth) private var screenWidth
     @FocusState private var isKeyboardFocused: Bool
-    
+
     public init(viewModel: ProductSearchViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     public var body: some View {
         NavigationView {
             VStack {
@@ -40,7 +40,7 @@ public struct ProductSearchView: View {
                     LinearGradient(
                         gradient: Gradient(colors: [
                             Color.backgroundSecondary.opacity(0.8),
-                            Color.backgroundSecondary
+                            Color.backgroundSecondary,
                         ]),
                         startPoint: .top,
                         endPoint: .bottom
@@ -49,7 +49,7 @@ public struct ProductSearchView: View {
                 .cornerRadius(15)
                 .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
                 .padding(.horizontal)
-                
+
                 // Recent Searches
                 if viewModel.isSearchFocused && viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     RecentSearchesView(
@@ -67,7 +67,7 @@ public struct ProductSearchView: View {
                     .padding(.horizontal)
                     .background(Color.backgroundPrimary)
                 }
-                
+
                 // Categories or Products, each wrapped in a LoadableScreen
                 if viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     LoadableScreen($viewModel.categoriesState) { data in
@@ -93,7 +93,6 @@ public struct ProductSearchView: View {
                         )
                     }
                     .background(Color.backgroundPrimary)
-
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

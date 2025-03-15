@@ -1,14 +1,14 @@
 //
-//  File.swift
-//  
+//  CartItemView.swift
+//
 //
 //  Created by Admin on 22/12/2024.
 //
 
-import SwiftUI
 import CoreEntities
 import CoreStyleguide
 import CoreUseCases
+import SwiftUI
 
 public struct CartItemView: View {
     let getImageUseCase: GetImageUseCaseProtocol
@@ -16,7 +16,7 @@ public struct CartItemView: View {
     let onIncrement: () -> Void
     let onDecrement: () -> Void
     let onDelete: () -> Void
-    
+
     public var body: some View {
         HStack {
             // Product Image
@@ -32,10 +32,10 @@ public struct CartItemView: View {
                         image
                             .resizable()
                     }
-                 )
+                )
                 .frame(width: 80, height: 80)
             }
-            
+
             VStack(alignment: .leading) {
                 // Product Title and Context Menu
                 HStack {
@@ -52,9 +52,9 @@ public struct CartItemView: View {
                             .foregroundColor(.accentSecondary)
                     }
                 }
-                
+
                 Spacer()
-                
+
                 // Quantity Stepper and Price
                 HStack {
                     // Quantity Stepper
@@ -70,9 +70,9 @@ public struct CartItemView: View {
                                 .foregroundColor(.accentPrimary)
                         }
                     }
-                    
+
                     Spacer()
-                    
+
                     // Price
                     Text("$\(cartItem.product.price * Double(cartItem.quantity), specifier: "%.2f")")
                         .font(.subheadline)

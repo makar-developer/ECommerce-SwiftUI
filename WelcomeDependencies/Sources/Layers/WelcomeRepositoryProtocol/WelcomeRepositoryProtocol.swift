@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  WelcomeRepositoryProtocol.swift
+//
 //
 //  Created by Admin on 17/11/2024.
 //

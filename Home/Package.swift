@@ -11,7 +11,8 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "Home",
-            targets: ["Home"])
+            targets: ["Home"]
+        ),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -20,7 +21,7 @@ let package = Package(
         .package(path: "../ProductDiscoverFeature"),
         .package(path: "../ProductSearchFeature"),
         .package(path: "../ProductCartFeature"),
-        .package(path: "../ProfileFeature")
+        .package(path: "../ProfileFeature"),
 
     ],
     targets: [
@@ -34,10 +35,12 @@ let package = Package(
                 "ProductDiscoverFeature",
                 "ProductSearchFeature",
                 "ProductCartFeature",
-                "ProfileFeature"
-            ]),
+                "ProfileFeature",
+            ]
+        ),
         .testTarget(
             name: "HomeTests",
-            dependencies: ["Home"])
+            dependencies: ["Home"]
+        ),
     ]
 )

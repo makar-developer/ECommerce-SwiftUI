@@ -1,13 +1,13 @@
 //
-//  File.swift
-//  
+//  CreateUserUseCase.swift
+//
 //
 //  Created by Admin on 26/11/2024.
 //
 
-import WelcomeRepositoryProtocol
 import CoreEntities
 import Foundation
+import WelcomeRepositoryProtocol
 
 public protocol CreateUserUseCaseProtocol {
     func execute(user: User) async throws
@@ -26,9 +26,8 @@ public final class CreateUserUseCase: CreateUserUseCaseProtocol {
 }
 
 public final class MockCreateUserUseCase: CreateUserUseCaseProtocol {
-    
     public init() {}
-    
+
     var shouldThrowError = false
     var createdUsers: [User] = []
 

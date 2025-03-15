@@ -1,19 +1,19 @@
 //
-//  File.swift
-//  
+//  ProductDiscoverView.swift
+//
 //
 //  Created by Admin on 02/12/2024.
 //
 
-import CoreEntities
-import SwiftUI
-import ProductDiscoverDomain
 import Core
+import CoreEntities
 import CoreStyleguide
+import ProductDiscoverDomain
+import SwiftUI
 
 struct ScrollOffsetPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = 0.0
-    
+
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = nextValue()
     }
@@ -25,11 +25,11 @@ public struct ProductDiscoverView: View {
     @State private var scrollOffset: CGFloat = 0.0
     @State private var contentHeight: CGFloat = 0.0
     @State private var scrollViewHeight: CGFloat = 0.0
-    
+
     public init(viewModel: ProductDiscoverViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     public var body: some View {
         // Wrap your content in ScrollView again if you want to preserve the existing layout
         ScrollView {
@@ -38,9 +38,8 @@ public struct ProductDiscoverView: View {
                     .preference(key: ScrollOffsetPreferenceKey.self, value: scrollViewProxy.frame(in: .global).minY)
             }
             .frame(height: 0)
-            
+
             VStack(alignment: .leading, spacing: 5) {
-                
                 // Hot Sales Section
                 Text(String(localized: "Hot Sales"))
                     .font(.title)
@@ -66,13 +65,13 @@ public struct ProductDiscoverView: View {
                         }
                     }
                 }
-                
+
                 // Recommended Products Section
                 Text(String(localized: "Recommended for You"))
                     .font(.title)
                     .foregroundColor(Color.accentSecondary)
                     .padding(.leading)
-                
+
                 LoadableScreen($viewModel.recommendedState) { recommendedProducts in
                     LazyVGrid(columns: [GridItem(), GridItem()], spacing: 16) {
                         ForEach(recommendedProducts) { product in
@@ -114,7 +113,7 @@ public struct ProductDiscoverView: View {
             checkIfNeedToLoadMore()
         }
     }
-    
+
     private func checkIfNeedToLoadMore() {
         let threshold: CGFloat = 100
         let scrollViewBottomOffset = contentHeight + scrollOffset - scrollViewHeight

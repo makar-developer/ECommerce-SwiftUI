@@ -1,13 +1,13 @@
 //
-//  File.swift
-//  
+//  CategoriesGridView.swift
+//
 //
 //  Created by Admin on 19/12/2024.
 //
 
-import SwiftUI
 import CoreUseCases
 import ProductSearchEntities
+import SwiftUI
 
 // MARK: - CategoriesGridView
 
@@ -18,7 +18,7 @@ struct CategoriesGridView: View {
     let onTap: (CategoryResponse) -> Void
     private let columns = [
         GridItem(.flexible()),
-        GridItem(.flexible())
+        GridItem(.flexible()),
     ]
 
     var body: some View {

@@ -1,15 +1,15 @@
 //
-//  File.swift
-//  
+//  ProductSearchRepository.swift
+//
 //
 //  Created by Admin on 11/12/2024.
 //
 
-import ProductSearchRepositoryProtocol
 import CoreDataSources
-import ProductSearchEntities
 import CoreEntities
 import Foundation
+import ProductSearchEntities
+import ProductSearchRepositoryProtocol
 
 public final class ProductSearchRepository: ProductSearchRepositoryProtocol {
     private let networkService: NetworkServiceDataSourceProtocol

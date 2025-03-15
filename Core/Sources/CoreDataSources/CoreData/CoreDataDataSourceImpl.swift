@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  CoreDataDataSourceImpl.swift
+//
 //
 //  Created by Admin on 04/12/2024.
 //
@@ -16,10 +16,9 @@ public protocol CoreDataDataSourceProtocol {
 }
 
 public final class CoreDataDataSourceImpl: CoreDataDataSourceProtocol {
-    
     public let context: NSManagedObjectContext
     private let persistentContainer: NSPersistentContainer
-    
+
     public init(modelName: String) {
         guard let modelURL = Bundle.module.url(forResource: modelName, withExtension: "momd") else {
             fatalError("Failed to find Core Data model in package.")
@@ -27,23 +26,23 @@ public final class CoreDataDataSourceImpl: CoreDataDataSourceProtocol {
         guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
             fatalError("Failed to load Core Data model from package.")
         }
-        
+
         persistentContainer = NSPersistentContainer(name: modelName, managedObjectModel: model)
         persistentContainer.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("CoreData load error: \(error)")
             }
         }
-        
+
         context = persistentContainer.newBackgroundContext()
     }
-    
+
     public func fetch<T: NSManagedObject>(_ request: NSFetchRequest<T>) async throws -> [T] {
         try await context.perform {
-            return try self.context.fetch(request)
+            try self.context.fetch(request)
         }
     }
-    
+
     public func save() async throws {
         if context.hasChanges {
             try await context.perform {
@@ -51,7 +50,7 @@ public final class CoreDataDataSourceImpl: CoreDataDataSourceProtocol {
             }
         }
     }
-    
+
     public func delete<T: NSManagedObject>(_ object: T) async throws {
         await context.perform {
             self.context.delete(object)
@@ -62,34 +61,34 @@ public final class CoreDataDataSourceImpl: CoreDataDataSourceProtocol {
 
 /// A generic, in-memory mock for CoreDataDataSourceProtocol.
 public final class MockCoreDataDataSource: CoreDataDataSourceProtocol {
-
     // We store objects keyed by entity name:
     private var inMemoryStore: [String: [NSManagedObject]] = [:]
     private let persistentContainer: NSPersistentContainer
 
     public init(modelName: String) {
         guard let modelURL = Bundle.module.url(forResource: modelName, withExtension: "momd"),
-              let model = NSManagedObjectModel(contentsOf: modelURL) else {
+              let model = NSManagedObjectModel(contentsOf: modelURL)
+        else {
             fatalError("Could not load model for MockCoreDataDataSource.")
         }
         persistentContainer = NSPersistentContainer(name: modelName, managedObjectModel: model)
-        
+
         // Use in-memory store
         let description = persistentContainer.persistentStoreDescriptions.first
         description?.type = NSInMemoryStoreType
-        
-        persistentContainer.loadPersistentStores { (_, error) in
+
+        persistentContainer.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("Failed to load in-memory store: \(error)")
             }
         }
     }
-    
+
     /// Return the in-memory NSManagedObjectContext
     public var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
-    
+
     /// Fetch objects from the in-memory store using the NSFetchRequest.
     public func fetch<T: NSManagedObject>(_ request: NSFetchRequest<T>) async throws -> [T] {
         await context.perform {
@@ -97,7 +96,7 @@ public final class MockCoreDataDataSource: CoreDataDataSourceProtocol {
             // Get stored objects by entity name.
             let allObjects = self.inMemoryStore[entityName] ?? []
             let typedObjects = allObjects.compactMap { $0 as? T }
-            
+
             // If a predicate is provided, filter based on it.
             if let predicate = request.predicate {
                 return typedObjects.filter { predicate.evaluate(with: $0) }
@@ -105,14 +104,14 @@ public final class MockCoreDataDataSource: CoreDataDataSourceProtocol {
             return typedObjects
         }
     }
-    
+
     /// Emulate saving changes. For the mock, this is a no-op.
     public func save() async throws {
         await context.perform {
             // No operation needed: our in-memory store is updated immediately.
         }
     }
-    
+
     /// Delete object: remove from our in-memory dictionary.
     public func delete<T: NSManagedObject>(_ object: T) async throws {
         await context.perform {
@@ -124,7 +123,7 @@ public final class MockCoreDataDataSource: CoreDataDataSourceProtocol {
         }
         try await save()
     }
-    
+
     // Optional helper: Insert object into the in-memory store.
     public func insert<T: NSManagedObject>(_ object: T) async throws {
         await context.perform {

@@ -1,12 +1,13 @@
 //
-//  File.swift
-//  
+//  FetchUserDataUserCase.swift
+//
 //
 //  Created by Admin on 18/12/2024.
 //
 
-import Foundation
 import CoreRepositories
+import Foundation
+
 public protocol FetchUserDataUseCaseProtocol {
     func execute(userId: UUID) async throws -> UUID?
 }
@@ -29,7 +30,7 @@ public final class MockFetchUserDataUseCase: FetchUserDataUseCaseProtocol {
     public var userDataMap: [UUID: UUID?] = [:]
 
     public init() {}
-    
+
     public func execute(userId: UUID) async throws -> UUID? {
         if shouldThrowError {
             throw NSError(domain: "FetchUserDataError", code: 1, userInfo: nil)

@@ -1,15 +1,15 @@
 //
-//  File.swift
-//  
+//  ProductDiscoverCoordinator.swift
+//
 //
 //  Created by Admin on 29/11/2024.
 //
 
-import SwiftUI
-import ProductDiscoverPresentation
+import CoreDependencies
 import CoreEntities
 import CoreStyleguide
-import CoreDependencies
+import ProductDiscoverPresentation
+import SwiftUI
 
 @MainActor
 final class ProductDiscoverCoordinator: ObservableObject {
@@ -19,7 +19,7 @@ final class ProductDiscoverCoordinator: ObservableObject {
     private let imageCacheContainer: ImageDIContainerProtocol
     private let productHistoryContainer: ProductHistoryDIContainerProtocol
     private let user: User
-    
+
     init(container: ProductDiscoverDIContainerProtocol, cartContainer: CartDIContainerProtocol, imageCacheContainer: ImageDIContainerProtocol, productHistoryContainer: ProductHistoryDIContainerProtocol, user: User) {
         self.container = container
         self.cartContainer = cartContainer
@@ -27,23 +27,23 @@ final class ProductDiscoverCoordinator: ObservableObject {
         self.productHistoryContainer = productHistoryContainer
         self.user = user
     }
-    
+
     private func push(screen: ProductDiscoverScreen) {
-        self.path.append(screen)
+        path.append(screen)
     }
-    
+
     private func pop() {
-        self.path.removeLast()
+        path.removeLast()
     }
-    
+
     private func showProductDetails(product: Product, user: User) {
-        self.push(screen: .productDetails(product, user))
+        push(screen: .productDetails(product, user))
     }
-    
+
     private func showProductDiscover() {
-        self.pop()
+        pop()
     }
-    
+
     @ViewBuilder
     func build(screen: ProductDiscoverScreen) -> some View {
         switch screen {
@@ -52,7 +52,7 @@ final class ProductDiscoverCoordinator: ObservableObject {
                 guard let self else { return }
                 self.showProductDetails(product: product, user: self.user)
             }))
-        case .productDetails(let product, let user):
+        case let .productDetails(product, user):
             ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.makeAddProductToCartUseCase(), addProductToHistoryUseCase: productHistoryContainer.makeAddProductToHistoryUseCase(), getImageUseCase: imageCacheContainer.getImageUseCase, onNavigation: { [weak self] in
                 guard let self else { return }
                 self.showProductDiscover()

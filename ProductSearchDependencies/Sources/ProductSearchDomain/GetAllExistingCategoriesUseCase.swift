@@ -1,12 +1,13 @@
 //
-//  File.swift
-//  
+//  GetAllExistingCategoriesUseCase.swift
+//
 //
 //  Created by Admin on 11/12/2024.
 //
 
 import ProductSearchEntities
 import ProductSearchRepositoryProtocol
+
 public protocol GetAllExistingCategoriesUseCaseProtocol {
     func execute() async throws -> [CategoryResponse]
 }

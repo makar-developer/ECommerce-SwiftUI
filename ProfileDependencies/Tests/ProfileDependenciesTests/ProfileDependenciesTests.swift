@@ -1,5 +1,5 @@
-import XCTest
 @testable import ProfileDependencies
+import XCTest
 
 final class ProfileDependenciesTests: XCTestCase {
     func testExample() throws {

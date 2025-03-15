@@ -1,14 +1,14 @@
 //
-//  File.swift
-//  
+//  ProductHistoryViewModel.swift
+//
 //
 //  Created by Admin on 17/12/2024.
 //
 
 import Foundation
 
-import CoreUseCases
 import CoreEntities
+import CoreUseCases
 
 @MainActor
 public final class ProductHistoryViewModel: ObservableObject {
@@ -16,18 +16,18 @@ public final class ProductHistoryViewModel: ObservableObject {
         case productDetails(Product)
         case profile
     }
-    
+
     @Published private(set) var productHistories: [ProductHistory] = []
     @Published private(set) var isLoading: Bool = false
     @Published var errorMessage: AlertError?
-    
+
     private let getProductHistoryUseCase: GetProductHistoryUseCaseProtocol
     private let removeProductFromHistoryUseCase: RemoveProductFromHistoryUseCaseProtocol
     private let removeAllHistoryUseCase: RemoveAllHistoryUseCaseProtocol
     let getImageUseCase: GetImageUseCaseProtocol
     private let userId: UUID
     private let onNavigation: (ProductHistoryViewModel.NavigationTarget) -> Void
-    
+
     public init(
         userId: UUID,
         getProductHistoryUseCase: GetProductHistoryUseCaseProtocol,
@@ -43,34 +43,34 @@ public final class ProductHistoryViewModel: ObservableObject {
         self.getImageUseCase = getImageUseCase
         self.onNavigation = onNavigation
     }
-    
+
     func loadHistory() async {
         isLoading = true
         do {
             let histories = try await getProductHistoryUseCase.execute(for: userId)
-            
+
             // Sort histories by timestamp in descending order (newest first)
             let sortedHistories = histories.sorted { $0.timestamp > $1.timestamp }
-            
+
             // Use a Set to keep track of seen product IDs
             var seenProductIDs = Set<Int>()
             var uniqueHistories: [ProductHistory] = []
-            
+
             for history in sortedHistories {
                 if !seenProductIDs.contains(history.product.id) {
                     uniqueHistories.append(history)
                     seenProductIDs.insert(history.product.id)
                 }
             }
-            
-            self.productHistories = uniqueHistories
-            self.isLoading = false
+
+            productHistories = uniqueHistories
+            isLoading = false
         } catch {
-            self.errorMessage = AlertError(message: error.localizedDescription)
-            self.isLoading = false
+            errorMessage = AlertError(message: error.localizedDescription)
+            isLoading = false
         }
     }
-    
+
     func removeProductHistory(_ history: ProductHistory) {
         Task {
             do {
@@ -81,7 +81,7 @@ public final class ProductHistoryViewModel: ObservableObject {
             }
         }
     }
-    
+
     func clearHistory() {
         Task {
             do {
@@ -92,11 +92,11 @@ public final class ProductHistoryViewModel: ObservableObject {
             }
         }
     }
-    
+
     func selectProduct(_ product: Product) {
         onNavigation(.productDetails(product))
     }
-    
+
     func backToProfile() {
         onNavigation(.profile)
     }

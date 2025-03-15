@@ -1,17 +1,18 @@
 //
-//  File.swift
-//  
+//  RemoveProductFromHistoryUseCase.swift
+//
 //
 //  Created by Admin on 18/12/2024.
 //
 
-import Foundation
 import CoreEntities
 import CoreRepositories
+import Foundation
 
 public protocol RemoveProductFromHistoryUseCaseProtocol {
     func execute(product: Product, for userId: UUID) async throws
 }
+
 public final class RemoveProductFromHistoryUseCase: RemoveProductFromHistoryUseCaseProtocol {
     private let repository: ProductHistoryRepositoryProtocol
 

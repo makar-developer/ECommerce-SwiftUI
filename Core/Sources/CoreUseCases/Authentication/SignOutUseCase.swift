@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  SignOutUseCase.swift
+//
 //
 //  Created by Admin on 15/12/2024.
 //

@@ -1,14 +1,14 @@
 //
-//  File.swift
-//  
+//  ProductCardView.swift
+//
 //
 //  Created by Admin on 02/12/2024.
 //
 
-import SwiftUI
 import Core
 import CoreEntities
 import CoreUseCases
+import SwiftUI
 
 public struct ProductCardView: View {
     let product: Product
@@ -83,6 +83,5 @@ public struct ProductCardView: View {
         .onTapGesture {
             onNavigation(product)
         }
-
     }
 }

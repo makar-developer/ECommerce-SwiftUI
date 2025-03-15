@@ -1,13 +1,14 @@
 //
-//  File.swift
-//  
+//  WelcomeCoordinatorView.swift
+//
 //
 //  Created by Admin on 17/11/2024.
 //
 
-import SwiftUI
-import CoreEntities
 import CoreDependencies
+import CoreEntities
+import SwiftUI
+
 public struct WelcomeCoordinatorView: View {
     @StateObject var coordinator: WelcomeCoordinator
     public init(coordinator: WelcomeCoordinator) {

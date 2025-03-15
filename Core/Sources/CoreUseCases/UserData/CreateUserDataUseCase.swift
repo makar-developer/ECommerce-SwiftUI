@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  CreateUserDataUseCase.swift
+//
 //
 //  Created by Admin on 18/12/2024.
 //
@@ -8,6 +8,7 @@
 import CoreEntities
 import CoreRepositories
 import Foundation
+
 public protocol CreateUserDataUseCaseProtocol {
     func execute(user: User) async throws
 }
@@ -29,7 +30,7 @@ public final class MockCreateUserDataUseCase: CreateUserDataUseCaseProtocol {
     public var createdUsersDataIDs: [UUID] = []
 
     public init() {}
-    
+
     public func execute(user: User) async throws {
         if shouldThrowError {
             throw NSError(domain: "CreateUserDataError", code: 1, userInfo: nil)

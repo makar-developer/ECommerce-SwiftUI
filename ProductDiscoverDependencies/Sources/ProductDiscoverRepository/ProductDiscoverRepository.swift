@@ -1,14 +1,15 @@
 //
-//  File.swift
-//  
+//  ProductDiscoverRepository.swift
+//
 //
 //  Created by Admin on 02/12/2024.
 //
 
-import Foundation
-import CoreEntities
-import ProductDiscoverRepositoryProtocol
 import CoreDataSources
+import CoreEntities
+import Foundation
+import ProductDiscoverRepositoryProtocol
+
 public final class ProductDiscoverRepositoryImpl: ProductDiscoverRepositoryProtocol {
     private let networkService: NetworkServiceDataSourceProtocol
 

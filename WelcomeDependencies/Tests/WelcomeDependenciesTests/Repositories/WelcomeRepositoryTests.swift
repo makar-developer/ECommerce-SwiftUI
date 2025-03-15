@@ -1,12 +1,11 @@
-import XCTest
-@testable import WelcomeRepositoryProtocol
-@testable import WelcomeData
 @testable import CoreDataSources
 @testable import CoreEntities
 @testable import CoreTestHelpers
+@testable import WelcomeData
+@testable import WelcomeRepositoryProtocol
+import XCTest
 
 final class WelcomeRepositoryImplTests: XCTestCase {
-
     private var mockKeychain: MockKeychainDataSource!
     private var sut: WelcomeRepositoryImpl!
 

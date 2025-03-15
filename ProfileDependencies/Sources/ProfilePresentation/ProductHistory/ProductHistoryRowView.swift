@@ -1,14 +1,15 @@
 //
-//  File.swift
-//  
+//  ProductHistoryRowView.swift
+//
 //
 //  Created by Admin on 17/12/2024.
 //
 
-import SwiftUI
 import CoreEntities
-import CoreUseCases
 import CoreStyleguide
+import CoreUseCases
+import SwiftUI
+
 struct ProductHistoryRowView: View {
     let history: ProductHistory
     let getImageUseCase: GetImageUseCaseProtocol

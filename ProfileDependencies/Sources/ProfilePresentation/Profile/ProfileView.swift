@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  ProfileView.swift
+//
 //
 //  Created by Admin on 16/12/2024.
 //
@@ -11,17 +11,17 @@ public struct ProfileView: View {
     @StateObject private var viewModel: ProfileViewModel
     @State private var isImagePickerPresented = false
     @State private var selectedImageData: Data?
-    
+
     public init(viewModel: ProfileViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     public var body: some View {
         ScrollView {
             VStack {
                 profileImageView
                     .padding(.top, 20)
-                
+
                 VStack(spacing: 16) {
                     TextField(String(localized: "User Name"), text: $viewModel.userName)
                         .textFieldStyle(CustomTextFieldStyle())
@@ -33,7 +33,7 @@ public struct ProfileView: View {
                             .font(.caption)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    
+
                     TextField(String(localized: "Login"), text: $viewModel.login)
                         .textFieldStyle(CustomTextFieldStyle())
                         .foregroundColor(.textBackground)
@@ -49,7 +49,7 @@ public struct ProfileView: View {
                 .background(Color.backgroundSecondary)
                 .cornerRadius(12)
                 .shadow(color: Color.borderColor.opacity(0.2), radius: 4, x: 0, y: 2)
-                
+
                 if let errorMessage = viewModel.errorMessage {
                     Text(errorMessage)
                         .foregroundColor(.errorColor)
@@ -57,8 +57,8 @@ public struct ProfileView: View {
                         .background(Color.backgroundSecondary)
                         .cornerRadius(8)
                 }
-                
-                Button(action: {viewModel.saveChanges()}) {
+
+                Button(action: { viewModel.saveChanges() }) {
                     Text(String(localized: "Save Changes"))
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity)
@@ -69,8 +69,8 @@ public struct ProfileView: View {
                 }
                 .disabled(!viewModel.canSaveChanges || viewModel.isLoading)
                 .padding([.horizontal, .top])
-                
-                Button(action: {viewModel.changePassword()}) {
+
+                Button(action: { viewModel.changePassword() }) {
                     Text(String(localized: "Change Password"))
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -79,8 +79,8 @@ public struct ProfileView: View {
                         .cornerRadius(30)
                 }
                 .padding(.horizontal)
-                
-                Button(action: {viewModel.showProductHistory()}) {
+
+                Button(action: { viewModel.showProductHistory() }) {
                     Text(String(localized: "View Product History"))
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -89,10 +89,10 @@ public struct ProfileView: View {
                         .cornerRadius(30)
                 }
                 .padding([.horizontal, .top])
-                
+
                 Spacer()
-                
-                Button(action: {viewModel.logout()}) {
+
+                Button(action: { viewModel.logout() }) {
                     Text(String(localized: "Logout"))
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -116,11 +116,12 @@ public struct ProfileView: View {
             viewModel.loadProfilePicture()
         }
     }
-    
+
     private var profileImageView: some View {
         Group {
             if let data = viewModel.profilePictureData,
-               let image = UIImage(data: data) {
+               let image = UIImage(data: data)
+            {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()

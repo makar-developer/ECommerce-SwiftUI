@@ -1,9 +1,10 @@
-import SwiftUI
 import CoreEntities
-import ProductDiscoverFeature
 import ProductCartFeature
+import ProductDiscoverFeature
 import ProductSearchFeature
 import ProfileFeature
+import SwiftUI
+
 public struct HomeCoordinatorTabView: View {
     let user: User
     let container: HomeDIContainerProtocol

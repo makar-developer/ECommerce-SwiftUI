@@ -1,21 +1,21 @@
 //
-//  File.swift
-//  
+//  ProductCartView.swift
+//
 //
 //  Created by Admin on 05/12/2024.
 //
 
-import SwiftUI
 import CoreEntities
 import CoreStyleguide
+import SwiftUI
 
 public struct ProductCartView: View {
     @StateObject private var viewModel: ProductCartViewModel
-    
+
     public init(viewModel: ProductCartViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     public var body: some View {
         ZStack {
             // Cart Items List
@@ -34,11 +34,11 @@ public struct ProductCartView: View {
                 .padding(.bottom, 120) // Space for checkout button
                 .background(Color.backgroundPrimary)
             }
-            
+
             // Checkout Button
             VStack {
                 Spacer()
-                Button(action: {viewModel.checkout()}) {
+                Button(action: { viewModel.checkout() }) {
                     HStack {
                         Text(String(localized: "Checkout"))
                             .foregroundColor(.textPrimary)

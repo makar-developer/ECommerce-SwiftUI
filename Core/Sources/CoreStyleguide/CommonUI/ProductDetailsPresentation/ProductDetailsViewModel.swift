@@ -1,25 +1,25 @@
 //
-//  File.swift
-//  
+//  ProductDetailsViewModel.swift
+//
 //
 //  Created by Admin on 03/12/2024.
 //
 
-import Foundation
 import CoreEntities
 import CoreUseCases
+import Foundation
 
 public final class ProductDetailsViewModel: ObservableObject {
     @Published private(set) var user: User
     @Published private(set) var product: Product
     @Published var currentImageIndex: Int = 0
     let onNavigation: () -> Void
-    
+
     private let addProductToCartUseCase: AddProductToCartUseCaseProtocol
     private let addProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol
-    
+
     let getImageUseCase: GetImageUseCaseProtocol
-    
+
     public init(user: User, product: Product, addProductToCartUseCase: AddProductToCartUseCaseProtocol, addProductToHistoryUseCase: AddProductToHistoryUseCaseProtocol, getImageUseCase: GetImageUseCaseProtocol, onNavigation: @escaping () -> Void) {
         self.user = user
         self.product = product
@@ -28,7 +28,7 @@ public final class ProductDetailsViewModel: ObservableObject {
         self.getImageUseCase = getImageUseCase
         self.onNavigation = onNavigation
     }
-    
+
     public func addToCart() {
         Task {
             do {
@@ -38,7 +38,7 @@ public final class ProductDetailsViewModel: ObservableObject {
             }
         }
     }
-    
+
     public func addProductToHistory() async {
         do {
             try await addProductToHistoryUseCase.execute(product: product, for: user.id)
@@ -47,4 +47,3 @@ public final class ProductDetailsViewModel: ObservableObject {
         }
     }
 }
-	

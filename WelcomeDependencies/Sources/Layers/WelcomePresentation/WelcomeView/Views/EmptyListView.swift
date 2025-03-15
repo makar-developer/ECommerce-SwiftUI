@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  EmptyListView.swift
+//
 //
 //  Created by Admin on 26/11/2024.
 //
@@ -8,6 +8,7 @@
 import SwiftUI
 
 //  view to display when there are no users
+
 // MARK: - EmptyListView
 
 struct EmptyListView: View {

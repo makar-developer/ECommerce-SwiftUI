@@ -11,19 +11,23 @@ let package = Package(
     products: [
         .library(
             name: "ProfilePresentation",
-            targets: ["ProfilePresentation"]),
+            targets: ["ProfilePresentation"]
+        ),
         .library(
             name: "ProfileDomain",
-            targets: ["ProfileDomain"]),
+            targets: ["ProfileDomain"]
+        ),
         .library(
             name: "ProfileRepositoryProtocol",
-            targets: ["ProfileRepositoryProtocol"]),
+            targets: ["ProfileRepositoryProtocol"]
+        ),
         .library(
             name: "ProfileRepository",
-            targets: ["ProfileRepository"])
+            targets: ["ProfileRepository"]
+        ),
     ],
     dependencies: [
-        .package(name: "Core", path: "../Core")
+        .package(name: "Core", path: "../Core"),
     ],
     targets: [
         .target(
@@ -32,26 +36,30 @@ let package = Package(
                 "ProfileDomain",
                 .product(name: "CoreEntities", package: "Core"),
                 .product(name: "CoreUseCases", package: "Core"),
-                .product(name: "CoreStyleguide", package: "Core")
-            ]),
+                .product(name: "CoreStyleguide", package: "Core"),
+            ]
+        ),
         .target(
             name: "ProfileDomain",
             dependencies: [
                 "ProfileRepositoryProtocol",
                 .product(name: "CoreEntities", package: "Core"),
-                .product(name: "CoreUseCases", package: "Core")
-            ]),
+                .product(name: "CoreUseCases", package: "Core"),
+            ]
+        ),
         .target(
             name: "ProfileRepositoryProtocol",
             dependencies: [
-                .product(name: "CoreEntities", package: "Core")
-            ]),
+                .product(name: "CoreEntities", package: "Core"),
+            ]
+        ),
         .target(
             name: "ProfileRepository",
             dependencies: [
                 "ProfileRepositoryProtocol",
                 .product(name: "CoreEntities", package: "Core"),
-                .product(name: "CoreDataSources", package: "Core")
-            ])
+                .product(name: "CoreDataSources", package: "Core"),
+            ]
+        ),
     ]
 )

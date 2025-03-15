@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  LoadableScreen.swift
+//
 //
 //  Created by Admin on 19/12/2024.
 //

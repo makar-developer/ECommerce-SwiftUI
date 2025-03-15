@@ -1,12 +1,13 @@
 //
-//  File.swift
-//  
+//  ProductHistoryView.swift
+//
 //
 //  Created by Admin on 17/12/2024.
 //
 
-import SwiftUI
 import CoreUseCases
+import SwiftUI
+
 public struct ProductHistoryView: View {
     @StateObject private var viewModel: ProductHistoryViewModel
 

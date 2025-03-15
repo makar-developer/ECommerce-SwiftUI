@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  ProductDiscoverScreen.swift
+//
 //
 //  Created by Admin on 29/11/2024.
 //
@@ -14,7 +14,7 @@ enum ProductDiscoverScreen: Identifiable, Hashable {
         switch self {
         case .productDiscover:
             return "productDiscover"
-        case .productDetails(let product, _):
+        case let .productDetails(product, _):
             return product.id.description
         }
     }

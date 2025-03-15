@@ -1,12 +1,12 @@
 //
-//  File.swift
-//  
+//  RemoveSearchQueryUseCase.swift
+//
 //
 //  Created by Admin on 11/12/2024.
 //
 
-import ProductSearchRepositoryProtocol
 import ProductSearchEntities
+import ProductSearchRepositoryProtocol
 
 public protocol RemoveSearchQueryUseCaseProtocol {
     func execute(searchQuery: SearchQuery)

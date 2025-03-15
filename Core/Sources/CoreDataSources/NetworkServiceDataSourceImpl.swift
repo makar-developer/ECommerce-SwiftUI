@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  NetworkServiceDataSourceImpl.swift
+//
 //
 //  Created by Admin on 07/12/2024.
 //
@@ -25,13 +25,13 @@ public final class NetworkServiceDataSourceImpl: NetworkServiceDataSourceProtoco
         guard let url = URL(string: urlString) else {
             throw URLError(.badURL)
         }
-        
+
         do {
             let (data, response) = try await urlSession.data(from: url)
-            if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+            if let httpResponse = response as? HTTPURLResponse, !(200 ... 299).contains(httpResponse.statusCode) {
                 throw URLError(.badServerResponse)
             }
-            
+
             let decodedData = try JSONDecoder().decode(T.self, from: data)
             return decodedData
         } catch {

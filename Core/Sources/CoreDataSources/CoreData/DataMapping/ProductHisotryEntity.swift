@@ -1,22 +1,22 @@
 //
-//  File.swift
-//  
+//  ProductHisotryEntity.swift
+//
 //
 //  Created by Admin on 16/12/2024.
 //
 
-import Foundation
-import CoreEntities
 import CoreData
+import CoreEntities
+import Foundation
 
 public extension ProductHistoryEntity {
     func toDomain() -> ProductHistory? {
         guard
-            let id = self.id,
-            let product = self.product?.toDomain(),
-            let timestamp = self.timestamp
+            let id = id,
+            let product = product?.toDomain(),
+            let timestamp = timestamp
         else { return nil }
-        
+
         return ProductHistory(
             id: id,
             product: product,
@@ -28,8 +28,8 @@ public extension ProductHistoryEntity {
 public extension ProductHistory {
     func toCoreData(context: NSManagedObjectContext) -> ProductHistoryEntity {
         let entity = ProductHistoryEntity(context: context)
-        entity.id = self.id
-        entity.timestamp = self.timestamp
+        entity.id = id
+        entity.timestamp = timestamp
         // product relationship will be set by repository as needed
         return entity
     }

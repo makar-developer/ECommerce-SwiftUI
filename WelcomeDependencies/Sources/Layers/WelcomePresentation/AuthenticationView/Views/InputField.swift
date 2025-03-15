@@ -1,11 +1,12 @@
 //
-//  File.swift
-//  
+//  InputField.swift
+//
 //
 //  Created by Admin on 02/01/2025.
 //
 
 import SwiftUI
+
 // MARK: - InputField View
 
 struct InputField: View {
@@ -58,7 +59,7 @@ struct InputField_Previews: PreviewProvider {
                 icon: "person",
                 isSecure: false
             )
-            
+
             InputField(
                 title: "Password",
                 text: $text,

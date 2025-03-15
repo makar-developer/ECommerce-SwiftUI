@@ -1,14 +1,15 @@
 //
-//  File.swift
-//  
+//  CartRepository.swift
+//
 //
 //  Created by Admin on 29/11/2024.
 //
 
-import Foundation
 import CoreData
-import CoreEntities
 import CoreDataSources
+import CoreEntities
+import Foundation
+
 // MARK: - CartRepositoryProtocol
 
 public protocol CartRepositoryProtocol {
@@ -17,10 +18,10 @@ public protocol CartRepositoryProtocol {
     func updateItem(_ item: CartItem, for user: User) async throws
     func removeItem(_ item: CartItem, from user: User) async throws
 }
+
 // MARK: - CartRepositoryImpl
 
 public final class CartRepositoryImpl: CartRepositoryProtocol {
-
     private let coreDataDataSource: CoreDataDataSourceProtocol
 
     public init(coreDataDataSource: CoreDataDataSourceProtocol) {
@@ -50,7 +51,7 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
 
         // Fetch or create product entity
         let productEntity = try await fetchOrCreateProductEntity(from: item.product)
-        
+
         // Check if the item is already in the cart
         let existingItems = cartEntity.products?.allObjects as? [CartItemEntity] ?? []
         if let existingCartItem = existingItems.first(where: { $0.product?.id == productEntity.id }) {
@@ -114,7 +115,7 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
             return entity
         }
     }
-    
+
     private func fetchOrCreateUserDataEntity(for user: User) async throws -> UserDataEntity {
         let request: NSFetchRequest<UserDataEntity> = UserDataEntity.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", user.id as CVarArg)
@@ -130,18 +131,17 @@ public final class CartRepositoryImpl: CartRepositoryProtocol {
 }
 
 public final class MockCartRepository: CartRepositoryProtocol {
-    
     // In-memory storage of user carts
     private var userCarts: [UUID: Cart] = [:]
-    
+
     // For test verifications
     public var didGetCart = false
     public var didAddItem = false
     public var didUpdateItem = false
     public var didRemoveItem = false
-    
+
     public init() {}
-    
+
     public func getCart(for user: User) async throws -> Cart {
         didGetCart = true
         if let existingCart = userCarts[user.id] {
@@ -152,7 +152,7 @@ public final class MockCartRepository: CartRepositoryProtocol {
             return newCart
         }
     }
-    
+
     public func addItem(_ item: CartItem, to user: User) async throws {
         didAddItem = true
         var cart = try await getCart(for: user)
@@ -163,7 +163,7 @@ public final class MockCartRepository: CartRepositoryProtocol {
         }
         userCarts[user.id] = cart
     }
-    
+
     public func updateItem(_ item: CartItem, for user: User) async throws {
         didUpdateItem = true
         var cart = try await getCart(for: user)
@@ -172,7 +172,7 @@ public final class MockCartRepository: CartRepositoryProtocol {
         }
         userCarts[user.id] = cart
     }
-    
+
     public func removeItem(_ item: CartItem, from user: User) async throws {
         didRemoveItem = true
         var cart = try await getCart(for: user)

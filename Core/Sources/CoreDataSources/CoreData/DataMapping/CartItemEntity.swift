@@ -1,24 +1,24 @@
 //
-//  File.swift
-//  
+//  CartItemEntity.swift
+//
 //
 //  Created by Admin on 04/12/2024.
 //
 
+import CoreData
 import CoreEntities
 import Foundation
-import CoreData
 
 public extension CartItemEntity {
     func toDomain() -> CartItem? {
         guard
             let product = product?.toDomain()
         else { return nil }
-        
+
         return CartItem(
             product: product,
-            quantity: Int(self.quantity),
-            id: self.id ?? UUID()
+            quantity: Int(quantity),
+            id: id ?? UUID()
         )
     }
 }

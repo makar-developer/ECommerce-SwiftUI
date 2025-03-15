@@ -1,12 +1,13 @@
 //
-//  File.swift
-//  
+//  GreetingCardView.swift
+//
 //
 //  Created by Admin on 26/11/2024.
 //
 
-import SwiftUI
 import CoreEntities
+import SwiftUI
+
 // MARK: - GreetingCardView
 
 public struct GreetingCardView: View {
@@ -18,7 +19,7 @@ public struct GreetingCardView: View {
     let signInAction: (User) -> Void
 
     @Environment(\.screenHeight) var screenHeight
-    
+
     public var body: some View {
         ZStack(alignment: .bottomLeading) {
             // Background Image
@@ -97,9 +98,8 @@ public struct GreetingCardView: View {
 }
 
 struct GreetingCardView_Previews: PreviewProvider {
+    static let user: User = .init(name: UserName(rawValue: "DefaultUser1")!, login: Login(rawValue: "user1")!, password: Password(rawValue: "Password1@")!, profilePicture: nil)
 
-    static let user: User = User(name: UserName(rawValue: "DefaultUser1")!, login: Login(rawValue: "user1")!, password: Password(rawValue: "Password1@")!, profilePicture: nil)
-    
     static var previews: some View {
         GreetingCardView(
             user: user,

@@ -1,13 +1,13 @@
 //
 //  File 3.swift
-//  
+//
 //
 //  Created by Admin on 16/12/2024.
 //
 
+import CoreEntities
 import Foundation
 import ProfileRepositoryProtocol
-import CoreEntities
 
 public protocol UpdatePasswordUseCaseProtocol {
     func execute(newPassword: String, for userId: UUID) async throws
@@ -19,7 +19,7 @@ public final class UpdatePasswordUseCase: UpdatePasswordUseCaseProtocol {
     public init(repository: ProfileRepositoryProtocol) {
         self.repository = repository
     }
-    
+
     public func execute(newPassword: String, for userId: UUID) async throws {
         guard let password = Password(rawValue: newPassword) else {
             throw ProfileUseCaseError.invalidPassword

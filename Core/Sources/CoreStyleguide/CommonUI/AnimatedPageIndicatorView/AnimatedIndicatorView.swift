@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  AnimatedIndicatorView.swift
+//
 //
 //  Created by Admin on 26/11/2024.
 //
@@ -11,7 +11,6 @@ import SwiftUI
 
 public struct AnimatedPageIndicatorView: View {
     public init(numberOfDots: Int, dotRadius: Double, dotSpacing: Double, currentProgress: Double) {
-        
         self.numberOfDots = numberOfDots
         self.dotRadius = dotRadius
         self.dotSpacing = dotSpacing
@@ -115,14 +114,14 @@ public struct AnimatedPageIndicatorView: View {
         // (b) i == index+1 (and index < last) → that’s the “neighbor” dot drawn separately
         // (c) i == 0 if the active dot is “still at or between” 0→1.
         //     i.e., index=0 or fraction>0 means blue dot hasn’t left 0 yet.
-        
+
         // Implement (c): hide i=0 only if index=0 AND fraction<1
         let shouldHideDot0: Bool = (i == 0 && index == 0 && fraction < 1.0)
-        
+
         // Combine skip conditions:
-        let skipBluePosition  = (i == index)
-        let skipNeighbor      = (i == index + 1 && index < numberOfDots - 1)
-        
+        let skipBluePosition = (i == index)
+        let skipNeighbor = (i == index + 1 && index < numberOfDots - 1)
+
         if skipBluePosition || skipNeighbor || shouldHideDot0 {
             return AnyView(EmptyView())
         } else {
@@ -138,7 +137,7 @@ public struct AnimatedPageIndicatorView: View {
             )
         }
     }
-    
+
     // 2) Active (blue) dot interpolation from “index” → “index+1.”
     private func activeBlueDotView(
         index: Int,
@@ -168,7 +167,7 @@ public struct AnimatedPageIndicatorView: View {
             .shadow(color: Color.accentPrimary.opacity(0.5), radius: 4, x: 0, y: 2)
             .position(x: blueCenterX, y: containerHeight / 2)
     }
-    
+
     // 3) Red “neighbor” dot at index+1, which moves backward to index.
     private func neighborRedDotView(
         index: Int,

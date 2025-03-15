@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  CategoryDetailsView.swift
+//
 //
 //  Created by Admin on 12/12/2024.
 //
@@ -19,7 +19,7 @@ public struct CategoryDetailsView: View {
 
     private let columns = [
         GridItem(.flexible()),
-        GridItem(.flexible())
+        GridItem(.flexible()),
     ]
 
     public var body: some View {
@@ -43,7 +43,6 @@ public struct CategoryDetailsView: View {
                 .background(Color.backgroundPrimary)
             }
             .background(Color.backgroundPrimary)
-
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.backgroundPrimary)

@@ -1,43 +1,45 @@
 //
-//  File.swift
-//  
+//  SnapCarousel.swift
+//
 //
 //  Created by Admin on 26/11/2024.
 //
 
-import SwiftUI
 import CoreEntities
 import CoreStyleguide
+import SwiftUI
 
 // MARK: - SnapCarousel
+
 public struct SnapCarousel<Content: View>: View {
     let data: [User]
     @Binding var currentIndex: Int
     let content: (User) -> Content
-    
+
     let createAccount: () -> Void
-    
+
     // State variables
     @GestureState private var dragOffset: CGFloat = 0
     @State private var firstViewOffset: CGFloat = 0
     @State private var currentProgress: Double = 0.0
-    
+
     // Environment values
     @Environment(\.screenWidth) var screenWidth
     @Environment(\.screenHeight) var screenHeight
-    
+
     // Constants
     private let spacing: CGFloat = 16
     private var cardWidth: CGFloat {
         screenWidth * 0.8
     }
+
     private let swipeThreshold: CGFloat = 100
-    
+
     public var body: some View {
         GeometryReader { geometry in
             let totalWidth = cardWidth + spacing
             let offsetX = (-CGFloat(currentIndex) * totalWidth) + dragOffset
-            
+
             VStack(spacing: 10) {
                 if data.isEmpty {
                     EmptyListView()
@@ -58,7 +60,7 @@ public struct SnapCarousel<Content: View>: View {
                     .offset(x: offsetX)
                     .modifier(OffsetObservingModifier(offset: offsetX) { newOffset in
                         // Update currentProgress based on the new offset
-                        let progress = (-newOffset) / totalWidth
+                        let progress = -newOffset / totalWidth
                         currentProgress = Double(progress)
                     })
                     .gesture(
@@ -66,14 +68,15 @@ public struct SnapCarousel<Content: View>: View {
                             .updating($dragOffset) { value, state, _ in
                                 let fraction = -state / screenWidth
                                 let provisional = Double(currentIndex) + Double(fraction)
-                                
+
                                 // Keep it in [0, data.count - 1]
                                 DispatchQueue.main.async {
                                     currentProgress = max(0, min(Double(data.count - 1), provisional))
                                 }
                                 let translationWidth = value.translation.width
                                 if (currentIndex == 0 && translationWidth > 0) ||
-                                    (currentIndex == data.count - 1 && translationWidth < 0) {
+                                    (currentIndex == data.count - 1 && translationWidth < 0)
+                                {
                                     state = 0 // Prevent movement beyond first/last
                                 } else {
                                     state = translationWidth
@@ -82,7 +85,7 @@ public struct SnapCarousel<Content: View>: View {
                             .onEnded { value in
                                 let dragDistance = value.translation.width
                                 let predictedEndOffset = dragDistance + (value.predictedEndLocation.x - value.location.x)
-                                
+
                                 if dragDistance < -swipeThreshold || predictedEndOffset < -swipeThreshold {
                                     // Swipe Left - next item
                                     if currentIndex < data.count - 1 {
@@ -108,7 +111,7 @@ public struct SnapCarousel<Content: View>: View {
                         // Initialize currentProgress
                         currentProgress = Double(currentIndex)
                     }
-                    
+
                     // Animated Page Indicator
                     if !data.isEmpty {
                         AnimatedPageIndicatorView(
@@ -119,7 +122,7 @@ public struct SnapCarousel<Content: View>: View {
                         )
                     }
                 }
-                
+
                 // Button to add an account
                 Button(action: {
                     createAccount()

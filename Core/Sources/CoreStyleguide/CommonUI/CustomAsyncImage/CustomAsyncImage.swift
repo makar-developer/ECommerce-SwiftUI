@@ -1,19 +1,19 @@
 //
-//  File.swift
-//  
+//  CustomAsyncImage.swift
+//
 //
 //  Created by Admin on 09/12/2024.
 //
 
-import SwiftUI
 import CoreUseCases
+import SwiftUI
 
 public struct CustomAsyncImage<Placeholder: View>: View {
     @StateObject private var viewModel: CustomAsyncImageViewModel
     @Environment(\.screenWidth) var screenWidth
     private let placeholder: Placeholder
     private let image: (Image) -> Image
-    
+
     public init(
         url: URL,
         getImageUseCase: GetImageUseCaseProtocol,

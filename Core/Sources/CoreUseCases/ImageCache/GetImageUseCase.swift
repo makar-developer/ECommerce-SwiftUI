@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  GetImageUseCase.swift
+//
 //
 //  Created by Admin on 08/12/2024.
 //
@@ -26,21 +26,20 @@ public final class GetImageUseCase: GetImageUseCaseProtocol {
 }
 
 public final class MockGetImageUseCase: GetImageUseCaseProtocol {
-    
     // Track calls:
     private(set) var executeCallCount = 0
     private(set) var requestedURLs = [URL]()
-    
+
     // Control behavior:
     var imageToReturn: UIImage?
     var errorToThrow: Error?
-    
+
     public init() {}
 
     public func execute(url: URL) async throws -> UIImage {
         executeCallCount += 1
         requestedURLs.append(url)
-        
+
         // Simulate error if set, otherwise return image
         if let errorToThrow = errorToThrow {
             throw errorToThrow

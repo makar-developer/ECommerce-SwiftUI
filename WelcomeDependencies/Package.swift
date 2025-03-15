@@ -10,19 +10,23 @@ let package = Package(
     products: [
         .library(
             name: "WelcomePresentation",
-            targets: ["WelcomePresentation"]),
+            targets: ["WelcomePresentation"]
+        ),
         .library(
             name: "WelcomeDomain",
-            targets: ["WelcomeDomain"]),
+            targets: ["WelcomeDomain"]
+        ),
         .library(
             name: "WelcomeRepositoryProtocol",
-            targets: ["WelcomeRepositoryProtocol"]),
+            targets: ["WelcomeRepositoryProtocol"]
+        ),
         .library(
             name: "WelcomeData",
-            targets: ["WelcomeData"])
+            targets: ["WelcomeData"]
+        ),
     ],
     dependencies: [
-        .package(path: "../Core")
+        .package(path: "../Core"),
     ],
     targets: [
         .target(
@@ -32,7 +36,7 @@ let package = Package(
                 .product(name: "Core", package: "Core"),
                 .product(name: "CoreEntities", package: "Core"),
                 .product(name: "CoreUseCases", package: "Core"),
-                .product(name: "CoreStyleguide", package: "Core")
+                .product(name: "CoreStyleguide", package: "Core"),
             ],
             path: "Sources/Layers/WelcomePresentation"
         ),
@@ -41,7 +45,7 @@ let package = Package(
             dependencies: [
                 "WelcomeRepositoryProtocol",
                 .product(name: "Core", package: "Core"),
-                .product(name: "CoreEntities", package: "Core")
+                .product(name: "CoreEntities", package: "Core"),
             ],
             path: "Sources/Layers/WelcomeDomain"
         ),
@@ -49,7 +53,7 @@ let package = Package(
             name: "WelcomeRepositoryProtocol",
             dependencies: [
                 .product(name: "Core", package: "Core"),
-                .product(name: "CoreEntities", package: "Core")
+                .product(name: "CoreEntities", package: "Core"),
             ],
             path: "Sources/Layers/WelcomeRepositoryProtocol"
         ),
@@ -59,7 +63,7 @@ let package = Package(
                 "WelcomeRepositoryProtocol",
                 .product(name: "Core", package: "Core"),
                 .product(name: "CoreEntities", package: "Core"),
-                .product(name: "CoreDataSources", package: "Core")
+                .product(name: "CoreDataSources", package: "Core"),
             ],
             path: "Sources/Layers/WelcomeData"
         ),
@@ -72,10 +76,9 @@ let package = Package(
                 "WelcomeDomain",
                 .product(name: "Core", package: "Core"),
                 .product(name: "CoreEntities", package: "Core"),
-                .product(name: "CoreDataSources", package: "Core")
+                .product(name: "CoreDataSources", package: "Core"),
             ]
-        )
-        
+        ),
     ]
 )
 //

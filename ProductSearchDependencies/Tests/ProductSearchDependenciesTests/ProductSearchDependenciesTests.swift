@@ -1,5 +1,5 @@
-import XCTest
 @testable import ProductSearchDependencies
+import XCTest
 
 final class ProductSearchDependenciesTests: XCTestCase {
     func testExample() throws {

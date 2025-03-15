@@ -11,13 +11,14 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "ProductCartFeature",
-            targets: ["ProductCartFeature"])
+            targets: ["ProductCartFeature"]
+        ),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(path: "../ProductCartDependencies"),
-        .package(path: "../Core")
+        .package(path: "../Core"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -26,10 +27,12 @@ let package = Package(
             name: "ProductCartFeature",
             dependencies: [
                 .product(name: "ProductCartPresentation", package: "ProductCartDependencies"),
-                .product(name: "CoreDependencies", package: "Core")
-            ]),
+                .product(name: "CoreDependencies", package: "Core"),
+            ]
+        ),
         .testTarget(
             name: "ProductCartFeatureTests",
-            dependencies: ["ProductCartFeature"])
+            dependencies: ["ProductCartFeature"]
+        ),
     ]
 )

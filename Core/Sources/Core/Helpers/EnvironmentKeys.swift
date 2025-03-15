@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  EnvironmentKeys.swift
+//
 //
 //  Created by Admin on 20/11/2024.
 //
@@ -17,6 +17,7 @@ public struct ScreenWidthKey: EnvironmentKey {
         }
     }
 }
+
 public struct ScreenHeigthKey: EnvironmentKey {
     public static var defaultValue: CGFloat {
         if let keyWindow = UIApplication.shared.connectedScenes.first as? UIWindowScene {
@@ -31,6 +32,7 @@ public extension EnvironmentValues {
     var screenWidth: CGFloat {
         self[ScreenWidthKey.self]
     }
+
     var screenHeight: CGFloat {
         self[ScreenWidthKey.self]
     }

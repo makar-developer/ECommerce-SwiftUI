@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  GetAllProductsUseCase.swift
+//
 //
 //  Created by Admin on 05/12/2024.
 //
@@ -13,13 +13,12 @@ public protocol GetAllProductsUseCaseProtocol {
 }
 
 public final class GetAllProductsUseCase: GetAllProductsUseCaseProtocol {
-    
     private let cartRepository: CartRepositoryProtocol
-    
+
     public init(cartRepository: CartRepositoryProtocol) {
         self.cartRepository = cartRepository
     }
-    
+
     public func execute(user: User) async throws -> [CartItem] {
         let cart = try await cartRepository.getCart(for: user)
         return cart.products

@@ -3,6 +3,7 @@ import ProductSearchRepositoryProtocol
 public protocol GetCategoryThumbnailsUseCaseProtocol {
     func execute(categorySlugs: [String]) async throws -> [String: String]
 }
+
 public final class GetCategoryThumbnailsUseCase: GetCategoryThumbnailsUseCaseProtocol {
     private let repository: ProductSearchRepositoryProtocol
 
@@ -20,16 +21,16 @@ public final class GetCategoryThumbnailsUseCase: GetCategoryThumbnailsUseCasePro
                     return (slug, thumbnail)
                 }
             }
-            
+
             // Collect results into a dictionary
             var thumbnailMap = [String: String]()
             for try await (slug, thumbnail) in group {
                 thumbnailMap[slug] = thumbnail
             }
-            
+
             return thumbnailMap
         }
-        
+
         return thumbnails
     }
 }

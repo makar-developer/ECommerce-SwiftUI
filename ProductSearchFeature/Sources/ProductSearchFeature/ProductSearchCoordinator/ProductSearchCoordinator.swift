@@ -1,16 +1,16 @@
 //
-//  File.swift
+//  ProductSearchCoordinator.swift
 //
 //
 //  Created by Admin on 11/12/2024.
 //
 
-import SwiftUI
-import ProductSearchPresentation
-import ProductSearchEntities
+import CoreDependencies
 import CoreEntities
 import CoreStyleguide
-import CoreDependencies
+import ProductSearchEntities
+import ProductSearchPresentation
+import SwiftUI
 
 @MainActor
 final class ProductSearchCoordinator: ObservableObject {
@@ -20,7 +20,7 @@ final class ProductSearchCoordinator: ObservableObject {
     private let imageCacheContainer: ImageDIContainerProtocol
     private let productHistoryContainer: ProductHistoryDIContainerProtocol
     private let user: User
-    
+
     init(container: ProductSearchDIContainerProtocol, cartContainer: CartDIContainerProtocol, imageCacheContainer: ImageDIContainerProtocol, productHistoryContainer: ProductHistoryDIContainerProtocol, user: User) {
         self.container = container
         self.cartContainer = cartContainer
@@ -28,39 +28,39 @@ final class ProductSearchCoordinator: ObservableObject {
         self.productHistoryContainer = productHistoryContainer
         self.user = user
     }
-    
+
     private func push(screen: ProductSearchScreen) {
         DispatchQueue.main.async {
             self.path.append(screen)
         }
     }
-    
+
     private func pop() {
         DispatchQueue.main.async {
             self.path.removeLast()
         }
     }
-    
+
     private func showCategoryDetails(category: CategoryResponse, user: User) {
-        self.push(screen: .categoryDetails(category, user))
+        push(screen: .categoryDetails(category, user))
     }
-    
+
     private func showCategoryDetails() {
-        self.pop()
+        pop()
     }
-    
+
     private func showProductDetails(product: Product, user: User) {
-        self.push(screen: .productDetails(product, user))
+        push(screen: .productDetails(product, user))
     }
-    
+
     private func showProductSearch() {
-        self.pop()
+        pop()
     }
-    
+
     @ViewBuilder
     func build(screen: ProductSearchScreen) -> some View {
         switch screen {
-        case .productDetails(let product, let user):
+        case let .productDetails(product, user):
             ProductDetailsView(viewModel: ProductDetailsViewModel(
                 user: user,
                 product: product,
@@ -84,18 +84,16 @@ final class ProductSearchCoordinator: ObservableObject {
                 getImageUseCase: imageCacheContainer.getImageUseCase,
                 onNavigation: { [weak self] target in
                     guard let self else { return }
-                    
+
                     switch target {
-                        
-                    case .categoryDetails(let category):
+                    case let .categoryDetails(category):
                         self.showCategoryDetails(category: category, user: self.user)
-                    case .productDetails(let product):
+                    case let .productDetails(product):
                         self.showProductDetails(product: product, user: self.user)
                     }
-                    
                 }
             ))
-        case .categoryDetails(let category, let user):
+        case let .categoryDetails(category, user):
             CategoryDetailsView(viewModel: CategoryDetailsViewModel(
                 categoryResponse: category,
                 user: user,
@@ -106,7 +104,7 @@ final class ProductSearchCoordinator: ObservableObject {
                     switch target {
                     case .productSearch:
                         self.showProductSearch()
-                    case .productDetails(let product):
+                    case let .productDetails(product):
                         self.showProductDetails(product: product, user: self.user)
                     }
                 }

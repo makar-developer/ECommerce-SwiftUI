@@ -1,21 +1,21 @@
 //
-//  File.swift
-//  
+//  ProfileRepositoryImpl.swift
+//
 //
 //  Created by Admin on 16/12/2024.
 //
 
-import Foundation
 import CoreDataSources
-import ProfileRepositoryProtocol
 import CoreEntities
+import Foundation
+import ProfileRepositoryProtocol
+
 public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
-    
     private let keychainDataSource: KeychainDataSourceProtocol
     private let fileStorageDataSource: FileStorageDataSourceProtocol
     private let profilePictureFileNamePrefix = "profile_picture_"
     private let usersKey = "users"
-    
+
     public init(
         // Ideally the same instance should be received from DI, since keychainDataSource is used in both ProfileFeature and WelcomeFeature, but it should be fine here since it connects to the same account(source of truth).
         keychainDataSource: KeychainDataSourceProtocol = KeychainDataSourceImpl(service: "com.yourapp.welcome", account: "users"),
@@ -24,7 +24,7 @@ public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
         self.keychainDataSource = keychainDataSource
         self.fileStorageDataSource = fileStorageDataSource
     }
-    
+
     public func updateUserName(_ name: UserName, for userId: UUID) async throws {
         var users = try await getUsers()
         guard let index = users.firstIndex(where: { $0.id == userId }) else {
@@ -41,7 +41,7 @@ public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
         users[index] = updatedUser
         try await saveUsers(users)
     }
-    
+
     public func updateLogin(_ login: Login, for userId: UUID) async throws {
         var users = try await getUsers()
         guard let index = users.firstIndex(where: { $0.id == userId }) else {
@@ -58,7 +58,7 @@ public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
         users[index] = updatedUser
         try await saveUsers(users)
     }
-    
+
     public func updatePassword(_ password: Password, for userId: UUID) async throws {
         var users = try await getUsers()
         guard let index = users.firstIndex(where: { $0.id == userId }) else {
@@ -75,7 +75,7 @@ public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
         users[index] = updatedUser
         try await saveUsers(users)
     }
-    
+
     public func getUser(by id: UUID) async throws -> User {
         let users = try await getUsers()
         guard let user = users.first(where: { $0.id == id }) else {
@@ -83,7 +83,7 @@ public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
         }
         return user
     }
-    
+
     public func updateProfilePicture(data: Data?, for userId: UUID) async throws {
         let fileName = fileNameForProfilePicture(userId: userId)
         if let data = data {
@@ -92,7 +92,7 @@ public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
             try await deleteProfilePicture(for: userId)
         }
     }
-    
+
     public func getProfilePicture(for userId: UUID) async throws -> Data? {
         let fileName = fileNameForProfilePicture(userId: userId)
         do {
@@ -108,7 +108,7 @@ public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
             }
         }
     }
-    
+
     public func deleteProfilePicture(for userId: UUID) async throws {
         let fileName = fileNameForProfilePicture(userId: userId)
         do {
@@ -121,9 +121,9 @@ public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
             }
         }
     }
-    
+
     // MARK: - Private Helpers
-    
+
     private func getUsers() async throws -> [User] {
         guard let data = try keychainDataSource.load() else {
             return [] // No users found
@@ -131,12 +131,12 @@ public final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
         let users = try JSONDecoder().decode([User].self, from: data)
         return users
     }
-    
+
     private func saveUsers(_ users: [User]) async throws {
         let data = try JSONEncoder().encode(users)
         try keychainDataSource.save(data: data)
     }
-    
+
     private func fileNameForProfilePicture(userId: UUID) -> String {
         return "\(profilePictureFileNamePrefix)\(userId.uuidString).png"
     }

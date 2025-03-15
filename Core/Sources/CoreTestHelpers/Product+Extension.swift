@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  Product+Extension.swift
+//
 //
 //  Created by Admin on 07/01/2025.
 //
@@ -18,14 +18,14 @@ public extension Product {
             thumbnail: "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png",
             brand: "Essence",
             images: [
-                "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png"
+                "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
             ],
             discountPercentage: 7.17,
             rating: 4.94,
             stock: 5
         )
     }
-    
+
     static func getAnArrayOfThese() -> [Product] {
         return [
             Product(
@@ -37,7 +37,7 @@ public extension Product {
                 thumbnail: "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png",
                 brand: "Essence",
                 images: [
-                    "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png"
+                    "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
                 ],
                 discountPercentage: 7.17,
                 rating: 4.94,
@@ -52,7 +52,7 @@ public extension Product {
                 thumbnail: "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/thumbnail.png",
                 brand: "Glamour Beauty",
                 images: [
-                    "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/1.png"
+                    "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/1.png",
                 ],
                 discountPercentage: 5.5,
                 rating: 3.28,
@@ -67,12 +67,12 @@ public extension Product {
                 thumbnail: "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/thumbnail.png",
                 brand: "Velvet Touch",
                 images: [
-                    "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png"
+                    "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png",
                 ],
                 discountPercentage: 18.14,
                 rating: 3.82,
                 stock: 59
-            )
+            ),
         ]
     }
 }

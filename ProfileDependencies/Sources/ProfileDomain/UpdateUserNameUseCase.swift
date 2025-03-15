@@ -1,13 +1,14 @@
 //
 //  File 3.swift
-//  
+//
 //
 //  Created by Admin on 16/12/2024.
 //
 
+import CoreEntities
 import Foundation
 import ProfileRepositoryProtocol
-import CoreEntities
+
 public protocol UpdateUserNameUseCaseProtocol {
     func execute(newName: String, for userId: UUID) async throws
 }
@@ -18,7 +19,7 @@ public final class UpdateUserNameUseCase: UpdateUserNameUseCaseProtocol {
     public init(repository: ProfileRepositoryProtocol) {
         self.repository = repository
     }
-    
+
     public func execute(newName: String, for userId: UUID) async throws {
         guard let userName = UserName(rawValue: newName) else {
             throw ProfileUseCaseError.invalidUserName

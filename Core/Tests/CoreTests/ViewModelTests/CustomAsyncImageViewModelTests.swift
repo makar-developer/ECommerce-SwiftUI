@@ -1,19 +1,18 @@
 //
-//  File.swift
-//  
+//  CustomAsyncImageViewModelTests.swift
+//
 //
 //  Created by Admin on 12/01/2025.
 //
 
-import XCTest
 @testable import CoreEntities
-@testable import CoreUseCases
-@testable import CoreTestHelpers
 @testable import CoreStyleguide
+@testable import CoreTestHelpers
+@testable import CoreUseCases
+import XCTest
 
 @MainActor
 final class CustomAsyncImageViewModelTests: XCTestCase {
-
     func testLoad_WhenUseCaseSucceeds_ShouldSetUIImageAndNotRetry() async throws {
         // given
         let mockUseCase = MockGetImageUseCase()
@@ -39,7 +38,7 @@ final class CustomAsyncImageViewModelTests: XCTestCase {
         let mockUseCase = MockGetImageUseCase()
         // Force the use case to throw an error
         mockUseCase.errorToThrow = NSError(domain: "TestError", code: 123, userInfo: nil)
-        
+
         let testURL = URL.getOneOfThis()
         let sut = CustomAsyncImageViewModel(url: testURL, getImageUseCase: mockUseCase)
 

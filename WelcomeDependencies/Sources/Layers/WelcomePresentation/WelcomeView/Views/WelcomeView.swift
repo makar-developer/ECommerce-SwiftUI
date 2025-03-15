@@ -1,8 +1,9 @@
-import SwiftUI
 import Core
 import CoreEntities
+import SwiftUI
 
 // MARK: - WelcomeView
+
 public struct WelcomeView: View {
     @StateObject private var viewModel: WelcomeViewModel
     @State private var currentIndex: Int = 0
@@ -21,7 +22,7 @@ public struct WelcomeView: View {
                     viewModel.deleteUser(user: selectedUser)
                     adjustCurrentIndexAfterDeletion()
                 },
-                signInAction: { selectedUser in
+                signInAction: { _ in
                     viewModel.signIn(user: user)
                     viewModel.showMain(user: user)
                 }
@@ -54,7 +55,7 @@ public struct WelcomeView: View {
             adjustCurrentIndexAfterDeletion()
         }
     }
-    
+
     @MainActor
     private func adjustCurrentIndexAfterDeletion() {
         if currentIndex >= viewModel.users.count {
@@ -64,27 +65,28 @@ public struct WelcomeView: View {
 }
 
 import CoreTestHelpers
-import WelcomeDomain
 import CoreUseCases
+import WelcomeDomain
+
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
         let mockGetAllUsersUseCase = MockGetAllUsersUseCase()
         mockGetAllUsersUseCase.returnedUsers = User.getAnArrayOfThese() // Mock users
-        
+
         let mockDeleteUserUseCase = MockDeleteUserUseCase()
         let mockSignInUseCase = MockSignInUseCase()
         let mockDeleteUserDataUseCase = MockDeleteUserDataUseCase()
         let mockCreateUserUseCase = MockCreateUserUseCase()
         let mockCreateUserDataUseCase = MockCreateUserDataUseCase()
         let mockFetchUserDataUseCase = MockFetchUserDataUseCase()
-        
+
         // Populate fetchUserDataUseCase with mock data
         mockFetchUserDataUseCase.userDataMap = [
             UUID(uuidString: "22222222-2222-2222-2222-222222222222")!: UUID(),
             UUID(uuidString: "33333333-3333-3333-3333-333333333333")!: UUID(),
-            UUID(uuidString: "44444444-4444-4444-4444-444444444444")!: nil
+            UUID(uuidString: "44444444-4444-4444-4444-444444444444")!: nil,
         ]
-        
+
         let viewModel = WelcomeViewModel(
             getAllUsersUseCase: mockGetAllUsersUseCase,
             deleteUserUseCase: mockDeleteUserUseCase,
@@ -97,16 +99,16 @@ struct WelcomeView_Previews: PreviewProvider {
                 switch target {
                 case .authentication:
                     print("Navigating to Authentication")
-                case .main(let user):
+                case let .main(user):
                     print("Navigating to Main with user: \(user.name.rawValue)")
                 }
             }
         )
-        
+
         Task {
             await viewModel.loadUsers()
         }
-        
+
         return NavigationView {
             WelcomeView(viewModel: viewModel)
         }

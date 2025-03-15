@@ -1,14 +1,14 @@
 //
-//  File.swift
-//  
+//  WelcomeViewModel.swift
+//
 //
 //  Created by Admin on 17/11/2024.
 //
 
-import SwiftUI
 import CoreEntities
-import WelcomeDomain
 import CoreUseCases
+import SwiftUI
+import WelcomeDomain
 
 @MainActor
 public final class WelcomeViewModel: ObservableObject {
@@ -16,19 +16,20 @@ public final class WelcomeViewModel: ObservableObject {
         case authentication
         case main(User)
     }
+
     @Published var users: [User] = []
     @Published var isEditingModeEnabled: Bool = false
     private(set) var userCardBackgroundImages: [String] = ["image1", "image2", "image3", "image4", "image5", "image6"]
     private(set) var assignedImages: [UUID: String] = [:]
-    
+
     private let getAllUsersUseCase: GetAllUsersUseCaseProtocol
     private let deleteUserUseCase: DeleteUserUseCaseProtocol
     private let signInUseCase: SignInUseCaseProtocol
     private let deleteUserDataUseCase: DeleteUserDataUseCaseProtocol
-    private let createUserUseCase: CreateUserUseCaseProtocol        // This
+    private let createUserUseCase: CreateUserUseCaseProtocol // This
     private let createUserDataUseCase: CreateUserDataUseCaseProtocol // And this one are injected here just to populate Keychain and CoreData with some default users for testing purposes.
     private let fetchUserDataUseCase: FetchUserDataUseCaseProtocol
-    
+
     private var onNavigation: (WelcomeViewModel.NavigationTarget) -> Void
 
     public init(getAllUsersUseCase: GetAllUsersUseCaseProtocol, deleteUserUseCase: DeleteUserUseCaseProtocol, signInUseCase: SignInUseCaseProtocol, deleteUserDataUseCase: DeleteUserDataUseCaseProtocol, createUserUseCase: CreateUserUseCaseProtocol, createUserDataUseCase: CreateUserDataUseCaseProtocol, fetchUserDataUseCase: FetchUserDataUseCaseProtocol, onNavigation: @escaping (WelcomeViewModel.NavigationTarget) -> Void) {
@@ -41,7 +42,7 @@ public final class WelcomeViewModel: ObservableObject {
         self.fetchUserDataUseCase = fetchUserDataUseCase
         self.onNavigation = onNavigation
     }
-    
+
     func loadUsers() async {
         do {
             let isFirstFetch = !UserDefaults.standard.bool(forKey: "hasFetchedUsersBefore")
@@ -53,13 +54,14 @@ public final class WelcomeViewModel: ObservableObject {
                     ("DefaultUser2", "user2", "Password2@"),
                     ("DefaultUser3", "user3", "Password3@"),
                     ("DefaultUser4", "user4", "Password4@"),
-                    ("DefaultUser5", "user5", "Password5@")
+                    ("DefaultUser5", "user5", "Password5@"),
                 ]
 
                 for (nameString, loginString, passwordString) in userData {
                     guard let name = UserName(rawValue: nameString),
                           let login = Login(rawValue: loginString),
-                          let password = Password(rawValue: passwordString) else {
+                          let password = Password(rawValue: passwordString)
+                    else {
                         print("Invalid user data for \(nameString)")
                         continue
                     }
@@ -81,7 +83,7 @@ public final class WelcomeViewModel: ObservableObject {
                 // Update UserDefaults to indicate that the initial fetch has occurred
                 UserDefaults.standard.set(true, forKey: "hasFetchedUsersBefore")
             }
-            
+
             // Ensure Keychain and CoreData consistency:
             // Some User exists in Keychain but there's no UserData for him ?(e.g. app reinstall) Let's create a new empty one.
             let keychainUsers = try await getAllUsersUseCase.execute()
@@ -91,16 +93,16 @@ public final class WelcomeViewModel: ObservableObject {
                     try await createUserDataUseCase.execute(user: user)
                 }
             }
-            
+
             // Then just fetch & display your users
-            self.users = keychainUsers
+            users = keychainUsers
             assignUniqueImages()
         } catch {
             // Handle error
             print("Error fetching users: \(error.localizedDescription)")
         }
     }
-    
+
     private func assignUniqueImages() {
         var availableImages = userCardBackgroundImages.shuffled()
         for user in users {
@@ -112,27 +114,27 @@ public final class WelcomeViewModel: ObservableObject {
             }
         }
     }
-    
+
     func getImage(for user: User) -> String {
         return assignedImages[user.id] ?? "defaultImage"
     }
-    
+
     func deleteUser(user: User) {
         Task {
             do {
                 try await deleteUserUseCase.execute(user: user)
                 try await deleteUserDataUseCase.execute(userId: user.id)
                 // Handle logout success
-                    users.removeAll { $0.id == user.id }
-                    isEditingModeEnabled = false
-                    assignedImages.removeValue(forKey: user.id)
+                users.removeAll { $0.id == user.id }
+                isEditingModeEnabled = false
+                assignedImages.removeValue(forKey: user.id)
             } catch {
                 // Handle logout error
                 print("Error logging out user: \(error.localizedDescription)")
             }
         }
     }
-    
+
     func signIn(user: User) {
         Task {
             do {
@@ -146,11 +148,11 @@ public final class WelcomeViewModel: ObservableObject {
     func toggleEditingMode() {
         isEditingModeEnabled.toggle()
     }
-    
+
     func showAuthentication() {
         onNavigation(.authentication)
     }
-    
+
     func showMain(user: User) {
         onNavigation(.main(user))
     }

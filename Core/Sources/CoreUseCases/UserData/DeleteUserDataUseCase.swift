@@ -1,12 +1,12 @@
 //
 //  File 2.swift
-//  
+//
 //
 //  Created by Admin on 18/12/2024.
 //
 
-import Foundation
 import CoreRepositories
+import Foundation
 
 public protocol DeleteUserDataUseCaseProtocol {
     func execute(userId: UUID) async throws
@@ -29,7 +29,7 @@ public final class MockDeleteUserDataUseCase: DeleteUserDataUseCaseProtocol {
     public var deletedUserDataIDs: [UUID] = []
 
     public init() {}
-    
+
     public func execute(userId: UUID) async throws {
         if shouldThrowError {
             throw NSError(domain: "DeleteUserDataError", code: 1, userInfo: nil)

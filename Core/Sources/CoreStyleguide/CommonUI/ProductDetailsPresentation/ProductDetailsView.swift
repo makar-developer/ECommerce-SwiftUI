@@ -1,7 +1,7 @@
-import SwiftUI
 import Core
-public struct ProductDetailsView: View {
+import SwiftUI
 
+public struct ProductDetailsView: View {
     @StateObject var viewModel: ProductDetailsViewModel
     @Environment(\.screenHeight) var screenHeight
 
@@ -17,7 +17,7 @@ public struct ProductDetailsView: View {
                 images: viewModel.product.images,
                 currentIndex: $viewModel.currentImageIndex
             )
-            .frame(height: screenHeight * 0.5)  // Adjust the height as needed
+            .frame(height: screenHeight * 0.5) // Adjust the height as needed
 
             // Title and brand
             Text(viewModel.product.title)
@@ -108,9 +108,10 @@ public struct ProductDetailsView: View {
     }
 }
 
+import CoreEntities
 import CoreTestHelpers
 import CoreUseCases
-import CoreEntities
+
 struct ProductDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         let mockUser = User.getOneOfThis()
@@ -126,7 +127,6 @@ struct ProductDetailsView_Previews: PreviewProvider {
             addProductToCartUseCase: mockAddToCartUseCase,
             addProductToHistoryUseCase: mockAddToHistoryUseCase, getImageUseCase: mockGetImageUseCase
         ) {
-
             print("Navigating back...")
         }
 

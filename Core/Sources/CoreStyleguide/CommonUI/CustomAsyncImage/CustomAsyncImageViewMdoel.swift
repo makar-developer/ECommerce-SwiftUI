@@ -1,12 +1,13 @@
 //
-//  File.swift
-//  
+//  CustomAsyncImageViewMdoel.swift
+//
 //
 //  Created by Admin on 09/12/2024.
 //
 
-import UIKit
 import CoreUseCases
+import UIKit
+
 final class CustomAsyncImageViewModel: ObservableObject {
     @Published private(set) var uiImage: UIImage?
     @Published private(set) var isLoading = false
@@ -33,7 +34,7 @@ final class CustomAsyncImageViewModel: ObservableObject {
         isLoading = true
         do {
             let image = try await getImageUseCase.execute(url: url)
-            self.uiImage = image
+            uiImage = image
         } catch {
             // Retry after a delay
             try? await Task.sleep(nanoseconds: 2_000_000_000)

@@ -1,12 +1,12 @@
 //
-//  File.swift
-//  
+//  ProductSearchScreen.swift
+//
 //
 //  Created by Admin on 11/12/2024.
 //
 
-import Foundation
 import CoreEntities
+import Foundation
 import ProductSearchEntities
 
 enum ProductSearchScreen: Identifiable, Hashable {
@@ -17,9 +17,9 @@ enum ProductSearchScreen: Identifiable, Hashable {
         switch self {
         case .productSearch:
             return "productSearch"
-        case .categoryDetails(let category, _):
+        case let .categoryDetails(category, _):
             return category.id.description
-        case .productDetails(let product, _):
+        case let .productDetails(product, _):
             return product.id.description
         }
     }

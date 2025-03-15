@@ -1,6 +1,7 @@
-import SwiftUI
-import CoreEntities
 import CoreDependencies
+import CoreEntities
+import SwiftUI
+
 public struct ProfileCoordinatorView: View {
     @StateObject private var coordinator: ProfileCoordinator
 

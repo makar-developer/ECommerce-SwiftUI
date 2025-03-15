@@ -1,9 +1,9 @@
 // AuthenticationViewModel.swift
-import SwiftUI
 import Combine
 import CoreEntities
-import WelcomeDomain
 import CoreUseCases
+import SwiftUI
+import WelcomeDomain
 
 @MainActor
 public final class AuthenticationViewModel: ObservableObject {
@@ -103,10 +103,10 @@ public final class AuthenticationViewModel: ObservableObject {
                     return "Password cannot be empty."
                 } else if input.range(of: regex, options: .regularExpression) == nil {
                     return """
-                           Password must be at least 8 characters,
-                           include uppercase and lowercase letters,
-                           a number, and a special character.
-                           """
+                    Password must be at least 8 characters,
+                    include uppercase and lowercase letters,
+                    a number, and a special character.
+                    """
                 }
                 return ""
             }
@@ -150,7 +150,8 @@ public final class AuthenticationViewModel: ObservableObject {
     func createAccount() async throws {
         guard let userName = UserName(rawValue: name),
               let userLogin = Login(rawValue: login),
-              let userPassword = Password(rawValue: password) else {
+              let userPassword = Password(rawValue: password)
+        else {
             // Handle invalid data
             return
         }

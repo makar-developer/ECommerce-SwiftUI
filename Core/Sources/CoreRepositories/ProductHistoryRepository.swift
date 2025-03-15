@@ -1,14 +1,15 @@
 //
-//  File.swift
-//  
+//  ProductHistoryRepository.swift
+//
 //
 //  Created by Admin on 16/12/2024.
 //
 
-import Foundation
+import CoreData
 import CoreDataSources
 import CoreEntities
-import CoreData
+import Foundation
+
 public protocol ProductHistoryRepositoryProtocol {
     func getAllHistory(for userId: UUID) async throws -> [ProductHistory]
     func addProductToHistory(_ product: Product, for userId: UUID) async throws
@@ -40,7 +41,7 @@ public final class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
         try await context.perform {
             // 1. Fetch or create the product entity
             let productEntity = try self.fetchOrCreateProductEntity(product, in: context)
-            
+
             // 2. Fetch user entity
             let userFetchRequest: NSFetchRequest<UserDataEntity> = UserDataEntity.fetchRequest()
             userFetchRequest.predicate = NSPredicate(format: "id == %@", userId as CVarArg)
@@ -65,7 +66,7 @@ public final class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
             let fetchRequest: NSFetchRequest<ProductHistoryEntity> = ProductHistoryEntity.fetchRequest()
             let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
                 NSPredicate(format: "product.id == %d", product.id),
-                NSPredicate(format: "userData.id == %@", userId as CVarArg)
+                NSPredicate(format: "userData.id == %@", userId as CVarArg),
             ])
             fetchRequest.predicate = predicate
             let historyEntities = try context.fetch(fetchRequest)
@@ -104,7 +105,7 @@ public final class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
             try context.save()
         }
     }
-    
+
     // MARK: - Helper
 
     private func fetchOrCreateProductEntity(
@@ -114,7 +115,7 @@ public final class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
         let predicate = NSPredicate(format: "id == %d", product.id)
         let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
         request.predicate = predicate
-        
+
         let fetched = try context.fetch(request)
         if let existing = fetched.first {
             return existing
@@ -127,24 +128,23 @@ public final class ProductHistoryRepository: ProductHistoryRepositoryProtocol {
 }
 
 public final class MockProductHistoryRepository: ProductHistoryRepositoryProtocol {
-    
     // Track method calls
     private(set) var getAllHistoryCallCount = 0
     private(set) var addProductToHistoryCallCount = 0
     private(set) var removeProductHistoryCallCount = 0
     private(set) var removeAllHistoryCallCount = 0
     private(set) var removeHistoryOlderThanCallCount = 0
-    
+
     // Track captured parameters
     private(set) var capturedProduct: Product?
     private(set) var capturedUserId: UUID?
     private(set) var capturedDate: Date?
-    
+
     // Provide a return value for getAllHistory
     var getAllHistoryReturnValue: [ProductHistory] = []
-    
+
     public init() {}
-    
+
     public func getAllHistory(for userId: UUID) async throws -> [ProductHistory] {
         getAllHistoryCallCount += 1
         capturedUserId = userId

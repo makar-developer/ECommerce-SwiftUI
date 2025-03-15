@@ -1,15 +1,17 @@
 //
-//  File.swift
-//  
+//  CartContainer.swift
+//
 //
 //  Created by Admin on 04/12/2024.
 //
 
-import CoreRepositories
 import CoreDataSources
+import CoreRepositories
 import CoreUseCases
+
 public protocol CartDIContainerProtocol {
     // MARK: - Use Cases
+
     func makeAddProductToCartUseCase() -> AddProductToCartUseCaseProtocol
     func makeRemoveAllProductsFromCartUseCase() -> RemoveAllProductsFromCartUseCaseProtocol
     func makeGetAllProductsUseCase() -> GetAllProductsUseCaseProtocol
@@ -19,37 +21,38 @@ public protocol CartDIContainerProtocol {
 }
 
 public struct CartDIContainerImpl: CartDIContainerProtocol {
-    
     public let getImageUseCase: GetImageUseCaseProtocol
     private let coreDataDataSource: CoreDataDataSourceProtocol
-    
+
     public init(coreDataDataSource: CoreDataDataSourceProtocol, getImageCacheUseCase: GetImageUseCaseProtocol) {
-        self.getImageUseCase = getImageCacheUseCase
+        getImageUseCase = getImageCacheUseCase
         self.coreDataDataSource = coreDataDataSource
-        
-        self.cartRepository = CartRepositoryImpl(coreDataDataSource: coreDataDataSource)
+
+        cartRepository = CartRepositoryImpl(coreDataDataSource: coreDataDataSource)
     }
-    
+
     // MARK: - Repositories
+
     private var cartRepository: any CoreRepositories.CartRepositoryProtocol
-    
+
     // MARK: - Use Cases
+
     public func makeAddProductToCartUseCase() -> AddProductToCartUseCaseProtocol {
         return AddProductToCartUseCase(cartRepository: cartRepository)
     }
-    
+
     public func makeRemoveAllProductsFromCartUseCase() -> RemoveAllProductsFromCartUseCaseProtocol {
         return RemoveAllProductsFromCartUseCase(cartRepository: cartRepository)
     }
-    
+
     public func makeGetAllProductsUseCase() -> GetAllProductsUseCaseProtocol {
         return GetAllProductsUseCase(cartRepository: cartRepository)
     }
-    
+
     public func makeRemoveProductFromCartUseCase() -> RemoveProductFromCartUseCaseProtocol {
         return RemoveProductFromCartUseCase(cartRepository: cartRepository)
     }
-    
+
     public func makeRemoveEntireItemFromCartUseCase() -> RemoveEntireItemFromCartUseCaseProtocol {
         return RemoveEntireItemFromCartUseCase(cartRepository: cartRepository)
     }

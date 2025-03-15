@@ -1,15 +1,15 @@
 //
-//  File.swift
-//  
+//  ProfileCoordinator.swift
+//
 //
 //  Created by Admin on 16/12/2024.
 //
 
-import SwiftUI
-import CoreEntities
-import ProfilePresentation
 import CoreDependencies
+import CoreEntities
 import CoreStyleguide
+import ProfilePresentation
+import SwiftUI
 
 @MainActor
 final class ProfileCoordinator: ObservableObject {
@@ -30,25 +30,25 @@ final class ProfileCoordinator: ObservableObject {
     }
 
     private func push(screen: ProfileScreen) {
-            self.path.append(screen)
+        path.append(screen)
     }
 
     private func pop() {
-            self.path.removeLast()
+        path.removeLast()
     }
-    
+
     private func showChangePassword(user: User) {
-        self.push(screen: .changePassword(user))
+        push(screen: .changePassword(user))
     }
-    
+
     private func showProductHistory() {
-        self.push(screen: .productHistory)
+        push(screen: .productHistory)
     }
-    
+
     private func showProductDetails(product: Product) {
-        self.push(screen: .productDetails(product))
+        push(screen: .productDetails(product))
     }
-    
+
     // The logout logic will be handled externally
     private func logout() {
         onLogout()
@@ -59,7 +59,7 @@ final class ProfileCoordinator: ObservableObject {
         switch screen {
         case .profile:
             ProfileView(viewModel: ProfileViewModel(
-                user: self.user,
+                user: user,
                 updateUserNameUseCase: container.makeUpdateUserNameUseCase(),
                 updateLoginUseCase: container.makeUpdateLoginUseCase(),
                 updateProfilePictureUseCase: container.makeUpdateProfilePictureUseCase(),
@@ -68,31 +68,33 @@ final class ProfileCoordinator: ObservableObject {
                 onNavigation: { [weak self] target in
                     guard let self = self else { return }
                     switch target {
-                    case .changePassword(let user):
+                    case let .changePassword(user):
                         self.showChangePassword(user: user)
                     case .logout:
                         self.logout()
                     case .productHistory:
                         self.showProductHistory()
                     }
-                }))
-        case .changePassword(let user):
+                }
+            ))
+        case let .changePassword(user):
             ChangePasswordView(viewModel: ChangePasswordViewModel(
                 user: user,
                 updatePasswordUseCase: container.makeUpdatePasswordUseCase(),
                 onNavigation: { [weak self] in
                     self?.pop()
-                }))
+                }
+            ))
         case .productHistory:
             ProductHistoryView(viewModel: ProductHistoryViewModel(userId: user.id, getProductHistoryUseCase: productHistoryContainer.makeGetProductHistoryUseCase(), removeProductFromHistoryUseCase: productHistoryContainer.makeRemoveProductFromHistoryUseCase(), removeAllHistoryUseCase: productHistoryContainer.makeRemoveAllHistoryUseCase(), getImageUseCase: imageContainer.getImageUseCase, onNavigation: { target in
                 switch target {
-                case .productDetails(let product):
+                case let .productDetails(product):
                     self.showProductDetails(product: product)
                 case .profile:
                     self.pop()
                 }
             }))
-        case .productDetails(let product):
+        case let .productDetails(product):
             ProductDetailsView(viewModel: ProductDetailsViewModel(user: user, product: product, addProductToCartUseCase: cartContainer.makeAddProductToCartUseCase(), addProductToHistoryUseCase: productHistoryContainer.makeAddProductToHistoryUseCase(), getImageUseCase: imageContainer.getImageUseCase, onNavigation: {
                 self.pop()
             }))

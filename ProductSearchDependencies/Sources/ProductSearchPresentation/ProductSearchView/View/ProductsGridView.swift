@@ -1,14 +1,15 @@
 //
-//  File.swift
-//  
+//  ProductsGridView.swift
+//
 //
 //  Created by Admin on 19/12/2024.
 //
 
-import SwiftUI
 import CoreEntities
-import CoreUseCases
 import CoreStyleguide
+import CoreUseCases
+import SwiftUI
+
 // MARK: - ProductsGridView
 
 struct ProductsGridView: View {
@@ -17,8 +18,7 @@ struct ProductsGridView: View {
     let onTap: (Product) -> Void
     private let columns = [
         GridItem(.flexible()),
-        GridItem(.flexible())
-        
+        GridItem(.flexible()),
     ]
 
     var body: some View {
@@ -38,7 +38,6 @@ struct ProductsGridView: View {
                         )
                     }
                     .background(Color.backgroundPrimary)
-
                 }
                 .padding(.horizontal)
                 .padding(.top)

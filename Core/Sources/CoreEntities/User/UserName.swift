@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  UserName.swift
+//
 //
 //  Created by Admin on 26/11/2024.
 //
@@ -13,7 +13,8 @@ public struct UserName: Hashable, Codable {
         // Validate that the name is not empty and has a reasonable length
         guard !rawValue.trimmingCharacters(in: .whitespaces).isEmpty,
               rawValue.count >= 2,
-              rawValue.count <= 50 else {
+              rawValue.count <= 50
+        else {
             return nil
         }
         self.rawValue = rawValue

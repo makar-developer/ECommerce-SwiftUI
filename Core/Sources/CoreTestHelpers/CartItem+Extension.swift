@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  CartItem+Extension.swift
+//
 //
 //  Created by Admin on 08/01/2025.
 //
@@ -9,18 +9,16 @@ import CoreEntities
 
 public extension CartItem {
     static func getOneOfThis() -> CartItem {
-
         let product = Product.getOneOfThis()
         return CartItem(product: product, quantity: 2)
     }
-    
-    static func getAnArrayOfThese() -> [CartItem] {
 
+    static func getAnArrayOfThese() -> [CartItem] {
         let products = Product.getAnArrayOfThese()
         return [
             CartItem(product: products[0], quantity: 1),
             CartItem(product: products[1], quantity: 2),
-            CartItem(product: products[2], quantity: 3)
+            CartItem(product: products[2], quantity: 3),
         ]
     }
 }

@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  CategoryDetailsViewModel.swift
+//
 //
 //  Created by Admin on 12/12/2024.
 //
@@ -16,7 +16,6 @@ import ProductSearchEntities
 
 @MainActor
 public final class CategoryDetailsViewModel: ObservableObject {
-
     public enum NavigationTarget {
         case productSearch
         case productDetails(Product)
@@ -43,7 +42,7 @@ public final class CategoryDetailsViewModel: ObservableObject {
         self.getAllProductsUseCase = getAllProductsUseCase
         self.getImageUseCase = getImageUseCase
         self.onNavigation = onNavigation
-        
+
         Task {
             await fetchProducts()
         }

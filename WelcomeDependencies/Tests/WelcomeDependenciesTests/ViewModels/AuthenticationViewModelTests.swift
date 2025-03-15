@@ -1,17 +1,17 @@
 //
-//  File.swift
-//  
+//  AuthenticationViewModelTests.swift
+//
 //
 //  Created by Admin on 12/01/2025.
 //
 
-import XCTest
+@testable import CoreEntities
+@testable import CoreTestHelpers
+@testable import CoreUseCases
 @testable import WelcomeData
 @testable import WelcomeDomain
 @testable import WelcomePresentation
-@testable import CoreEntities
-@testable import CoreUseCases
-@testable import CoreTestHelpers
+import XCTest
 
 @MainActor
 final class AuthenticationViewModelTests: XCTestCase {

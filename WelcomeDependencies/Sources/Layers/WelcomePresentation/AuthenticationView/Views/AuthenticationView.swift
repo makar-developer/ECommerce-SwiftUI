@@ -1,5 +1,6 @@
 // AuthenticationView.swift
 import SwiftUI
+
 public struct AuthenticationView: View {
     @StateObject private var viewModel: AuthenticationViewModel
 
@@ -114,6 +115,7 @@ public struct AuthenticationView: View {
 
 import CoreUseCases
 import WelcomeDomain
+
 struct AuthenticationView_Previews: PreviewProvider {
     static var previews: some View {
         // Create mock use cases

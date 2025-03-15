@@ -1,12 +1,13 @@
 //
 //  File 5.swift
-//  
+//
 //
 //  Created by Admin on 11/12/2024.
 //
 
 import CoreEntities
 import ProductSearchRepositoryProtocol
+
 public protocol GetAllProductsFromCategoryUseCaseProtocol {
     func execute(categorySlug: String) async throws -> [Product]
 }

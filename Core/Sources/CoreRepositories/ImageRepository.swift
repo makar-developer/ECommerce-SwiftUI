@@ -1,12 +1,13 @@
 //
-//  File.swift
-//  
+//  ImageRepository.swift
+//
 //
 //  Created by Admin on 08/12/2024.
 //
 
-import UIKit
 import CoreDataSources
+import UIKit
+
 public protocol ImageRepositoryProtocol {
     func getImage(url: URL) async throws -> UIImage
 }
@@ -28,7 +29,7 @@ public final class ImageRepository: ImageRepositoryProtocol {
         }
 
         // Fetch image with retries
-        for attempt in 1...maxRetries {
+        for attempt in 1 ... maxRetries {
             do {
                 let (data, _) = try await session.data(from: url)
                 if let image = UIImage(data: data) {
@@ -50,13 +51,12 @@ public final class ImageRepository: ImageRepositoryProtocol {
 }
 
 public final class MockImageRepository: ImageRepositoryProtocol {
-    
     public var imageToReturn: UIImage?
     public var errorToThrow: Error?
-    
+
     public init() {}
-    
-    public func getImage(url: URL) async throws -> UIImage {
+
+    public func getImage(url _: URL) async throws -> UIImage {
         if let error = errorToThrow {
             throw error
         }

@@ -1,30 +1,30 @@
 //
-//  File.swift
-//  
+//  ProductDiscoverViewModel.swift
+//
 //
 //  Created by Admin on 02/12/2024.
 //
 
+import CoreEntities
+import CoreStyleguide
+import CoreUseCases
 import Foundation
 import ProductDiscoverDomain
-import CoreEntities
-import CoreUseCases
-import CoreStyleguide
 
 @MainActor
 public final class ProductDiscoverViewModel: ObservableObject {
     @Published var hotSalesState: ScreenState<[Product]> = .loading
     @Published var recommendedState: ScreenState<[Product]> = .loading
-    
+
     private let getHotSalesUseCase: GetHotSalesUseCaseProtocol
     private let getRecommendedForYouUseCase: GetRecommendedForYouUseCaseProtocol
-    let getImageUseCase: GetImageUseCaseProtocol  // For ProductCardView(s)
-    
+    let getImageUseCase: GetImageUseCaseProtocol // For ProductCardView(s)
+
     let onNavigation: (Product) -> Void
-    
+
     private var currentPage = 1
     private var isLastPage = false
-    
+
     public init(
         getHotSalesUseCase: GetHotSalesUseCaseProtocol,
         getRecommendedForYouUseCase: GetRecommendedForYouUseCaseProtocol,
@@ -38,7 +38,7 @@ public final class ProductDiscoverViewModel: ObservableObject {
         loadHotSalesProducts()
         loadRecommendedProducts()
     }
-    
+
     func loadHotSalesProducts() {
         Task {
             do {
@@ -49,12 +49,12 @@ public final class ProductDiscoverViewModel: ObservableObject {
             }
         }
     }
-    
+
     func loadRecommendedProducts() {
         Task {
             // Prevent fetching if we already know there's no more
             guard !isLastPage else { return }
-            
+
             // If we already have some recommended products, hold onto them so we can append
             let existingProducts: [Product] = {
                 if case let .loaded(data) = recommendedState {
@@ -63,9 +63,9 @@ public final class ProductDiscoverViewModel: ObservableObject {
                     return []
                 }
             }()
-            
+
             currentPage += 1
-            
+
             do {
                 let products = try await getRecommendedForYouUseCase.execute(page: currentPage)
                 if products.isEmpty {
@@ -78,7 +78,7 @@ public final class ProductDiscoverViewModel: ObservableObject {
             }
         }
     }
-    
+
     func showProductDetails(product: Product) {
         onNavigation(product)
     }

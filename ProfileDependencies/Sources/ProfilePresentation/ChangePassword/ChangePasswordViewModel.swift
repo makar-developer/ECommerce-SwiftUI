@@ -1,14 +1,14 @@
 //
 //  File 2.swift
-//  
+//
 //
 //  Created by Admin on 16/12/2024.
 //
 
-import SwiftUI
 import Combine
-import ProfileDomain
 import CoreEntities
+import ProfileDomain
+import SwiftUI
 
 @MainActor
 public final class ChangePasswordViewModel: ObservableObject {
@@ -17,7 +17,7 @@ public final class ChangePasswordViewModel: ObservableObject {
     @Published var confirmPassword: String = ""
     @Published private(set) var errorMessage: String?
     @Published private(set) var isLoading: Bool = false
-    
+
     // Validation States
     @Published private(set) var isCurrentPasswordValid: Bool = false
     @Published private(set) var isNewPasswordValid: Bool = false
@@ -38,7 +38,7 @@ public final class ChangePasswordViewModel: ObservableObject {
         self.user = user
         self.updatePasswordUseCase = updatePasswordUseCase
         self.onNavigation = onNavigation
-        self.setupValidation()
+        setupValidation()
     }
 
     private func setupValidation() {
@@ -60,21 +60,21 @@ public final class ChangePasswordViewModel: ObservableObject {
             .store(in: &cancellables)
 
         $confirmPassword
-            .sink { [weak self] input in
+            .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.doPasswordsMatch = self.newPassword == self.confirmPassword
                 self.updateCanChangePassword()
             }
             .store(in: &cancellables)
     }
-    
+
     private func updateCanChangePassword() {
         canChangePassword = isCurrentPasswordValid && isNewPasswordValid && doPasswordsMatch
     }
-    
+
     func changePassword() {
         guard canChangePassword else { return }
-        
+
         isLoading = true
         Task {
             do {
@@ -87,7 +87,7 @@ public final class ChangePasswordViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func verifyCurrentPassword(_ input: String) -> Bool {
         // Comparing the input with the user's current password
         return input == user.password.rawValue

@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  GetRecommendedForYouUseCase.swift
+//
 //
 //  Created by Admin on 02/12/2024.
 //

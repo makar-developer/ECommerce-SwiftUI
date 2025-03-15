@@ -1,16 +1,18 @@
 //
-//  File.swift
-//  
+//  View+Error.swift
+//
 //
 //  Created by Admin on 20/12/2024.
 //
 
 import SwiftUI
+
 struct LocalizedAlertError<T>: LocalizedError {
     let underlyingError: LocalizedError
     var errorDescription: String? {
         underlyingError.errorDescription
     }
+
     var recoverySuggestion: String? {
         underlyingError.recoverySuggestion
     }

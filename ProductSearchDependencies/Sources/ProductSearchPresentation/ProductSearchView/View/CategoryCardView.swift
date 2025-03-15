@@ -1,25 +1,27 @@
 //
-//  File.swift
-//  
+//  CategoryCardView.swift
+//
 //
 //  Created by Admin on 19/12/2024.
 //
 
-import SwiftUI
+import CoreStyleguide
 import CoreUseCases
 import ProductSearchEntities
-import CoreStyleguide
+import SwiftUI
+
 struct CategoryCardView: View {
     let category: CategoryResponse
     let getImageUseCase: GetImageUseCaseProtocol
     let thumbnailUrl: String?
-    
+
     @Environment(\.screenHeight) private var screenHeight
-    
+
     var body: some View {
         VStack {
             if let thumbnailUrlString = thumbnailUrl,
-               let url = URL(string: thumbnailUrlString) {
+               let url = URL(string: thumbnailUrlString)
+            {
                 CustomAsyncImage(
                     url: url,
                     getImageUseCase: getImageUseCase,
@@ -41,7 +43,7 @@ struct CategoryCardView: View {
                     ProgressView()
                 }
             }
-            
+
             Text(category.name)
                 .font(.subheadline)
                 .fontWeight(.bold)

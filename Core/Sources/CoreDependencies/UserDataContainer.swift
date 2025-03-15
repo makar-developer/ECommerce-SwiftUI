@@ -1,14 +1,15 @@
 //
-//  File.swift
-//  
+//  UserDataContainer.swift
+//
 //
 //  Created by Admin on 18/12/2024.
 //
 
-import Foundation
+import CoreDataSources
 import CoreRepositories
 import CoreUseCases
-import CoreDataSources
+import Foundation
+
 public protocol UserDataDIContainerProtocol {
     func makeCreateUserDataUseCase() -> CreateUserDataUseCaseProtocol
     func makeDeleteUserDataUseCase() -> DeleteUserDataUseCaseProtocol
@@ -16,24 +17,23 @@ public protocol UserDataDIContainerProtocol {
 }
 
 public struct UserDataDIContainerImpl: UserDataDIContainerProtocol {
-
     private let coreDataDataSource: CoreDataDataSourceProtocol
     private let userDataRepository: UserDataRepositoryProtocol
-    
+
     public init(coreDataDataSource: CoreDataDataSourceProtocol) {
         self.coreDataDataSource = coreDataDataSource
-        
-        self.userDataRepository = UserDataRepository(coreDataDataSource: coreDataDataSource)
+
+        userDataRepository = UserDataRepository(coreDataDataSource: coreDataDataSource)
     }
 
     public func makeCreateUserDataUseCase() -> CreateUserDataUseCaseProtocol {
         return CreateUserDataUseCase(userDataRepository: userDataRepository)
     }
-    
+
     public func makeDeleteUserDataUseCase() -> DeleteUserDataUseCaseProtocol {
         return DeleteUserDataUseCase(userDataRepository: userDataRepository)
     }
-    
+
     public func makeFetchUserDataUseCase() -> FetchUserDataUseCaseProtocol {
         return FetchUserDataUseCase(userDataRepository: userDataRepository)
     }

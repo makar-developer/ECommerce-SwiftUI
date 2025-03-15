@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  AuthenticationRepository.swift
+//
 //
 //  Created by Admin on 15/12/2024.
 //
@@ -21,7 +21,7 @@ public final class AuthenticationRepository: AuthenticationRepositoryProtocol {
     public init(keychainDataSource: KeychainDataSourceProtocol) {
         self.keychainDataSource = keychainDataSource
     }
-    
+
     public func signIn(user: User) async throws {
         let data = try JSONEncoder().encode(user)
         try keychainDataSource.save(data: data)
@@ -38,27 +38,26 @@ public final class AuthenticationRepository: AuthenticationRepositoryProtocol {
 }
 
 public final class MockAuthenticationRepository: AuthenticationRepositoryProtocol {
-    
     // In-memory user representation
     private(set) var storedUser: User?
-    
+
     // For test assertions
     public var didSignIn = false
     public var didSignOut = false
     public var didGetSignedInUser = false
-    
+
     public init() {}
-    
+
     public func signIn(user: User) async throws {
         didSignIn = true
         storedUser = user
     }
-    
+
     public func signOut() async throws {
         didSignOut = true
         storedUser = nil
     }
-    
+
     public func getSignedInUser() async throws -> User? {
         didGetSignedInUser = true
         return storedUser

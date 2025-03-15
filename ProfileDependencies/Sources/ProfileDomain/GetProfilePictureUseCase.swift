@@ -1,6 +1,6 @@
 //
 //  File 3.swift
-//  
+//
 //
 //  Created by Admin on 16/12/2024.
 //
@@ -18,7 +18,7 @@ public final class GetProfilePictureUseCase: GetProfilePictureUseCaseProtocol {
     public init(repository: ProfileRepositoryProtocol) {
         self.repository = repository
     }
-    
+
     public func execute(for userId: UUID) async throws -> Data? {
         return try await repository.getProfilePicture(for: userId)
     }

@@ -1,21 +1,21 @@
 //
-//  File.swift
-//  
+//  ProductCartViewModel.swift
+//
 //
 //  Created by Admin on 05/12/2024.
 //
 
-import SwiftUI
 import Combine
 import CoreEntities
 import CoreUseCases
+import SwiftUI
 
 @MainActor
 public final class ProductCartViewModel: ObservableObject {
     // Published properties
     @Published public var cartItems: [CartItem] = []
     @Published public var totalPrice: Double = 0.0
-    
+
     // Dependencies
     private let user: User
     let getImageUseCase: GetImageUseCaseProtocol
@@ -24,10 +24,10 @@ public final class ProductCartViewModel: ObservableObject {
     private let removeProductFromCartUseCase: RemoveProductFromCartUseCaseProtocol
     private let removeAllProductsFromCartUseCase: RemoveAllProductsFromCartUseCaseProtocol
     private let removeEntireItemUseCase: RemoveEntireItemFromCartUseCaseProtocol
-    
+
     // Cancellables for async operations
     private var cancellables = Set<AnyCancellable>()
-    
+
     // Initializer
     public init(
         user: User,
@@ -47,7 +47,7 @@ public final class ProductCartViewModel: ObservableObject {
         self.removeEntireItemUseCase = removeEntireItemUseCase
         setupTotalPriceObservation()
     }
-    
+
     private func setupTotalPriceObservation() {
         // Observe changes and calculate total price
         $cartItems
@@ -59,7 +59,7 @@ public final class ProductCartViewModel: ObservableObject {
             })
             .store(in: &cancellables)
     }
-    
+
     // Load cart items
     public func loadCartItems() {
         Task {
@@ -71,7 +71,7 @@ public final class ProductCartViewModel: ObservableObject {
             }
         }
     }
-    
+
     // Increment product quantity
     public func incrementQuantity(for cartItem: CartItem) {
         Task {
@@ -83,7 +83,7 @@ public final class ProductCartViewModel: ObservableObject {
             }
         }
     }
-    
+
     // Decrement product quantity
     public func decrementQuantity(for cartItem: CartItem) {
         Task {
@@ -95,7 +95,7 @@ public final class ProductCartViewModel: ObservableObject {
             }
         }
     }
-    
+
     public func removeEntireItem(_ cartItem: CartItem) {
         Task {
             do {
@@ -106,7 +106,7 @@ public final class ProductCartViewModel: ObservableObject {
             }
         }
     }
-    
+
     // Checkout action
     public func checkout() {
         Task {

@@ -1,12 +1,13 @@
 //
-//  File.swift
-//  
+//  ProductSnapCarousel.swift
+//
 //
 //  Created by Admin on 19/12/2024.
 //
 
-import SwiftUI
 import CoreUseCases
+import SwiftUI
+
 public struct ProductSnapCarousel: View {
     let getImageUseCase: GetImageUseCaseProtocol
     let images: [String]
@@ -24,7 +25,7 @@ public struct ProductSnapCarousel: View {
         screenWidth * 0.8
     }
 
-    private let swipeThreshold: CGFloat = 100  // Adjust based on testing
+    private let swipeThreshold: CGFloat = 100 // Adjust based on testing
 
     public var body: some View {
         GeometryReader { geometry in
@@ -68,7 +69,7 @@ public struct ProductSnapCarousel: View {
                     .offset(x: offsetX)
                     .modifier(OffsetObservingModifier(offset: offsetX) { newOffset in
                         // Update currentProgress based on the new offset
-                        let progress = (-newOffset) / totalWidth
+                        let progress = -newOffset / totalWidth
                         currentProgress = Double(progress)
                     })
                     .gesture(
@@ -76,16 +77,17 @@ public struct ProductSnapCarousel: View {
                             .updating($dragOffset) { value, state, _ in
                                 let fraction = -state / screenWidth
                                 let provisional = Double(currentIndex) + Double(fraction)
-                                
+
                                 // Keep it in [0, data.count - 1]
                                 DispatchQueue.main.async {
                                     currentProgress = max(0,
-                                                             min(Double(images.count - 1), provisional))
+                                                          min(Double(images.count - 1), provisional))
                                 }
                                 let translationWidth = value.translation.width
                                 if (currentIndex == 0 && translationWidth > 0) ||
-                                    (currentIndex == images.count - 1 && translationWidth < 0) {
-                                    state = 0  // Prevent any movement
+                                    (currentIndex == images.count - 1 && translationWidth < 0)
+                                {
+                                    state = 0 // Prevent any movement
                                 } else {
                                     state = translationWidth
                                 }
@@ -95,13 +97,15 @@ public struct ProductSnapCarousel: View {
                                 let predictedEndOffset = dragDistance + (value.predictedEndLocation.x - value.location.x)
 
                                 if dragDistance < -swipeThreshold ||
-                                    predictedEndOffset < -swipeThreshold {
+                                    predictedEndOffset < -swipeThreshold
+                                {
                                     // Swipe Left - Move to next item
                                     if currentIndex < images.count - 1 {
                                         currentIndex += 1
                                     }
                                 } else if dragDistance > swipeThreshold ||
-                                            predictedEndOffset > swipeThreshold {
+                                    predictedEndOffset > swipeThreshold
+                                {
                                     // Swipe Right - Move to previous item
                                     if currentIndex > 0 {
                                         currentIndex -= 1
