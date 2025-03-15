@@ -54,6 +54,7 @@
  Feature-level Coordinators - can perform navigation between each individual Screen(within the Feature).
  - **SwiftUI**, CoreData, Combine, async/await, Keychain, UserDefaults, FileManager, URLSession, Image caching.
  - CI with **GitHub Actions** and  [**Fastlane**](https://github.com/fastlane/fastlane)
+ - [**SwiftLint**](https://github.com/realm/SwiftLint) and [**SwiftFormat**](https://github.com/nicklockwood/SwiftFormat/)
  - **Unit testing** with XCTest
  - **Localized** in French & English
  - Entities design according to[ Type-Driven Design (by Alex Ozun)]( https://swiftology.io/collections/type-driven-design/)
