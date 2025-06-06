@@ -8,9 +8,9 @@
 import Foundation
 
 public protocol UserDefaultsDataSourceProtocol {
-    func setObject<T: Codable>(_ object: T, forKey key: String)
-    func getObject<T: Codable>(forKey key: String) -> T?
-    func removeObject(forKey key: String)
+    func setObject<T: Codable>(_ object: T, forKey key: String) async
+    func getObject<T: Codable>(forKey key: String) async -> T?
+    func removeObject(forKey key: String) async
 }
 
 public final class UserDefaultsDataSource: UserDefaultsDataSourceProtocol {
@@ -20,7 +20,7 @@ public final class UserDefaultsDataSource: UserDefaultsDataSourceProtocol {
         self.userDefaults = userDefaults
     }
 
-    public func setObject<T: Codable>(_ object: T, forKey key: String) {
+    public func setObject<T: Codable>(_ object: T, forKey key: String) async {
         do {
             let data = try JSONEncoder().encode(object)
             userDefaults.set(data, forKey: key)
@@ -29,7 +29,7 @@ public final class UserDefaultsDataSource: UserDefaultsDataSourceProtocol {
         }
     }
 
-    public func getObject<T: Codable>(forKey key: String) -> T? {
+    public func getObject<T: Codable>(forKey key: String) async -> T? {
         guard let data = userDefaults.data(forKey: key) else {
             return nil
         }
@@ -42,7 +42,7 @@ public final class UserDefaultsDataSource: UserDefaultsDataSourceProtocol {
         }
     }
 
-    public func removeObject(forKey key: String) {
+    public func removeObject(forKey key: String) async {
         userDefaults.removeObject(forKey: key)
     }
 }

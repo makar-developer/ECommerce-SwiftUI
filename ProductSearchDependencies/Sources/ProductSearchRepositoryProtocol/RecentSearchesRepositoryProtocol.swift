@@ -8,8 +8,8 @@
 import ProductSearchEntities
 
 public protocol RecentSearchesRepositoryProtocol {
-    func saveSearchQuery(_ searchQuery: SearchQuery)
-    func getAllRecentSearchQueries() -> [SearchQuery]
-    func removeSearchQuery(_ searchQuery: SearchQuery)
-    func removeAllSearchQueries()
+    func saveSearchQuery(_ searchQuery: SearchQuery) async
+    func getAllRecentSearchQueries() async -> [SearchQuery] 
+    func removeSearchQuery(_ searchQuery: SearchQuery) async
+    func removeAllSearchQueries() async
 }

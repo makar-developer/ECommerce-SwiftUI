@@ -9,7 +9,7 @@ import ProductSearchEntities
 import ProductSearchRepositoryProtocol
 
 public protocol SaveSearchQueryToRecentsUseCaseProtocol {
-    func execute(searchQuery: SearchQuery)
+    func execute(searchQuery: SearchQuery) async
 }
 
 public final class SaveSearchQueryToRecentsUseCase: SaveSearchQueryToRecentsUseCaseProtocol {
@@ -19,7 +19,7 @@ public final class SaveSearchQueryToRecentsUseCase: SaveSearchQueryToRecentsUseC
         self.repository = repository
     }
 
-    public func execute(searchQuery: SearchQuery) {
-        repository.saveSearchQuery(searchQuery)
+    public func execute(searchQuery: SearchQuery) async {
+        await repository.saveSearchQuery(searchQuery)
     }
 }

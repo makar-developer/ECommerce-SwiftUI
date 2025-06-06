@@ -81,16 +81,3 @@ let package = Package(
         ),
     ]
 )
-//
-//    .testTarget(
-//        name: "CoreTests",
-//        dependencies: [
-//            "Core",
-//            "CoreEntities",
-//            "CoreDataSources",
-//            "CoreRepositories",
-//            "CoreUseCases",
-//            "CoreTestHelpers",
-//            "CoreStyleguide"
-//        ]
-//    ),

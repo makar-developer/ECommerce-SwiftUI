@@ -8,7 +8,7 @@
 import ProductSearchRepositoryProtocol
 
 public protocol RemoveAllSearchQueriesUseCaseProtocol {
-    func execute()
+    func execute() async
 }
 
 public final class RemoveAllSearchQueriesUseCase: RemoveAllSearchQueriesUseCaseProtocol {
@@ -18,7 +18,7 @@ public final class RemoveAllSearchQueriesUseCase: RemoveAllSearchQueriesUseCaseP
         self.repository = repository
     }
 
-    public func execute() {
-        repository.removeAllSearchQueries()
+    public func execute() async {
+        await repository.removeAllSearchQueries()
     }
 }

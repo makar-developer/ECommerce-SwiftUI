@@ -9,7 +9,7 @@ import ProductSearchEntities
 import ProductSearchRepositoryProtocol
 
 public protocol GetAllRecentSearchQueriesUseCaseProtocol {
-    func execute() -> [SearchQuery]
+    func execute() async -> [SearchQuery]
 }
 
 public final class GetAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUseCaseProtocol {
@@ -19,7 +19,7 @@ public final class GetAllRecentSearchQueriesUseCase: GetAllRecentSearchQueriesUs
         self.repository = repository
     }
 
-    public func execute() -> [SearchQuery] {
-        return repository.getAllRecentSearchQueries()
+    public func execute() async -> [SearchQuery] {
+        return await repository.getAllRecentSearchQueries()
     }
 }

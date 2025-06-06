@@ -9,7 +9,7 @@ import ProductSearchEntities
 import ProductSearchRepositoryProtocol
 
 public protocol RemoveSearchQueryUseCaseProtocol {
-    func execute(searchQuery: SearchQuery)
+    func execute(searchQuery: SearchQuery) async
 }
 
 public final class RemoveSearchQueryUseCase: RemoveSearchQueryUseCaseProtocol {
@@ -19,7 +19,7 @@ public final class RemoveSearchQueryUseCase: RemoveSearchQueryUseCaseProtocol {
         self.repository = repository
     }
 
-    public func execute(searchQuery: SearchQuery) {
-        repository.removeSearchQuery(searchQuery)
+    public func execute(searchQuery: SearchQuery) async {
+        await repository.removeSearchQuery(searchQuery)
     }
 }

@@ -32,7 +32,9 @@ public struct ProductSearchView: View {
                     text: $viewModel.searchText,
                     isFocused: $viewModel.isSearchFocused,
                     onCommit: {
-                        viewModel.saveCurrentSearch()
+                        Task {
+                            await viewModel.saveCurrentSearch()
+                        }
                     }
                 )
                 .padding(.top, 8)
@@ -55,10 +57,12 @@ public struct ProductSearchView: View {
                     RecentSearchesView(
                         recentQueries: viewModel.recentSearchQueries,
                         onSelect: { query in
-                            viewModel.performSearch(from: query)
+                                viewModel.performSearch(from: query)
                         },
                         onDelete: { query in
-                            viewModel.deleteSearchQuery(query)
+                            Task {
+                                await viewModel.deleteSearchQuery(query)
+                            }
                         },
                         onDeleteAll: {
                             viewModel.showDeleteAllConfirmation = true
@@ -103,7 +107,9 @@ public struct ProductSearchView: View {
                     primaryButton: .destructive(
                         Text(String(localized: "Delete All"))
                     ) {
-                        viewModel.deleteAllSearchQueries()
+                        Task {
+                            await viewModel.deleteAllSearchQueries()
+                        }
                     },
                     secondaryButton: .cancel()
                 )

@@ -17,8 +17,8 @@ public final class RecentSearchesRepository: RecentSearchesRepositoryProtocol {
         self.userDefaultsDataSource = userDefaultsDataSource
     }
 
-    public func saveSearchQuery(_ searchQuery: SearchQuery) {
-        var queries = getAllRecentSearchQueries()
+    public func saveSearchQuery(_ searchQuery: SearchQuery) async {
+        var queries = await getAllRecentSearchQueries()
 
         // Remove if it already exists
         queries.removeAll { $0.query == searchQuery.query }
@@ -27,21 +27,21 @@ public final class RecentSearchesRepository: RecentSearchesRepositoryProtocol {
         queries.insert(searchQuery, at: 0)
 
         // Save back to UserDefaults
-        userDefaultsDataSource.setObject(queries, forKey: key)
+        await userDefaultsDataSource.setObject(queries, forKey: key)
     }
 
-    public func getAllRecentSearchQueries() -> [SearchQuery] {
-        let queries: [SearchQuery] = userDefaultsDataSource.getObject(forKey: key) ?? []
+    public func getAllRecentSearchQueries() async -> [SearchQuery] {
+        let queries: [SearchQuery] = await userDefaultsDataSource.getObject(forKey: key) ?? []
         return queries.sorted(by: { $0.creationDate > $1.creationDate })
     }
 
-    public func removeSearchQuery(_ searchQuery: SearchQuery) {
-        var queries = getAllRecentSearchQueries()
+    public func removeSearchQuery(_ searchQuery: SearchQuery) async {
+        var queries = await getAllRecentSearchQueries()
         queries.removeAll { $0.id == searchQuery.id }
-        userDefaultsDataSource.setObject(queries, forKey: key)
+        await userDefaultsDataSource.setObject(queries, forKey: key)
     }
 
-    public func removeAllSearchQueries() {
-        userDefaultsDataSource.removeObject(forKey: key)
+    public func removeAllSearchQueries() async {
+        await userDefaultsDataSource.removeObject(forKey: key)
     }
 }

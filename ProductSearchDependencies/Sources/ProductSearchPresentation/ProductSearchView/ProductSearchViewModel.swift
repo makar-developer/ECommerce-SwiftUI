@@ -71,16 +71,19 @@ public final class ProductSearchViewModel: ObservableObject {
         self.getAllExistingCategoriesUseCase = getAllExistingCategoriesUseCase
         self.getImageUseCase = getImageUseCase
         self.onNavigation = onNavigation
+        
+        Task {
+            await setupBindings()
+            await loadRecentSearchQueries()
+        }
 
-        setupBindings()
-        loadRecentSearchQueries()
         // Trigger initial categories load
         loadCategories()
     }
 
     // MARK: - Setup Bindings
 
-    private func setupBindings() {
+    private func setupBindings() async {
         $searchText
             .debounce(for: .seconds(0.3), scheduler: RunLoop.main)
             .removeDuplicates()
@@ -93,7 +96,9 @@ public final class ProductSearchViewModel: ObservableObject {
         $isSearchFocused
             .sink { [weak self] focused in
                 if !focused && self?.searchText.isEmpty == true {
-                    self?.loadRecentSearchQueries()
+                    Task {
+                        await self?.loadRecentSearchQueries()
+                    }
                 }
             }
             .store(in: &cancellables)
@@ -144,31 +149,31 @@ public final class ProductSearchViewModel: ObservableObject {
         isSearchFocused = false
     }
 
-    public func saveCurrentSearch() {
+    public func saveCurrentSearch() async {
         let trimmedKeyword = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedKeyword.isEmpty else { return }
 
         let query = SearchQuery(query: trimmedKeyword)
-        saveSearchQueryUseCase.execute(searchQuery: query)
-        loadRecentSearchQueries()
+        await saveSearchQueryUseCase.execute(searchQuery: query)
+        await loadRecentSearchQueries()
     }
 
     // MARK: - Load Recent Search Queries
 
-    public func loadRecentSearchQueries() {
-        let queries = getAllRecentSearchQueriesUseCase.execute()
+    public func loadRecentSearchQueries() async {
+        let queries = await getAllRecentSearchQueriesUseCase.execute()
         recentSearchQueries = queries.sorted { $0.creationDate > $1.creationDate }
     }
 
     // MARK: - Delete Search Queries
 
-    public func deleteSearchQuery(_ query: SearchQuery) {
-        removeSearchQueryUseCase.execute(searchQuery: query)
-        loadRecentSearchQueries()
+    public func deleteSearchQuery(_ query: SearchQuery) async {
+        await removeSearchQueryUseCase.execute(searchQuery: query)
+        await loadRecentSearchQueries()
     }
 
-    public func deleteAllSearchQueries() {
-        removeAllSearchQueriesUseCase.execute()
-        loadRecentSearchQueries()
+    public func deleteAllSearchQueries() async {
+        await removeAllSearchQueriesUseCase.execute()
+        await loadRecentSearchQueries()
     }
 }
