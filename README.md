@@ -45,10 +45,10 @@
 
 # Concepts/Ideas implemented
 
- - **Modular Architecture (SPM)**, each Feature and Layer - separate modules. **30** internal libraries in total.
+ - **Modular Architecture (SPM)**. App has **30** internal libraries in total, App is separated both by Feature, and by Layer. Each Feature and Layer - separate modules. App owns Features, Features own Layers.
  - **Clean Architecture**-like architecture/system design/codestyle, with layers: Presentation(V+VM) -> Domain <- Interface layer <- Data.
  - **Dependency Injection**:
-   App-level DI container - provides Feature-level DI containers. Feature-level DI Containers provide necessary Layer dependencies (e.g. UseCases, Repositories) within boundaries of some specific Feature.
+   App-level DI container - provides Feature-level DI containers. Feature-level DI Containers provide necessary Layer dependencies (e.g. UseCases, Repositories) bounded to some specific Feature.
  - **Coordinator** (with pure SwiftUI):
  App-level Coordinator  - can perform navigation between each individual Feature(within the App). 
  Feature-level Coordinators - can perform navigation between each individual Screen(within the Feature).
@@ -79,8 +79,8 @@
 ![data_flow_graph](https://github.com/user-attachments/assets/b4fdbe42-60bb-4564-8323-0217f91b94de)
 
 - 🟦 - Presentation | 🟩 - Domain | 🟨 - Data
-- Anyone can depend on Entities, since all inter-layer conversions(to-Data/to-Domain) are done in Repositories in current implementation, and idea/concept of DTOs is not used here for simplicity.
-- If some data flow objects are used by multiple features across the app - they are simply moved to Core module, where their structure and responsibilities stay the same.
+- Anyone can depend on Entities, since all inter-layer conversions(to-Data/to-Domain) are done inside Repositories in current implementation, and idea/concept of DTOs is not used here for simplicity.
+- If some data flow objects are used by multiple features across the app - they are simply moved to [Core](https://github.com/makar-developer/ECommerce-SwiftUI/tree/main/Core/Sources) module, where their structure and responsibilities stay the same.
 # Future Improvements
 
 - Finish Unit Test coverage and live previews for more feature-modules, as for now only Core and WelcomeDependencies modules have them.
@@ -89,7 +89,7 @@
 ## Requirements
 - XCode 16
 - iOS 16
-- Fastlane(optional)
+- Optional: Fastlane, SwiftFormat, SwiftLint
 ## Run locally
 ```
 git clone git@github.com:makar-developer/ECommerce-SwiftUI.git
