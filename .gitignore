@@ -8,3 +8,4 @@ DerivedData/
 .netrc
 App/.swiftpm/xcode/package.xcworkspace
 ECommerce.xcodeproj/xcuserdata
+run.sh
