@@ -59,81 +59,62 @@ public final class CoreDataDataSourceImpl: CoreDataDataSourceProtocol {
     }
 }
 
-/// A generic, in-memory mock for CoreDataDataSourceProtocol.
+/// A generic, in-memory mock for CoreDataDataSourceProtocol that correctly mimics the real implementation.
+/// It uses a real NSPersistentContainer configured for in-memory storage, ensuring that relationships,
+/// fetching, and saving behave as they would in production, but without side effects on disk.
 public final class MockCoreDataDataSource: CoreDataDataSourceProtocol {
-    // We store objects keyed by entity name:
-    private var inMemoryStore: [String: [NSManagedObject]] = [:]
+    public let context: NSManagedObjectContext
     private let persistentContainer: NSPersistentContainer
 
     public init(modelName: String) {
+        // `Bundle.module` is a special SPM-generated accessor for the module's resource bundle.
+        // This is the correct way to load a model from within the same Swift package.
         guard let modelURL = Bundle.module.url(forResource: modelName, withExtension: "momd"),
               let model = NSManagedObjectModel(contentsOf: modelURL)
         else {
-            fatalError("Could not load model for MockCoreDataDataSource.")
+            fatalError("Could not load Core Data model `\(modelName)` from the CoreDataSources module bundle.")
         }
+        
         persistentContainer = NSPersistentContainer(name: modelName, managedObjectModel: model)
 
-        // Use in-memory store
-        let description = persistentContainer.persistentStoreDescriptions.first
-        description?.type = NSInMemoryStoreType
+        // Configure the persistent store for in-memory storage.
+        let description = NSPersistentStoreDescription()
+        description.type = NSInMemoryStoreType
+        persistentContainer.persistentStoreDescriptions = [description]
 
+        // Load the persistent stores.
         persistentContainer.loadPersistentStores { _, error in
             if let error = error {
-                fatalError("Failed to load in-memory store: \(error)")
+                fatalError("Failed to load in-memory persistent store: \(error)")
             }
         }
+        
+        // Use a background context, just like the real implementation,
+        // to catch potential threading issues during tests.
+        context = persistentContainer.newBackgroundContext()
     }
 
-    /// Return the in-memory NSManagedObjectContext
-    public var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
-
-    /// Fetch objects from the in-memory store using the NSFetchRequest.
+    /// Fetches objects from the in-memory store using the context.
     public func fetch<T: NSManagedObject>(_ request: NSFetchRequest<T>) async throws -> [T] {
-        await context.perform {
-            let entityName = request.entityName ?? String(describing: T.self)
-            // Get stored objects by entity name.
-            let allObjects = self.inMemoryStore[entityName] ?? []
-            let typedObjects = allObjects.compactMap { $0 as? T }
-
-            // If a predicate is provided, filter based on it.
-            if let predicate = request.predicate {
-                return typedObjects.filter { predicate.evaluate(with: $0) }
-            }
-            return typedObjects
+        try await context.perform {
+            try self.context.fetch(request)
         }
     }
 
-    /// Emulate saving changes. For the mock, this is a no-op.
+    /// Saves any pending changes in the context to the in-memory store.
     public func save() async throws {
-        await context.perform {
-            // No operation needed: our in-memory store is updated immediately.
+        if context.hasChanges {
+            try await context.perform {
+                try self.context.save()
+            }
         }
     }
 
-    /// Delete object: remove from our in-memory dictionary.
+    /// Deletes an object from the context and saves the change.
     public func delete<T: NSManagedObject>(_ object: T) async throws {
         await context.perform {
-            let entityName = object.entity.name ?? "UnknownEntity"
-            var objects = self.inMemoryStore[entityName] ?? []
-            objects.removeAll(where: { $0 == object })
-            self.inMemoryStore[entityName] = objects
-            print("[MockCoreDataDataSource.delete] Removed object from \(entityName). Now the store has \(objects.count) objects.")
+            self.context.delete(object)
         }
         try await save()
-    }
-
-    // Optional helper: Insert object into the in-memory store.
-    public func insert<T: NSManagedObject>(_ object: T) async throws {
-        await context.perform {
-            let entityName = object.entity.name ?? "UnknownEntity"
-            if self.inMemoryStore[entityName] == nil {
-                self.inMemoryStore[entityName] = []
-            }
-            // Simulate an update: remove if already exists.
-            self.inMemoryStore[entityName]?.removeAll(where: { $0 == object })
-            self.inMemoryStore[entityName]?.append(object)
-        }
     }
 }

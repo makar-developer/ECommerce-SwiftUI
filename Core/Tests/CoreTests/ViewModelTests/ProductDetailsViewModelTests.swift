@@ -1,25 +1,23 @@
-//
-//  ProductDetailsViewModelTests.swift
-//
-//
-//  Created by Admin on 12/01/2025.
-//
-
 @testable import CoreEntities
 @testable import CoreStyleguide
 @testable import CoreTestHelpers
 @testable import CoreUseCases
 import XCTest
+import UIKit
 
 final class ProductDetailsViewModelTests: XCTestCase {
+
     private var mockAddToCartUseCase: MockAddProductToCartUseCase!
     private var mockAddToHistoryUseCase: MockAddProductToHistoryUseCase!
+    private var mockGetImageUseCase: MockGetImageUseCase!
     private var sut: ProductDetailsViewModel!
 
     override func setUp() {
         super.setUp()
         mockAddToCartUseCase = MockAddProductToCartUseCase()
         mockAddToHistoryUseCase = MockAddProductToHistoryUseCase()
+        mockGetImageUseCase = MockGetImageUseCase()
+        mockGetImageUseCase.imageToReturn = UIImage()                 // stub image
 
         let user = User.getOneOfThis()
         let product = Product.getOneOfThis()
@@ -28,32 +26,31 @@ final class ProductDetailsViewModelTests: XCTestCase {
             user: user,
             product: product,
             addProductToCartUseCase: mockAddToCartUseCase,
-            addProductToHistoryUseCase: mockAddToHistoryUseCase
-        ) {}
+            addProductToHistoryUseCase: mockAddToHistoryUseCase,
+            getImageUseCase: mockGetImageUseCase,
+            onNavigation: {}
+        )
     }
 
     override func tearDown() {
         sut = nil
         mockAddToCartUseCase = nil
         mockAddToHistoryUseCase = nil
+        mockGetImageUseCase = nil
         super.tearDown()
     }
 
-    func testAddToCart_Success_ShouldCallUseCaseWithCorrectParameters() async throws {
-        // given
-        let expectedUser = sut.user
-        let expectedProduct = sut.product
+    // MARK: - addToCart()
 
+    func testAddToCart_Success_ShouldCallUseCaseWithCorrectParameters() async throws {
         // when
         sut.addToCart()
-
-        // Await a short delay to allow the async Task to complete
-        try await Task.sleep(nanoseconds: 100_000_000)
+        try await Task.sleep(nanoseconds: 100_000_000)   // give async Task some time
 
         // then
-        XCTAssertEqual(mockAddToCartUseCase.executeCallCount, 1, "Expected to call addToCartUseCase exactly once")
-        XCTAssertEqual(mockAddToCartUseCase.passedUser, expectedUser, "Should pass the correct User")
-        XCTAssertEqual(mockAddToCartUseCase.passedProduct, expectedProduct, "Should pass the correct Product")
+        XCTAssertEqual(mockAddToCartUseCase.executeCallCount, 1)
+        XCTAssertEqual(mockAddToCartUseCase.passedUser, sut.user)
+        XCTAssertEqual(mockAddToCartUseCase.passedProduct, sut.product)
     }
 
     func testAddToCart_Error_ShouldStillCallUseCaseAndCatchError() async throws {
@@ -62,35 +59,27 @@ final class ProductDetailsViewModelTests: XCTestCase {
 
         // when
         sut.addToCart()
-
         try await Task.sleep(nanoseconds: 100_000_000)
 
         // then
-        XCTAssertEqual(mockAddToCartUseCase.executeCallCount, 1, "Should call useCase even if it throws")
+        XCTAssertEqual(mockAddToCartUseCase.executeCallCount, 1)
     }
 
-    func testAddProductToHistory_SuccessfulCall() async throws {
-        // given
-        let expectedUserId = sut.user.id
-        let expectedProduct = sut.product
+    // MARK: - addProductToHistory()
 
-        // when
+    func testAddProductToHistory_SuccessfulCall() async throws {
         await sut.addProductToHistory()
 
-        // then
         XCTAssertEqual(mockAddToHistoryUseCase.executeCallCount, 1)
-        XCTAssertEqual(mockAddToHistoryUseCase.passedUserId, expectedUserId)
-        XCTAssertEqual(mockAddToHistoryUseCase.passedProduct, expectedProduct)
+        XCTAssertEqual(mockAddToHistoryUseCase.passedUserId, sut.user.id)
+        XCTAssertEqual(mockAddToHistoryUseCase.passedProduct, sut.product)
     }
 
     func testAddProductToHistory_WhenUseCaseThrowsError_ShouldCatchIt() async throws {
-        // given
         mockAddToHistoryUseCase.errorToThrow = NSError(domain: "HistoryError", code: 456)
 
-        // when
         await sut.addProductToHistory()
 
-        // then
-        XCTAssertEqual(mockAddToHistoryUseCase.executeCallCount, 1, "Should call useCase even if it throws")
+        XCTAssertEqual(mockAddToHistoryUseCase.executeCallCount, 1)
     }
 }
