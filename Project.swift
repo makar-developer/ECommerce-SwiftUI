@@ -7,7 +7,7 @@ let project = Project(
             name: "ECommerce",
             destinations: .iOS,
             product: .app,
-            bundleId: "com.ecommerce.app",
+            bundleId: "com.ecommerce",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .extendingDefault(
                 with: [

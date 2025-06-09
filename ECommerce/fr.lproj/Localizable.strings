@@ -15,9 +15,8 @@
 "Cancel" = "Annuler";
 
 // MARK: - ProductDetailsView
-"%.0f%% off" = "%.0f%% de réduction";
+"off" = "de réduction";
 "Stock: \(viewModel.product.stock)" = "Stock : %d";
-"$%.2f" = "%.2f €";
 "Add to Cart" = "Ajouter au panier";
 "Product Details" = "Détails du produit";
 "Back" = "Retour";

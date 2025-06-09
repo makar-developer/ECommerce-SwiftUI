@@ -16,9 +16,8 @@
 "Cancel" = "Cancel";
 
 // MARK: - ProductDetailsView
-"%.0f%% off" = "%.0f%% off";
+"off" = "off";
 "Stock: \(viewModel.product.stock)" = "Stock: %d";
-"$%.2f" = "$%.2f";
 "Add to Cart" = "Add to Cart";
 "Product Details" = "Product Details";
 "Back" = "Back";
