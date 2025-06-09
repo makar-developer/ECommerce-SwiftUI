@@ -9,3 +9,8 @@ DerivedData/
 App/.swiftpm/xcode/package.xcworkspace
 ECommerce.xcodeproj/xcuserdata
 run.sh
+
+# Tuist
+Derived
+*.xcodeproj
+*.xcworkspace
