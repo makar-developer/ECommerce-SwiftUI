@@ -7,7 +7,7 @@ let project = Project(
             name: "App",
             destinations: .iOS,
             product: .framework,
-            bundleId: "com.ecommerce.app",
+            bundleId: "com.ecommerce.app.framework",
             deploymentTargets: .iOS("16.0"),
             sources: ["Sources/App/**"],
             dependencies: [
